@@ -1,0 +1,44 @@
+"""
+Copyright 2016-2024 The FEAGI Authors. All Rights Reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+	http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================
+"""
+[gd_scene load_steps=2 format=3 uid="uid://de41gm1mh1fsm"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FromFeagiLine/FromFeagiLine.gd" id="1_ly25m"]
+
+[node name="FromFeagiLine" type="HBoxContainer"]
+script = ExtResource("1_ly25m")
+
+[node name="UI_Action" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Input Map Action"
+editable = false
+
+[node name="FEAGI_Key" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "The key to search for from the JSONs FEAGI outputs"
+placeholder_text = "FEAGI KEY"
+
+[node name="FEAGI_Val" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "The value to check for from the JSONs FEAGI outputs within the key in order to triffer the UI action"
+placeholder_text = "FEAGI MATCH"
+
+[node name="Delete" type="Button" parent="."]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "x"
+
+[connection signal="pressed" from="Delete" to="." method="_user_deleted"]

@@ -1,0 +1,147 @@
+"""
+Copyright 2016-2024 The FEAGI Authors. All Rights Reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+	http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================
+"""
+[gd_scene load_steps=4 format=3 uid="uid://8swmgsoit7hj"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FeagiPluginDock.gd" id="1_2it52"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIUIOptions.gd" id="1_metiy"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIInputConfigs.gd" id="1_r2iyi"]
+
+[node name="FeagiPluginDock" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2it52")
+
+[node name="Options" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "FEAGI Configuration"
+horizontal_alignment = 1
+
+[node name="ToggleFeagi" type="PanelContainer" parent="Options"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options/ToggleFeagi"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Options/ToggleFeagi/HBoxContainer"]
+layout_mode = 2
+text = "Enable Feagi integration?"
+
+[node name="ToggleFeagi" type="CheckButton" parent="Options/ToggleFeagi/HBoxContainer"]
+layout_mode = 2
+
+[node name="FromFeagi" type="PanelContainer" parent="Options"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options/FromFeagi"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Options/FromFeagi/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "From FEAGI"
+horizontal_alignment = 1
+
+[node name="Header" type="HBoxContainer" parent="Options/FromFeagi/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="FEAGIUIOptions" type="OptionButton" parent="Options/FromFeagi/VBoxContainer/Header"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+fit_to_longest_item = false
+script = ExtResource("1_metiy")
+
+[node name="Refresh" type="Button" parent="Options/FromFeagi/VBoxContainer/Header"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Refresh
+"
+
+[node name="Add" type="Button" parent="Options/FromFeagi/VBoxContainer/Header"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Add
+"
+
+[node name="FEAGIInputConfigs" type="ScrollContainer" parent="Options/FromFeagi/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+script = ExtResource("1_r2iyi")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options/FromFeagi/VBoxContainer/FEAGIInputConfigs"]
+layout_mode = 2
+
+[node name="ToFeagi" type="PanelContainer" parent="Options"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options/ToFeagi"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Options/ToFeagi/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "To FEAGI"
+horizontal_alignment = 1
+
+[node name="OutputSettings" type="OptionButton" parent="Options/ToFeagi/VBoxContainer"]
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "Do not automatically send data to FEAGI"
+popup/item_0/id = 0
+popup/item_1/text = "Automatically send the entire viewport to FEAGI every physics frame"
+popup/item_1/id = 1
+
+[node name="Config" type="PanelContainer" parent="Options"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options/Config"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Options/Config/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Configuration"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options/Config/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Read" type="Button" parent="Options/Config/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Import Current Configuration
+"
+
+[node name="Write" type="Button" parent="Options/Config/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Save Current Configuration"
+
+[connection signal="pressed" from="Options/FromFeagi/VBoxContainer/Header/Refresh" to="Options/FromFeagi/VBoxContainer/Header/FEAGIUIOptions" method="refresh_UI_mappings"]
+[connection signal="pressed" from="Options/FromFeagi/VBoxContainer/Header/Add" to="." method="_add_simple_UI_mapping"]
+[connection signal="pressed" from="Options/Config/VBoxContainer/HBoxContainer/Read" to="." method="import_config"]
+[connection signal="pressed" from="Options/Config/VBoxContainer/HBoxContainer/Write" to="." method="export_config"]
