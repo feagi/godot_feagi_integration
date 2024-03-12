@@ -12,87 +12,91 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2it52")
 
-[node name="Options" type="VBoxContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Options" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Label" type="Label" parent="Options"]
+[node name="Label" type="Label" parent="ScrollContainer/Options"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "FEAGI Configuration"
 horizontal_alignment = 1
 
-[node name="ToggleFeagi" type="PanelContainer" parent="Options"]
+[node name="ToggleFeagi" type="PanelContainer" parent="ScrollContainer/Options"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Options/ToggleFeagi"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options/ToggleFeagi"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Options/ToggleFeagi/HBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/Options/ToggleFeagi/HBoxContainer"]
 layout_mode = 2
 text = "Enable Feagi integration?"
 
-[node name="ToggleFeagi" type="CheckButton" parent="Options/ToggleFeagi/HBoxContainer"]
+[node name="ToggleFeagi" type="CheckButton" parent="ScrollContainer/Options/ToggleFeagi/HBoxContainer"]
 layout_mode = 2
 
-[node name="FromFeagi" type="PanelContainer" parent="Options"]
+[node name="FromFeagi" type="PanelContainer" parent="ScrollContainer/Options"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Options/FromFeagi"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Options/FromFeagi"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Options/FromFeagi/VBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/Options/FromFeagi/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "From FEAGI"
 horizontal_alignment = 1
 
-[node name="Header" type="HBoxContainer" parent="Options/FromFeagi/VBoxContainer"]
+[node name="Header" type="HBoxContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="FEAGIUIOptions" type="OptionButton" parent="Options/FromFeagi/VBoxContainer/Header"]
+[node name="FEAGIUIOptions" type="OptionButton" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/Header"]
 custom_minimum_size = Vector2(230, 0)
 layout_mode = 2
 fit_to_longest_item = false
 script = ExtResource("1_metiy")
 
-[node name="Refresh" type="Button" parent="Options/FromFeagi/VBoxContainer/Header"]
+[node name="Refresh" type="Button" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/Header"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Refresh
 "
 
-[node name="Add" type="Button" parent="Options/FromFeagi/VBoxContainer/Header"]
+[node name="Add" type="Button" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/Header"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Add
 "
 
-[node name="FEAGIInputConfigs" type="ScrollContainer" parent="Options/FromFeagi/VBoxContainer"]
+[node name="FEAGIInputConfigs" type="ScrollContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer"]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 script = ExtResource("1_r2iyi")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Options/FromFeagi/VBoxContainer/FEAGIInputConfigs"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/FEAGIInputConfigs"]
 layout_mode = 2
 
-[node name="ToFeagi" type="PanelContainer" parent="Options"]
+[node name="ToFeagi" type="PanelContainer" parent="ScrollContainer/Options"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Options/ToFeagi"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Options/ToFeagi"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Options/ToFeagi/VBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/Options/ToFeagi/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "To FEAGI"
 horizontal_alignment = 1
 
-[node name="OutputSettings" type="OptionButton" parent="Options/ToFeagi/VBoxContainer"]
+[node name="OutputSettings" type="OptionButton" parent="ScrollContainer/Options/ToFeagi/VBoxContainer"]
 layout_mode = 2
 item_count = 2
 selected = 0
@@ -101,34 +105,39 @@ popup/item_0/id = 0
 popup/item_1/text = "Automatically send the entire viewport to FEAGI every physics frame"
 popup/item_1/id = 1
 
-[node name="Config" type="PanelContainer" parent="Options"]
+[node name="Config" type="PanelContainer" parent="ScrollContainer/Options"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Options/Config"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Options/Config"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Options/Config/VBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/Options/Config/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Configuration"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Options/Config/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options/Config/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Read" type="Button" parent="Options/Config/VBoxContainer/HBoxContainer"]
+[node name="Read" type="Button" parent="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Import Current Configuration
 "
 
-[node name="Write" type="Button" parent="Options/Config/VBoxContainer/HBoxContainer"]
+[node name="Write" type="Button" parent="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Save Current Configuration"
 
-[connection signal="pressed" from="Options/FromFeagi/VBoxContainer/Header/Refresh" to="Options/FromFeagi/VBoxContainer/Header/FEAGIUIOptions" method="refresh_UI_mappings"]
-[connection signal="pressed" from="Options/FromFeagi/VBoxContainer/Header/Add" to="." method="_add_simple_UI_mapping"]
-[connection signal="pressed" from="Options/Config/VBoxContainer/HBoxContainer/Read" to="." method="import_config"]
-[connection signal="pressed" from="Options/Config/VBoxContainer/HBoxContainer/Write" to="." method="export_config"]
+[node name="Close" type="Button" parent="ScrollContainer/Options"]
+layout_mode = 2
+text = "Close Configurator (Keep Saved Settings)"
+
+[connection signal="pressed" from="ScrollContainer/Options/FromFeagi/VBoxContainer/Header/Refresh" to="ScrollContainer/Options/FromFeagi/VBoxContainer/Header/FEAGIUIOptions" method="refresh_UI_mappings"]
+[connection signal="pressed" from="ScrollContainer/Options/FromFeagi/VBoxContainer/Header/Add" to="." method="_add_simple_UI_mapping"]
+[connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Read" to="." method="import_config"]
+[connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Write" to="." method="export_config"]
+[connection signal="pressed" from="ScrollContainer/Options/Close" to="." method="_close_configurator"]

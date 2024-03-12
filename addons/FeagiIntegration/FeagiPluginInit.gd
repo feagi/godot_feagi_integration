@@ -13,6 +13,7 @@ limitations under the License.
 """
 @tool
 extends EditorPlugin
+class_name FEAGIPluginInit
 
 const DOCK_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Window/FeagiPluginDock.tscn")
 
@@ -29,6 +30,8 @@ func _exit_tree():
 	remove_autoload_singleton("FEAGI")
 	print("FEAGI: Feagi Interface has been removed from the project!")
 	remove_tool_menu_item("Open FEAGI Configurator")
+	despawn_configurator_window()
+
 
 func despawn_configurator_window() -> void:
 	if _config_window == null:
@@ -36,9 +39,11 @@ func despawn_configurator_window() -> void:
 	remove_control_from_docks(_config_window)
 	_config_window.queue_free()
 	
-
+	
 func spawn_configurator_window() -> void:
+	if _config_window != null:
+		return
 	_config_window = DOCK_PREFAB.instantiate()
 	add_control_to_dock(EditorPlugin.DOCK_SLOT_RIGHT_BR, _config_window)
-	_config_window.setup()
+	_config_window.setup(self)
 

@@ -20,16 +20,19 @@ var _FEAGI_UI_options: FEAGIUIOptions
 var _FEAGI_input_configs: FEAGIInputConfigs
 var _read_button: Button
 var _FEAGI_output_config: OptionButton
+var _reference_plugin_loader: FEAGIPluginInit
 
 ## First thing that is ran from the plugin init script
-func setup() -> void:
-	_enable_FEAGI = $Options/ToggleFeagi/HBoxContainer/ToggleFeagi
-	_FEAGI_UI_options = $Options/FromFeagi/VBoxContainer/Header/FEAGIUIOptions
-	_FEAGI_input_configs = $Options/FromFeagi/VBoxContainer/FEAGIInputConfigs
-	_read_button = $Options/Config/VBoxContainer/HBoxContainer/Read
-	_FEAGI_output_config = $Options/ToFeagi/VBoxContainer/OutputSettings
+func setup(plugin_loader: FEAGIPluginInit) -> void:
+	_enable_FEAGI = $ScrollContainer/Options/ToggleFeagi/HBoxContainer/ToggleFeagi
+	_FEAGI_UI_options = $ScrollContainer/Options/FromFeagi/VBoxContainer/Header/FEAGIUIOptions
+	_FEAGI_input_configs = $ScrollContainer/Options/FromFeagi/VBoxContainer/FEAGIInputConfigs
+	_read_button = $ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Read
+	_FEAGI_output_config = $ScrollContainer/Options/ToFeagi/VBoxContainer/OutputSettings
+	_reference_plugin_loader = plugin_loader
 	update_read_button_availability()
 	_FEAGI_UI_options.refresh_UI_mappings()
+	
 
 ## Disables / Enables the read button depending if there is a valid config to import
 func update_read_button_availability() -> void:
@@ -100,3 +103,6 @@ func _write_config_file(feagi_enabled: bool, mapping_settings: Array[Array], out
 	print("FEAGI: Exported FEAGI Config!")
 	EditorInterface.get_resource_filesystem().scan()
 	update_read_button_availability()
+
+func _close_configurator() -> void:
+	_reference_plugin_loader.despawn_configurator_window()
