@@ -124,7 +124,7 @@ func _physics_process(_delta: float) -> void:
 
 ## Used to check if the loaded config file has all required keys
 static func is_settings_dict_valid(dict: Dictionary) -> bool:
-	for checking_key: String in ["input_mappings", "enabled", "output", "FEAGI_domain", "encryption_enabled", "http_port", "websocket_port"]:
+	for checking_key: String in ["input_mappings", "enabled", "output", "FEAGI_domain", "encryption", "http_port", "websocket_port"]:
 		if !(checking_key in dict.keys()):
 			push_error("FEAGI: Config file invalid! Missing key %s!" % checking_key)
 			return false

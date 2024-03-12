@@ -29,10 +29,10 @@ var _socket_port: SpinBox
 ## First thing that is ran from the plugin init script
 func setup(plugin_loader: FEAGIPluginInit) -> void:
 	_enable_FEAGI = $ScrollContainer/Options/ToggleFeagi/HBoxContainer/ToggleFeagi
-	_FEAGI_UI_options = $ScrollContainer/Options/FromFeagi/VBoxContainer/Header/FEAGIUIOptions
-	_FEAGI_input_configs = $ScrollContainer/Options/FromFeagi/VBoxContainer/FEAGIInputConfigs
+	_FEAGI_UI_options = $ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header/FEAGIUIOptions
+	_FEAGI_input_configs = $ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/FEAGIInputConfigs
 	_read_button = $ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Read
-	_FEAGI_output_config = $ScrollContainer/Options/ToFeagi/VBoxContainer/OutputSettings
+	_FEAGI_output_config = $ScrollContainer/Options/ToFeagi/VBoxContainer/CollapsiblePrefab/OutputSettings
 	_FEAGI_address_bar = $ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer/TLD
 	_FEAGI_encryption_dropdown = $ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer2/TLS
 	_web_port = $ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer3/Port
@@ -92,9 +92,11 @@ func import_config() -> void:
 	var enable_index: int = int(FEAGIInterface.FEAGI_AUTOMATIC_SEND[config_dict["output"]])
 	_FEAGI_output_config.selected = enable_index
 	_FEAGI_address_bar.text = config_dict["FEAGI_domain"]
-	_FEAGI_encryption_dropdown.index = config_dict["encryption"].to_int()
-	_web_port.index = config_dict["http_port"].to_int()
-	_socket_port.index = config_dict["websocket_port"].to_int()
+	_FEAGI_encryption_dropdown.selected = config_dict["encryption"].to_int()
+	_web_port.value = config_dict["http_port"].to_int()
+	_socket_port.value = config_dict["websocket_port"].to_int()
+	
+	print("FEAGI: Imported settings from config.json onto the configuration panel successfully!")
 	
 ## Add button pressed to add a simple mapping
 func _add_simple_UI_mapping() -> void:
@@ -109,7 +111,7 @@ domain: StringName, encryption_setting: StringName, web_port: int, socket_port: 
 	to_write["input_mappings"] = mapping_settings
 	to_write["output"] = str(output_setting)
 	to_write["FEAGI_domain"] = str(domain)
-	to_write["encryption_enabled"] = str(encryption_setting)
+	to_write["encryption"] = str(encryption_setting)
 	to_write["http_port"] = str(web_port)
 	to_write["websocket_port"] = str(socket_port)
 	
