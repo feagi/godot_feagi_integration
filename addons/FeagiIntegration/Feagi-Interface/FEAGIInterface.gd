@@ -24,6 +24,11 @@ enum FEAGI_AUTOMATIC_SEND {
 	#TODO add more!
 }
 
+enum FEAGI_TLS_SETTING {
+	NO_ENCRYPTION,
+	BOTH_TLS_ENCRYPTED
+}
+
 signal socket_retrieved_data(data: Signal) ## FEAGI Websocket retrieved data, useful for custom integrations
 
 var _is_socket_ready: bool = false
@@ -76,18 +81,30 @@ func _ready() -> void:
 		_feagi_triggers_from_websocket[mapping[1]][mapping[2]] = mapping[0]
 		_ui_action_pressed[mapping[0]] = false
 	
-	
-	
 	# check automatic sending config,
 	var raw_send_config: String = config_dict["output"]
 	_automated_sending_mode = FEAGI_AUTOMATIC_SEND[raw_send_config]
-	
 	print("FEAGI: FEAGI automated sending mode is set to: %s" % raw_send_config)
+	
+	# Get Network info
+	var domain: StringName = config_dict["FEAGI_domain"]
+	var encryption_setting: FEAGI_TLS_SETTING = FEAGI_TLS_SETTING[str(config_dict["encryption"])]
+	var web_port: int = config_dict["http_port"].to_int()
+	var socket_port: int = config_dict["websocket_port"].to_int()
+	var web_tls: StringName = ""
+	var socket_tls: StringName = ""
+	match encryption_setting:
+		FEAGI_TLS_SETTING.NO_ENCRYPTION:
+			web_tls = "http://"
+			socket_tls = "ws://"
+		FEAGI_TLS_SETTING.BOTH_TLS_ENCRYPTED:
+			web_tls = "https://"
+			socket_tls = "wss://"
 	
 	# Initialize Bootstrap to get connection info
 	_network_bootstrap = FEAGINetworkBootStrap.new()
 	_network_bootstrap.base_network_initialization_completed.connect(_network_bootstrap_complete)
-	_network_bootstrap.init_network()
+	_network_bootstrap.init_network(domain, web_tls, socket_tls, web_port, socket_port)
 
 
 func _process(_delta: float) -> void:
@@ -107,7 +124,7 @@ func _physics_process(_delta: float) -> void:
 
 ## Used to check if the loaded config file has all required keys
 static func is_settings_dict_valid(dict: Dictionary) -> bool:
-	for checking_key: String in ["input_mappings", "enabled", "output"]:
+	for checking_key: String in ["input_mappings", "enabled", "output", "FEAGI_domain", "encryption_enabled", "http_port", "websocket_port"]:
 		if !(checking_key in dict.keys()):
 			push_error("FEAGI: Config file invalid! Missing key %s!" % checking_key)
 			return false
