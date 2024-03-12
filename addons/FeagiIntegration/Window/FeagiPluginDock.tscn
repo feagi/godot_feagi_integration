@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://8swmgsoit7hj"]
+[gd_scene load_steps=5 format=3 uid="uid://8swmgsoit7hj"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FeagiPluginDock.gd" id="1_2it52"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIUIOptions.gd" id="1_metiy"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIInputConfigs.gd" id="1_r2iyi"]
+[ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Window/Collapsible/Collapsible.tscn" id="4_q41pu"]
 
 [node name="FeagiPluginDock" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 428.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2it52")
@@ -19,6 +21,7 @@ horizontal_scroll_mode = 0
 [node name="Options" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
+alignment = 1
 
 [node name="Label" type="Label" parent="ScrollContainer/Options"]
 layout_mode = 2
@@ -132,7 +135,102 @@ custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Save Current Configuration"
 
+[node name="AdvancedNetwork" type="PanelContainer" parent="ScrollContainer/Options"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Options/AdvancedNetwork"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Advanced Network Defaults"
+horizontal_alignment = 1
+
+[node name="CollapsiblePrefab" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer" instance=ExtResource("4_q41pu")]
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+text = "Default Network Settings to connect to FEAGI. Note that on web exports, javascript will be ran to get connection details dynamically instead."
+editable = false
+wrap_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "FEAGI Address: "
+
+[node name="TLD" type="LineEdit" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Web Path to FEAGI (do not include http / https)"
+text = "127.0.0.1"
+placeholder_text = "Web Path to FEAGI"
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer2"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Encryption:  "
+
+[node name="TLS" type="OptionButton" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+item_count = 2
+selected = 0
+popup/item_0/text = "No Encryption"
+popup/item_0/id = 0
+popup/item_1/text = "TLS Secured"
+popup/item_1/id = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer3"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Web Port: "
+
+[node name="Port" type="SpinBox" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 65535.0
+value = 8000.0
+alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer4"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Websocket Port: "
+
+[node name="Port" type="SpinBox" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 65535.0
+value = 9055.0
+alignment = 1
+
 [node name="Close" type="Button" parent="ScrollContainer/Options"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Close Configurator (Keep Saved Settings)"
 
@@ -141,3 +239,5 @@ text = "Close Configurator (Keep Saved Settings)"
 [connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Read" to="." method="import_config"]
 [connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Write" to="." method="export_config"]
 [connection signal="pressed" from="ScrollContainer/Options/Close" to="." method="_close_configurator"]
+
+[editable path="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
