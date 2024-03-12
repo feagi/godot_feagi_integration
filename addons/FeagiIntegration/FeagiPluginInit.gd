@@ -19,17 +19,26 @@ const DOCK_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Window/F
 var _config_window: FeagiPluginDock
 
 func _enter_tree():
-	_config_window = DOCK_PREFAB.instantiate()
-	add_control_to_dock(EditorPlugin.DOCK_SLOT_RIGHT_BR, _config_window)
-	_config_window.setup()
 	add_autoload_singleton("FEAGI", "res://addons/FeagiIntegration/Feagi-Interface/FEAGIInterface.gd")
 	print("FEAGI: Feagi Interface has been added to the project, under the name 'FEAGI'!")
-	pass
+	print("FEAGI: Access the FEAGI configurator through Project -> Tools -> Open FEAGI Configurator")
+	add_tool_menu_item("Open FEAGI Configurator", spawn_configurator_window)
 
 
 func _exit_tree():
+	remove_autoload_singleton("FEAGI")
+	print("FEAGI: Feagi Interface has been removed from the project!")
+	remove_tool_menu_item("Open FEAGI Configurator")
+
+func despawn_configurator_window() -> void:
+	if _config_window == null:
+		return
 	remove_control_from_docks(_config_window)
 	_config_window.queue_free()
-	remove_autoload_singleton("FEAGI")
-	pass
+	
+
+func spawn_configurator_window() -> void:
+	_config_window = DOCK_PREFAB.instantiate()
+	add_control_to_dock(EditorPlugin.DOCK_SLOT_RIGHT_BR, _config_window)
+	_config_window.setup()
 
