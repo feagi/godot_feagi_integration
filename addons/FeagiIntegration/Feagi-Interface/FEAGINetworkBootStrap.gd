@@ -17,11 +17,11 @@ class_name FEAGINetworkBootStrap
 
 # Static Network Configuration / defaults
 const DEF_HEADERSTOUSE: PackedStringArray = ["Content-Type: application/json"]
-const DEF_FEAGI_TLD: StringName = "127.0.0.1"
-const DEF_FEAGI_SSL: StringName = "http://"
-const DEF_SOCKET_SSL: StringName = "ws://"
-const DEF_WEB_PORT: int = 8000
-const DEF_SOCKET_PORT: int = 9055
+#const DEF_FEAGI_TLD: StringName = "127.0.0.1"
+#const DEF_FEAGI_SSL: StringName = "http://"
+#const DEF_SOCKET_SSL: StringName = "ws://"
+#const DEF_WEB_PORT: int = 8000
+#const DEF_SOCKET_PORT: int = 9055
 const DEF_SOCKET_MAX_QUEUED_PACKETS: int = 10000000
 const DEF_SOCKET_INBOUND_BUFFER_SIZE: int = 10000000
 const DEF_SOCKET_BUFFER_SIZE: int = 10000000
@@ -37,7 +37,7 @@ var feagi_socket_SSL: StringName
 var feagi_socket_address: StringName
 var feagi_outgoing_headers: PackedStringArray
 
-func init_network() -> void:
+func init_network(default_top_level_domain: StringName, web_TLS: StringName, socket_TLS: StringName, web_port: int, socket_port: int) -> void:
 	var ip_result = JavaScriptBridge.eval(""" 
 		function getIPAddress() {
 			var url_string = window.location.href;
@@ -81,14 +81,14 @@ func init_network() -> void:
 	if http_type != null:
 		feagi_SSL = http_type
 	else:
-		feagi_SSL= DEF_FEAGI_SSL
+		feagi_SSL= web_TLS
 	if ip_result != null:
 		feagi_TLD = ip_result
 	else:
-		feagi_TLD = DEF_FEAGI_TLD
-	feagi_web_port = DEF_WEB_PORT
-	feagi_socket_port = DEF_SOCKET_PORT
-	feagi_socket_SSL = DEF_SOCKET_SSL
+		feagi_TLD = default_top_level_domain
+	feagi_web_port = web_port
+	feagi_socket_port = socket_port
+	feagi_socket_SSL = socket_TLS
 	feagi_outgoing_headers = DEF_HEADERSTOUSE
 
 
