@@ -33,15 +33,15 @@ func add_metric(metric: StringName) -> void:
 	new_metric.setup(metric)
 
 ## Assembles all the set metrics as a single dictionary out -> str metric key : str expected type
-func export_settings() -> Array[String]:
-	var output: Array[String]
+func export_settings() -> Array[StringName]:
+	var output: Array[StringName]
 	for child: Control in _container.get_children():
 		if child is FEAGIMetric:
 			output.append((child as FEAGIMetric).export())
 	return output
 
 ## Mass spawns metrics
-func import_settings(metrics: Array) -> void:
+func import_settings(metrics: Array[StringName]) -> void:
 	_delete_children()
 	for metric: StringName in metrics:
 			add_metric(metric)

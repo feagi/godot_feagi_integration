@@ -28,8 +28,8 @@ func _ready():
 ## Refreshes the list item availability, hides items that are already being used
 func update_list_availability() -> void:
 	var i: int = 0
-	var already_enabled_metrics: Array[String] = _metric_scroll.export_settings()
-	for metric: String in FEAGIInterface.METRIC_MAPPINGS.keys():
+	var already_enabled_metrics: Array[StringName] = _metric_scroll.export_settings()
+	for metric: StringName in FEAGIInterface.METRIC_MAPPINGS.keys():
 		set_item_disabled(i, metric in already_enabled_metrics)
 		i = i + 1
 

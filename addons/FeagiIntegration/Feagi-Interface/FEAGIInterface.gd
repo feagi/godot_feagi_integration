@@ -17,6 +17,7 @@ class_name FEAGIInterface
 ## Autoladed interface to access FEAGI from the game
 
 const CONFIG_PATH: StringName = "res://addons/FeagiIntegration/config.json"
+const CONFIG_REQUIRED_KEYS: Array[StringName] = ["input_mappings", "enabled", "output", "FEAGI_domain", "encryption", "http_port", "websocket_port", "metrics"]
 
 enum FEAGI_AUTOMATIC_SEND {
 	NO_AUTOMATIC_SENDING,
@@ -57,6 +58,7 @@ var _automated_sending_mode: FEAGI_AUTOMATIC_SEND = FEAGI_AUTOMATIC_SEND.NO_AUTO
 var _socket: FEAGISocket
 var _network_bootstrap: FEAGINetworkBootStrap
 var _feagi_triggers_from_websocket: Dictionary # Feagi key -> value -> ui_action
+var _feagi_required_metrics: Dictionary # required metric str key -> EXPECTED_TYPE
 var _ui_action_pressed: Dictionary # ui_action: is_pressed(bool)
 var _viewport_ref: Viewport
 
@@ -102,10 +104,15 @@ func _ready() -> void:
 		_feagi_triggers_from_websocket[mapping[1]][mapping[2]] = mapping[0]
 		_ui_action_pressed[mapping[0]] = false
 	
-	# check automatic sending config,
+	# check and set automatic sending config,
 	var raw_send_config: String = config_dict["output"]
 	_automated_sending_mode = FEAGI_AUTOMATIC_SEND[raw_send_config]
 	print("FEAGI: FEAGI automated sending mode is set to: %s" % raw_send_config)
+	
+	# set requirements for metrics method
+	var metric_keys: Array = config_dict["metrics"]
+	for key: String in metric_keys:
+		_feagi_required_metrics[key] = METRIC_MAPPINGS[key][1]
 	
 	# Get Network info
 	var domain: StringName = config_dict["FEAGI_domain"]
@@ -145,9 +152,9 @@ func _physics_process(_delta: float) -> void:
 
 ## Used to check if the loaded config file has all required keys
 static func is_settings_dict_valid(dict: Dictionary) -> bool:
-	for checking_key: String in ["input_mappings", "enabled", "output", "FEAGI_domain", "encryption", "http_port", "websocket_port"]:
+	for checking_key: String in CONFIG_REQUIRED_KEYS:
 		if !(checking_key in dict.keys()):
-			push_error("FEAGI: Config file invalid! Missing key %s!" % checking_key)
+			push_error("FEAGI: Config file invalid! Missing key '%s'!" % checking_key)
 			return false
 	return true
 

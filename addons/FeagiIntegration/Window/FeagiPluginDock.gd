@@ -71,8 +71,10 @@ func export_config() -> void:
 	var security: StringName = FEAGIInterface.FEAGI_TLS_SETTING.keys()[_FEAGI_encryption_dropdown.selected]
 	var web_port: int = _web_port.value
 	var socket_port: int = _socket_port.value
+	var metrics: Array[StringName] = _metric_scroll.export_settings()
 	
-	_write_config_file(is_enabled, mapping_settings, automatic_send_setting, domain, security, web_port, socket_port)
+	_write_config_file(is_enabled, mapping_settings, automatic_send_setting, domain,
+	 	security, web_port, socket_port, metrics)
 
 func import_config() -> void:
 	# Read file and verification
@@ -99,6 +101,9 @@ func import_config() -> void:
 	_FEAGI_encryption_dropdown.selected = config_dict["encryption"].to_int()
 	_web_port.value = config_dict["http_port"].to_int()
 	_socket_port.value = config_dict["websocket_port"].to_int()
+	var metrics: Array[StringName] = []
+	metrics.assign(config_dict["metrics"])
+	_metric_scroll.import_settings(metrics)
 	
 	print("FEAGI: Imported settings from config.json onto the configuration panel successfully!")
 	
@@ -116,7 +121,7 @@ func _add_metric() -> void:
 
 ## Writes the defined configuration to the config json file, overwritting the previous
 func _write_config_file(feagi_enabled: bool, mapping_settings: Array[Array], output_setting: StringName,
-domain: StringName, encryption_setting: StringName, web_port: int, socket_port: int) -> void:
+domain: StringName, encryption_setting: StringName, web_port: int, socket_port: int, metrics: Array[StringName]) -> void:
 	var to_write: Dictionary = {}
 	to_write["enabled"] = feagi_enabled
 	to_write["input_mappings"] = mapping_settings
@@ -125,6 +130,7 @@ domain: StringName, encryption_setting: StringName, web_port: int, socket_port: 
 	to_write["encryption"] = str(encryption_setting)
 	to_write["http_port"] = str(web_port)
 	to_write["websocket_port"] = str(socket_port)
+	to_write["metrics"] = metrics
 	
 	var json: StringName =  JSON.stringify(to_write)
 	
