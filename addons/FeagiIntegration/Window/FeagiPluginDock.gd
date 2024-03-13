@@ -89,8 +89,7 @@ func import_config() -> void:
 		return
 	var config_dict: Dictionary = json_output as Dictionary
 	
-	if !FEAGIInterface.is_settings_dict_valid(config_dict):
-		return
+	config_dict = FEAGIInterface.validate_settings_dictionary(config_dict)
 	
 	## Apply settings
 	_FEAGI_input_configs.import_settings(config_dict["input_mappings"])

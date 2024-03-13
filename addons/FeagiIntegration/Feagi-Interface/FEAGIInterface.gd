@@ -17,7 +17,6 @@ class_name FEAGIInterface
 ## Autoladed interface to access FEAGI from the game
 
 const CONFIG_PATH: StringName = "res://addons/FeagiIntegration/config.json"
-const CONFIG_REQUIRED_KEYS: Array[StringName] = ["input_mappings", "enabled", "output", "FEAGI_domain", "encryption", "http_port", "websocket_port", "metrics"]
 
 enum FEAGI_AUTOMATIC_SEND {
 	NO_AUTOMATIC_SENDING,
@@ -36,6 +35,17 @@ enum EXPECTED_TYPE {
 	INT,
 	FLOAT,
 	PERCENTAGE # just a float but within the range of 0 - 100
+}
+
+const DEFAULT_CONFIGS: Dictionary = {
+	"input_mappings" = [],
+	"enabled" = false,
+	"output" = "NO_AUTOMATIC_SENDING", # from enum FEAGI_AUTOMATIC_SEND
+	"FEAGI_domain" = "127.0.0.1",
+	"encryption" = "NO_ENCRYPTION",
+	"http_port" = 8000,
+	"websocket_port" = 9055,
+	"metrics" = []
 }
 
 # formatted as {key_name: [friendly name, expected type]}
@@ -86,9 +96,7 @@ func _ready() -> void:
 		return
 	var config_dict: Dictionary = json_output as Dictionary
 	
-	if !is_settings_dict_valid(config_dict):
-		push_error("FEAGI: Not starting FEAGI integration!")
-		return
+	config_dict = validate_settings_dictionary(config_dict)
 	
 	if !config_dict["enabled"]:
 		print("FEAGI: FEAGI disabled, not starting....")
@@ -150,13 +158,23 @@ func _physics_process(_delta: float) -> void:
 			_buffer_image_raw = _buffer_image.get_data()
 			_socket.websocket_send_bytes(_buffer_image_raw)
 
-## Used to check if the loaded config file has all required keys
-static func is_settings_dict_valid(dict: Dictionary) -> bool:
-	for checking_key: String in CONFIG_REQUIRED_KEYS:
-		if !(checking_key in dict.keys()):
-			push_error("FEAGI: Config file invalid! Missing key '%s'!" % checking_key)
-			return false
-	return true
+## Used to check if the loaded config file has all required keys , otherwise loads defaults
+static func validate_settings_dictionary(checking_config: Dictionary) -> Dictionary:
+	# Two loops is not particuarly efficient. Too Bad!
+	for input_key: String in checking_config:
+		if input_key not in DEFAULT_CONFIGS.keys():
+			push_warning("Unknown configuration key $s! Ignoring..." % input_key)
+	
+	var to_append: Dictionary = {}
+	
+	for confirm_key in DEFAULT_CONFIGS.keys():
+		if confirm_key not in checking_config.keys():
+			push_warning("Missing configuration key '%s'! Loading default value...." % confirm_key)
+			to_append[confirm_key] = DEFAULT_CONFIGS[confirm_key]
+	
+	checking_config.merge(to_append)
+	return checking_config
+		
 
 ## Send text data to FEAGI
 func send_to_FEAGI_text(data: String) -> void:
