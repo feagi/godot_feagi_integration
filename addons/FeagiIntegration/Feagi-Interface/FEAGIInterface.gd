@@ -29,6 +29,27 @@ enum FEAGI_TLS_SETTING {
 	BOTH_TLS_ENCRYPTED
 }
 
+## Why does Godot not let me do this without this custom thing?
+enum EXPECTED_TYPE {
+	BOOL,
+	INT,
+	FLOAT,
+	PERCENTAGE # just a float but within the range of 0 - 100
+}
+
+# formatted as {key_name: [friendly name, expected type]}
+const METRIC_MAPPINGS: Dictionary = {
+	"time_left": ["Time remaining", EXPECTED_TYPE.FLOAT],
+	"time_spent": ["Time spent", EXPECTED_TYPE.FLOAT],
+	"has_won": ["Has the agent succeeded", EXPECTED_TYPE.BOOL],
+	"points_maximize": ["Points the agent was trying to get a high score on", EXPECTED_TYPE.FLOAT],
+	"points_minimize": ["Points the agent was trying to get a high score on (like with golf)", EXPECTED_TYPE.FLOAT],
+	"life_percentage": ["Percentage of life / battery / health remaining", EXPECTED_TYPE.PERCENTAGE],
+	"success_count": ["Number of times won", EXPECTED_TYPE.INT],
+	"failure_count": ["Number of times lost", EXPECTED_TYPE.INT],
+	"terminated": ["If the agent has 'died'", EXPECTED_TYPE.BOOL],
+}
+
 signal socket_retrieved_data(data: Signal) ## FEAGI Websocket retrieved data, useful for custom integrations
 
 var _is_socket_ready: bool = false

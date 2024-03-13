@@ -25,6 +25,8 @@ var _FEAGI_address_bar: LineEdit
 var _FEAGI_encryption_dropdown: OptionButton
 var _web_port: SpinBox
 var _socket_port: SpinBox
+var _metric_dropdown: FEAGIMetricDropDown
+var _metric_scroll: FEAGIMetricScroll
 
 ## First thing that is ran from the plugin init script
 func setup(plugin_loader: FEAGIPluginInit) -> void:
@@ -37,6 +39,8 @@ func setup(plugin_loader: FEAGIPluginInit) -> void:
 	_FEAGI_encryption_dropdown = $ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer2/TLS
 	_web_port = $ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer3/Port
 	_socket_port = $ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer4/Port
+	_metric_dropdown = $ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer/MetricType
+	_metric_scroll = $ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/FEAGIMetricsScroll
 	_reference_plugin_loader = plugin_loader
 	update_read_button_availability()
 	_FEAGI_UI_options.refresh_UI_mappings()
@@ -102,6 +106,13 @@ func import_config() -> void:
 func _add_simple_UI_mapping() -> void:
 	var ui_mapping: StringName = _FEAGI_UI_options.get_selected_mapping()
 	_FEAGI_input_configs.add_simple_prefab(ui_mapping)
+
+func _add_metric() -> void:
+	if _metric_dropdown.selected == -1:
+		return # Don't bother adding anything if user selected nothing
+	_metric_scroll.add_metric(_metric_dropdown.get_selected_metric())
+	_metric_dropdown.update_list_availability()
+	_metric_dropdown.selected = -1
 
 ## Writes the defined configuration to the config json file, overwritting the previous
 func _write_config_file(feagi_enabled: bool, mapping_settings: Array[Array], output_setting: StringName,
