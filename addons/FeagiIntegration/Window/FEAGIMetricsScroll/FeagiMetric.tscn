@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://cc75rsms5vvn7"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIMetricsScroll/FEAGIMetric.gd" id="1_nwfva"]
+
+[node name="FeagiMetric" type="HBoxContainer"]
+script = ExtResource("1_nwfva")
+
+[node name="ExpectedKey" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+mouse_filter = 1
+placeholder_text = "Expected Key"
+editable = false
+
+[node name="ExpectedType" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+mouse_filter = 1
+placeholder_text = "Expected Type"
+editable = false
+
+[node name="Delete" type="Button" parent="."]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "x"
+
+[connection signal="pressed" from="Delete" to="." method="_user_deleted"]

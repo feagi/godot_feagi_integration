@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx1eqnkmlnor2"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/Collapsible/Collapsible.gd" id="1_48081"]
+
+[node name="CollapsiblePrefab" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_48081")
+
+[node name="Show" type="Button" parent="."]
+layout_mode = 2
+text = "Show"
+
+[node name="Hide" type="Button" parent="."]
+visible = false
+layout_mode = 2
+text = "Hide"
+
+[connection signal="pressed" from="Show" to="." method="toggle_visibility" binds= [true]]
+[connection signal="pressed" from="Hide" to="." method="toggle_visibility" binds= [false]]
