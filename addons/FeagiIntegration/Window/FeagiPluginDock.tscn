@@ -59,6 +59,7 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="Description" type="TextEdit" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
+visible = false
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 text = "How FEAGI can control the game. Select what output from FEAGI triggers what Godot action mapping"
@@ -66,6 +67,7 @@ editable = false
 wrap_mode = 1
 
 [node name="Header" type="HBoxContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
+visible = false
 layout_mode = 2
 
 [node name="FEAGIUIOptions" type="OptionButton" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header"]
@@ -82,6 +84,7 @@ layout_mode = 2
 text = "Add"
 
 [node name="FEAGIInputConfigs" type="ScrollContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
+visible = false
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 horizontal_scroll_mode = 0
@@ -106,6 +109,7 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="Description" type="TextEdit" parent="ScrollContainer/Options/ToFeagi/VBoxContainer/CollapsiblePrefab"]
+visible = false
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 text = "How FEAGI can interpret events from the game. Automatic Screen capture can be enabled here, but the FEAGI autoload also has methods for manually sending data.
@@ -115,6 +119,7 @@ wrap_mode = 1
 scroll_fit_content_height = true
 
 [node name="OutputSettings" type="OptionButton" parent="ScrollContainer/Options/ToFeagi/VBoxContainer/CollapsiblePrefab"]
+visible = false
 layout_mode = 2
 item_count = 2
 selected = 0
@@ -132,11 +137,13 @@ layout_mode = 2
 [node name="Label" type="Label" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer"]
 layout_mode = 2
 text = "Fitness Metrics"
+horizontal_alignment = 1
 
 [node name="CollapsiblePrefab" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer" instance=ExtResource("2_mv61r")]
 layout_mode = 2
 
 [node name="Description" type="TextEdit" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab"]
+visible = false
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 text = "Select what data points you will want to send. Please send a Dictionary to with the given keys and data through the \"Send_Metrics\" method to send the data to FEAGI."
@@ -145,6 +152,7 @@ wrap_mode = 1
 scroll_fit_content_height = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab"]
+visible = false
 layout_mode = 2
 
 [node name="MetricType" type="OptionButton" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer"]
@@ -155,6 +163,7 @@ script = ExtResource("5_3osa8")
 layout_mode = 2
 
 [node name="FEAGIMetricsScroll" type="ScrollContainer" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab"]
+visible = false
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 horizontal_scroll_mode = 0
@@ -179,6 +188,7 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="Description" type="TextEdit" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 text = "Default Network Settings to connect to FEAGI. Note that on web exports, javascript will be ran to get connection details dynamically instead."
@@ -187,6 +197,7 @@ wrap_mode = 1
 scroll_fit_content_height = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer"]
@@ -202,6 +213,7 @@ placeholder_text = "Web Path to FEAGI"
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer2"]
@@ -220,6 +232,7 @@ popup/item_1/text = "TLS Secured"
 popup/item_1/id = 1
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer3"]
@@ -235,6 +248,7 @@ value = 8000.0
 alignment = 1
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer4"]
@@ -259,6 +273,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Configuration
 "
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options/Config/VBoxContainer"]
 layout_mode = 2
