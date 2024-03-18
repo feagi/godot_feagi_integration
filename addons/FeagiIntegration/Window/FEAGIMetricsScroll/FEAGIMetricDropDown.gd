@@ -15,10 +15,11 @@ limitations under the License.
 extends OptionButton
 class_name FEAGIMetricDropDown
 
-@export var _metric_scroll: FEAGIMetricScroll
+var _metric_scroll: FEAGIMetricScroll
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_metric_scroll = $"../../FEAGIMetricsScroll"
 	var emtpy_arr: Array[StringName] = [] # cause implicit array types are so hard gdscript...
 	pressed.connect(update_list_availability)
 	clear()

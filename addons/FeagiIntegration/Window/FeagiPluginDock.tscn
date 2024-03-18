@@ -155,7 +155,7 @@ scroll_fit_content_height = true
 visible = false
 layout_mode = 2
 
-[node name="MetricType" type="OptionButton" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer" node_paths=PackedStringArray("_metric_scroll")]
+[node name="MetricType" type="OptionButton" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 selected = 0
@@ -179,7 +179,6 @@ popup/item_7/id = 7
 popup/item_8/text = "terminated"
 popup/item_8/id = 8
 script = ExtResource("5_rj7ar")
-_metric_scroll = NodePath("../../FEAGIMetricsScroll")
 
 [node name="AddMetric" type="Button" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer"]
 layout_mode = 2
