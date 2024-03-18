@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Window/Collapsible/Collapsible.tscn" id="2_mv61r"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIUIOptions.gd" id="3_yp3av"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIInputConfigs.gd" id="4_qcpaw"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIMetricsScroll/FEAGIMetric.gd" id="5_3osa8"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIMetricsScroll/FEAGIMetricDropDown.gd" id="5_rj7ar"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIMetricsScroll/FEAGIMetricScroll.gd" id="6_ago56"]
 
 [node name="FeagiPluginDock" type="PanelContainer"]
@@ -121,8 +121,8 @@ scroll_fit_content_height = true
 [node name="OutputSettings" type="OptionButton" parent="ScrollContainer/Options/ToFeagi/VBoxContainer/CollapsiblePrefab"]
 visible = false
 layout_mode = 2
-item_count = 2
 selected = 0
+item_count = 2
 popup/item_0/text = "No automatic sensory input"
 popup/item_0/id = 0
 popup/item_1/text = "Automatically send the entire viewport to FEAGI every physics frame"
@@ -155,12 +155,35 @@ scroll_fit_content_height = true
 visible = false
 layout_mode = 2
 
-[node name="MetricType" type="OptionButton" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer"]
+[node name="MetricType" type="OptionButton" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer" node_paths=PackedStringArray("_metric_scroll")]
 layout_mode = 2
-script = ExtResource("5_3osa8")
+size_flags_horizontal = 3
+selected = 0
+item_count = 9
+popup/item_0/text = "time_left"
+popup/item_0/id = 0
+popup/item_1/text = "time_spent"
+popup/item_1/id = 1
+popup/item_2/text = "has_won"
+popup/item_2/id = 2
+popup/item_3/text = "points_maximize"
+popup/item_3/id = 3
+popup/item_4/text = "points_minimize"
+popup/item_4/id = 4
+popup/item_5/text = "life_percentage"
+popup/item_5/id = 5
+popup/item_6/text = "success_count"
+popup/item_6/id = 6
+popup/item_7/text = "failure_count"
+popup/item_7/id = 7
+popup/item_8/text = "terminated"
+popup/item_8/id = 8
+script = ExtResource("5_rj7ar")
+_metric_scroll = NodePath("../../FEAGIMetricsScroll")
 
 [node name="AddMetric" type="Button" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer"]
 layout_mode = 2
+text = "Add Metric"
 
 [node name="FEAGIMetricsScroll" type="ScrollContainer" parent="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab"]
 visible = false
@@ -224,8 +247,8 @@ text = "Encryption:  "
 [node name="TLS" type="OptionButton" parent="ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer2"]
 layout_mode = 2
 alignment = 1
-item_count = 2
 selected = 0
+item_count = 2
 popup/item_0/text = "No Encryption"
 popup/item_0/id = 0
 popup/item_1/text = "TLS Secured"
@@ -288,11 +311,17 @@ custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Save Current Configuration"
 
+[node name="Exit" type="Button" parent="ScrollContainer/Options"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+text = "Close Configurator"
+
 [connection signal="pressed" from="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header/Refresh" to="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header/FEAGIUIOptions" method="refresh_UI_mappings"]
 [connection signal="pressed" from="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header/Add" to="." method="_add_simple_UI_mapping"]
 [connection signal="pressed" from="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer/AddMetric" to="." method="_add_metric"]
 [connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Read" to="." method="import_config"]
 [connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Write" to="." method="export_config"]
+[connection signal="pressed" from="ScrollContainer/Options/Exit" to="." method="_close_configurator"]
 
 [editable path="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
 [editable path="ScrollContainer/Options/ToFeagi/VBoxContainer/CollapsiblePrefab"]
