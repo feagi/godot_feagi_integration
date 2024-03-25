@@ -4,11 +4,11 @@ class_name FEAGIActionMap
 
 const VAR_NAMES: PackedStringArray = ["OPU_mapping_to", "neuron_X_index", "godot_action", "pass_FEAGI_weight_instead_of_max", "optional_signal_name"]
 
-@export var OPU_mapping_to: StringName
-@export var neuron_X_index: int
-@export var godot_action: StringName
-@export var pass_FEAGI_weight_instead_of_max: bool
-@export var optional_signal_name: StringName
+var OPU_mapping_to: StringName
+var neuron_X_index: int
+var godot_action: StringName
+var pass_FEAGI_weight_instead_of_max: bool
+var optional_signal_name: StringName
 
 func _init(OPU_mapping_to_: StringName, neuron_X_index_: int, godot_action_: StringName, pass_FEAGI_weight_instead_of_max_: bool, optional_signal_name_: StringName) -> void:
 	OPU_mapping_to = OPU_mapping_to_
