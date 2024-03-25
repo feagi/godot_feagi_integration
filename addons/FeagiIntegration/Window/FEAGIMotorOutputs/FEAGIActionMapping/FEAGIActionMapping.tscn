@@ -1,0 +1,106 @@
+[gd_scene load_steps=3 format=3 uid="uid://de41gm1mh1fsm"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIMotorOutputs/FEAGIActionMapping/FEAGIActionMapping.gd" id="1_vcjfj"]
+[ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Window/Collapsible/Collapsible.tscn" id="2_p43nn"]
+
+[node name="FEAGIActionMapping" type="HBoxContainer"]
+script = ExtResource("1_vcjfj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OPU to Map to:"
+vertical_alignment = 1
+
+[node name="Action_Selection" type="OptionButton" parent="VBoxContainer/HBoxContainer4"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+fit_to_longest_item = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "X Index to use: "
+vertical_alignment = 1
+
+[node name="Index" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Godot Action to Map to:"
+vertical_alignment = 1
+
+[node name="Action_Selection" type="OptionButton" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+fit_to_longest_item = false
+
+[node name="CollapsiblePrefab" parent="VBoxContainer" instance=ExtResource("2_p43nn")]
+layout_mode = 2
+
+[node name="Show" parent="VBoxContainer/CollapsiblePrefab" index="0"]
+text = "Show Advanced"
+
+[node name="Hide" parent="VBoxContainer/CollapsiblePrefab" index="1"]
+text = "Hide Advanced"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/CollapsiblePrefab"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/CollapsiblePrefab/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Minimum Threshold for Binary press:"
+vertical_alignment = 1
+
+[node name="threshold" type="SpinBox" parent="VBoxContainer/CollapsiblePrefab/HBoxContainer2"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+alignment = 1
+
+[node name="FeagiStrength" type="CheckButton" parent="VBoxContainer/CollapsiblePrefab"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Use FEAGI strength as action weight instead"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/CollapsiblePrefab"]
+visible = false
+layout_mode = 2
+tooltip_text = "Generates a signal of this name on the FEAGI autoload, emits with the float of the given strength from FEAGI.
+
+Note that these signals are dynamically generated on program start, and thus are not instantly available. Use the seperate \"signals_readied\" signal to know when the signals are ready to be connected to,"
+placeholder_text = "*OPTIONAL* Signal Name"
+
+[node name="Delete" type="Button" parent="."]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "Delete"
+
+[connection signal="pressed" from="Delete" to="." method="_user_deleted"]
+
+[editable path="VBoxContainer/CollapsiblePrefab"]

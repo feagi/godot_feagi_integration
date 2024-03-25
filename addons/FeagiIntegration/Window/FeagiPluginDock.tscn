@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b4uy4r0ivrbyb"]
+[gd_scene load_steps=6 format=3 uid="uid://b4uy4r0ivrbyb"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FeagiPluginDock.gd" id="1_wuxba"]
 [ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Window/Collapsible/Collapsible.tscn" id="2_mv61r"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIUIOptions.gd" id="3_yp3av"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIInputConfigs.gd" id="4_qcpaw"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIMotorOutputs/FEAGIMotorOutputManager.gd" id="4_qcpaw"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIMetricsScroll/FEAGIMetricDropDown.gd" id="5_rj7ar"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIMetricsScroll/FEAGIMetricScroll.gd" id="6_ago56"]
 
@@ -52,39 +51,25 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/Options/FromFeagi/VBoxContainer"]
 layout_mode = 2
-text = "Agent Motor Outputs"
+text = "FEAGI Motor Outputs"
 horizontal_alignment = 1
 
 [node name="CollapsiblePrefab" parent="ScrollContainer/Options/FromFeagi/VBoxContainer" instance=ExtResource("2_mv61r")]
 layout_mode = 2
 
 [node name="Description" type="TextEdit" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
-visible = false
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 text = "How FEAGI can control the game. Select what output from FEAGI triggers what Godot action mapping"
 editable = false
 wrap_mode = 1
 
-[node name="Header" type="HBoxContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
-visible = false
+[node name="Label" type="Label" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
 layout_mode = 2
-
-[node name="FEAGIUIOptions" type="OptionButton" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header"]
-custom_minimum_size = Vector2(230, 0)
-layout_mode = 2
-script = ExtResource("3_yp3av")
-
-[node name="Refresh" type="Button" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header"]
-layout_mode = 2
-text = "Refresh"
-
-[node name="Add" type="Button" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header"]
-layout_mode = 2
-text = "Add"
+text = "Feagi Motor Output -> Godot Mappings"
+horizontal_alignment = 1
 
 [node name="FEAGIInputConfigs" type="ScrollContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
-visible = false
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 horizontal_scroll_mode = 0
@@ -93,6 +78,11 @@ script = ExtResource("4_qcpaw")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/FEAGIInputConfigs"]
 layout_mode = 2
+
+[node name="Add" type="Button" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Add"
 
 [node name="ToFeagi" type="PanelContainer" parent="ScrollContainer/Options"]
 layout_mode = 2
@@ -315,8 +305,6 @@ custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Close Configurator"
 
-[connection signal="pressed" from="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header/Refresh" to="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header/FEAGIUIOptions" method="refresh_UI_mappings"]
-[connection signal="pressed" from="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header/Add" to="." method="_add_simple_UI_mapping"]
 [connection signal="pressed" from="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer/AddMetric" to="." method="_add_metric"]
 [connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Read" to="." method="import_config"]
 [connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Write" to="." method="export_config"]
