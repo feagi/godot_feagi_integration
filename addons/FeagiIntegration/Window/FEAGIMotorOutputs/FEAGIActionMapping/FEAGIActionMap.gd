@@ -51,6 +51,13 @@ static func create_from_valid_dict(dict: Dictionary) -> FEAGIActionMap:
 		dict["optional_signal_name"],
 	)
 
+## Returns an array of mappings as a Array of Dictionarys, that can all be turned into a JSON
+static func array_of_mappings_to_jsonable_array(arr: Array[FEAGIActionMap]) -> Array[Dictionary]:
+	var output: Array[Dictionary] = []
+	for map: FEAGIActionMap in arr:
+		output.append(map.export_as_dictionary())
+	return output
+
 ## Exports the contents of this object as a json for easy json export
 func export_as_dictionary() -> Dictionary:
 	return {
