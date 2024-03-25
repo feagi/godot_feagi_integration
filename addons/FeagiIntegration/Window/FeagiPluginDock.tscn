@@ -58,6 +58,7 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="Description" type="TextEdit" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
+visible = false
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 text = "How FEAGI can control the game. Select what output from FEAGI triggers what Godot action mapping"
@@ -65,18 +66,20 @@ editable = false
 wrap_mode = 1
 
 [node name="Label" type="Label" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
+visible = false
 layout_mode = 2
 text = "Feagi Motor Output -> Godot Mappings"
 horizontal_alignment = 1
 
-[node name="FEAGIInputConfigs" type="ScrollContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
-custom_minimum_size = Vector2(0, 200)
+[node name="FEAGIMotorOutputManager" type="ScrollContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
+visible = false
+custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 script = ExtResource("4_qcpaw")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/FEAGIInputConfigs"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/FEAGIMotorOutputManager"]
 layout_mode = 2
 
 [node name="Add" type="Button" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
@@ -305,6 +308,7 @@ custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Close Configurator"
 
+[connection signal="pressed" from="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Add" to="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/FEAGIMotorOutputManager" method="spawn_empty_mapping"]
 [connection signal="pressed" from="ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/HBoxContainer/AddMetric" to="." method="_add_metric"]
 [connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Read" to="." method="import_config"]
 [connection signal="pressed" from="ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Write" to="." method="export_config"]

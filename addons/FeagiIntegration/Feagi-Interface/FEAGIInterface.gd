@@ -44,7 +44,7 @@ enum EXPECTED_TYPE {
 }
 
 const DEFAULT_CONFIGS: Dictionary = {
-	"input_mappings" = [],
+	"feagi_output_mappings" = [],
 	"enabled" = false,
 	"output" = "NO_AUTOMATIC_SENDING", # from enum FEAGI_AUTOMATIC_SEND
 	"FEAGI_domain" = "127.0.0.1",
@@ -111,8 +111,8 @@ func _ready() -> void:
 	print("FEAGI: FEAGI Integration is enabled, preparing to initialize!")
 	
 	# import config for UI mapping, and UI pressed dict
-	var config_mappings: Array = config_dict["input_mappings"]
-	for mapping in config_mappings: # [UI_map, key, val]
+	var config_mappings: Array = config_dict["feagi_output_mappings"]
+	for madpping in config_mappings: # [UI_map, key, val]
 		if mapping[1] not in _feagi_triggers_from_websocket.keys():
 			_feagi_triggers_from_websocket[mapping[1]] = {}
 		_feagi_triggers_from_websocket[mapping[1]][mapping[2]] = mapping[0]

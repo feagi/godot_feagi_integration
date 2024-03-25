@@ -58,6 +58,14 @@ static func array_of_mappings_to_jsonable_array(arr: Array[FEAGIActionMap]) -> A
 		output.append(map.export_as_dictionary())
 	return output
 
+
+static func json_array_to_array_of_mappings(input: Array[Dictionary]) -> Array[FEAGIActionMap]:
+	var output: Array[FEAGIActionMap] = []
+	for input_dict: Dictionary in input:
+		if FEAGIActionMap.is_valid_dict(input_dict):
+			output.append(FEAGIActionMap.create_from_valid_dict(input_dict))
+	return output
+
 ## Exports the contents of this object as a json for easy json export
 func export_as_dictionary() -> Dictionary:
 	return {

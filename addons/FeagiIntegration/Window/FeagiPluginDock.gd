@@ -14,8 +14,7 @@ extends PanelContainer
 class_name FeagiPluginDock
 
 var _enable_FEAGI: CheckButton
-var _FEAGI_UI_options: FEAGIUIOptions
-var _FEAGI_input_configs: FEAGIInputConfigs
+var _FEAGI_motor_output_manager: FEAGIMotorOutputManager
 var _read_button: Button
 var _FEAGI_output_config: OptionButton
 var _reference_plugin_loader: FEAGIPluginInit
@@ -29,8 +28,7 @@ var _metric_scroll: FEAGIMetricScroll
 ## First thing that is ran from the plugin init script
 func setup(plugin_loader: FEAGIPluginInit) -> void:
 	_enable_FEAGI = $ScrollContainer/Options/ToggleFeagi/HBoxContainer/ToggleFeagi
-	_FEAGI_UI_options = $ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/Header/FEAGIUIOptions
-	_FEAGI_input_configs = $ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/FEAGIInputConfigs
+	_FEAGI_motor_output_manager = $ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/FEAGIMotorOutputManager
 	_read_button = $ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Read
 	_FEAGI_output_config = $ScrollContainer/Options/ToFeagi/VBoxContainer/CollapsiblePrefab/OutputSettings
 	_FEAGI_address_bar = $ScrollContainer/Options/AdvancedNetwork/VBoxContainer/CollapsiblePrefab/HBoxContainer/TLD
@@ -41,7 +39,6 @@ func setup(plugin_loader: FEAGIPluginInit) -> void:
 	_metric_scroll = $ScrollContainer/Options/FitnessMetrics/VBoxContainer/CollapsiblePrefab/FEAGIMetricsScroll
 	_reference_plugin_loader = plugin_loader
 	update_read_button_availability()
-	_FEAGI_UI_options.refresh_UI_mappings()
 	
 
 ## Disables / Enables the read button depending if there is a valid config to import
@@ -63,7 +60,7 @@ func update_read_button_availability() -> void:
 ## Writes the configuration defined in this panel to the config json
 func export_config() -> void:
 	var is_enabled: bool = _enable_FEAGI.button_pressed
-	var mapping_settings: Array[Array] = _FEAGI_input_configs.export_settings()
+	var feagi_output_mappings: Array[FEAGIActionMap] = _FEAGI_motor_output_manager.export_mappings()
 	var automatic_send_setting: StringName = FEAGIInterface.FEAGI_AUTOMATIC_SEND.keys()[_FEAGI_output_config.selected] # Intentionally save the string to make it human readable in the json
 	var domain: StringName = _FEAGI_address_bar.text
 	var security: StringName = FEAGIInterface.FEAGI_TLS_SETTING.keys()[_FEAGI_encryption_dropdown.selected]
@@ -71,7 +68,7 @@ func export_config() -> void:
 	var socket_port: int = _socket_port.value
 	var metrics: Array[StringName] = _metric_scroll.export_settings()
 	
-	_write_config_file(is_enabled, mapping_settings, automatic_send_setting, domain,
+	_write_config_file(is_enabled, feagi_output_mappings, automatic_send_setting, domain,
 	 	security, web_port, socket_port, metrics)
 
 func import_config() -> void:
@@ -90,7 +87,7 @@ func import_config() -> void:
 	config_dict = FEAGIInterface.validate_settings_dictionary(config_dict)
 	
 	## Apply settings
-	_FEAGI_input_configs.import_settings(config_dict["input_mappings"])
+	_FEAGI_motor_output_manager.set_filled_mappings(FEAGIActionMap.json_array_to_array_of_mappings(config_dict["feagi_output_mappings"]))
 	_enable_FEAGI.set_pressed_no_signal(config_dict["enabled"])
 	var enable_index: int = int(FEAGIInterface.FEAGI_AUTOMATIC_SEND[config_dict["output"]])
 	_FEAGI_output_config.selected = enable_index
@@ -103,11 +100,6 @@ func import_config() -> void:
 	_metric_scroll.import_settings(metrics)
 	
 	print("FEAGI: Imported settings from config.json onto the configuration panel successfully!")
-	
-## Add button pressed to add a simple mapping
-func _add_simple_UI_mapping() -> void:
-	var ui_mapping: StringName = _FEAGI_UI_options.get_selected_mapping()
-	_FEAGI_input_configs.add_simple_prefab(ui_mapping)
 
 func _add_metric() -> void:
 	if _metric_dropdown.selected == -1:
@@ -117,11 +109,11 @@ func _add_metric() -> void:
 	_metric_dropdown.selected = -1
 
 ## Writes the defined configuration to the config json file, overwritting the previous
-func _write_config_file(feagi_enabled: bool, mapping_settings: Array[Array], output_setting: StringName,
+func _write_config_file(feagi_enabled: bool, feagi_output_mappings: Array[FEAGIActionMap], output_setting: StringName,
 domain: StringName, encryption_setting: StringName, web_port: int, socket_port: int, metrics: Array[StringName]) -> void:
 	var to_write: Dictionary = {}
 	to_write["enabled"] = feagi_enabled
-	to_write["input_mappings"] = mapping_settings
+	to_write["feagi_output_mappings"] = feagi_output_mappings
 	to_write["output"] = str(output_setting)
 	to_write["FEAGI_domain"] = str(domain)
 	to_write["encryption"] = str(encryption_setting)
