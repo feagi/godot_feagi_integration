@@ -87,6 +87,7 @@ func import_config() -> void:
 	config_dict = FEAGIInterface.validate_settings_dictionary(config_dict)
 	
 	## Apply settings
+	
 	_FEAGI_motor_output_manager.set_filled_mappings(FEAGIActionMap.json_array_to_array_of_mappings(config_dict["feagi_output_mappings"]))
 	_enable_FEAGI.set_pressed_no_signal(config_dict["enabled"])
 	var enable_index: int = int(FEAGIInterface.FEAGI_AUTOMATIC_SEND[config_dict["output"]])

@@ -59,7 +59,7 @@ static func array_of_mappings_to_jsonable_array(arr: Array[FEAGIActionMap]) -> A
 	return output
 
 
-static func json_array_to_array_of_mappings(input: Array[Dictionary]) -> Array[FEAGIActionMap]:
+static func json_array_to_array_of_mappings(input: Array) -> Array[FEAGIActionMap]:
 	var output: Array[FEAGIActionMap] = []
 	for input_dict: Dictionary in input:
 		if FEAGIActionMap.is_valid_dict(input_dict):

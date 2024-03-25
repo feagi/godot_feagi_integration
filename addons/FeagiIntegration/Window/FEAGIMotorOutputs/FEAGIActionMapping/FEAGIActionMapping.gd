@@ -53,7 +53,9 @@ func export() -> FEAGIActionMap:
 
 ## Import the values into the UI
 func inport_settings(map: FEAGIActionMap) -> void:
-	_attempt_set_dropdown(map.OPU_mapping_to, FEAGIInterface.FEAGI_OPU_OPTIONS.keys(), _OPU_mapping_dropdown)
+	var opu_options: Array[StringName] = []
+	opu_options.assign(FEAGIInterface.FEAGI_OPU_OPTIONS.keys()) # Why is godot so terrible at automatic type casting?
+	_attempt_set_dropdown(map.OPU_mapping_to, opu_options, _OPU_mapping_dropdown)
 	_X_index.value = map.neuron_X_index
 	_attempt_set_dropdown(map.godot_action, InputMap.get_actions(), _input_mapping_dropdown)
 	_press_threshold.value = map.threshold
