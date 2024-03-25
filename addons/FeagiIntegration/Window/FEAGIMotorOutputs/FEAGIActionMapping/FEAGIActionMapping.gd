@@ -35,7 +35,9 @@ func setup() -> void:
 	_use_strength = $VBoxContainer/CollapsiblePrefab/FeagiStrength
 	_signal_name = $VBoxContainer/CollapsiblePrefab/LineEdit
 	
-	_set_dropdown_options(FEAGIInterface.FEAGI_OPU_OPTIONS.keys(), _OPU_mapping_dropdown)
+	var opu_options: Array[StringName] = []
+	opu_options.assign(FEAGIInterface.FEAGI_OPU_OPTIONS.keys()) # Why is godot so terrible at automatic type casting?
+	_set_dropdown_options(opu_options, _OPU_mapping_dropdown)
 	_set_dropdown_options(InputMap.get_actions(), _input_mapping_dropdown)
 
 ## Export the values as a [FEAGIActionMap]
