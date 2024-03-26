@@ -83,6 +83,7 @@ script = ExtResource("4_qcpaw")
 layout_mode = 2
 
 [node name="Add" type="Button" parent="ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Add"
