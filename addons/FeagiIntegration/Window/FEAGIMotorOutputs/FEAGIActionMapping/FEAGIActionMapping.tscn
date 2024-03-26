@@ -101,6 +101,7 @@ custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "Delete"
 
+[connection signal="pressed" from="VBoxContainer/HBoxContainer3/Action_Selection" to="." method="_refresh_possible_input_mappings"]
 [connection signal="pressed" from="Delete" to="." method="_user_deleted"]
 
 [editable path="VBoxContainer/CollapsiblePrefab"]

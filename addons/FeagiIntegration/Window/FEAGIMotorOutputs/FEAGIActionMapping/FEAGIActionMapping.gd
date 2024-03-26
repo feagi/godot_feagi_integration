@@ -38,7 +38,7 @@ func setup() -> void:
 	var opu_options: Array[StringName] = []
 	opu_options.assign(FEAGIInterface.FEAGI_OPU_OPTIONS.keys()) # Why is godot so terrible at automatic type casting?
 	_set_dropdown_options(opu_options, _OPU_mapping_dropdown)
-	_set_dropdown_options(InputMap.get_actions(), _input_mapping_dropdown)
+	_set_dropdown_options(_get_possible_input_mappings(), _input_mapping_dropdown)
 
 ## Export the values as a [FEAGIActionMap]
 func export() -> FEAGIActionMap:
@@ -57,7 +57,7 @@ func inport_settings(map: FEAGIActionMap) -> void:
 	opu_options.assign(FEAGIInterface.FEAGI_OPU_OPTIONS.keys()) # Why is godot so terrible at automatic type casting?
 	_attempt_set_dropdown(map.OPU_mapping_to, opu_options, _OPU_mapping_dropdown)
 	_X_index.value = map.neuron_X_index
-	_attempt_set_dropdown(map.godot_action, InputMap.get_actions(), _input_mapping_dropdown)
+	_attempt_set_dropdown(map.godot_action, _get_possible_input_mappings(), _input_mapping_dropdown)
 	_press_threshold.value = map.threshold
 	_use_strength.set_pressed_no_signal(map.pass_FEAGI_weight_instead_of_max)
 	_signal_name.text = map.optional_signal_name
@@ -65,6 +65,19 @@ func inport_settings(map: FEAGIActionMap) -> void:
 ## User pressed delete button
 func _user_deleted() -> void:
 	queue_free()
+
+# Work around since InputMap.get_actions() doesnt return all possible actions
+func _get_possible_input_mappings() -> Array[StringName]:
+	var options: Array[StringName] = []
+	var all_properties: Array[Dictionary] = ProjectSettings.get_property_list()
+	var _property_name: StringName
+	for property: Dictionary in all_properties:
+		_property_name = property["name"]
+		if !(_property_name.begins_with("input/")):
+			continue
+		options.append(_property_name.substr(1 + _property_name.find("/"), _property_name.length()))
+	return options
+	
 
 func _set_dropdown_options(possible_options: Array[StringName], dropdown: OptionButton) -> void:
 	dropdown.clear()
