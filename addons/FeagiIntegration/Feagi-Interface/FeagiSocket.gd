@@ -63,7 +63,9 @@ func socket_status_poll() -> void:
 	_refresh_socket_state()
 	match _websocket_state:
 		WebSocketPeer.STATE_OPEN:
+			print(_socket.get_available_packet_count())
 			while _socket.get_available_packet_count():
+				print("Packet: ", _socket.get_packet())
 				#FEAGI_returned_data.emit(_socket.get_packet().decompress(DEF_SOCKET_BUFFER_SIZE, FileAccess.COMPRESSION_DEFLATE)) # If Decompressing
 				FEAGI_returned_data.emit(_socket.get_packet())
 				

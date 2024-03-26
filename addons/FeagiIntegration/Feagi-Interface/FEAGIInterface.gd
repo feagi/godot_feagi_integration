@@ -248,6 +248,9 @@ func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
 
 
 func _socket_change_state(state: WebSocketPeer.State) -> void:
+	if state == WebSocketPeer.STATE_OPEN:
+		print("FEAGI: FEAGI Socker Connected!")
+		return
 	if state == WebSocketPeer.STATE_CLOSED or state == WebSocketPeer.STATE_CLOSING:
 		push_warning("FEAGI: FEAGI Socket closed, stopping FEAGI integration")
 		print("FEAGI: FEAGI Socket closed, stopping FEAGI integration")
