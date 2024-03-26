@@ -75,7 +75,6 @@ var _socket: FEAGISocket
 var _network_bootstrap: FEAGINetworkBootStrap
 var _feagi_motor_mappings: Dictionary # mapped by opu + str(neuron_ID) -> [FEAGIActionMap]
 var _feagi_required_metrics: Dictionary # required metric str key -> EXPECTED_TYPE
-var _mappings_to_trigger: Dictionary # mapped by FEAGIActionMap object -> activation strength float
 var _viewport_ref: Viewport
 
 # Keep these buffers non-local to minimize allocation / deallocation penalties
@@ -117,7 +116,7 @@ func _ready() -> void:
 			push_warning("FEAGI: Unable to read motor mapping information from configuration!")
 			continue
 		var map: FEAGIActionMap = FEAGIActionMap.create_from_valid_dict(raw_mapping)
-		_feagi_motor_mappings[map.OPU_mapping_to + str(map.neuron_X_index)] = map
+		_feagi_motor_mappings[map.OPU_mapping_to.to_lower() + str(map.neuron_X_index)] = map
 	
 	# check and set automatic sending config,
 	var raw_send_config: String = config_dict["output"]
@@ -224,21 +223,21 @@ func _socket_recieved_data(data: PackedByteArray) -> void:
 	
 
 # Keep these buffers non-local to minimize allocation / deallocation penalties
-var _buffer_unpressed_motor_mapping_names: Array[StringName]
+var _buffer_unpressed_motor_mapping_names: Array
 var _buffer_motor_search_string: StringName
 var _buffer_motor_search_index: int
 ## Parse through the recieved dict from FEAGI, and if matching patterns defined by the config, fire the defined action
 func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
-	_buffer_unpressed_motor_mapping_names = _mappings_to_trigger.keys()
+	_buffer_unpressed_motor_mapping_names = _feagi_motor_mappings.keys()
 	
 	# Check which keys FEAGI Pressed
 	for from_OPU: StringName in feagi_input.keys():
-		for neuron_index: int in feagi_input[from_OPU].keys():
-			_buffer_motor_search_string = from_OPU + str(neuron_index)
+		for neuron_index: String in feagi_input[from_OPU].keys(): # For whatever reason, the neuron indexes sent from the controller are strings
+			_buffer_motor_search_string = from_OPU + neuron_index
 			_buffer_motor_search_index = _buffer_unpressed_motor_mapping_names.find(_buffer_motor_search_string)
 			if _buffer_motor_search_index != -1:
-				print("FEAGI: FEAGI pressed input: %s" % _feagi_motor_mappings[_buffer_motor_search_index].godot_action)
-				_feagi_motor_mappings[_buffer_motor_search_index].action(feagi_input[from_OPU]["strength"], self)
+				print("FEAGI: FEAGI pressed input: %s" % _feagi_motor_mappings[_buffer_motor_search_string].godot_action)
+				_feagi_motor_mappings[_buffer_motor_search_string].action(feagi_input[from_OPU][neuron_index], self)
 				_buffer_unpressed_motor_mapping_names.remove_at(_buffer_motor_search_index)
 	
 	# for all keys unpressed, action with 0 strength
