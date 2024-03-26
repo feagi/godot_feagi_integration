@@ -73,9 +73,9 @@ var _is_socket_ready: bool = false
 var _automated_sending_mode: FEAGI_AUTOMATIC_SEND = FEAGI_AUTOMATIC_SEND.NO_AUTOMATIC_SENDING
 var _socket: FEAGISocket
 var _network_bootstrap: FEAGINetworkBootStrap
-var _feagi_triggers_from_websocket: Dictionary # Feagi key -> value -> ui_action
+var _feagi_motor_mappings: Dictionary # mapped by opu + str(neuron_ID) -> [FEAGIActionMap]
 var _feagi_required_metrics: Dictionary # required metric str key -> EXPECTED_TYPE
-var _ui_action_pressed: Dictionary # ui_action: is_pressed(bool)
+var _mappings_to_trigger: Dictionary # mapped by FEAGIActionMap object -> activation strength float
 var _viewport_ref: Viewport
 
 # Keep these buffers non-local to minimize allocation / deallocation penalties
@@ -110,13 +110,14 @@ func _ready() -> void:
 	
 	print("FEAGI: FEAGI Integration is enabled, preparing to initialize!")
 	
-	# import config for UI mapping, and UI pressed dict
-	var config_mappings: Array = config_dict["feagi_output_mappings"]
-	for madpping in config_mappings: # [UI_map, key, val]
-		if mapping[1] not in _feagi_triggers_from_websocket.keys():
-			_feagi_triggers_from_websocket[mapping[1]] = {}
-		_feagi_triggers_from_websocket[mapping[1]][mapping[2]] = mapping[0]
-		_ui_action_pressed[mapping[0]] = false
+	# import config for UI motor mapping, and UI pressed dict
+	var raw_config_mappings: Array = config_dict["feagi_output_mappings"]
+	for raw_mapping: Dictionary in raw_config_mappings:
+		if !FEAGIActionMap.is_valid_dict(raw_mapping):
+			push_warning("FEAGI: Unable to read motor mapping information from configuration!")
+			continue
+		var map: FEAGIActionMap = FEAGIActionMap.create_from_valid_dict(raw_mapping)
+		_feagi_motor_mappings[map.OPU_mapping_to + str(map.neuron_X_index)] = map
 	
 	# check and set automatic sending config,
 	var raw_send_config: String = config_dict["output"]
@@ -194,6 +195,7 @@ func send_to_FEAGI_raw(data: PackedByteArray) -> void:
 		push_warning("FEAGI: Cannot send any data to FEAGI when the interface is disabled!")
 	_socket.websocket_send_bytes(data)
 
+#region Internals
 func _network_bootstrap_complete() -> void:
 	print("FEAGI: Connecting to FEAGI Websocket at '%s'..." % _network_bootstrap.feagi_socket_address)
 	_viewport_ref = get_viewport()
@@ -221,45 +223,29 @@ func _socket_recieved_data(data: PackedByteArray) -> void:
 	_parse_Feagi_data_as_inputs(_buffer_data as Dictionary)
 	
 
+# Keep these buffers non-local to minimize allocation / deallocation penalties
+var _buffer_unpressed_motor_mapping_names: Array[StringName]
+var _buffer_motor_search_string: StringName
+var _buffer_motor_search_index: int
 ## Parse through the recieved dict from FEAGI, and if matching patterns defined by the config, fire the defined action
 func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
-	# reset UI actions
-	for ui_action: String in _ui_action_pressed.keys():
-		_ui_action_pressed[ui_action] = false
+	_buffer_unpressed_motor_mapping_names = _mappings_to_trigger.keys()
 	
 	# Check which keys FEAGI Pressed
-	for feagi_key in feagi_input.keys():
-		if feagi_key not in _feagi_triggers_from_websocket.keys():
-			continue
-		
+	for from_OPU: StringName in feagi_input.keys():
+		for neuron_index: int in feagi_input[from_OPU].keys():
+			_buffer_motor_search_string = from_OPU + str(neuron_index)
+			_buffer_motor_search_index = _buffer_unpressed_motor_mapping_names.find(_buffer_motor_search_string)
+			if _buffer_motor_search_index != -1:
+				print("FEAGI: FEAGI pressed input: %s" % _feagi_motor_mappings[_buffer_motor_search_index].godot_action)
+				_feagi_motor_mappings[_buffer_motor_search_index].action(feagi_input[from_OPU]["strength"], self)
+				_buffer_unpressed_motor_mapping_names.remove_at(_buffer_motor_search_index)
+	
+	# for all keys unpressed, action with 0 strength
+	for unpressed_mapping_name: StringName in _buffer_unpressed_motor_mapping_names:
+		_feagi_motor_mappings[unpressed_mapping_name].action(0, self)
+	
 
-		for feagi_key_second in feagi_input[feagi_key].keys():
-			
-			if feagi_key_second in _feagi_triggers_from_websocket[feagi_key].keys():
-				print("FEAGI: FEAGI pressed input: %s" % _feagi_triggers_from_websocket[feagi_key][feagi_key_second])
-				_ui_action_pressed[_feagi_triggers_from_websocket[feagi_key][feagi_key_second]] = true
-				#_bufferFEAGI_input.action = _feagi_triggers_from_websocket[feagi_key][feagi_key_second]
-				#parse_input_event
-				#Input.parse_input_event(_bufferFEAGI_input)
-				#Input.action_press(_feagi_triggers_from_websocket[feagi_key][feagi_key_second])
-		continue
-	
-	
-	# Press all keys that FEAGI pressed (and release the others)
-	#NOTE: We make use of both 'action_press' and 'parse_input_event' to account for odd technecalities on how godot handles input
-	#WARNING: Running Godot in headless mode may result in these input events not working due to an engine bug
-	#TODO: Workaround for above involes using (relevant_viewport).
-	for ui_action: String in _ui_action_pressed.keys():
-		var buffer_FEAGI_input:InputEventAction = InputEventAction.new() # Do not buffer this, a new one must be created per use
-		buffer_FEAGI_input.action = ui_action
-		if _ui_action_pressed[ui_action]:
-			buffer_FEAGI_input.pressed = true
-			Input.action_press(ui_action)
-		else:
-			buffer_FEAGI_input.pressed = false
-			Input.action_release(ui_action)
-		Input.parse_input_event(buffer_FEAGI_input)
-			
 
 func _socket_change_state(state: WebSocketPeer.State) -> void:
 	if state == WebSocketPeer.STATE_CLOSED or state == WebSocketPeer.STATE_CLOSING:
@@ -268,3 +254,4 @@ func _socket_change_state(state: WebSocketPeer.State) -> void:
 		set_process(false)
 		set_physics_process(false)
 		_is_socket_ready = false
+#endregion
