@@ -21,7 +21,7 @@ const VAR_NAMES: PackedStringArray = ["OPU_mapping_to", "neuron_X_index", "godot
 var OPU_mapping_to: StringName
 var neuron_X_index: int
 var godot_action: StringName
-var threshold: float = 0.5
+var threshold: float = 0.01
 var pass_FEAGI_weight_instead_of_max: bool
 var optional_signal_name: StringName
 
@@ -76,3 +76,27 @@ func export_as_dictionary() -> Dictionary:
 		"pass_FEAGI_weight_instead_of_max": pass_FEAGI_weight_instead_of_max,
 		"optional_signal_name": str(optional_signal_name),
 	}
+
+func action(activation_strength: float, interface: FEAGIInterface) -> void:
+	if optional_signal_name != "":
+		if interface.has_signal(optional_signal_name):
+			interface.emit_signal(optional_signal_name, activation_strength)
+	
+	#var buffer_FEAGI_motor:InputEventAction = InputEventAction.new() # Do not buffer this, a new one must be created per use
+	#Input.parse_input_event(buffer_FEAGI_input)
+	
+	if activation_strength <  threshold:
+		## no action
+		Input.action_release(godot_action)
+		return
+
+	if pass_FEAGI_weight_instead_of_max:
+		Input.action_press(godot_action, activation_strength)
+	else:
+		Input.action_press(godot_action)
+	
+	
+	
+	
+	
+	
