@@ -112,7 +112,7 @@ func _add_metric() -> void:
 ## Writes the defined configuration to the config json file, overwritting the previous
 func _write_config_file(feagi_enabled: bool, feagi_output_mappings: Array[FEAGIActionMap], output_setting: StringName,
 domain: StringName, encryption_setting: StringName, web_port: int, socket_port: int, metrics: Array[StringName]) -> void:
-	var to_write: Dictionary = {}
+	var to_write: Dictionary = {}         
 	to_write["enabled"] = feagi_enabled
 	to_write["feagi_output_mappings"] = FEAGIActionMap.array_of_mappings_to_jsonable_array(feagi_output_mappings)
 	to_write["output"] = str(output_setting)
