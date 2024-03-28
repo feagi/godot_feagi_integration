@@ -17,6 +17,8 @@ class_name FEAGIInterface
 ## Autoladed interface to access FEAGI from the game
 
 const CONFIG_PATH: StringName = "res://addons/FeagiIntegration/config.json"
+const FEAGIHTTP_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Feagi-Interface/FEAGIHTTP.tscn")
+const METRIC_PATH: StringName = "/v1/api/something"
 
 enum FEAGI_AUTOMATIC_SEND {
 	NO_AUTOMATIC_SENDING,
@@ -68,6 +70,8 @@ const METRIC_MAPPINGS: Dictionary = {
 }
 
 signal socket_retrieved_data(data: Signal) ## FEAGI Websocket retrieved data, useful for custom integrations
+
+#region start
 
 var _is_socket_ready: bool = false
 var _automated_sending_mode: FEAGI_AUTOMATIC_SEND = FEAGI_AUTOMATIC_SEND.NO_AUTOMATIC_SENDING
@@ -182,6 +186,23 @@ static func validate_settings_dictionary(checking_config: Dictionary) -> Diction
 	return checking_config
 		
 
+#endregion
+
+#region for_user_use
+
+func send_metrics_to_FEAGI(stats: Dictionary) -> void:
+	for input_key in stats.keys():
+		if input_key not in METRIC_MAPPINGS.keys():
+			push_error("FEAGI: Invalid key %s in input stats dict! Not sending!" % input_key)
+			return
+		if _get_value_type(stats[input_key][1]) != typeof(stats[input_key]):
+			push_error("FEAGI: Key %s is of invalid type!!" % input_key)
+			return
+	
+	var http_send: FEAGIHTTP = FEAGIHTTP_PREFAB.instantiate()
+	add_child(http_send)
+	http_send.send_POST_request(_network_bootstrap.feagi_root_web_address, _network_bootstrap.DEF_HEADERSTOUSE, METRIC_PATH, JSON.stringify(stats))
+
 ## Send text data to FEAGI
 func send_to_FEAGI_text(data: String) -> void:
 	if !_is_socket_ready:
@@ -193,6 +214,8 @@ func send_to_FEAGI_raw(data: PackedByteArray) -> void:
 	if !_is_socket_ready:
 		push_warning("FEAGI: Cannot send any data to FEAGI when the interface is disabled!")
 	_socket.websocket_send_bytes(data)
+
+#endregion
 
 #region Internals
 func _network_bootstrap_complete() -> void:
@@ -220,7 +243,6 @@ func _socket_recieved_data(data: PackedByteArray) -> void:
 		push_error("FEAGI: FEAGI did not return valid data!")
 		return
 	_parse_Feagi_data_as_inputs(_buffer_data as Dictionary)
-	
 
 # Keep these buffers non-local to minimize allocation / deallocation penalties
 var _buffer_unpressed_motor_mapping_names: Array
@@ -243,8 +265,6 @@ func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
 	# for all keys unpressed, action with 0 strength
 	for unpressed_mapping_name: StringName in _buffer_unpressed_motor_mapping_names:
 		_feagi_motor_mappings[unpressed_mapping_name].action(0, self)
-	
-
 
 func _socket_change_state(state: WebSocketPeer.State) -> void:
 	if state == WebSocketPeer.STATE_OPEN:
@@ -256,4 +276,15 @@ func _socket_change_state(state: WebSocketPeer.State) -> void:
 		set_process(false)
 		set_physics_process(false)
 		_is_socket_ready = false
+
+func _get_value_type(custom_expected: EXPECTED_TYPE) -> Variant.Type:
+	match(custom_expected):
+		EXPECTED_TYPE.BOOL:
+			return TYPE_BOOL
+		EXPECTED_TYPE.INT:
+			return TYPE_INT
+		_:
+			return TYPE_FLOAT
+
+
 #endregion
