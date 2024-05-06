@@ -44,7 +44,7 @@ func setup(plugin_loader: FEAGIPluginInit) -> void:
 ## Disables / Enables the read button depending if there is a valid config to import
 func update_read_button_availability() -> void:
 	if !FileAccess.file_exists(FEAGIInterface.CONFIG_PATH):
-		_read_button.tooltip_text = "No config file found! Ensure it exists at 'res://FEAGI_config.json'!"
+		_read_button.tooltip_text = "No config file found! Ensure it exists!"
 		_read_button.disabled = true
 		return
 	var file_json: String = FileAccess.get_file_as_string(FEAGIInterface.CONFIG_PATH)

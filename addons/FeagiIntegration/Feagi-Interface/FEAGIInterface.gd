@@ -101,13 +101,13 @@ func _init():
 
 func _ready() -> void:
 	if !FileAccess.file_exists(CONFIG_PATH):
-		push_error("FEAGI: No Config located at 'res://FEAGI_config.json', not starting FEAGI integration!")
+		push_error("FEAGI: No Config located at '%s', not starting FEAGI integration!" % CONFIG_PATH)
 		return
 	
 	var file_json: String = FileAccess.get_file_as_string(CONFIG_PATH)
 	var json_output = JSON.parse_string(file_json) # Dict or null
 	if json_output == null:
-		push_error("FEAGI: Unable to read config file for FEAGI at 'res://FEAGI_config.json', not starting FEAGI integration!")
+		push_error("FEAGI: Unable to read config file for FEAGI at '%s', not starting FEAGI integration!" % CONFIG_PATH)
 		return
 	var config_dict: Dictionary = json_output as Dictionary
 	
