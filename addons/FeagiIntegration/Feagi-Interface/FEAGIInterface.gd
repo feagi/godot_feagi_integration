@@ -279,13 +279,13 @@ func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
 				_feagi_motor_mappings[_buffer_motor_search_string].action(feagi_input[from_OPU][neuron_index], self)
 				_buffer_unpressed_motor_mapping_names.remove_at(_buffer_motor_search_index)
 	
-	# for all keys unpressed, action with 0 strength
-	for unpressed_mapping_name: StringName in _buffer_unpressed_motor_mapping_names:
-		_feagi_motor_mappings[unpressed_mapping_name].action(0, self)
+	# for all keys unpressed, action with 0 strength unless they are being pressed currently (by user)
+	#for unpressed_mapping_name: StringName in _buffer_unpressed_motor_mapping_names:
+	#	_feagi_motor_mappings[unpressed_mapping_name].action(0, self)
 
 func _socket_change_state(state: WebSocketPeer.State) -> void:
 	if state == WebSocketPeer.STATE_OPEN:
-		print("FEAGI: FEAGI Socker Connected!")
+		print("FEAGI: FEAGI Socket Connected!")
 		feagi_connection_established.emit()
 		return
 	if state == WebSocketPeer.STATE_CLOSED or state == WebSocketPeer.STATE_CLOSING:

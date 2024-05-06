@@ -82,6 +82,26 @@ step = 0.01
 value = 0.5
 alignment = 1
 
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/CollapsiblePrefab"]
+auto_translate_mode = 1
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/CollapsiblePrefab/HBoxContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Number of seconds to hold when FEAGI presses"
+vertical_alignment = 1
+
+[node name="hold" type="SpinBox" parent="VBoxContainer/CollapsiblePrefab/HBoxContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+alignment = 1
+
 [node name="FeagiStrength" type="CheckButton" parent="VBoxContainer/CollapsiblePrefab"]
 visible = false
 layout_mode = 2
