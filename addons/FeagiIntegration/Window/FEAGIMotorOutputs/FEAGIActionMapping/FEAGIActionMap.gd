@@ -80,6 +80,7 @@ func export_as_dictionary() -> Dictionary:
 		"threshold": threshold,
 		"pass_FEAGI_weight_instead_of_max": pass_FEAGI_weight_instead_of_max,
 		"optional_signal_name": str(optional_signal_name),
+		"seconds_to_hold": seconds_to_hold
 	}
 
 func action(activation_strength: float) -> void:
