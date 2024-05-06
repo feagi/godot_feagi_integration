@@ -11,17 +11,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================
 """
-extends Object
+extends RefCounted
 class_name FEAGINetworkBootStrap
 ## Pings the webpage for the FEAGI connection issue, the sotres as public vars the conneciton details
 
 # Static Network Configuration / defaults
 const DEF_HEADERSTOUSE: PackedStringArray = ["Content-Type: application/json"]
-#const DEF_FEAGI_TLD: StringName = "127.0.0.1"
-#const DEF_FEAGI_SSL: StringName = "http://"
-#const DEF_SOCKET_SSL: StringName = "ws://"
-#const DEF_WEB_PORT: int = 8000
-#const DEF_SOCKET_PORT: int = 9055
 const DEF_SOCKET_MAX_QUEUED_PACKETS: int = 10000000
 const DEF_SOCKET_INBOUND_BUFFER_SIZE: int = 10000000
 const DEF_SOCKET_BUFFER_SIZE: int = 10000000

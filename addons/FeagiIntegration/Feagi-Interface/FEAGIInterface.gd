@@ -12,13 +12,15 @@ limitations under the License.
 ==============================================================================
 """
 
+#region definitions and vars
 extends Node
 class_name FEAGIInterface
 ## Autoladed interface to access FEAGI from the game
 
 const CONFIG_PATH: StringName = "res://addons/FeagiIntegration/config.json"
 const FEAGIHTTP_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Feagi-Interface/FEAGIHTTP.tscn")
-const METRIC_PATH: StringName = "/v1/api/something"
+const METRIC_PATH: StringName = "/v1/training/game_stats"
+const DELETE_METRIC_PATH: StringName = "/v1/training/reset_game_stats"
 
 enum FEAGI_AUTOMATIC_SEND {
 	NO_AUTOMATIC_SENDING,
@@ -70,6 +72,10 @@ const METRIC_MAPPINGS: Dictionary = {
 }
 
 signal socket_retrieved_data(data: Signal) ## FEAGI Websocket retrieved data, useful for custom integrations
+signal feagi_connection_established() ## FEAGI connection has been established!
+signal feagi_connection_lost() ## The websocket connection to Feagi has been lost!
+
+#endregion
 
 #region start
 
@@ -190,6 +196,7 @@ static func validate_settings_dictionary(checking_config: Dictionary) -> Diction
 
 #region for_user_use
 
+## Send metrics using the keys specified in the 'Fitness Metrics' to FEAGI
 func send_metrics_to_FEAGI(stats: Dictionary) -> void:
 	for input_key in stats.keys():
 		if input_key not in METRIC_MAPPINGS.keys():
@@ -202,6 +209,12 @@ func send_metrics_to_FEAGI(stats: Dictionary) -> void:
 	var http_send: FEAGIHTTP = FEAGIHTTP_PREFAB.instantiate()
 	add_child(http_send)
 	http_send.send_POST_request(_network_bootstrap.feagi_root_web_address, _network_bootstrap.DEF_HEADERSTOUSE, METRIC_PATH, JSON.stringify(stats))
+
+## Tell FEAGI to delete ALL of its metrics
+func delete_metrics_from_FEAGI() -> void:
+	var http_send: FEAGIHTTP = FEAGIHTTP_PREFAB.instantiate()
+	add_child(http_send)
+	http_send.send_DELETE_request(_network_bootstrap.feagi_root_web_address, _network_bootstrap.DEF_HEADERSTOUSE, DELETE_METRIC_PATH, JSON.stringify({}))
 
 ## Send text data to FEAGI
 func send_to_FEAGI_text(data: String) -> void:
