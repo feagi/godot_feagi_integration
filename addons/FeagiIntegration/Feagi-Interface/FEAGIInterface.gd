@@ -198,6 +198,8 @@ static func validate_settings_dictionary(checking_config: Dictionary) -> Diction
 
 ## Send metrics using the keys specified in the 'Fitness Metrics' to FEAGI
 func send_metrics_to_FEAGI(stats: Dictionary) -> void:
+	if !_is_socket_ready:
+		push_warning("FEAGI: Cannot interact with FEAGI when the interface is disabled!")
 	for input_key in stats.keys():
 		if input_key not in METRIC_MAPPINGS.keys():
 			push_error("FEAGI: Invalid key %s in input stats dict! Not sending!" % input_key)
@@ -212,6 +214,8 @@ func send_metrics_to_FEAGI(stats: Dictionary) -> void:
 
 ## Tell FEAGI to delete ALL of its metrics
 func delete_metrics_from_FEAGI() -> void:
+	if !_is_socket_ready:
+		push_warning("FEAGI: Cannot interact with FEAGI when the interface is disabled!")
 	var http_send: FEAGIHTTP = FEAGIHTTP_PREFAB.instantiate()
 	add_child(http_send)
 	http_send.send_DELETE_request(_network_bootstrap.feagi_root_web_address, _network_bootstrap.DEF_HEADERSTOUSE, DELETE_METRIC_PATH, JSON.stringify({}))

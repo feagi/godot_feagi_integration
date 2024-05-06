@@ -13,7 +13,7 @@ limitations under the License.
 """
 extends RefCounted
 class_name FEAGINetworkBootStrap
-## Pings the webpage for the FEAGI connection issue, the sotres as public vars the conneciton details
+## Pings the webpage for the FEAGI connection
 
 # Static Network Configuration / defaults
 const DEF_HEADERSTOUSE: PackedStringArray = ["Content-Type: application/json"]
