@@ -82,10 +82,7 @@ func export_as_dictionary() -> Dictionary:
 		"optional_signal_name": str(optional_signal_name),
 	}
 
-func action(activation_strength: float, interface: FEAGIInterface) -> void:
-	if optional_signal_name != "":
-		if interface.has_signal(optional_signal_name):
-			interface.emit_signal(optional_signal_name, activation_strength)
+func action(activation_strength: float) -> void:
 	
 	#var buffer_FEAGI_motor:InputEventAction = InputEventAction.new() # Do not buffer this, a new one must be created per use
 	#Input.parse_input_event(buffer_FEAGI_input)
