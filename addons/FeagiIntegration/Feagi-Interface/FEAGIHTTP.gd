@@ -10,6 +10,9 @@ func _ready() -> void:
 func send_POST_request(base_URL: StringName, header: PackedStringArray, URL_path: StringName, json: StringName) -> void:
 	request(base_URL + URL_path, header, HTTPClient.METHOD_POST, json)
 
+func send_PUT_request(base_URL: StringName, header: PackedStringArray, URL_path: StringName, json: StringName) -> void:
+	request(base_URL + URL_path, header, HTTPClient.METHOD_PUT, json)
+
 func send_DELETE_request(base_URL: StringName, header: PackedStringArray, URL_path: StringName, json: StringName) -> void:
 	request(base_URL + URL_path, header, HTTPClient.METHOD_DELETE, json)
 

@@ -215,7 +215,7 @@ func send_metrics_to_FEAGI(stats: Dictionary) -> void:
 	
 	var http_send: FEAGIHTTP = FEAGIHTTP_PREFAB.instantiate()
 	add_child(http_send)
-	http_send.send_POST_request(_network_bootstrap.feagi_root_web_address, _network_bootstrap.DEF_HEADERSTOUSE, METRIC_PATH, JSON.stringify(stats))
+	http_send.send_PUT_request(_network_bootstrap.feagi_root_web_address, _network_bootstrap.DEF_HEADERSTOUSE, METRIC_PATH, JSON.stringify(stats))
 
 ## Tell FEAGI to delete ALL of its metrics
 func delete_metrics_from_FEAGI() -> void:
