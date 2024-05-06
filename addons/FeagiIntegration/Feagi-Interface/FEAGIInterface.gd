@@ -286,6 +286,7 @@ func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
 func _socket_change_state(state: WebSocketPeer.State) -> void:
 	if state == WebSocketPeer.STATE_OPEN:
 		print("FEAGI: FEAGI Socker Connected!")
+		feagi_connection_established.emit()
 		return
 	if state == WebSocketPeer.STATE_CLOSED or state == WebSocketPeer.STATE_CLOSING:
 		push_warning("FEAGI: FEAGI Socket closed, stopping FEAGI integration")
@@ -293,6 +294,7 @@ func _socket_change_state(state: WebSocketPeer.State) -> void:
 		set_process(false)
 		set_physics_process(false)
 		_is_socket_ready = false
+		feagi_connection_lost.emit()
 
 func _get_value_type(custom_expected: EXPECTED_TYPE) -> Variant.Type:
 	match(custom_expected):
