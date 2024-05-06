@@ -17,7 +17,7 @@ extends Node
 class_name FEAGIInterface
 ## Autoladed interface to access FEAGI from the game
 
-const CONFIG_PATH: StringName = "res://addons/FeagiIntegration/config.json"
+const CONFIG_PATH: StringName = "res://FEAGI_config.json"
 const FEAGIHTTP_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Feagi-Interface/FEAGIHTTP.tscn")
 const METRIC_PATH: StringName = "/v1/training/game_stats"
 const DELETE_METRIC_PATH: StringName = "/v1/training/reset_game_stats"
@@ -101,13 +101,13 @@ func _init():
 
 func _ready() -> void:
 	if !FileAccess.file_exists(CONFIG_PATH):
-		push_error("FEAGI: No Config located, not starting FEAGI integration!")
+		push_error("FEAGI: No Config located at 'res://FEAGI_config.json', not starting FEAGI integration!")
 		return
 	
 	var file_json: String = FileAccess.get_file_as_string(CONFIG_PATH)
 	var json_output = JSON.parse_string(file_json) # Dict or null
 	if json_output == null:
-		push_error("FEAGI: Unable to read config file for FEAGI, not starting FEAGI integration!")
+		push_error("FEAGI: Unable to read config file for FEAGI at 'res://FEAGI_config.json', not starting FEAGI integration!")
 		return
 	var config_dict: Dictionary = json_output as Dictionary
 	
