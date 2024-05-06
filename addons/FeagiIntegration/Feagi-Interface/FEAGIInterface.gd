@@ -130,6 +130,7 @@ func _ready() -> void:
 		var feagi_action: FEAGIActionHolder = FEAGIActionHolder.new()
 		add_child(feagi_action)
 		feagi_action.name = map.OPU_mapping_to.to_lower() + str(map.neuron_X_index)
+		_feagi_action_holders[feagi_action.name] = feagi_action
 		feagi_action.setup_from_action(map)
 	
 	# check and set automatic sending config,
@@ -272,7 +273,6 @@ var _buffer_motor_search_index: int
 ## Parse through the recieved dict from FEAGI, and if matching patterns defined by the config, fire the defined action
 func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
 	_buffer_unpressed_motor_mapping_names = _feagi_action_holders.keys()
-	print(JSON.stringify(feagi_input))
 	
 	# Check which keys FEAGI Pressed
 	for from_OPU: StringName in feagi_input.keys():
@@ -280,19 +280,13 @@ func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
 			_buffer_motor_search_string = from_OPU + neuron_index
 			_buffer_motor_search_index = _buffer_unpressed_motor_mapping_names.find(_buffer_motor_search_string)
 			if _buffer_motor_search_index != -1:
-				print("FEAGI: FEAGI pressed input: %s" % _feagi_action_holders[_buffer_motor_search_string].godot_action)
 				var FEAGI_action_holder: FEAGIActionHolder = _feagi_action_holders[_buffer_motor_search_string]
 				var FEAGI_strength: float = feagi_input[from_OPU][neuron_index]
+				print("FEAGI: FEAGI pressed input: %s" % FEAGI_action_holder.action_mapping.godot_action)
 				if has_signal(FEAGI_action_holder.action_mapping.optional_signal_name):
 					emit_signal(FEAGI_action_holder.action_mapping.optional_signal_name, FEAGI_strength)
 				FEAGI_action_holder.FEAGI_pressed(FEAGI_strength)
 
-				#_feagi_motor_mappings[_buffer_motor_search_string].action(feagi_input[from_OPU][neuron_index], self)
-				#_buffer_unpressed_motor_mapping_names.remove_at(_buffer_motor_search_index)
-	
-	# for all keys unpressed, action with 0 strength unless they are being pressed currently (by user)
-	#for unpressed_mapping_name: StringName in _buffer_unpressed_motor_mapping_names:
-	#	_feagi_motor_mappings[unpressed_mapping_name].action(0, self)
 
 func _socket_change_state(state: WebSocketPeer.State) -> void:
 	if state == WebSocketPeer.STATE_OPEN:
