@@ -44,7 +44,7 @@ func setup(plugin_loader: FEAGIPluginInit) -> void:
 ## Disables / Enables the read button depending if there is a valid config to import
 func update_read_button_availability() -> void:
 	if !FileAccess.file_exists(FEAGIInterface.CONFIG_PATH):
-		_read_button.tooltip_text = "No config file found!"
+		_read_button.tooltip_text = "No config file found! Ensure it exists!"
 		_read_button.disabled = true
 		return
 	var file_json: String = FileAccess.get_file_as_string(FEAGIInterface.CONFIG_PATH)
@@ -75,7 +75,7 @@ func import_config() -> void:
 	# Read file and verification
 	EditorInterface.get_resource_filesystem().scan()
 	if !FileAccess.file_exists(FEAGIInterface.CONFIG_PATH):
-		push_error("FEAGI: No config file found!")
+		push_error("FEAGI: No config file found! Ensure it exists at 'res://FEAGI_config.json'")
 		return
 	var file_json: String = FileAccess.get_file_as_string(FEAGIInterface.CONFIG_PATH)
 	var json_output = JSON.parse_string(file_json) # Dict or null
@@ -100,7 +100,7 @@ func import_config() -> void:
 	metrics.assign(config_dict["metrics"])
 	_metric_scroll.import_settings(metrics)
 	
-	print("FEAGI: Imported settings from config.json onto the configuration panel successfully!")
+	print("FEAGI: Imported settings from FEAGI_config.json onto the configuration panel successfully!")
 
 func _add_metric() -> void:
 	if _metric_dropdown.selected == -1:

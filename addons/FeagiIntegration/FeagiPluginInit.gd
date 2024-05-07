@@ -38,11 +38,13 @@ func despawn_configurator_window() -> void:
 		return
 	remove_control_from_docks(_config_window)
 	_config_window.queue_free()
+	_config_window = null
 	
 	
 func spawn_configurator_window() -> void:
 	if _config_window != null:
 		return
+		
 	_config_window = DOCK_PREFAB.instantiate()
 	add_control_to_dock(EditorPlugin.DOCK_SLOT_RIGHT_BR, _config_window)
 	_config_window.setup(self)

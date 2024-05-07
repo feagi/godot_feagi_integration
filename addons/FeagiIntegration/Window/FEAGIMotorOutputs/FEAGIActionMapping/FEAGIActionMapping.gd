@@ -24,6 +24,7 @@ var _collapsible: FEAGIWindowCollapsible
 var _press_threshold: SpinBox
 var _use_strength: CheckButton
 var _signal_name: LineEdit
+var _hold_time: SpinBox
 
 ## Called by the creator after instantiation
 func setup() -> void:
@@ -34,6 +35,7 @@ func setup() -> void:
 	_press_threshold = $VBoxContainer/CollapsiblePrefab/HBoxContainer2/threshold
 	_use_strength = $VBoxContainer/CollapsiblePrefab/FeagiStrength
 	_signal_name = $VBoxContainer/CollapsiblePrefab/LineEdit
+	_hold_time = $VBoxContainer/CollapsiblePrefab/HBoxContainer3/hold
 	
 	var opu_options: Array[StringName] = []
 	opu_options.assign(FEAGIInterface.FEAGI_OPU_OPTIONS.keys()) # Why is godot so terrible at automatic type casting?
@@ -48,7 +50,8 @@ func export() -> FEAGIActionMap:
 		_input_mapping_dropdown.get_item_text(_input_mapping_dropdown.selected),
 		_press_threshold.value,
 		_use_strength.button_pressed,
-		_signal_name.text
+		_signal_name.text,
+		_hold_time.value
 	)
 
 ## Import the values into the UI
@@ -61,6 +64,7 @@ func inport_settings(map: FEAGIActionMap) -> void:
 	_press_threshold.value = map.threshold
 	_use_strength.set_pressed_no_signal(map.pass_FEAGI_weight_instead_of_max)
 	_signal_name.text = map.optional_signal_name
+	_hold_time.value = map.seconds_to_hold
 
 ## User pressed delete button
 func _user_deleted() -> void:

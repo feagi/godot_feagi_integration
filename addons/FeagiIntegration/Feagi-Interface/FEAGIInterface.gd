@@ -12,11 +12,15 @@ limitations under the License.
 ==============================================================================
 """
 
+#region definitions and vars
 extends Node
 class_name FEAGIInterface
 ## Autoladed interface to access FEAGI from the game
 
-const CONFIG_PATH: StringName = "res://addons/FeagiIntegration/config.json"
+const CONFIG_PATH: StringName = "res://FEAGI_config.json"
+const FEAGIHTTP_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Feagi-Interface/FEAGIHTTP.tscn")
+const METRIC_PATH: StringName = "/v1/training/game_stats"
+const DELETE_METRIC_PATH: StringName = "/v1/training/reset_game_stats"
 
 enum FEAGI_AUTOMATIC_SEND {
 	NO_AUTOMATIC_SENDING,
@@ -68,12 +72,19 @@ const METRIC_MAPPINGS: Dictionary = {
 }
 
 signal socket_retrieved_data(data: Signal) ## FEAGI Websocket retrieved data, useful for custom integrations
+signal feagi_connection_established() ## FEAGI connection has been established!
+signal feagi_connection_lost() ## The websocket connection to Feagi has been lost!
+
+#endregion
+
+#region start
 
 var _is_socket_ready: bool = false
 var _automated_sending_mode: FEAGI_AUTOMATIC_SEND = FEAGI_AUTOMATIC_SEND.NO_AUTOMATIC_SENDING
 var _socket: FEAGISocket
 var _network_bootstrap: FEAGINetworkBootStrap
-var _feagi_motor_mappings: Dictionary # mapped by opu + str(neuron_ID) -> [FEAGIActionMap]
+#var _feagi_motor_mappings: Dictionary # mapped by opu + str(neuron_ID) -> [FEAGIActionMap]
+var _feagi_action_holders: Dictionary # key: opu string + str(neuron_ID) -> value: relevant istance of [FEAGIActionHolder]
 var _feagi_required_metrics: Dictionary # required metric str key -> EXPECTED_TYPE
 var _viewport_ref: Viewport
 
@@ -91,13 +102,13 @@ func _init():
 
 func _ready() -> void:
 	if !FileAccess.file_exists(CONFIG_PATH):
-		push_error("FEAGI: No Config located, not starting FEAGI integration!")
+		push_error("FEAGI: No Config located at '%s', not starting FEAGI integration!" % CONFIG_PATH)
 		return
 	
 	var file_json: String = FileAccess.get_file_as_string(CONFIG_PATH)
 	var json_output = JSON.parse_string(file_json) # Dict or null
 	if json_output == null:
-		push_error("FEAGI: Unable to read config file for FEAGI, not starting FEAGI integration!")
+		push_error("FEAGI: Unable to read config file for FEAGI at '%s', not starting FEAGI integration!" % CONFIG_PATH)
 		return
 	var config_dict: Dictionary = json_output as Dictionary
 	
@@ -116,7 +127,11 @@ func _ready() -> void:
 			push_warning("FEAGI: Unable to read motor mapping information from configuration!")
 			continue
 		var map: FEAGIActionMap = FEAGIActionMap.create_from_valid_dict(raw_mapping)
-		_feagi_motor_mappings[map.OPU_mapping_to.to_lower() + str(map.neuron_X_index)] = map
+		var feagi_action: FEAGIActionHolder = FEAGIActionHolder.new()
+		add_child(feagi_action)
+		feagi_action.name = map.OPU_mapping_to.to_lower() + str(map.neuron_X_index)
+		_feagi_action_holders[feagi_action.name] = feagi_action
+		feagi_action.setup_from_action(map)
 	
 	# check and set automatic sending config,
 	var raw_send_config: String = config_dict["output"]
@@ -182,6 +197,34 @@ static func validate_settings_dictionary(checking_config: Dictionary) -> Diction
 	return checking_config
 		
 
+#endregion
+
+#region for_user_use
+
+## Send metrics using the keys specified in the 'Fitness Metrics' to FEAGI
+func send_metrics_to_FEAGI(stats: Dictionary) -> void:
+	if !_is_socket_ready:
+		push_warning("FEAGI: Cannot interact with FEAGI when the interface is disabled!")
+	for input_key in stats.keys():
+		if input_key not in METRIC_MAPPINGS.keys():
+			push_error("FEAGI: Invalid key %s in input stats dict! Not sending!" % input_key)
+			return
+		if _get_value_type(stats[input_key][1]) != typeof(stats[input_key]):
+			push_error("FEAGI: Key %s is of invalid type!!" % input_key)
+			return
+	
+	var http_send: FEAGIHTTP = FEAGIHTTP_PREFAB.instantiate()
+	add_child(http_send)
+	http_send.send_PUT_request(_network_bootstrap.feagi_root_web_address, _network_bootstrap.DEF_HEADERSTOUSE, METRIC_PATH, JSON.stringify(stats))
+
+## Tell FEAGI to delete ALL of its metrics
+func delete_metrics_from_FEAGI() -> void:
+	if !_is_socket_ready:
+		push_warning("FEAGI: Cannot interact with FEAGI when the interface is disabled!")
+	var http_send: FEAGIHTTP = FEAGIHTTP_PREFAB.instantiate()
+	add_child(http_send)
+	http_send.send_DELETE_request(_network_bootstrap.feagi_root_web_address, _network_bootstrap.DEF_HEADERSTOUSE, DELETE_METRIC_PATH, JSON.stringify({}))
+
 ## Send text data to FEAGI
 func send_to_FEAGI_text(data: String) -> void:
 	if !_is_socket_ready:
@@ -193,6 +236,8 @@ func send_to_FEAGI_raw(data: PackedByteArray) -> void:
 	if !_is_socket_ready:
 		push_warning("FEAGI: Cannot send any data to FEAGI when the interface is disabled!")
 	_socket.websocket_send_bytes(data)
+
+#endregion
 
 #region Internals
 func _network_bootstrap_complete() -> void:
@@ -220,7 +265,6 @@ func _socket_recieved_data(data: PackedByteArray) -> void:
 		push_error("FEAGI: FEAGI did not return valid data!")
 		return
 	_parse_Feagi_data_as_inputs(_buffer_data as Dictionary)
-	
 
 # Keep these buffers non-local to minimize allocation / deallocation penalties
 var _buffer_unpressed_motor_mapping_names: Array
@@ -228,7 +272,7 @@ var _buffer_motor_search_string: StringName
 var _buffer_motor_search_index: int
 ## Parse through the recieved dict from FEAGI, and if matching patterns defined by the config, fire the defined action
 func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
-	_buffer_unpressed_motor_mapping_names = _feagi_motor_mappings.keys()
+	_buffer_unpressed_motor_mapping_names = _feagi_action_holders.keys()
 	
 	# Check which keys FEAGI Pressed
 	for from_OPU: StringName in feagi_input.keys():
@@ -236,19 +280,18 @@ func _parse_Feagi_data_as_inputs(feagi_input: Dictionary) -> void:
 			_buffer_motor_search_string = from_OPU + neuron_index
 			_buffer_motor_search_index = _buffer_unpressed_motor_mapping_names.find(_buffer_motor_search_string)
 			if _buffer_motor_search_index != -1:
-				print("FEAGI: FEAGI pressed input: %s" % _feagi_motor_mappings[_buffer_motor_search_string].godot_action)
-				_feagi_motor_mappings[_buffer_motor_search_string].action(feagi_input[from_OPU][neuron_index], self)
-				_buffer_unpressed_motor_mapping_names.remove_at(_buffer_motor_search_index)
-	
-	# for all keys unpressed, action with 0 strength
-	for unpressed_mapping_name: StringName in _buffer_unpressed_motor_mapping_names:
-		_feagi_motor_mappings[unpressed_mapping_name].action(0, self)
-	
+				var FEAGI_action_holder: FEAGIActionHolder = _feagi_action_holders[_buffer_motor_search_string]
+				var FEAGI_strength: float = feagi_input[from_OPU][neuron_index]
+				print("FEAGI: FEAGI pressed input: %s" % FEAGI_action_holder.action_mapping.godot_action)
+				if has_signal(FEAGI_action_holder.action_mapping.optional_signal_name):
+					emit_signal(FEAGI_action_holder.action_mapping.optional_signal_name, FEAGI_strength)
+				FEAGI_action_holder.FEAGI_pressed(FEAGI_strength)
 
 
 func _socket_change_state(state: WebSocketPeer.State) -> void:
 	if state == WebSocketPeer.STATE_OPEN:
-		print("FEAGI: FEAGI Socker Connected!")
+		print("FEAGI: FEAGI Socket Connected!")
+		feagi_connection_established.emit()
 		return
 	if state == WebSocketPeer.STATE_CLOSED or state == WebSocketPeer.STATE_CLOSING:
 		push_warning("FEAGI: FEAGI Socket closed, stopping FEAGI integration")
@@ -256,4 +299,16 @@ func _socket_change_state(state: WebSocketPeer.State) -> void:
 		set_process(false)
 		set_physics_process(false)
 		_is_socket_ready = false
+		feagi_connection_lost.emit()
+
+func _get_value_type(custom_expected: EXPECTED_TYPE) -> Variant.Type:
+	match(custom_expected):
+		EXPECTED_TYPE.BOOL:
+			return TYPE_BOOL
+		EXPECTED_TYPE.INT:
+			return TYPE_INT
+		_:
+			return TYPE_FLOAT
+
+
 #endregion
