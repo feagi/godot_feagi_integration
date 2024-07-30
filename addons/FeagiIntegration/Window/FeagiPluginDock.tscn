@@ -118,7 +118,6 @@ layout_mode = 2
 selected = 0
 item_count = 2
 popup/item_0/text = "No automatic sensory input"
-popup/item_0/id = 0
 popup/item_1/text = "Automatically send the entire viewport to FEAGI every physics frame"
 popup/item_1/id = 1
 
@@ -155,7 +154,6 @@ size_flags_horizontal = 3
 selected = 0
 item_count = 9
 popup/item_0/text = "time_left"
-popup/item_0/id = 0
 popup/item_1/text = "time_spent"
 popup/item_1/id = 1
 popup/item_2/text = "has_won"
@@ -243,7 +241,6 @@ alignment = 1
 selected = 0
 item_count = 2
 popup/item_0/text = "No Encryption"
-popup/item_0/id = 0
 popup/item_1/text = "TLS Secured"
 popup/item_1/id = 1
 
