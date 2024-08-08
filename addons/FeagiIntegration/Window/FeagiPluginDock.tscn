@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4uy4r0ivrbyb"]
+[gd_scene load_steps=6 format=3 uid="uid://b4uy4r0ivrbyb"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIPluginConfiguratorWindow.gd" id="1_ux1sa"]
 [ext_resource type="PackedScene" uid="uid://c7ekuvyvyrqqv" path="res://addons/FeagiIntegration/Window/Sections/FEAGI/FEAGI.tscn" id="2_sy8kh"]
+[ext_resource type="Resource" uid="uid://cw7u4uxxriwen" path="res://addons/FeagiIntegration/ConfiguratorConfigurator/GodotGames.tres" id="2_tl4mu"]
+[ext_resource type="PackedScene" uid="uid://dg7j2i1hrgvwu" path="res://addons/FeagiIntegration/Window/Sections/Sensory/sensory.tscn" id="3_j760q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnoq7"]
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.243137)
@@ -14,6 +16,7 @@ offset_right = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ux1sa")
+initial_configurator = ExtResource("2_tl4mu")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
@@ -75,10 +78,9 @@ layout_mode = 2
 [node name="TabContainer" type="TabContainer" parent="ScrollContainer/Options"]
 custom_minimum_size = Vector2(0, 600)
 layout_mode = 2
-current_tab = 3
+current_tab = 0
 
 [node name="FEAGI" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
@@ -106,17 +108,7 @@ metadata/_tab_index = 1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
 
-[node name="Sensory" type="VBoxContainer" parent="ScrollContainer/Options/TabContainer/Sensory/PanelContainer"]
-layout_mode = 2
-
-[node name="Title" type="Label" parent="ScrollContainer/Options/TabContainer/Sensory/PanelContainer/Sensory"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Sensory FEAGI Inputs"
-horizontal_alignment = 1
-
-[node name="Gap" type="Control" parent="ScrollContainer/Options/TabContainer/Sensory/PanelContainer/Sensory"]
-custom_minimum_size = Vector2(0, 8)
+[node name="Sensory" parent="ScrollContainer/Options/TabContainer/Sensory/PanelContainer" instance=ExtResource("3_j760q")]
 layout_mode = 2
 
 [node name="Motor" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
@@ -146,6 +138,7 @@ custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 
 [node name="FEAGI IO" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 

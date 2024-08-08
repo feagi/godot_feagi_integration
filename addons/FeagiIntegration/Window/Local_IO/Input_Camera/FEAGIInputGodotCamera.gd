@@ -1,3 +1,4 @@
+@tool
 extends BaseFEAGILocalIO
 class_name FEAGIInputGodotCamera
 
