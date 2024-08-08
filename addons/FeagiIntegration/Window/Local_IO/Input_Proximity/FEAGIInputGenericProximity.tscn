@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5lidiki85f13"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/Local_IO/BaseFEAGILocalIO.gd" id="1_ni7on"]
+[ext_resource type="PackedScene" uid="uid://jxx1dcvw20dp" path="res://addons/FeagiIntegration/Window/Local_IO/IOHeader/FEAGIIOHeader.tscn" id="2_do7ex"]
+
+[node name="TemplateLocalO" type="VBoxContainer"]
+script = ExtResource("1_ni7on")
+
+[node name="FEAGIIOHeader" parent="." instance=ExtResource("2_do7ex")]
+layout_mode = 2

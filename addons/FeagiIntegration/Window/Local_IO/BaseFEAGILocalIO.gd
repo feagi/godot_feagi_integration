@@ -35,6 +35,15 @@ func _ready() -> void:
 func set_collapsed_state(is_collapsed: bool) -> void:
 	_header.set_collapsed_state(is_collapsed) # NOTE: This emits a signal that fires '_respond_to_collapsed_state_change'
 
+func get_current_name() -> StringName:
+	return _header.get_current_name()
+
+func get_type_as_string() -> StringName:
+	if _is_input:
+		return FEAGIPluginInit.INPUT_TYPE.keys()[_input_type]
+	else:
+		return FEAGIPluginInit.OUTPUT_TYPE.keys()[_output_type]
+
 ## Setup this object using the input type
 func _setup_as_input(input_type: FEAGIPluginInit.INPUT_TYPE, initial_name: StringName) -> void:
 	_is_input = true

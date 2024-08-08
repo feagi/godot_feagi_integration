@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_3fy41")
-supported_input_types = Array[int]([0])
+supported_input_types = Array[int]([0, 1])
 supported_output_types = Array[int]([])
 input_count_limits = Array[int]([-1])
 output_count_limits = Array[int]([])

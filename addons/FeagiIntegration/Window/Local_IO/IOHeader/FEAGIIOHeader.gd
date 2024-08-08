@@ -17,7 +17,6 @@ signal changed_collapsed_state(is_collapsed: bool)
 signal closed_pressed()
 signal user_request_name_change(requesting_name: StringName)
 
-
 var _is_collapsed: bool
 
 var _icon: TextureRect
@@ -63,6 +62,9 @@ func set_collapsed_state(is_collapsed: bool) -> void:
 func new_name_confirmed(new_name: StringName) -> void:
 	_name.text = new_name
 	_header_name.text = new_name
+
+func get_current_name() -> StringName:
+	return _name.text
 
 func _user_pressed_close_button() -> void:
 	closed_pressed.emit()

@@ -2,6 +2,8 @@
 extends VBoxContainer
 class_name FEAGISectionSensory
 
+signal added_sensory(obj)
+
 var _dropdown: OptionButton
 var _scroll_contents: VBoxContainer
 
@@ -28,3 +30,4 @@ func _add_item_pressed() -> void:
 	var new_section = section.instantiate()
 	_scroll_contents.add_child(new_section)
 	new_section.setup("Camera", FEAGIInputGodotCamera.CAPTURE_METHOD.WHOLE_SCREEN_CAPTURE)
+	added_sensory.emit(new_section)
