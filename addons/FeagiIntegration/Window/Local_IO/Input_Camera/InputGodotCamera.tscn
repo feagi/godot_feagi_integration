@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhahbkwqa1u84"]
+
+[ext_resource type="PackedScene" uid="uid://jxx1dcvw20dp" path="res://addons/FeagiIntegration/Window/Local_IO/IOHeader/FEAGIIOHeader.tscn" id="1_lvd4o"]
+
+[node name="InputGodotCamera" type="VBoxContainer"]
+
+[node name="FEAGIIOHeader" parent="." instance=ExtResource("1_lvd4o")]
+layout_mode = 2

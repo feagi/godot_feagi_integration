@@ -15,17 +15,12 @@ class_name FEAGIIOHeader
 
 signal changed_collapsed_state(is_collapsed: bool)
 signal closed_pressed()
-signal user_request_input_ID_change(input_type: FEAGIPluginInit.INPUT_TYPE, requesting_ID: int)
-signal user_request_input_name_change(input_type: FEAGIPluginInit.INPUT_TYPE, requesting_name: StringName)
-signal user_request_output_ID_change(output_type: FEAGIPluginInit.OUTPUT_TYPE, requesting_ID: int)
-signal user_request_output_name_change(output_type: FEAGIPluginInit.OUTPUT_TYPE, requesting_name: StringName)
+signal user_request_name_change(requesting_name: StringName)
 
-@export var IO_type: StringName
+
 @export var IO_icon: Texture
 
 var _is_collapsed: bool
-var _input_type: FEAGIPluginInit.INPUT_TYPE
-var _output_type: FEAGIPluginInit.OUTPUT_TYPE
 
 var _icon: TextureRect
 var _header_name: Label
@@ -33,7 +28,6 @@ var _expand: TextureButton
 var _close: TextureButton
 var _type: LineEdit
 var _name: LineEdit
-var _ID: SpinBox
 var _type_section: HBoxContainer
 var _name_section: HBoxContainer
 var _ID_section: HBoxContainer
@@ -45,17 +39,15 @@ func _ready() -> void:
 	_close = $Bar/Close
 	_type = $Type/Type
 	_name = $Name/Name
-	_ID = $ID/ID
 	_type_section = $Type
 	_name_section = $Name
 	_ID_section = $ID
 
-func setup_input(input_type: FEAGIPluginInit.INPUT_TYPE, inital_ID: int, initial_name: StringName) -> void:
-	_input_type = input_type
-	_ID.value = inital_ID
+func setup(initial_name: StringName, IO_type_as_string: StringName) -> void:
+	_type.text = IO_type_as_string
 	_name.text = initial_name
-	_update_header_title(initial_name, inital_ID)
-	#TODO set icon
+	_header_name.text = initial_name
+	_icon.texture = IO_icon
 
 ## Use to toggle if this section is expanded or not
 func toggle_collapsed_state() -> void:
@@ -70,8 +62,12 @@ func set_collapsed_state(is_collapsed: bool) -> void:
 	_is_collapsed = is_collapsed
 	#TODO set icons
 
-func _update_header_title(IO_name: StringName, IO_ID: int) -> void:
-	_header_name.text = "%s [%d]" % [IO_name, IO_ID]
+func new_name_confirmed(new_name: StringName) -> void:
+	_name.text = new_name
+	_header_name.text = new_name
 
 func _user_pressed_close_button() -> void:
 	closed_pressed.emit()
+
+func _user_request_name_change(new_name: StringName) -> void:
+	user_request_name_change.emit(new_name)
