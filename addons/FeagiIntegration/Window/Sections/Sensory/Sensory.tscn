@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://dg7j2i1hrgvwu"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/Sections/Sensory/FEAGISectionSensory.gd" id="1_loc4c"]
+
+[node name="Sensory" type="VBoxContainer"]
+script = ExtResource("1_loc4c")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Sensory FEAGI Inputs"
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Header"]
+layout_mode = 2
+text = "Add Sensor Type: "
+
+[node name="TypeToAdd" type="OptionButton" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddButton" type="TextureButton" parent="Header"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+stretch_mode = 0
