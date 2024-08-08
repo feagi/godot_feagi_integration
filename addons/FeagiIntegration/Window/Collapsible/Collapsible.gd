@@ -16,18 +16,23 @@ extends VBoxContainer
 class_name FEAGIWindowCollapsible
 
 @export var show_on_load: bool = false
+@export var show_text: StringName = "Show"
+@export var hide_text: StringName = "Hide"
 
 var _show: Button
 var _hide: Button
+var _container: PanelContainer
 
 func _ready():
 	_show = $Show
 	_hide = $Hide
+	_container = $PanelContainer
+	_show.text = show_text
+	_hide.text = hide_text
 	toggle_visibility(show_on_load)
 
 ## Show / Hide the internals of this control
 func toggle_visibility(show_internals: bool) -> void:
-	for child: Control in get_children():
-		child.visible = show_internals
 	_show.visible = !show_internals
 	_hide.visible = show_internals
+	_container.visible = show_internals

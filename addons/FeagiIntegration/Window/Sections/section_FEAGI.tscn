@@ -1,0 +1,87 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7ekuvyvyrqqv"]
+
+[ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Window/Collapsible/Collapsible.tscn" id="1_gqk62"]
+
+[node name="FEAGI" type="VBoxContainer"]
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "FEAGI Agent Settings"
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="MagicURL" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MagicURL"]
+layout_mode = 2
+tooltip_text = "NRS ONLY - Paste in the magic link to automagically retrieve connection endpoint information!"
+mouse_filter = 1
+text = "Login via NRS: "
+
+[node name="URL" type="LineEdit" parent="MagicURL"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Magic Link"
+
+[node name="Login" type="Button" parent="MagicURL"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Login"
+
+[node name="Help" type="Button" parent="MagicURL"]
+layout_mode = 2
+text = "?"
+
+[node name="Mannual_Connection_Settings" parent="." instance=ExtResource("1_gqk62")]
+layout_mode = 2
+show_text = &"Show Manual Endpoint Configuration"
+hide_text = &"Hide Manual Endpoint Configuration"
+
+[node name="Show" parent="Mannual_Connection_Settings" index="0"]
+text = "Show Manual Endpoint Configuration"
+
+[node name="Hide" parent="Mannual_Connection_Settings" index="1"]
+text = "Hide Manual Endpoint Configuration"
+
+[node name="Endpoint" type="LineEdit" parent="Mannual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="0"]
+layout_mode = 2
+placeholder_text = "FEAGI Godot Connector Endpoint"
+
+[node name="API_Port" type="SpinBox" parent="Mannual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="1"]
+layout_mode = 2
+min_value = 1.0
+max_value = 65535.0
+value = 9000.0
+prefix = "API Port:"
+
+[node name="WS_Port" type="SpinBox" parent="Mannual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="2"]
+layout_mode = 2
+min_value = 1.0
+max_value = 65535.0
+value = 10003.0
+prefix = "Websocket Port:"
+
+[node name="RefreshRate" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RefreshRate"]
+layout_mode = 2
+tooltip_text = "The refresh rate of sending data to FEAGI. Usually should equal FEAGI's refresh rate"
+mouse_filter = 1
+text = "Refresh Rate: "
+
+[node name="RefreshRate" type="SpinBox" parent="RefreshRate"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 60.0
+value = 1.0
+suffix = "Hz"
+
+[editable path="Mannual_Connection_Settings"]
