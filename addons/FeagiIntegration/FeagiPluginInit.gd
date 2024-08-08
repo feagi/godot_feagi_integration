@@ -15,10 +15,23 @@ limitations under the License.
 extends EditorPlugin
 class_name FEAGIPluginInit
 
+# WARNING: Order here should be synced with all other systems!
+enum INPUT_TYPE {
+	CAMERA,
+	PROXIMITY
+}
+
+# WARNING: Order here should be synced with all other systems!
+enum OUTPUT_TYPE {
+	SERVO,
+	MOTOR
+}
 
 const CONFIG_PATH: StringName = "res://FEAGI_CONFIG/"
 const DOCK_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Window/FeagiPluginDock.tscn")
 
+const GODOT_SUPPORTED_INPUTS: Array[INPUT_TYPE] = [INPUT_TYPE.CAMERA]
+const GODOT_SUPPORTED_OUTPUTS: Array[OUTPUT_TYPE] = [OUTPUT_TYPE.MOTOR]
 
 var _config_window: FEAGIPluginConfiguratorWindow
 

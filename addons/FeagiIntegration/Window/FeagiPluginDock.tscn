@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b4uy4r0ivrbyb"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIPluginConfiguratorWindow.gd" id="1_ux1sa"]
-[ext_resource type="PackedScene" uid="uid://c7ekuvyvyrqqv" path="res://addons/FeagiIntegration/Window/Sections/section_FEAGI.tscn" id="2_sy8kh"]
+[ext_resource type="PackedScene" uid="uid://c7ekuvyvyrqqv" path="res://addons/FeagiIntegration/Window/Elements/Section_FEAGI/section_FEAGI.tscn" id="2_sy8kh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnoq7"]
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.243137)

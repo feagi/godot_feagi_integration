@@ -1,0 +1,66 @@
+[gd_scene load_steps=2 format=3 uid="uid://jxx1dcvw20dp"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/IO/IOHeader/FEAGIIOHeader.gd" id="1_3n16k"]
+
+[node name="FEAGIIOHeader" type="VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+script = ExtResource("1_3n16k")
+
+[node name="Bar" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Bar"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+expand_mode = 1
+
+[node name="NameID" type="Label" parent="Bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Expand" type="TextureButton" parent="Bar"]
+layout_mode = 2
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Close" type="TextureButton" parent="Bar"]
+layout_mode = 2
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Type" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Type"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Type:"
+
+[node name="Type" type="LineEdit" parent="Type"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Name"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Name:"
+
+[node name="Name" type="LineEdit" parent="Name"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ID" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ID"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Device ID:"
+
+[node name="ID" type="SpinBox" parent="ID"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
