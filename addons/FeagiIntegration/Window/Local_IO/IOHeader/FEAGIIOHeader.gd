@@ -18,8 +18,6 @@ signal closed_pressed()
 signal user_request_name_change(requesting_name: StringName)
 
 
-@export var IO_icon: Texture
-
 var _is_collapsed: bool
 
 var _icon: TextureRect
@@ -43,7 +41,7 @@ func _ready() -> void:
 	_name_section = $Name
 	_ID_section = $ID
 
-func setup(initial_name: StringName, IO_type_as_string: StringName) -> void:
+func setup(initial_name: StringName, IO_type_as_string: StringName, IO_icon: Texture) -> void:
 	_type.text = IO_type_as_string
 	_name.text = initial_name
 	_header_name.text = initial_name

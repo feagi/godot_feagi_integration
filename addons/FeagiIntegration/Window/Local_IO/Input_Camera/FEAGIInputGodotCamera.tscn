@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhahbkwqa1u84"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/Local_IO/Input_Camera/FEAGIInputGodotCamera.gd" id="1_bjiyn"]
+[ext_resource type="PackedScene" uid="uid://jxx1dcvw20dp" path="res://addons/FeagiIntegration/Window/Local_IO/IOHeader/FEAGIIOHeader.tscn" id="2_rlk5b"]
+
+[node name="FEAGIInputGodotCamera" type="VBoxContainer"]
+script = ExtResource("1_bjiyn")
+
+[node name="FEAGIIOHeader" parent="." instance=ExtResource("2_rlk5b")]
+layout_mode = 2
+
+[node name="Resolution" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Resolution"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Resolution:"
+
+[node name="X" type="SpinBox" parent="Resolution"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 128.0
+value = 64.0
+alignment = 1
+
+[node name="Y" type="SpinBox" parent="Resolution"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 128.0
+value = 64.0
+alignment = 1
+
+[node name="Flipped" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Flipped"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "is Mirrored:"
+
+[node name="Flipped" type="CheckBox" parent="Flipped"]
+layout_mode = 2
+
+[node name="Method" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Method"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Method:"
+
+[node name="Method" type="OptionButton" parent="Method"]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+fit_to_longest_item = false
+item_count = 2
+popup/item_0/text = "Capture Screen"
+popup/item_1/text = "Manual Update"
+popup/item_1/id = 1

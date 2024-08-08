@@ -19,6 +19,7 @@ signal request_output_name_change(output_type: FEAGIPluginInit.OUTPUT_TYPE, requ
 signal name_change_accepted(new_name: StringName)
 
 @export var IO_type_as_string: StringName
+@export var IO_icon: Texture
 
 var _is_input: bool
 var _input_type: FEAGIPluginInit.INPUT_TYPE
@@ -31,18 +32,18 @@ func _ready() -> void:
 	_header.closed_pressed.connect(queue_free)
 	_header.user_request_name_change.connect(_user_requesting_name_change)
 
-## Setup this object using the input type
-func setup_as_input(input_type: FEAGIPluginInit.INPUT_TYPE, initial_name: StringName) -> void:
-	_is_input = true
-	_header.setup(initial_name, FEAGIPluginInit.INPUT_TYPE.keys()[input_type])
-
-## Setup this object using the output type
-func setup_as_output(output_type: FEAGIPluginInit.OUTPUT_TYPE, initial_name: StringName) -> void:
-	_is_input = false
-	_header.setup(initial_name, FEAGIPluginInit.OUTPUT_TYPE.keys()[output_type])
-
 func set_collapsed_state(is_collapsed: bool) -> void:
 	_header.set_collapsed_state(is_collapsed) # NOTE: This emits a signal that fires '_respond_to_collapsed_state_change'
+
+## Setup this object using the input type
+func _setup_as_input(input_type: FEAGIPluginInit.INPUT_TYPE, initial_name: StringName) -> void:
+	_is_input = true
+	_header.setup(initial_name, FEAGIPluginInit.INPUT_TYPE.keys()[input_type], IO_icon)
+
+## Setup this object using the output type
+func _setup_as_output(output_type: FEAGIPluginInit.OUTPUT_TYPE, initial_name: StringName) -> void:
+	_is_input = false
+	_header.setup(initial_name, FEAGIPluginInit.OUTPUT_TYPE.keys()[output_type], IO_icon)
 
 func _user_requesting_name_change(new_name: StringName) -> void:
 	if _is_input:
@@ -54,6 +55,9 @@ func confirmed_name_change(new_name: StringName) -> void:
 	_header.new_name_confirmed(new_name)
 	name_change_accepted.emit(new_name)
 
-#NOTE This should be overridden in child classes! Have parts collapse as needed
+#NOTE This may need to be overridden on more complex local IOs
 func _respond_to_collapsed_state_change(is_collapsed: bool) -> void:
-	pass
+	for i in get_child_count():
+		if i == 0:
+			continue #NOTE: THe FEAGIIOHeader has its own logic
+		get_child(i).visible = !is_collapsed
