@@ -27,3 +27,4 @@ func _add_item_pressed() -> void:
 	
 	var new_section = section.instantiate()
 	_scroll_contents.add_child(new_section)
+	new_section.setup("Camera", FEAGIInputGodotCamera.CAPTURE_METHOD.WHOLE_SCREEN_CAPTURE)
