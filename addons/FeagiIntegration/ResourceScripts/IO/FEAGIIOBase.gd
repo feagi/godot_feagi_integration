@@ -1,3 +1,4 @@
+@tool
 extends Resource
 class_name FEAGIIOBase
 ## Base class for all IO objects (for recieving and sending data to FEAGI)

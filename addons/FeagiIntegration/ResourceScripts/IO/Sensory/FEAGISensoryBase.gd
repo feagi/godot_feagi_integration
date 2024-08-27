@@ -1,3 +1,4 @@
+@tool
 extends FEAGIIOBase
 class_name FEAGISensoryBase
 ## A base class for all sensory components (such as cameras), virtual devices that send datat to FEAGI

@@ -1,3 +1,4 @@
+@tool
 extends FEAGISensoryBase
 class_name FEAGISensoryCamera
 ## Base camera class, as this may be used for both screencapture cameras and 3D camera, depending on the grabber function
