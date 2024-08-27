@@ -5,7 +5,8 @@ class_name FEAGISensoryCamera
 
 @export var export_res_x: int = 64
 @export var export_res_y: int = 64
-@export var flipped_x: bool
+@export var is_flipped_x: bool
+@export var is_screen_grabber: bool
 
 var _image_grabber: Callable # the function that returns the initial image to send
 
@@ -22,6 +23,6 @@ func get_data_as_byte_array() -> PackedByteArray:
 func _process_image(image: Image) -> Image:
 	image.resize(export_res_x, export_res_y)
 	image.convert(Image.FORMAT_RGB8)
-	if flipped_x:
+	if is_flipped_x:
 		image.flip_x()
 	return image
