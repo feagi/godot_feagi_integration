@@ -22,28 +22,10 @@ static func create_from(FEAGI_endpoint: StringName, FEAGI_API_port: int,
 	output.connector_WS_port = connector_WS_port
 	return output
 
-## TODO move me
-
-const CONFIG_DIR: StringName = "res://FEAGI_config/"
-const CONFIG_ENDPOINT_NAME: StringName = "endpoint.tres"
-const CONFIG_GENOME_NAME: StringName = "genome_mapping.tres"
-const CONFIG_GITIGNORE_TEXT: StringName = CONFIG_ENDPOINT_NAME
-
-static func get_gitignore_path() -> StringName:
-	return CONFIG_DIR + ".gitignore"
-
-static func get_endpoint_path() -> StringName:
-	return CONFIG_DIR + CONFIG_ENDPOINT_NAME
-
-
-static func confirm_config_directory() -> void:
-	if not DirAccess.dir_exists_absolute(CONFIG_DIR):
-		DirAccess.make_dir_absolute(CONFIG_DIR)
-	if not FileAccess.file_exists(get_gitignore_path()):
-		var file: FileAccess = FileAccess.open(get_gitignore_path(), FileAccess.WRITE)
-		file.store_string(CONFIG_GITIGNORE_TEXT)
-		file.close()
+func confirm_endpoint_valid() -> bool:
+	#TODO
+	return false
 
 func save_config() -> void:
-	confirm_config_directory()
-	ResourceSaver.save(self, get_endpoint_path())
+	FEAGIPluginInit.confirm_config_directory()
+	ResourceSaver.save(self, FEAGIPluginInit.get_endpoint_path())
