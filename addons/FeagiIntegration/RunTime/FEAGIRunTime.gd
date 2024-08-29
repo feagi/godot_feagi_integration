@@ -1,8 +1,8 @@
 extends Node
 ## AUTOLOADED singleton that runs with the game. Reads established config and communicates to FEAGI
 
-signal sensory_setup_event()
-signal motor_setup_event()
+signal signal_all_autoregister_sensors_to_register()
+signal signal_all_autoregister_motors_to_register()
 
 var mapping_config: FEAGIGenomeMapping
 var endpoint_config: FEAGIResourceEndpoint
@@ -38,6 +38,6 @@ func _enter_tree() -> void:
 	#TODO ping endpoints, ensure they are valid
 	#TODO send configuration json
 	
-	# have any virtual devices register with this autoload
-	sensory_setup_event.emit()
-	motor_setup_event.emit()
+	# alert any virtual devices to register with this autoload if they are enabled to do so automatically
+	signal_all_autoregister_sensors_to_register.emit()
+	signal_all_autoregister_motors_to_register.emit()
