@@ -12,6 +12,7 @@ var endpoint_config: FEAGIResourceEndpoint
 # emit signals when tree is ready, have devices register
 # initialize debugger views
 # confirm network connection to feagi
+# Overwrite any feagi indexes on the device listing if mentioned in the URL parameters
 # start tick system
 
 func _enter_tree() -> void:
