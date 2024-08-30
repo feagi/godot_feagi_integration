@@ -7,6 +7,8 @@ signal signal_all_autoregister_motors_to_register()
 var mapping_config: FEAGIGenomeMapping
 var endpoint_config: FEAGIResourceEndpoint
 
+var _device_holder: Node
+
 # Read / verify configs
 # initial loading and setup of variables, check if enabled
 # emit signals when tree is ready, have devices register
@@ -30,6 +32,11 @@ func _enter_tree() -> void:
 	if !endpoint_config:
 		push_error("FEAGI: No connection settings found for FEAGI configuration! THe FEAGI integration will now halt!")
 		return
+	
+	# process nodes
+	_device_holder = Node.new()
+	add_child(_device_holder)
+	
 	
 	# wait for the scene to be ready
 	var root: Node = get_tree().root
