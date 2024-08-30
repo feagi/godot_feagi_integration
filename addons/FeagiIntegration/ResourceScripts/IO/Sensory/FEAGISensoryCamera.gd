@@ -18,9 +18,8 @@ var _data_for_blank_image: PackedByteArray = [] # a cached copy of the raw data 
 
 func _init() -> void:
 	_blank_image = Image.new()
-	_blank_image.resize(export_res_x, export_res_y)
+	_blank_image.set_data(export_res_x, export_res_y, false, Image.FORMAT_RGB8, _generate_blank_black_image_data())
 	_blank_image.fill(blank_camera_color)
-	_blank_image.convert(Image.FORMAT_RGB8)
 	_data_for_blank_image = _blank_image.get_data()
 
 func post_initialize_required_dependencies() -> void:
@@ -42,3 +41,10 @@ func _process_image(image: Image) -> Image:
 	if is_flipped_x:
 		image.flip_x()
 	return image
+
+func _generate_blank_black_image_data() -> PackedByteArray:
+	var length: int = export_res_x * export_res_y * 3
+	var output: PackedByteArray = []
+	output.resize(length)
+	return output
+	
