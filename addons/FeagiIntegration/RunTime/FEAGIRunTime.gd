@@ -7,7 +7,7 @@ signal signal_all_autoregister_motors_to_register()
 var mapping_config: FEAGIGenomeMapping
 var endpoint_config: FEAGIResourceEndpoint
 
-var _device_holder: Node
+var _automatic_device_generator: FEAGIAutomaticDeviceGenerator
 
 # General overview of startup
 # Read / verify configs
@@ -36,9 +36,18 @@ func _enter_tree() -> void:
 		return
 	
 	# process nodes
-	_device_holder = Node.new()
-	add_child(_device_holder)
+	_automatic_device_generator = FEAGIAutomaticDeviceGenerator.new()
+	add_child(_automatic_device_generator)
 	
+	# Certain sensor instances may be requesting automatic device generation
+	# But every sensor instance has a debug system that should be hooked up
+	for sensor: FEAGISensoryBase in mapping_config.sensors.values():
+		
+		if sensor is FEAGISensoryCamera:
+			if (sensor as FEAGISensoryCamera).automatically_create_screengrabber:
+				_automatic_device_generator.add_camera_screencapture(sensor.device_name)
+			continue
+
 	
 	# wait for the scene to be ready
 	var root: Node = get_tree().root
@@ -52,3 +61,5 @@ func _enter_tree() -> void:
 	# alert any virtual devices to register with this autoload if they are enabled to do so automatically
 	signal_all_autoregister_sensors_to_register.emit()
 	signal_all_autoregister_motors_to_register.emit()
+	
+	# Initialize Tick engine

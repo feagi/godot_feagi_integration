@@ -13,11 +13,6 @@ func setup_required_base_settings(name_of_device: StringName, index_FEAGI: int, 
 	FEAGI_index = index_FEAGI
 	device_ID = ID_device
 
-## Called after all nodes in the tree are ready
-func post_initialize_required_dependencies() -> void:
-	assert(true, "Do not use 'FEAGIIOBase' Directly!")
-	pass
-
 ## Called by debug views to return data used for showing current state of things
 func get_debug_data() -> Variant:
 	assert(true, "Do not use 'FEAGIIOBase' Directly!")

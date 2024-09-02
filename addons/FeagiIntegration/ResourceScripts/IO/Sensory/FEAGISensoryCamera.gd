@@ -4,12 +4,10 @@ class_name FEAGISensoryCamera
 ## Base camera class, as this may be used for both screencapture cameras and 3D camera, depending on the grabber function
 ## NOTE: _data_grabber in this class is expected to return an [Image]
 
-signal update_debug_image(image: Image)
-
 @export var export_res_x: int = 64
 @export var export_res_y: int = 64
 @export var is_flipped_x: bool
-@export var automatically_create_screengrabber: bool ## If set, the FEGI runtime will automatically create a screengrabber for use with this
+@export var automatically_create_screengrabber: bool ## If set, the FEAGI runtime will automatically create a screengrabber for use with this
 @export var blank_camera_color: Color = Color.BLACK
 
 var _cached_image: Image
@@ -21,18 +19,12 @@ func _init() -> void:
 	_blank_image.set_data(export_res_x, export_res_y, false, Image.FORMAT_RGB8, _generate_blank_black_image_data())
 	_blank_image.fill(blank_camera_color)
 	_data_for_blank_image = _blank_image.get_data()
-
-func post_initialize_required_dependencies() -> void:
-	#NOTE: Due to how Godot handles [Image], I have currently decided not to attempt any additional caching as it already passes around by reference anyways
-	pass
 	
 func get_data_as_byte_array() -> PackedByteArray:
 	if _data_grabber.is_null():
-		update_debug_image.emit(_blank_image)
 		return _data_for_blank_image
 	
 	_cached_image = _process_image(_data_grabber.call())
-	update_debug_image.emit(_cached_image)
 	return _cached_image.get_data()
 
 func _process_image(image: Image) -> Image:
