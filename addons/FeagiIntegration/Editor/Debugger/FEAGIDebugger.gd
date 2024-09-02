@@ -8,6 +8,7 @@ const PREFAB_DEBUGGER_PANEL: PackedScene = preload("res://addons/FeagiIntegratio
 var debugger_panel: FEAGIDebugPanel = null
 var _last_used_session_ID: int
 
+## This is called from [FeagiPluginInit] when it is closing (as the plugin is getting disabled) since Godot has no way to normally close a debugger (?)
 func close_session() -> void:
 	var session: EditorDebuggerSession = get_session(_last_used_session_ID)
 	if !session:
@@ -16,11 +17,11 @@ func close_session() -> void:
 	session.remove_session_tab(debugger_panel)
 	debugger_panel.queue_free()
 
-
+## Virtual func -> should return true if the given capture is related to FEAGI
 func _has_capture(capture: String) -> bool:
-	## Virtual func -> should return true if the given capture is related to FEAGI
 	return capture == "FEAGI"
 
+## Virtual func -> called when the debugger session is initialized by Godot itself
 func _setup_session(session_ID: int) -> void:
 	var session: EditorDebuggerSession = get_session(session_ID)
 	_refresh_FEAGIDebugger_panel(session_ID)
@@ -30,4 +31,6 @@ func _setup_session(session_ID: int) -> void:
 func _refresh_FEAGIDebugger_panel(session_ID: int) -> FEAGIDebugPanel:
 	_last_used_session_ID = session_ID
 	debugger_panel = PREFAB_DEBUGGER_PANEL.instantiate()
+	debugger_panel.initialize()
+	debugger_panel.set_running_state(false)
 	return debugger_panel
