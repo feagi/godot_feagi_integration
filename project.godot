@@ -24,7 +24,6 @@ config/icon="res://icon.webp"
 
 [autoload]
 
-FEAGI="*res://addons/FeagiIntegration/Feagi-Interface/FEAGIInterface.gd"
 FEAGIRunTime="*res://addons/FeagiIntegration/RunTime/FEAGIRunTime.gd"
 
 [debug]
@@ -38,10 +37,6 @@ window/size/viewport_height=720
 window/size/window_width_override=480
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/FeagiIntegration/plugin.cfg")
 
 [input]
 

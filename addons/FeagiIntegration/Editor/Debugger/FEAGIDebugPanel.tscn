@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnbnk3o1wm3jp"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Debugger/FEAGIDebugWindow.gd" id="1_ojtrl"]
+
+[node name="FeagiDebugPanel" type="PanelContainer"]
+offset_right = 223.0
+offset_bottom = 35.0
+script = ExtResource("1_ojtrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="NotRunning" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/NotRunning"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Project is not paused / not running!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Running" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="VBoxContainer/Running"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Project is running"
+horizontal_alignment = 1
+vertical_alignment = 1

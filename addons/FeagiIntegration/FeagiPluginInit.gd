@@ -51,6 +51,8 @@ static func confirm_config_directory() -> void:
 		file.store_string(CONFIG_GITIGNORE_TEXT)
 		file.close()
 
+var _debugger: FEAGIDebugger
+
 
 
 # OLD
@@ -64,6 +66,11 @@ var _config_window: FEAGIPluginConfiguratorWindow
 
 ## When the plugin as a whole is enabled
 func _enter_tree():
+	_debugger = FEAGIDebugger.new()
+	add_debugger_plugin(_debugger)
+	
+	
+	
 	add_autoload_singleton("FEAGI", "res://addons/FeagiIntegration/Feagi-Interface/FEAGIInterface.gd")
 	print("FEAGI: Feagi Interface has been added to the project, under the name 'FEAGI'!")
 	print("FEAGI: Access the FEAGI configurator through Project -> Tools -> Open FEAGI Configurator")
@@ -71,6 +78,11 @@ func _enter_tree():
 
 ## When the plugin as a whole is removed. Cleanup any resources
 func _exit_tree():
+	_debugger.close_session()
+	
+	
+	
+	
 	remove_autoload_singleton("FEAGI")
 	print("FEAGI Configurator: Feagi Interface has been removed from the project!")
 	remove_tool_menu_item("Open FEAGI Configurator")
