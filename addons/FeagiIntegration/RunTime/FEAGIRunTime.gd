@@ -9,12 +9,14 @@ var endpoint_config: FEAGIResourceEndpoint
 
 var _device_holder: Node
 
+# General overview of startup
 # Read / verify configs
 # initial loading and setup of variables, check if enabled
-# emit signals when tree is ready, have devices register
 # initialize debugger views
+# Wait for game tree to be ready
 # confirm network connection to feagi
 # Overwrite any feagi indexes on the device listing if mentioned in the URL parameters
+# Have virtual FEAGI devices register themselves to the FEAGI runtime
 # start tick system
 
 func _enter_tree() -> void:
@@ -44,6 +46,7 @@ func _enter_tree() -> void:
 	await current_scene.ready
 	
 	#TODO ping endpoints, ensure they are valid
+	#TODO update config json with the new feagi indexes
 	#TODO send configuration json
 	
 	# alert any virtual devices to register with this autoload if they are enabled to do so automatically
