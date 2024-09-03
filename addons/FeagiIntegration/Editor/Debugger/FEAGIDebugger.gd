@@ -35,6 +35,7 @@ func _capture(message: String, data: Array, _session_id: int) -> bool:
 		return true
 	match(message):
 		"FEAGI:data":
+			debugger_panel.update_visualizations(data)
 			return true
 		"FEAGI:add_device":
 			# Array should be formatted as [bool true if motor, str(device type), str(device name)]
@@ -54,8 +55,6 @@ func _setup_session(session_ID: int) -> void:
 	session.add_session_tab(debugger_panel)
 	session.stopped.connect(clear_session)
 	session.started.connect(_attempt_set_panel_to_running)
-	
-	print("started")
 
 func _refresh_FEAGIDebugger_panel_reference(session_ID: int) -> FEAGIDebugPanel:
 	_last_used_session_ID = session_ID

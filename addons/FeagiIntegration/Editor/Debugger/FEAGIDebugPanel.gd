@@ -10,7 +10,7 @@ var _running: VBoxContainer
 var _sensor_holder: VBoxContainer
 var _motor_holder: VBoxContainer
 
-var _device_update_callables: Array = []
+var _device_update_callables: Array[Callable] = []
 
 ## THis functiojn is called directly by [FEAGIDebugger] on the init
 func initialize() -> void:
@@ -53,7 +53,10 @@ func add_sensor_device(sensor_type: StringName, sensor_name: StringName) -> void
 	_device_update_callables.append(view.update_visualization)
 	_update_none_label(_sensor_holder, false)
 
-
+## Called by [FEAGIDebugger] when it recieves a message containing data
+func update_visualizations(data: Array) -> void:
+	for i in range(len(_device_update_callables)):
+		_device_update_callables[i].call(data[i])
 
 func _update_none_label(vbox: VBoxContainer, is_visible: bool) -> void:
 	var label: Label = vbox.get_child(0)
