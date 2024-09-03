@@ -35,7 +35,6 @@ func _capture(message: String, data: Array, _session_id: int) -> bool:
 		return true
 	match(message):
 		"FEAGI:data":
-			print("got message")
 			debugger_panel.update_visualizations(data)
 			return true
 		"FEAGI:add_device":

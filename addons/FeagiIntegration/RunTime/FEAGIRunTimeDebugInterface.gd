@@ -18,6 +18,7 @@ func alert_debugger_about_device_removal():
 func alert_debugger_about_data_update() -> void:
 	for i in len(_devices):
 		_cached_sending_data[i] = _devices[i].get_debug_data()
+		print("GAME: sending object " + str(_cached_sending_data[i]) + " with ID " + str(_cached_sending_data[i].get_instance_id()))
 	EngineDebugger.send_message("FEAGI:data", _cached_sending_data)
 	
 

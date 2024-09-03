@@ -15,13 +15,10 @@ func initialize() -> void:
 
 ## Takes an [Image] but within an [EncodedObjectAsID]
 func update_visualization(data: Variant) -> void:
-	print("parsging..")
-	print(instance_from_id(data.object_id))
-	print(data.object_id)
+	print("DEBUG EDITOR: Recieved object" + str(instance_from_id(data.object_id)) + " with ID " + str(data.object_id))
+	return
 	var parsed_image: Image = instance_from_id(data.object_id)
-	#if !(data is Image): # Funni gdscript formatting issue
-	#	push_error("FEAGI: Camera Debug View did not recieve an Image! Ignoring!")
-	#	return
+
 	parsed_image.resize(PREVIEW_SIZE.x, PREVIEW_SIZE.y)
 	(_texture.texture as ImageTexture).set_image(parsed_image)
 

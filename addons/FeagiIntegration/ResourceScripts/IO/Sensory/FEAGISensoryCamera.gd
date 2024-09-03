@@ -19,11 +19,14 @@ func _init() -> void:
 	_blank_image.set_data(export_res_x, export_res_y, false, Image.FORMAT_RGB8, _generate_blank_black_image_data())
 	_blank_image.fill(blank_camera_color)
 	_data_for_blank_image = _blank_image.get_data()
+	_cached_image =Image.new()
+	_cached_image.copy_from(_blank_image)
 	
 func get_data_as_byte_array() -> PackedByteArray:
 	if _data_grabber.is_null():
+		_cached_image.copy_from(_blank_image)
 		return _data_for_blank_image
-	_cached_image = _process_image(_data_grabber.call())
+	_process_image(_data_grabber.call())
 	return _cached_image.get_data()
 
 func get_device_type() -> StringName:
@@ -33,12 +36,14 @@ func get_debug_data() -> Variant:
 	get_data_as_byte_array() #TODO REMOVE ME WONCE FEAGI ADDED
 	return _cached_image # Since we just processed this for sending to FEAGI, might as well reuse the image
 
-func _process_image(image: Image) -> Image:
+## Processes the input images and writes over the _cached image with it.
+#WARNING: THis is important since we cannot have the memory reference of _blank_image changing!
+func _process_image(image: Image) -> void:
 	image.resize(export_res_x, export_res_y)
 	image.convert(Image.FORMAT_RGB8)
 	if is_flipped_x:
 		image.flip_x()
-	return image
+	_cached_image.copy_from(image)
 
 func _generate_blank_black_image_data() -> PackedByteArray:
 	var length: int = export_res_x * export_res_y * 3
