@@ -51,6 +51,8 @@ static func confirm_config_directory() -> void:
 		file.store_string(CONFIG_GITIGNORE_TEXT)
 		file.close()
 
+var debugger_control: FEAGIDebugPanel ## Accessed Externally by [FEAGIDebugger]
+
 var _debugger: FEAGIDebugger
 
 
@@ -68,22 +70,22 @@ var _config_window: FEAGIPluginConfiguratorWindow
 func _enter_tree():
 	_debugger = FEAGIDebugger.new()
 	add_debugger_plugin(_debugger)
+	add_autoload_singleton("FEAGIRunTime", "res://addons/FeagiIntegration/RunTime/FEAGIRunTime.gd")
+	print("FEAGI: The Feagi Interface has been added to the project, under the name 'FEAGIRunTime'!")
 	
-	
-	
-	add_autoload_singleton("FEAGI", "res://addons/FeagiIntegration/Feagi-Interface/FEAGIInterface.gd")
-	print("FEAGI: Feagi Interface has been added to the project, under the name 'FEAGI'!")
+	#add_autoload_singleton("FEAGI", "res://addons/FeagiIntegration/Feagi-Interface/FEAGIInterface.gd")
+	#print("FEAGI: Feagi Interface has been added to the project, under the name 'FEAGI'!")
 	print("FEAGI: Access the FEAGI configurator through Project -> Tools -> Open FEAGI Configurator")
 	add_tool_menu_item("Open FEAGI Configurator", _spawn_configurator_window)
 
 ## When the plugin as a whole is removed. Cleanup any resources
 func _exit_tree():
 	_debugger.close_session()
+	remove_autoload_singleton("FEAGIRunTime")
+	print("FEAGI Configurator: THe Feagi Interface has been removed from the project!")
 	
 	
-	
-	
-	remove_autoload_singleton("FEAGI")
+	#remove_autoload_singleton("FEAGI")
 	print("FEAGI Configurator: Feagi Interface has been removed from the project!")
 	remove_tool_menu_item("Open FEAGI Configurator")
 	if _config_window:

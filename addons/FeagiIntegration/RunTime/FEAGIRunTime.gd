@@ -7,6 +7,7 @@ signal signal_all_autoregister_motors_to_register()
 var mapping_config: FEAGIGenomeMapping
 var endpoint_config: FEAGIResourceEndpoint
 
+var _debug_interface: FEAGIRunTimeDebugInterface
 var _automatic_device_generator: FEAGIAutomaticDeviceGenerator
 
 # General overview of startup
@@ -20,6 +21,7 @@ var _automatic_device_generator: FEAGIAutomaticDeviceGenerator
 # start tick system
 
 func _enter_tree() -> void:
+	print("FEAGI Interface starting up!")
 	mapping_config = load(FEAGIPluginInit.get_genome_mapping_path())
 	endpoint_config = load(FEAGIPluginInit.get_endpoint_path())
 	
@@ -38,6 +40,7 @@ func _enter_tree() -> void:
 	# process nodes
 	_automatic_device_generator = FEAGIAutomaticDeviceGenerator.new()
 	add_child(_automatic_device_generator)
+	_debug_interface = FEAGIRunTimeDebugInterface.new()
 	
 	# Certain sensor instances may be requesting automatic device generation
 	# But every sensor instance has a debug system that should be hooked up
@@ -46,7 +49,11 @@ func _enter_tree() -> void:
 		if sensor is FEAGISensoryCamera:
 			if (sensor as FEAGISensoryCamera).automatically_create_screengrabber:
 				_automatic_device_generator.add_camera_screencapture(sensor.device_name)
-			continue
+		
+		# Debug System Registration
+		_debug_interface.message_FEAGI_device_creation(false, sensor.get_device_type(), sensor.device_name)
+		
+		
 
 	
 	# wait for the scene to be ready

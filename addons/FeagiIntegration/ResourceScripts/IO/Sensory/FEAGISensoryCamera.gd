@@ -27,6 +27,9 @@ func get_data_as_byte_array() -> PackedByteArray:
 	_cached_image = _process_image(_data_grabber.call())
 	return _cached_image.get_data()
 
+func get_device_type() -> StringName:
+	return "camera"
+
 func _process_image(image: Image) -> Image:
 	image.resize(export_res_x, export_res_y)
 	image.convert(Image.FORMAT_RGB8)
