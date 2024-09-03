@@ -1,3 +1,4 @@
+@tool
 extends FEAGIDebugViewBase
 class_name FEAGIDebuggerViewCamera
 
