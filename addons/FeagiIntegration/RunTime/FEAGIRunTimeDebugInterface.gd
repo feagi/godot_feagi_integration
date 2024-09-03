@@ -2,16 +2,24 @@ extends RefCounted
 class_name FEAGIRunTimeDebugInterface
 ## A class that allows for the runtime of FEAGI to talk backa dn forth with the debugger running in the editor
 
-func message_FEAGI_device_creation(is_motor: bool, device_type: String, device_name: String) -> void:
-	EngineDebugger.send_message("FEAGI:add_device", [is_motor, device_type, device_name])
+var _devices: Array[FEAGIIOBase] = []
+var _cached_sending_data: Array = []
 
-func message_FEAGI_device_removal():
-	#todo
+func alert_debugger_about_device_creation(is_motor: bool, device: FEAGIIOBase) -> void:
+	EngineDebugger.send_message("FEAGI:add_device", [is_motor, device.get_device_type(), device.device_name])
+	_devices.append(device)
+	_cached_sending_data.append(device.get_debug_data())
+
+func alert_debugger_about_device_removal():
+	#TODO
 	pass
 
-func message_FEAGI_data():
-	#todo
-	pass
+
+func alert_debugger_about_data_update() -> void:
+	for i in len(_devices):
+		_cached_sending_data[i] = _devices[i].get_debug_data()
+	EngineDebugger.send_message("FEAGI:data", _cached_sending_data)
+	
 
 func message_FEAGI_device_rename(is_motor: bool, device_type: String, old_device_name: String, new_device_name: String):
 	#todo?

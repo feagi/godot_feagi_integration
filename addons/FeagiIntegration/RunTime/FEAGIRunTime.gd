@@ -9,6 +9,7 @@ var endpoint_config: FEAGIResourceEndpoint
 
 var _debug_interface: FEAGIRunTimeDebugInterface
 var _automatic_device_generator: FEAGIAutomaticDeviceGenerator
+var _tick_engine: FEAGITickEngine
 
 # General overview of startup
 # Read / verify configs
@@ -40,6 +41,8 @@ func _enter_tree() -> void:
 	# process nodes
 	_automatic_device_generator = FEAGIAutomaticDeviceGenerator.new()
 	add_child(_automatic_device_generator)
+	_tick_engine = FEAGITickEngine.new()
+	add_child(_tick_engine)
 	_debug_interface = FEAGIRunTimeDebugInterface.new()
 	
 	# Certain sensor instances may be requesting automatic device generation
@@ -51,7 +54,7 @@ func _enter_tree() -> void:
 				_automatic_device_generator.add_camera_screencapture(sensor.device_name)
 		
 		# Debug System Registration
-		_debug_interface.message_FEAGI_device_creation(false, sensor.get_device_type(), sensor.device_name)
+		_debug_interface.alert_debugger_about_device_creation(false, sensor)
 		
 		
 
@@ -70,3 +73,26 @@ func _enter_tree() -> void:
 	signal_all_autoregister_motors_to_register.emit()
 	
 	# Initialize Tick engine
+	_tick_engine.tick.connect(_FEAGI_tick)
+	_tick_engine.setup(mapping_config.delay_seconds_between_frames)
+
+## Get data from sensors, send to FEAGI, retrieve motor data from FEAGI, send to godot motor devices, update debug information with both
+func _FEAGI_tick() -> void:
+	print("tick")
+	# Get sensor data
+	
+	# Send Sensor data
+	
+	# Retrieve Motor data
+	
+	# Apply Motor data
+	
+	# update debug information
+	_debug_interface.alert_debugger_about_data_update()
+	
+	
+	
+	pass
+	
+	
+	

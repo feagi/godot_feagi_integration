@@ -29,10 +29,8 @@ func set_running_state(is_running: bool) -> void:
 func clear() -> void:
 	for i in range(1, _sensor_holder.get_child_count()):
 		_sensor_holder.get_child(i).queue_free()
-		print("a")
 	for i in range(1, _motor_holder.get_child_count()):
 		_motor_holder.get_child(i).queue_free()
-		print("b")
 	_update_none_label(_sensor_holder, true)
 	_update_none_label(_motor_holder, true)
 	set_running_state(false)
