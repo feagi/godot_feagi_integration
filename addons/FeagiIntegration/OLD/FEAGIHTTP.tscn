@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bleh55any0dbr"]
 
-[ext_resource type="Script" path="res://addons/FeagiIntegration/Feagi-Interface/FEAGIHTTP.gd" id="1_ju7qc"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/OLD/FEAGIHTTP.gd" id="1_ju7qc"]
 
 [node name="Feagihttp" type="HTTPRequest"]
 script = ExtResource("1_ju7qc")

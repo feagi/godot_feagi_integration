@@ -79,7 +79,3 @@ func _refresh_socket_state() -> void:
 		return
 	_websocket_state = new_state
 	socket_state_changed.emit(new_state)
-
-
-
-
