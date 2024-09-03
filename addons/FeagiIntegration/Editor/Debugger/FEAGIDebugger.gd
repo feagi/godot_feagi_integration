@@ -18,6 +18,12 @@ func close_session() -> void:
 	session.remove_session_tab(debugger_panel)
 	debugger_panel.queue_free()
 
+## Doesn't close the session per say, but it does clear the panel of details from the game running (IE resets)
+func clear_session() -> void:
+	if debugger_panel:
+		debugger_panel.clear()
+	
+
 ## Virtual func -> should return true if the given capture is related to FEAGI
 func _has_capture(capture: String) -> bool:
 	return capture == "FEAGI"
@@ -44,13 +50,20 @@ func _capture(message: String, data: Array, _session_id: int) -> bool:
 ## Virtual func -> called when the debugger session is initialized by Godot itself
 func _setup_session(session_ID: int) -> void:
 	var session: EditorDebuggerSession = get_session(session_ID)
-	_refresh_FEAGIDebugger_panel(session_ID)
+	_refresh_FEAGIDebugger_panel_reference(session_ID)
 	session.add_session_tab(debugger_panel)
+	session.stopped.connect(clear_session)
+	session.started.connect(_attempt_set_panel_to_running)
+	
+	print("started")
 
-
-func _refresh_FEAGIDebugger_panel(session_ID: int) -> FEAGIDebugPanel:
+func _refresh_FEAGIDebugger_panel_reference(session_ID: int) -> FEAGIDebugPanel:
 	_last_used_session_ID = session_ID
 	debugger_panel = PREFAB_DEBUGGER_PANEL.instantiate()
 	debugger_panel.initialize()
 	debugger_panel.set_running_state(false)
 	return debugger_panel
+
+func _attempt_set_panel_to_running() -> void:
+	if debugger_panel:
+		debugger_panel.set_running_state(true)

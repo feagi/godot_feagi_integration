@@ -10,7 +10,7 @@
 
 [node name="FeagiDebuggerViewCamera" type="VBoxContainer"]
 offset_right = 200.0
-offset_bottom = 43.0
+offset_bottom = 42.0
 size_flags_horizontal = 3
 script = ExtResource("1_gcbrc")
 
@@ -27,9 +27,12 @@ theme_override_constants/margin_bottom = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Title/MarginContainer"]
 layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Title/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 0
 
 [node name="Name" type="Label" parent="Title/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -45,14 +48,16 @@ texture_hover = ExtResource("5_e5jxl")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="Title/MarginContainer/VBoxContainer"]
+[node name="holder" type="MarginContainer" parent="Title/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
+size_flags_vertical = 0
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="TextureRect" type="TextureRect" parent="Title/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="Title/MarginContainer/VBoxContainer/holder"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = SubResource("ImageTexture_750vk")
