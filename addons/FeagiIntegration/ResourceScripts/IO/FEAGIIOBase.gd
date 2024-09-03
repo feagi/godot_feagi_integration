@@ -15,11 +15,11 @@ func setup_required_base_settings(name_of_device: StringName, index_FEAGI: int, 
 
 ## Called by debug views to return data used for showing current state of things
 func get_debug_data() -> Variant:
-	assert(true, "Do not use 'FEAGIIOBase' Directly!")
+	assert(false, "Do not use 'FEAGIIOBase' Directly!")
 	return null
 
 
 func get_device_type() -> StringName:
 	# override me in all child classses to easily get the FEAGI string name of the class
-	assert(true, "Do not use 'FEAGIIOBase' Directly!")
+	assert(false, "Do not use 'FEAGIIOBase' Directly!")
 	return ""

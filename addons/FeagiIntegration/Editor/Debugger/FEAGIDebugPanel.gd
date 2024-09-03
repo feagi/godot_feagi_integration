@@ -12,8 +12,9 @@ var _motor_holder: VBoxContainer
 
 var _device_update_callables: Array[Callable] = []
 
-## THis functiojn is called directly by [FEAGIDebugger] on the init
+## THis function is called directly by [FEAGIDebugger] on the init
 func initialize() -> void:
+	_device_update_callables = []
 	_not_running = $Tabs/Data/NotRunning
 	_running = $Tabs/Data/Running
 	_sensor_holder = $Tabs/Data/Running/HSplitContainer/Sensors/PanelContainer/VBoxContainer
@@ -34,6 +35,7 @@ func clear() -> void:
 	_update_none_label(_sensor_holder, true)
 	_update_none_label(_motor_holder, true)
 	set_running_state(false)
+	_device_update_callables = []
 	
 
 ## Called by [FEAGIDebugger] when it recieves a message about a device being added

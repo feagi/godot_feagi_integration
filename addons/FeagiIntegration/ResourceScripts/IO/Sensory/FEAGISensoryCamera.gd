@@ -23,12 +23,15 @@ func _init() -> void:
 func get_data_as_byte_array() -> PackedByteArray:
 	if _data_grabber.is_null():
 		return _data_for_blank_image
-	
 	_cached_image = _process_image(_data_grabber.call())
 	return _cached_image.get_data()
 
 func get_device_type() -> StringName:
 	return "camera"
+
+func get_debug_data() -> Variant:
+	get_data_as_byte_array() #TODO REMOVE ME WONCE FEAGI ADDED
+	return _cached_image # Since we just processed this for sending to FEAGI, might as well reuse the image
 
 func _process_image(image: Image) -> Image:
 	image.resize(export_res_x, export_res_y)
