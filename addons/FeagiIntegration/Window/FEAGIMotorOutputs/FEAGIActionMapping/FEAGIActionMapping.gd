@@ -97,4 +97,3 @@ func _attempt_set_dropdown(selection: StringName, possible_options: Array[String
 		dropdown.selected = 0
 		return
 	dropdown.selected = index
-

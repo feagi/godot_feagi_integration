@@ -1,10 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://b4uy4r0ivrbyb"]
+[gd_scene load_steps=3 format=3 uid="uid://c3h87noes5edd"]
 
-[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIPluginConfiguratorWindow.gd" id="1_ux1sa"]
-[ext_resource type="PackedScene" uid="uid://c7ekuvyvyrqqv" path="res://addons/FeagiIntegration/Window/Sections/FEAGI/FEAGI.tscn" id="2_sy8kh"]
-[ext_resource type="Resource" uid="uid://cw7u4uxxriwen" path="res://addons/FeagiIntegration/ConfiguratorConfigurator/GodotGames.tres" id="2_tl4mu"]
-[ext_resource type="PackedScene" uid="uid://dg7j2i1hrgvwu" path="res://addons/FeagiIntegration/Window/Sections/Sensory/Sensory.tscn" id="3_j760q"]
-[ext_resource type="PackedScene" uid="uid://cbra41jo3rrm5" path="res://addons/FeagiIntegration/Window/Sections/FEAGI_IO/feagi_io.tscn" id="5_7pt2v"]
+[ext_resource type="PackedScene" uid="uid://b041xhhnpjs5e" path="res://addons/FeagiIntegration/Editor/Panel/Components/FEAGI_UI_Panel_AgentSettings.tscn" id="1_fqfdh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnoq7"]
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.243137)
@@ -16,8 +12,6 @@ anchor_bottom = 1.0
 offset_right = 36.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_ux1sa")
-initial_configurator = ExtResource("2_tl4mu")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
@@ -79,10 +73,9 @@ layout_mode = 2
 [node name="TabContainer" type="TabContainer" parent="ScrollContainer/Options"]
 custom_minimum_size = Vector2(0, 600)
 layout_mode = 2
-current_tab = 1
+current_tab = 0
 
 [node name="FEAGI" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
@@ -94,10 +87,11 @@ metadata/_tab_index = 0
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
 
-[node name="FEAGI" parent="ScrollContainer/Options/TabContainer/FEAGI/PanelContainer" instance=ExtResource("2_sy8kh")]
+[node name="FEAGIPanelFEAGIAgentSettings" parent="ScrollContainer/Options/TabContainer/FEAGI/PanelContainer" instance=ExtResource("1_fqfdh")]
 layout_mode = 2
 
 [node name="Sensory" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
@@ -108,9 +102,6 @@ metadata/_tab_index = 1
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/Sensory"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
-
-[node name="Sensory" parent="ScrollContainer/Options/TabContainer/Sensory/PanelContainer" instance=ExtResource("3_j760q")]
-layout_mode = 2
 
 [node name="Motor" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
 visible = false
@@ -125,31 +116,6 @@ metadata/_tab_index = 2
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
 
-[node name="Motor" type="VBoxContainer" parent="ScrollContainer/Options/TabContainer/Motor/PanelContainer"]
-layout_mode = 2
-
-[node name="Title" type="Label" parent="ScrollContainer/Options/TabContainer/Motor/PanelContainer/Motor"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Motor FEAGI Outputs"
-horizontal_alignment = 1
-
-[node name="Gap" type="Control" parent="ScrollContainer/Options/TabContainer/Motor/PanelContainer/Motor"]
-custom_minimum_size = Vector2(0, 8)
-layout_mode = 2
-
-[node name="FEAGI IO" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/FEAGI IO"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
-
-[node name="FEAGI_IO" parent="ScrollContainer/Options/TabContainer/FEAGI IO/PanelContainer" instance=ExtResource("5_7pt2v")]
-layout_mode = 2
-
 [node name="Metrics" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
 visible = false
 layout_mode = 2
@@ -157,23 +123,8 @@ theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
-metadata/_tab_index = 4
+metadata/_tab_index = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/Metrics"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
-
-[node name="Metrics" type="VBoxContainer" parent="ScrollContainer/Options/TabContainer/Metrics/PanelContainer"]
-layout_mode = 2
-
-[node name="Title" type="Label" parent="ScrollContainer/Options/TabContainer/Metrics/PanelContainer/Metrics"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Training Metrics for FEAGI"
-horizontal_alignment = 1
-
-[node name="Gap" type="Control" parent="ScrollContainer/Options/TabContainer/Metrics/PanelContainer/Metrics"]
-custom_minimum_size = Vector2(0, 8)
-layout_mode = 2
-
-[connection signal="added_sensory" from="ScrollContainer/Options/TabContainer/Sensory/PanelContainer/Sensory" to="ScrollContainer/Options/TabContainer/FEAGI IO/PanelContainer/FEAGI_IO" method="sensory_added"]

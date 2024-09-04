@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://de41gm1mh1fsm"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/FEAGIMotorOutputs/FEAGIActionMapping/FEAGIActionMapping.gd" id="1_vcjfj"]
-[ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Window/Elements/Collapsible/Collapsible.tscn" id="2_p43nn"]
+[ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/Collapsible/FEAGI_UI_Prefab_Collapsible.tscn" id="2_p43nn"]
+
 
 [node name="FEAGIActionMapping" type="HBoxContainer"]
 script = ExtResource("1_vcjfj")

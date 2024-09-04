@@ -15,15 +15,9 @@ func initialize() -> void:
 
 ## Takes an [Image] but within an [EncodedObjectAsID]
 func update_visualization(data: Variant) -> void:
-	print("DEBUG EDITOR: Recieved object" + str(instance_from_id(data.object_id)) + " with ID " + str(data.object_id))
-	return
-	var parsed_image: Image = instance_from_id(data.object_id)
+	#print("DEBUG EDITOR: Recieved object" + str(instance_from_id(data.object_id)) + " with ID " + str(data.object_id))
+	#return
+	var parsed_image: Image = Image.create_from_data(64,64,false,Image.FORMAT_RGB8,data)
 
 	parsed_image.resize(PREVIEW_SIZE.x, PREVIEW_SIZE.y)
 	(_texture.texture as ImageTexture).set_image(parsed_image)
-
-func _generate_blank_black_image_data(x_size: int, y_size: int) -> PackedByteArray:
-	var length: int = x_size * y_size * 3
-	var output: PackedByteArray = []
-	output.resize(length)
-	return output

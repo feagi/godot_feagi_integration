@@ -13,7 +13,7 @@ limitations under the License.
 """
 @tool
 extends VBoxContainer
-class_name FEAGIWindowCollapsible
+class_name FEAGI_UI_Prefab_Collapsible
 
 @export var show_on_load: bool = false
 @export var show_text: StringName = "Show"

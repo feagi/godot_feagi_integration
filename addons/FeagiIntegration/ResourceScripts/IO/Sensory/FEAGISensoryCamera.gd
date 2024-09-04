@@ -33,7 +33,7 @@ func get_device_type() -> StringName:
 	return "camera"
 
 func get_debug_data() -> Variant:
-	get_data_as_byte_array() #TODO REMOVE ME WONCE FEAGI ADDED
+	return get_data_as_byte_array() #TODO REMOVE ME WONCE FEAGI ADDED
 	return _cached_image # Since we just processed this for sending to FEAGI, might as well reuse the image
 
 ## Processes the input images and writes over the _cached image with it.

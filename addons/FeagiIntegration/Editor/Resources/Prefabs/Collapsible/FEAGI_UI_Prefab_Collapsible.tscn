@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cx1eqnkmlnor2"]
 
-[ext_resource type="Script" path="res://addons/FeagiIntegration/Window/Elements/Collapsible/Collapsible.gd" id="1_48081"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/Collapsible/FEAGI_UI_Prefab_Collapsible.gd" id="1_48081"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsuus"]
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.243137)
