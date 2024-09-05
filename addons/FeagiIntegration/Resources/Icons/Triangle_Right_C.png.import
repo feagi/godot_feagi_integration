@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ixr3tkdityna"
-path="res://.godot/imported/Triangle_Right_C.png-c79c886c9792b9858be6f1450454464b.ctex"
+path="res://.godot/imported/Triangle_Right_C.png-5eba313e96299ae2654636deb46cb6c2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Right_C.png"
-dest_files=["res://.godot/imported/Triangle_Right_C.png-c79c886c9792b9858be6f1450454464b.ctex"]
+source_file="res://addons/FeagiIntegration/Resources/Icons/Triangle_Right_C.png"
+dest_files=["res://.godot/imported/Triangle_Right_C.png-5eba313e96299ae2654636deb46cb6c2.ctex"]
 
 [params]
 

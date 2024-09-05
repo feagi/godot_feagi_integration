@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw41c0pj3gyc"
-path="res://.godot/imported/close_D.png-4e20d12916b751fc17b7f928fa47622d.ctex"
+uid="uid://cfc4rvpdr0u3w"
+path="res://.godot/imported/Plus_D.png-48d111a821c0f08e8a990c99e52edf3b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/FeagiIntegration/Window/Resources/Icons/close_D.png"
-dest_files=["res://.godot/imported/close_D.png-4e20d12916b751fc17b7f928fa47622d.ctex"]
+source_file="res://addons/FeagiIntegration/Resources/Icons/Plus_D.png"
+dest_files=["res://.godot/imported/Plus_D.png-48d111a821c0f08e8a990c99e52edf3b.ctex"]
 
 [params]
 

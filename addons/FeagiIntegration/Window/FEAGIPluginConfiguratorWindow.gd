@@ -4,7 +4,7 @@ class_name FEAGIPluginConfiguratorWindow
 
 @export var initial_configurator: FEAGIAgentConfiguratorConfigurator
 
-var _plugin_main_script: FEAGIPluginInit
+var _plugin_main_script: FEAGI_PLUGIN
 
 var _configurator_configurator: FEAGIAgentConfiguratorConfigurator
 
@@ -21,7 +21,7 @@ func _ready() -> void:
 	tree_exited.connect(_user_closing_window)
 	load_configurator_configurator(initial_configurator)
 
-func setup(plugin_main_script: FEAGIPluginInit) -> void:
+func setup(plugin_main_script: FEAGI_PLUGIN) -> void:
 	_plugin_main_script = plugin_main_script
 
 
@@ -33,7 +33,7 @@ func load_configurator_configurator(config: FEAGIAgentConfiguratorConfigurator) 
 
 
 
-## Called when the window is closing for any reason. Freeing of the resource is already handled by [FEAGIPluginInit]
+## Called when the window is closing for any reason. Freeing of the resource is already handled by [FEAGI_PLUGIN]
 func _user_closing_window() -> void:
 	pass
 

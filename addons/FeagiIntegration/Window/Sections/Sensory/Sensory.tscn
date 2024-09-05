@@ -1,10 +1,11 @@
 [gd_scene load_steps=6 format=3 uid="uid://dg7j2i1hrgvwu"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Window/Sections/Sensory/FEAGISectionSensory.gd" id="1_loc4c"]
-[ext_resource type="Texture2D" uid="uid://dgennx4cn6wjl" path="res://addons/FeagiIntegration/Window/Resources/Icons/Plus_S.png" id="2_pu4lo"]
-[ext_resource type="Texture2D" uid="uid://ciwiir0g6afgs" path="res://addons/FeagiIntegration/Window/Resources/Icons/Plus_C.png" id="3_2rkgf"]
-[ext_resource type="Texture2D" uid="uid://c3sbppnbf8e84" path="res://addons/FeagiIntegration/Window/Resources/Icons/Plus_H.png" id="4_poinu"]
-[ext_resource type="Texture2D" uid="uid://cfc4rvpdr0u3w" path="res://addons/FeagiIntegration/Window/Resources/Icons/Plus_D.png" id="5_vbr42"]
+[ext_resource type="Texture2D" uid="uid://dgennx4cn6wjl" path="res://addons/FeagiIntegration/Resources/Icons/Plus_S.png" id="2_pu4lo"]
+[ext_resource type="Texture2D" uid="uid://ciwiir0g6afgs" path="res://addons/FeagiIntegration/Resources/Icons/Plus_C.png" id="3_2rkgf"]
+[ext_resource type="Texture2D" uid="uid://c3sbppnbf8e84" path="res://addons/FeagiIntegration/Resources/Icons/Plus_H.png" id="4_poinu"]
+[ext_resource type="Texture2D" uid="uid://cfc4rvpdr0u3w" path="res://addons/FeagiIntegration/Resources/Icons/Plus_D.png" id="5_vbr42"]
+
 
 [node name="Sensory" type="VBoxContainer"]
 script = ExtResource("1_loc4c")

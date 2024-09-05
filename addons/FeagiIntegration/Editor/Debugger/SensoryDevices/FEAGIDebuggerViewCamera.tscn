@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGIDebuggerViewCamera.gd" id="1_gcbrc"]
 [ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_jvhcq"]
-[ext_resource type="Texture2D" uid="uid://h2k7ik6modgy" path="res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Right_S.png" id="3_p7ff2"]
-[ext_resource type="Texture2D" uid="uid://ixr3tkdityna" path="res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Right_C.png" id="4_su02p"]
-[ext_resource type="Texture2D" uid="uid://cnaefg6bkphfa" path="res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Right_H.png" id="5_e5jxl"]
+[ext_resource type="Texture2D" uid="uid://h2k7ik6modgy" path="res://addons/FeagiIntegration/Resources/Icons/Triangle_Right_S.png" id="3_p7ff2"]
+[ext_resource type="Texture2D" uid="uid://ixr3tkdityna" path="res://addons/FeagiIntegration/Resources/Icons/Triangle_Right_C.png" id="4_su02p"]
+[ext_resource type="Texture2D" uid="uid://cnaefg6bkphfa" path="res://addons/FeagiIntegration/Resources/Icons/Triangle_Right_H.png" id="5_e5jxl"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_750vk"]
 

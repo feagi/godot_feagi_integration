@@ -27,5 +27,5 @@ func confirm_endpoint_valid() -> bool:
 	return false
 
 func save_config() -> void:
-	FEAGIPluginInit.confirm_config_directory()
-	ResourceSaver.save(self, FEAGIPluginInit.get_endpoint_path())
+	FEAGI_PLUGIN.confirm_config_directory()
+	ResourceSaver.save(self, FEAGI_PLUGIN.get_endpoint_path())

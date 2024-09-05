@@ -23,8 +23,8 @@ var _tick_engine: FEAGITickEngine
 
 func _enter_tree() -> void:
 	print("FEAGI Interface starting up!")
-	mapping_config = load(FEAGIPluginInit.get_genome_mapping_path())
-	endpoint_config = load(FEAGIPluginInit.get_endpoint_path())
+	mapping_config = load(FEAGI_PLUGIN.get_genome_mapping_path())
+	endpoint_config = load(FEAGI_PLUGIN.get_endpoint_path())
 	
 	# Checks to ensure everything is valid and enabled
 	

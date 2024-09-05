@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7q2g8r4rh3hm"
-path="res://.godot/imported/Triangle_Down_C.png-dbc0c0077820146f5c1689a80b6bd149.ctex"
+uid="uid://h2k7ik6modgy"
+path="res://.godot/imported/Triangle_Right_S.png-28e680b43b9621441e0bcc76317c1367.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Down_C.png"
-dest_files=["res://.godot/imported/Triangle_Down_C.png-dbc0c0077820146f5c1689a80b6bd149.ctex"]
+source_file="res://addons/FeagiIntegration/Resources/Icons/Triangle_Right_S.png"
+dest_files=["res://.godot/imported/Triangle_Right_S.png-28e680b43b9621441e0bcc76317c1367.ctex"]
 
 [params]
 

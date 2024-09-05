@@ -9,7 +9,7 @@ var debugger_panel: FEAGIDebugPanel = null
 
 var _last_used_session_ID: int
 
-## This is called from [FeagiPluginInit] when it is closing (as the plugin is getting disabled) since Godot has no way to normally close a debugger (?)
+## This is called from [FEAGI_PLUGIN] when it is closing (as the plugin is getting disabled) since Godot has no way to normally close a debugger (?)
 func close_session() -> void:
 	var session: EditorDebuggerSession = get_session(_last_used_session_ID)
 	if !session:

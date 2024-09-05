@@ -14,16 +14,16 @@ extends VBoxContainer
 class_name BaseFEAGILocalIO
 ## Base class for all local (godot / robot / etc) side configurations for IO
 
-signal request_input_name_change(input_type: FEAGIPluginInit.INPUT_TYPE, requesting_name: StringName)
-signal request_output_name_change(output_type: FEAGIPluginInit.OUTPUT_TYPE, requesting_name: StringName)
+signal request_input_name_change(input_type: FEAGI_PLUGIN.INPUT_TYPE, requesting_name: StringName)
+signal request_output_name_change(output_type: FEAGI_PLUGIN.OUTPUT_TYPE, requesting_name: StringName)
 signal name_change_accepted(new_name: StringName)
 
 @export var IO_type_as_string: StringName
 @export var IO_icon: Texture
 
 var _is_input: bool
-var _input_type: FEAGIPluginInit.INPUT_TYPE
-var _output_type: FEAGIPluginInit.OUTPUT_TYPE
+var _input_type: FEAGI_PLUGIN.INPUT_TYPE
+var _output_type: FEAGI_PLUGIN.OUTPUT_TYPE
 var _header: FEAGIIOHeader
 
 func _ready() -> void:
@@ -40,19 +40,19 @@ func get_current_name() -> StringName:
 
 func get_type_as_string() -> StringName:
 	if _is_input:
-		return FEAGIPluginInit.INPUT_TYPE.keys()[_input_type]
+		return FEAGI_PLUGIN.INPUT_TYPE.keys()[_input_type]
 	else:
-		return FEAGIPluginInit.OUTPUT_TYPE.keys()[_output_type]
+		return FEAGI_PLUGIN.OUTPUT_TYPE.keys()[_output_type]
 
 ## Setup this object using the input type
-func _setup_as_input(input_type: FEAGIPluginInit.INPUT_TYPE, initial_name: StringName) -> void:
+func _setup_as_input(input_type: FEAGI_PLUGIN.INPUT_TYPE, initial_name: StringName) -> void:
 	_is_input = true
-	_header.setup(initial_name, FEAGIPluginInit.INPUT_TYPE.keys()[input_type], IO_icon)
+	_header.setup(initial_name, FEAGI_PLUGIN.INPUT_TYPE.keys()[input_type], IO_icon)
 
 ## Setup this object using the output type
-func _setup_as_output(output_type: FEAGIPluginInit.OUTPUT_TYPE, initial_name: StringName) -> void:
+func _setup_as_output(output_type: FEAGI_PLUGIN.OUTPUT_TYPE, initial_name: StringName) -> void:
 	_is_input = false
-	_header.setup(initial_name, FEAGIPluginInit.OUTPUT_TYPE.keys()[output_type], IO_icon)
+	_header.setup(initial_name, FEAGI_PLUGIN.OUTPUT_TYPE.keys()[output_type], IO_icon)
 
 func _user_requesting_name_change(new_name: StringName) -> void:
 	if _is_input:

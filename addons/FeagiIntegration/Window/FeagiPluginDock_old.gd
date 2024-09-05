@@ -17,7 +17,7 @@ var _enable_FEAGI: CheckButton
 var _FEAGI_motor_output_manager: FEAGIMotorOutputManager
 var _read_button: Button
 var _FEAGI_output_config: OptionButton
-var _reference_plugin_loader: FEAGIPluginInit
+var _reference_plugin_loader: FEAGI_PLUGIN
 var _FEAGI_address_bar: LineEdit
 var _FEAGI_encryption_dropdown: OptionButton
 var _web_port: SpinBox
@@ -26,7 +26,7 @@ var _metric_dropdown: FEAGIMetricDropDown
 var _metric_scroll: FEAGIMetricScroll
 
 ## First thing that is ran from the plugin init script
-func setup(plugin_loader: FEAGIPluginInit) -> void:
+func setup(plugin_loader: FEAGI_PLUGIN) -> void:
 	_enable_FEAGI = $ScrollContainer/Options/ToggleFeagi/HBoxContainer/ToggleFeagi
 	_FEAGI_motor_output_manager = $ScrollContainer/Options/FromFeagi/VBoxContainer/CollapsiblePrefab/FEAGIMotorOutputManager
 	_read_button = $ScrollContainer/Options/Config/VBoxContainer/HBoxContainer/Read

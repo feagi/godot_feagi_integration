@@ -1,6 +1,6 @@
 @tool
 extends Resource
-class_name FEAGIIOBase
+class_name FEAGI_IOHandler_Base
 ## Base class for all IO objects (for recieving and sending data to FEAGI)
 
 @export var device_name: StringName

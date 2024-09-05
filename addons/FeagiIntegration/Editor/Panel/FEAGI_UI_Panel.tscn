@@ -40,6 +40,10 @@ text = "Feagi Integration is [b]not ready[/b]"
 fit_content = true
 autowrap_mode = 0
 
+[node name="Gap" type="Control" parent="ScrollContainer/Options"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
 [node name="DescriptionContainer" type="HBoxContainer" parent="ScrollContainer/Options"]
 layout_mode = 2
 alignment = 1
@@ -54,18 +58,6 @@ text = "[i]DESCRIPTION[/i]"
 scroll_active = false
 autowrap_mode = 2
 
-[node name="Gap" type="Control" parent="ScrollContainer/Options"]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-
-[node name="EnableContainer" type="BoxContainer" parent="ScrollContainer/Options"]
-layout_mode = 2
-alignment = 1
-
-[node name="Enable" type="CheckButton" parent="ScrollContainer/Options/EnableContainer"]
-layout_mode = 2
-text = " Enable FEAGI Integration in-game"
-
 [node name="Gap2" type="Control" parent="ScrollContainer/Options"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
@@ -73,9 +65,10 @@ layout_mode = 2
 [node name="TabContainer" type="TabContainer" parent="ScrollContainer/Options"]
 custom_minimum_size = Vector2(0, 600)
 layout_mode = 2
-current_tab = 0
+current_tab = 1
 
 [node name="FEAGI" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
@@ -91,7 +84,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
 layout_mode = 2
 
 [node name="Sensory" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4

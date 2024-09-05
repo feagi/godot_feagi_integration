@@ -91,7 +91,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="EnableDebug"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Enable Debugging"
+text = "Enable Device Debugging"
 
 [node name="EnableDebug" type="CheckBox" parent="EnableDebug"]
 layout_mode = 2

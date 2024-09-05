@@ -22,10 +22,6 @@ run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.webp"
 
-[autoload]
-
-FEAGIRunTime="*res://addons/FeagiIntegration/RunTime/FEAGIRunTime.gd"
-
 [debug]
 
 gdscript/warnings/redundant_await=false
@@ -37,10 +33,6 @@ window/size/viewport_height=720
 window/size/window_width_override=480
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/FeagiIntegration/plugin.cfg")
 
 [input]
 
