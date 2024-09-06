@@ -3,6 +3,7 @@ extends PanelContainer
 class_name FEAGI_UI_Panel_Device
 
 signal confirm_name_change(requesting_new_name: StringName, self_ref: FEAGI_UI_Panel_Device)
+signal request_deletion(self_ref: FEAGI_UI_Panel_Device)
 
 var device_type: StringName:
 	get: return _device_type
@@ -37,6 +38,7 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 	_FEAGI_device_settings_holder = $MarginContainer/VBoxContainer/FEAGISettings/PanelContainer/MarginContainer/Internals
 	
 	_device_settings.replace_by(specific_device_UI)
+	_device_settings = specific_device_UI
 	_device_type = device_type_name
 	set_device_name(initial_name)
 	_is_disabled_box.button_pressed = is_device_disabled
@@ -70,4 +72,7 @@ func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 ## When the name lineedit loses focus, check if the text in it cheanged. If it did, send a signal to confirm if the name should be changed or not
 func _check_name_change() -> void:
 	if _device_name_line.text != _device_friendly_name:
-		confirm_name_change.emit(_device_friendly_name, _device_name_line.text, _device_type)
+		confirm_name_change.emit(_device_name_line.text, self)
+
+func _request_deletion() -> void:
+	request_deletion.emit(self)

@@ -39,3 +39,5 @@ layout_mode = 2
 
 [node name="FeagiUiPanelDeviceList" parent="." instance=ExtResource("2_e36v6")]
 layout_mode = 2
+
+[connection signal="pressed" from="Header/add" to="." method="_add_device_button_pressed"]

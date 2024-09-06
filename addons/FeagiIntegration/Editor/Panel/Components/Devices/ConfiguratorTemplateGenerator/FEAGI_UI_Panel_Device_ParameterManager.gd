@@ -66,8 +66,8 @@ func _spawn_parameter(parameter_template: Dictionary, paremeter_given_values: Di
 		return null
 	
 	## Get some vars
-	var label: StringName = paremeter_given_values["label"]
-	var description: StringName = paremeter_given_values["description"]
+	var label: StringName = parameter_template["label"]
+	var description: StringName = parameter_template["description"]
 	var appending: FEAGI_UI_Panel_Device_ParameterBase = null
 	
 	#NOTE This part is unique to this project over the generic configurator!
