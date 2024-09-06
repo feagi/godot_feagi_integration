@@ -2,12 +2,10 @@
 extends PanelContainer
 class_name FEAGI_UI_Panel
 
+var _section_sensory: FEAGI_UI_Panel_Devices
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func setup() -> void:
+	_section_sensory = $ScrollContainer/Options/TabContainer/Sensory/PanelContainer/FeagiUiPanelDevices
+	
+	var json: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(FEAGI_PLUGIN.TEMPLATE_DIR))
+	_section_sensory.setup(true, json["input"])

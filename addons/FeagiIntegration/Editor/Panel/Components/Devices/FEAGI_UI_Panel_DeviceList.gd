@@ -21,7 +21,7 @@ var _device_names: Dictionary = {} # key'd by device type name, values are an ar
 func setup(is_sensory: bool) -> void:
 	_device_holder = $VBoxContainer
 	_is_sensory = is_sensory
-	var possible_device_type_names: Array[StringName]
+	var possible_device_type_names: PackedStringArray
 	if is_sensory:
 		possible_device_type_names = FEAGI_PLUGIN.GODOT_SUPPORTED_SENSORS
 	else:
