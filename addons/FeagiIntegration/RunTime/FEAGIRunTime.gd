@@ -47,10 +47,10 @@ func _enter_tree() -> void:
 	
 	# Certain sensor instances may be requesting automatic device generation
 	# But every sensor instance has a debug system that should be hooked up
-	for sensor: FEAGISensoryBase in mapping_config.sensors.values():
+	for sensor: FEAGI_IOHandler_Sensory_Base in mapping_config.sensors.values():
 		
-		if sensor is FEAGISensoryCamera:
-			if (sensor as FEAGISensoryCamera).automatically_create_screengrabber:
+		if sensor is FEAGI_IOHandler_Sensory_Camera:
+			if (sensor as FEAGI_IOHandler_Sensory_Camera).automatically_create_screengrabber:
 				_automatic_device_generator.add_camera_screencapture(sensor.device_name)
 		
 		# Debug System Registration

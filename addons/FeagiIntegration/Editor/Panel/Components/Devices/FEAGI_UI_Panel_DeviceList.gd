@@ -78,7 +78,7 @@ func _update_all_indexes_for_type(type_name: StringName) -> void:
 		
 
 func _confirm_device_name_change_request(requesting_new_name: StringName, device_ref: FEAGI_UI_Panel_Device) -> void:
-	if _device_references[device_ref.device_type].any(func(device: FEAGI_UI_Panel_Device): device.device_friendly_name == requesting_new_name):
+	if _device_references[device_ref.device_type].any(func(device: FEAGI_UI_Panel_Device): return device.device_friendly_name == requesting_new_name):
 		device_ref.set_device_name(device_ref.device_friendly_name) # Reject, reset textbox
 	else:
 		device_ref.set_device_name(requesting_new_name) # Accept

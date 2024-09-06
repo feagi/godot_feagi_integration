@@ -39,7 +39,7 @@ func register_device() -> void:
 	if _is_registered:
 		push_warning("FEAGI: Device %s attempted to register to FEAGI when it was already registered! Ignoring!" % _device_type_name)
 		return
-	var registration_target: FEAGIIOBase = _register_device()
+	var registration_target: FEAGI_IOHandler_Base = _register_device()
 	if registration_target:
 		_is_registered = true
 
@@ -53,17 +53,17 @@ func deregister_device() -> void:
 	if !_is_registered:
 		push_warning("FEAGI: Device %s attempted to deregister to FEAGI when it wasnt registered already! Ignoring!" % _device_type_name)
 		return
-	var deregistration_target: FEAGIIOBase = _deregister_device()
+	var deregistration_target: FEAGI_IOHandler_Base = _deregister_device()
 	if deregistration_target:
 		_is_registered = false
 	
 
 ## OVERRIDDEN in the child classes to handle proper registration procedures
-func _register_device() -> FEAGIIOBase:
+func _register_device() -> FEAGI_IOHandler_Base:
 	assert(false, "Do not use FEAGIRegistrationAgentBase directly for FEAGI devices!")
 	return null
 
 ## OVERRIDDEN in the child classes to handle proper deregistration procedures
-func _deregister_device() -> FEAGIIOBase:
+func _deregister_device() -> FEAGI_IOHandler_Base:
 	assert(false, "Do not use FEAGIRegistrationAgentBase directly for FEAGI devices!")
 	return null

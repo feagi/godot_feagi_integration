@@ -10,6 +10,8 @@
 [node name="FeagiUiPanelDevices" type="VBoxContainer"]
 offset_right = 89.0
 offset_bottom = 16.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_scft0")
 
 [node name="Header" type="HBoxContainer" parent="."]
@@ -39,5 +41,6 @@ layout_mode = 2
 
 [node name="FeagiUiPanelDeviceList" parent="." instance=ExtResource("2_e36v6")]
 layout_mode = 2
+size_flags_vertical = 3
 
 [connection signal="pressed" from="Header/add" to="." method="_add_device_button_pressed"]

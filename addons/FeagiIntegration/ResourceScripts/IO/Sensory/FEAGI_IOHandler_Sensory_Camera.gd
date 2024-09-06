@@ -13,8 +13,7 @@ var _cached_image: Image
 var _blank_image: Image
 var _data_for_blank_image: PackedByteArray = [] # a cached copy of the raw data representing a blank camera feed
 
-func setup_required_base_settings(name_of_device: StringName, index_FEAGI: int, ID_device: int) -> void:
-	super(name_of_device, index_FEAGI, ID_device)
+func _init() -> void: #TODO change this, we dont want this init to run on its own, we need to control it. However the setup base may not be good for this either
 	_blank_image = Image.new()
 	_blank_image.set_data(resolution.x, resolution.y, false, Image.FORMAT_RGB8, _generate_blank_black_image_data())
 	_blank_image.fill(blank_camera_color)

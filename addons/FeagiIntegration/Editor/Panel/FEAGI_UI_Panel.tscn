@@ -23,6 +23,7 @@ horizontal_scroll_mode = 0
 [node name="Options" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 4
 alignment = 1
 
@@ -68,6 +69,7 @@ layout_mode = 2
 [node name="TabContainer" type="TabContainer" parent="ScrollContainer/Options"]
 custom_minimum_size = Vector2(0, 512)
 layout_mode = 2
+size_flags_vertical = 3
 current_tab = 1
 
 [node name="FEAGI" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]

@@ -10,7 +10,7 @@ var output_data: PackedByteArray
 var _data_grabber: Callable = Callable() # Make sure for the proper class, that this callable returns the expected type
 
 func get_data_as_byte_array() -> PackedByteArray:
-	assert(false, "Do not use 'FEAGISensoryBase' Directly!")
+	assert(false, "Do not use 'FEAGI_IOHandler_Sensory_Base' Directly!")
 	return PackedByteArray()
 
 # Register a sensor to this object
