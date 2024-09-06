@@ -1,6 +1,6 @@
 @tool
-extends FEAGI_IO_Base
-class_name FEAGISensoryBase
+extends FEAGI_IOHandler_Base
+class_name FEAGI_IOHandler_Sensory_Base
 ## A base class for all sensory components (such as cameras), virtual devices that send datat to FEAGI
 
 signal finished_processing_data_for_tick() 

@@ -1,0 +1,40 @@
+@tool
+extends FEAGI_UI_Panel_SpecificDeviceBase
+class_name FEAGI_UI_Panel_SpecificSensoryDevice_Camera
+
+var resolution: Vector2i
+
+var _x: SpinBox
+var _y: SpinBox
+var _flipped: CheckBox
+var _screengrab: CheckBox
+var _screengrab_note: RichTextLabel
+
+## This function is called by the parent [FEAGI_UI_Panel_Device] node first, use this to init anything needed
+func setup() -> void:
+	_x = $res/x
+	_y = $res/y
+	_flipped = $flipped/flipped
+	_screengrab = $screengrabber/screengrab
+	_screengrab_note = $screengrabnote
+
+## Called by the parent [FEAGI_UI_Panel_Device] node IF it has a prior device config
+func import_IOHandler(device_config: FEAGI_IOHandler_Base) -> void:
+	var camera_config: FEAGI_IOHandler_Sensory_Camera = device_config as FEAGI_IOHandler_Sensory_Camera
+	if camera_config == null:
+		push_error("FEAGI: Unknown IOHandler sent to camera device!")
+		return
+	
+	_x.value = camera_config.resolution.x
+	_y.value = camera_config.resolution.y
+	_flipped.button_pressed = camera_config.is_flipped_x
+	_screengrab.button_pressed = camera_config.automatically_create_screengrabber
+	_screengrab_note.visible = camera_config.automatically_create_screengrabber
+
+## Called by the parent [FEAGI_UI_Panel_Device] node when it needs to build the device settings to export a save file
+func export_IOHandler() -> FEAGI_IOHandler_Base:
+	var camera_config: FEAGI_IOHandler_Sensory_Camera = FEAGI_IOHandler_Sensory_Camera.new()
+	camera_config.resolution = Vector2i(_x.value, _y.value)
+	camera_config.is_flipped_x = _flipped.button_pressed
+	camera_config.automatically_create_screengrabber = _screengrab.button_pressed
+	return camera_config
