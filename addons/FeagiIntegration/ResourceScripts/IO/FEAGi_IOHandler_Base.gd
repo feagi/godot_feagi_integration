@@ -6,6 +6,7 @@ class_name FEAGI_IOHandler_Base
 @export var device_name: StringName
 @export var FEAGI_index: int
 @export var device_ID: int
+@export var is_disabled: bool
 
 ## Easy way to set all required base settings
 func setup_required_base_settings(name_of_device: StringName, index_FEAGI: int, ID_device: int) -> void:

@@ -1,17 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3h87noes5edd"]
+[gd_scene load_steps=5 format=3 uid="uid://c3h87noes5edd"]
 
 [ext_resource type="PackedScene" uid="uid://b041xhhnpjs5e" path="res://addons/FeagiIntegration/Editor/Panel/Components/FEAGI_UI_Panel_AgentSettings.tscn" id="1_fqfdh"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/FEAGI_UI_Panel.gd" id="1_silxe"]
+[ext_resource type="PackedScene" uid="uid://cyclx8mgddas0" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/FEAGI_UI_Panel_Devices.tscn" id="2_y48mn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnoq7"]
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.243137)
 
-[node name="FeagiPluginDock" type="PanelContainer"]
+[node name="FEAGI_UI_Panel" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 36.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_silxe")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
@@ -63,7 +66,7 @@ custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
 [node name="TabContainer" type="TabContainer" parent="ScrollContainer/Options"]
-custom_minimum_size = Vector2(0, 600)
+custom_minimum_size = Vector2(0, 512)
 layout_mode = 2
 current_tab = 1
 
@@ -95,6 +98,9 @@ metadata/_tab_index = 1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
 
+[node name="FeagiUiPanelDevices" parent="ScrollContainer/Options/TabContainer/Sensory/PanelContainer" instance=ExtResource("2_y48mn")]
+layout_mode = 2
+
 [node name="Motor" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
 visible = false
 layout_mode = 2
@@ -107,6 +113,9 @@ metadata/_tab_index = 2
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/Motor"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
+
+[node name="FeagiUiPanelDevices" parent="ScrollContainer/Options/TabContainer/Motor/PanelContainer" instance=ExtResource("2_y48mn")]
+layout_mode = 2
 
 [node name="Metrics" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
 visible = false

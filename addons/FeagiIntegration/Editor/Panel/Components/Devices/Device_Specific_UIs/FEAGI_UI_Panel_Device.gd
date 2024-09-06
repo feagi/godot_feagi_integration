@@ -2,14 +2,13 @@
 extends PanelContainer
 class_name FEAGI_UI_Panel_Device
 
+signal confirm_name_change(requesting_new_name: StringName, self_ref: FEAGI_UI_Panel_Device)
+
 var device_type: StringName:
 	get: return _device_type
 
-var device_name: StringName:
-	get:
-		if _device_name_line:
-			return _device_name_line.text
-		return "ERROR"
+var device_friendly_name: StringName:
+	get: return _device_friendly_name
 
 var is_disabled: bool:
 	get:
@@ -20,13 +19,14 @@ var is_disabled: bool:
 var _type_header: Label
 var _device_name_line: LineEdit
 var _is_disabled_box: CheckBox
-var _device_settings: FEAGI_UI_Panel_SpecificDeviceBase  # This node gets replaced on start as per setup()
+var _device_settings: FEAGI_UI_Panel_SpecificDeviceUI_Base  # This node gets replaced on start as per setup()
 var _FEAGI_device_settings_holder: FEAGI_UI_Panel_Device_ParameterManager
 var _device_index: int
+var _device_friendly_name: StringName
 
 var _device_type: StringName = ""
 
-func setup(device_type_name: StringName, device_index: int, initial_name: StringName, is_device_disabled: bool, specific_device_UI: FEAGI_UI_Panel_SpecificDeviceBase, 
+func setup(device_type_name: StringName, device_index: int, initial_name: StringName, is_device_disabled: bool, specific_device_UI: FEAGI_UI_Panel_SpecificDeviceUI_Base, 
 configurator_JSON_template_for_this_device: Dictionary, specific_device_handler: FEAGI_IOHandler_Base = null, configurator_JSON_values: Dictionary = {}) -> void:
 	# NOTE: The default value import is part of this function cause it is easier to mix that with the TemplateJSon Generator
 	# configurator_JSON_template_for_this_device refers to the dictionary  that is the value corresponding to {"input/output" : {"device_name" : (this dict)}}
@@ -45,7 +45,6 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 	set_title_label_index(_device_index)
 	_device_settings.setup()
 	
-	
 	var parameters_JSON_for_this_device: Array[Dictionary]
 	parameters_JSON_for_this_device.assign(configurator_JSON_template_for_this_device["parameters"])
 	_FEAGI_device_settings_holder.setup(parameters_JSON_for_this_device, configurator_JSON_values)
@@ -56,13 +55,19 @@ func set_title_label_index(index: int) -> void:
 	_type_header.text = "%s %d" % [_device_type, index]
 
 func set_device_name(set_name: StringName) -> void:
+	_device_friendly_name = set_name
 	_device_name_line.text = set_name
 
 ## Returns the dict within the numerical device index of the device
 func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 	var output: Dictionary = {
-		"custom_name": device_name,
+		"custom_name": device_friendly_name,
 		"disabled": is_disabled
 	}
 	output.merge(_FEAGI_device_settings_holder.export_as_dict())
 	return output
+
+## When the name lineedit loses focus, check if the text in it cheanged. If it did, send a signal to confirm if the name should be changed or not
+func _check_name_change() -> void:
+	if _device_name_line.text != _device_friendly_name:
+		confirm_name_change.emit(_device_friendly_name, _device_name_line.text, _device_type)

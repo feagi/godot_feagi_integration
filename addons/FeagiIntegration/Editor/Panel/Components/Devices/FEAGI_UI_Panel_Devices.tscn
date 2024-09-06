@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyclx8mgddas0"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/FEAGI_UI_Panel_Devices.gd" id="1_scft0"]
+[ext_resource type="PackedScene" uid="uid://dog1wmggnvm2v" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/FEAGI_UI_Panel_DeviceList.tscn" id="2_e36v6"]
+
+[node name="FeagiUiPanelDevices" type="VBoxContainer"]
+offset_right = 89.0
+offset_bottom = 16.0
+script = ExtResource("1_scft0")
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="gap" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="FeagiUiPanelDeviceList" parent="." instance=ExtResource("2_e36v6")]
+layout_mode = 2
