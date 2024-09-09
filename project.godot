@@ -24,7 +24,7 @@ config/icon="res://icon.webp"
 
 [autoload]
 
-FEAGIRunTime="*res://addons/FeagiIntegration/RunTime/FEAGIRunTime.gd"
+FEAGI_RunTime="*res://addons/FeagiIntegration/RunTime/FEAGI_RunTime.gd"
 
 [debug]
 
