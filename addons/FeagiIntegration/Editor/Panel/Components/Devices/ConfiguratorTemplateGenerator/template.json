@@ -55,25 +55,19 @@
 				{
 					"label": "max_value",
 					"description": "maximum range to move the servo",
-					"type": "integer",
+					"type": "float",
 					"default": 1
 				},
 				{
 					"label": "min_value",
 					"description": "minimum range to move the servo",
-					"type": "integer",
+					"type": "float",
 					"default": 0
-				},
-				{
-					"label": "rolling_window_len",
-					"description": "How many windows are needed to slow the motor to a stop.",
-					"type": "integer",
-					"default": 1
 				},
 				{
 					"label": "max_power",
 					"description": "max power to go full speed on your robot.",
-					"type": "integer",
+					"type": "float",
 					"default": 10
 				},
 				{
@@ -81,6 +75,13 @@
 					"description": "An index to place",
 					"type": "integer",
 					"default": 0
+				},
+				{
+					"label": "default_value",
+					"description": "A default value to set the servo to.",
+					"type": "float",
+					"default": 0,
+					"optional": true
 				}
 			]
 		},
@@ -129,10 +130,33 @@
 					"default": 0
 				}
 			]
+		},
+		"motion_control": {
+			"label": "Motion control",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
 		}
 	},
 	"input": {
-		"infrared_sensor": {
+		"infrared": {
 			"label": "Infrared",
 			"description": "",
 			"parameters": [
@@ -155,7 +179,7 @@
 				}
 			]
 		},
-		"gyroscope": {
+		"gyro": {
 			"label": "Gyroscope Sensor",
 			"description": "",
 			"parameters": [
@@ -283,7 +307,7 @@
 				}
 			]
 		},
-		"servo": {
+		"servo_position": {
 			"label": "Servo Position",
 			"description": "",
 			"parameters": [
@@ -301,13 +325,13 @@
 				{
 					"label": "max_value",
 					"description": "A maximum number to read the value",
-					"type": "integer",
+					"type": "float",
 					"default": 0
 				},
 				{
 					"label": "min_value",
 					"description": "A minimum number to read the value",
-					"type": "integer",
+					"type": "float",
 					"default": 0
 				},
 				{
@@ -334,16 +358,16 @@
 					"default": false
 				},
 				{
-					"label": "proximity_max_distance",
+					"label": "max_value",
 					"description": "A maximum number to read the value",
 					"type": "float",
-					"default": 0.0
+					"default": 0
 				},
 				{
-					"label": "proximity_min_distance",
+					"label": "min_value",
 					"description": "A minimum number to read the value",
 					"type": "float",
-					"default": 0.0
+					"default": 0
 				},
 				{
 					"label": "feagi_index",
@@ -373,9 +397,9 @@
 					"description": "Minimum range detectable by the sensor.",
 					"type": "vector3",
 					"default": [
-						0.0,
-						0.0,
-						0.0
+						0,
+						0,
+						0
 					]
 				},
 				{
@@ -383,9 +407,9 @@
 					"description": "Maximum range detectable by the sensor",
 					"type": "vector3",
 					"default": [
-						0.0,
-						0.0,
-						0.0
+						0,
+						0,
+						0
 					]
 				},
 				{
@@ -412,13 +436,13 @@
 					"default": false
 				},
 				{
-					"label": "maximum_value",
+					"label": "max_value",
 					"description": "A maximum battery percentage",
 					"type": "percentage",
 					"default": 100
 				},
 				{
-					"label": "minimum_value",
+					"label": "min_value",
 					"description": "A minimum battery percentage",
 					"type": "percentage",
 					"default": 0
@@ -449,7 +473,8 @@
 				{
 					"label": "index",
 					"description": "An index to create cortical vision name such as iv00_C, iv01_C, etc.",
-					"type": "string"
+					"type": "string",
+					"default": "00"
 				},
 				{
 					"label": "mirror",
