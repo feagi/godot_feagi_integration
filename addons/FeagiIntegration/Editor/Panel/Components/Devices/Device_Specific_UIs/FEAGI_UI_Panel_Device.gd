@@ -60,14 +60,22 @@ func set_device_name(set_name: StringName) -> void:
 	_device_friendly_name = set_name
 	_device_name_line.text = set_name
 
-## Returns the dict within the numerical device index of the device
+## Returns the dict of the device type name, that contains the index as a string, that then contains the details of that device
 func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
-	var output: Dictionary = {
+	var inside: Dictionary = {
 		"custom_name": device_friendly_name,
 		"disabled": is_disabled
 	}
-	output.merge(_FEAGI_device_settings_holder.export_as_dict())
-	return output
+	inside.merge(_FEAGI_device_settings_holder.export_as_dict())
+	return {
+		_device_type : 
+			{str(_device_index): inside }
+	}
+	
+
+func export_as_FEAGI_IOHandler() -> FEAGI_IOHandler_Base:
+	return _device_settings.export_IOHandler(_device_friendly_name, _device_index, 0, is_disabled) # TODO what is going onm with device index / device ID?
+
 
 ## When the name lineedit loses focus, check if the text in it cheanged. If it did, send a signal to confirm if the name should be changed or not
 func _check_name_change() -> void:

@@ -26,7 +26,7 @@ var FEAGI_enabled: bool:
 		if _network_settings:
 			toggle_showing_network_settings(v)
 
-var endpoint_URL: StringName:
+var connector_endpoint_URL: StringName:
 	get:
 		if _connector_endpoint:
 			return _connector_endpoint.text
@@ -35,7 +35,7 @@ var endpoint_URL: StringName:
 		if _connector_endpoint:
 			_connector_endpoint.text = v
 
-var API_port: int:
+var connector_API_port: int:
 	get:
 		if _API_port:
 			return _API_port.value
@@ -44,7 +44,7 @@ var API_port: int:
 		if _API_port:
 			_API_port.value = v
 			
-var websocket_port: int:
+var connector_websocket_port: int:
 	get:
 		if _WS_port:
 			return _WS_port.value
@@ -65,7 +65,7 @@ var debug_enabled: bool:
 var refresh_rate: float:
 	get:
 		if _WS_port:
-			return 1.0 / float(_WS_port.value)
+			return 1.0 / float(_refresh_rate.value)
 		return -1.0
 	set(v):
 		if _WS_port:
@@ -91,3 +91,14 @@ func initialize_references() -> void:
 
 func toggle_showing_network_settings(is_visible: bool) -> void:
 	_network_settings.visible = is_visible
+
+## Exports endpoint (NOTE: we need feagi info?)
+func export_endpoint() -> FEAGI_Resource_Endpoint:
+	return FEAGI_Resource_Endpoint.create_from(
+		"",
+		0,
+		connector_endpoint_URL,
+		connector_API_port,
+		connector_websocket_port,
+		""
+	)

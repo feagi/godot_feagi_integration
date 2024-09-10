@@ -131,3 +131,20 @@ metadata/_tab_index = 3
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/Metrics"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options"]
+layout_mode = 2
+
+[node name="export" type="Button" parent="ScrollContainer/Options/HBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save Configuration"
+
+[node name="import" type="Button" parent="ScrollContainer/Options/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Import Configuration"
+
+[connection signal="pressed" from="ScrollContainer/Options/HBoxContainer/export" to="." method="_export_config"]

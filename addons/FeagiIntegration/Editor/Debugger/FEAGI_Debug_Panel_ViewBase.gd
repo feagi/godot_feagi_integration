@@ -21,13 +21,13 @@ func is_collapsed() -> bool:
 
 func set_collapsed(collapse: bool) -> void:
 	if collapse:
-		_collapse_button.texture_normal = load("res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Right_S.png")
-		_collapse_button.texture_hover = load("res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Right_H.png")
-		_collapse_button.texture_pressed = load("res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Right_C.png")
+		_collapse_button.texture_normal = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_S.png")
+		_collapse_button.texture_hover = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_H.png")
+		_collapse_button.texture_pressed = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_C.png")
 	else:
-		_collapse_button.texture_normal = load("res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Down_S.png")
-		_collapse_button.texture_hover = load("res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Down_H.png")
-		_collapse_button.texture_pressed = load("res://addons/FeagiIntegration/Window/Resources/Icons/Triangle_Down_C.png")
+		_collapse_button.texture_normal = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Down_S.png")
+		_collapse_button.texture_hover = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Down_H.png")
+		_collapse_button.texture_pressed = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Down_C.png")
 	_is_collapsed = collapse
 	_holder.visible = !collapse
 

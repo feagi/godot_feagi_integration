@@ -32,8 +32,12 @@ func import_IOHandler(device_config: FEAGI_IOHandler_Base) -> void:
 	_screengrab_note.visible = camera_config.automatically_create_screengrabber
 
 ## Called by the parent [FEAGI_UI_Panel_Device] node when it needs to build the device settings to export a save file
-func export_IOHandler() -> FEAGI_IOHandler_Base:
+func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_IOHandler_Base:
 	var camera_config: FEAGI_IOHandler_Sensory_Camera = FEAGI_IOHandler_Sensory_Camera.new()
+	camera_config.device_name = device_name
+	camera_config.FEAGI_index = FEAGI_index
+	camera_config.device_ID = device_ID
+	camera_config.is_disabled = is_disabled
 	camera_config.resolution = Vector2i(_x.value, _y.value)
 	camera_config.is_flipped_x = _flipped.button_pressed
 	camera_config.automatically_create_screengrabber = _screengrab.button_pressed

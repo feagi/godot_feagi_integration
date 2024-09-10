@@ -15,7 +15,7 @@ const SPECIFIC_DEVICE_UI_PATHS_MOTOR: Dictionary = {
 }
 
 var _is_sensory: bool
-var _device_references: Dictionary = {} # key'd by device type name, values are the references to the device objects. Used for counting, and name deduplication
+var _device_references: Dictionary = {} # key'd by device type name, values are the references to the device objects [FEAGI_UI_Panel_Device]. Used for counting, and name deduplication
 
 
 func setup(is_sensory: bool) -> void:
@@ -58,7 +58,29 @@ func spawn_device_new(device_type: StringName, configurator_template: Dictionary
 	device.request_deletion.connect(_device_request_deletion)
 	device.setup(device_type, device_index, device_name, false, device_specific_UI, configurator_template)
 
+## Exports an array of FEAGI Device IO Handlers for saving as a config
+func export_FEAGI_IOHandlers() -> Array[FEAGI_IOHandler_Base]:
+	var device_refs: Array[FEAGI_UI_Panel_Device] = _device_references.values()
+	var output: Array[FEAGI_IOHandler_Base] = []
+	for ref in device_refs:
+		output.append(ref.export_as_FEAGI_IOHandler())
+	return output
 
+## Exports top level "capability" seciton of the config JSON
+func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
+	var direction: StringName = "output"
+	if _is_sensory:
+		direction = "input"
+	var device_refs: Array[FEAGI_UI_Panel_Device] = _device_references.values()
+	var inside: Dictionary = {}
+	for ref in device_refs:
+		inside.merge(ref.export_as_FEAGI_config_JSON_device_object())
+	return {"capabilities": 
+		{
+			direction: inside
+			}
+		}
+	
 
 func _device_request_deletion(device_ref: FEAGI_UI_Panel_Device) -> void:
 	var device_index: int = _device_references[device_ref.device_type].find(device_ref)

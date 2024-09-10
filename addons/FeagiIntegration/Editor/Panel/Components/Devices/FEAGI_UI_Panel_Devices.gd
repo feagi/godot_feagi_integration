@@ -23,7 +23,14 @@ func setup(is_sensory: bool, whole_IO_template: Dictionary) -> void:
 		_dropdown.add_item(acceptable_type)
 	
 	_device_list.setup(is_sensory)
-	
+
+func export_FEAGI_IOHandlers() -> Array[FEAGI_IOHandler_Base]:
+	return _device_list.export_FEAGI_IOHandlers()
+
+func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
+	return _device_list.export_as_FEAGI_config_JSON_device_objects()
+
+
 func _add_device_button_pressed() -> void:
 	var spawn_index: int = _dropdown.get_selected_id()
 	if spawn_index == -1:
