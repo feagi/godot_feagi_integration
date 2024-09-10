@@ -9,6 +9,7 @@ func setup() -> void:
 	_section_agent = $ScrollContainer/Options/TabContainer/FEAGI/PanelContainer/FEAGIPanelFEAGIAgentSettings
 	_section_sensory = $ScrollContainer/Options/TabContainer/Sensory/PanelContainer/FeagiUiPanelDevices
 	
+	_section_agent.initialize_references()
 	var json: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(FEAGI_PLUGIN.TEMPLATE_DIR))
 	_section_sensory.setup(true, json["input"])
 
@@ -18,7 +19,6 @@ func _export_config() -> void:
 	
 	var JSON_dict: Dictionary = {}
 	JSON_dict.merge(_section_sensory.export_as_FEAGI_config_JSON_device_objects())
-	
 	var sensory_devices: Array[FEAGI_IOHandler_Sensory_Base] = []
 	sensory_devices.assign(_section_sensory.export_FEAGI_IOHandlers())
 	var sensory: Dictionary = {}

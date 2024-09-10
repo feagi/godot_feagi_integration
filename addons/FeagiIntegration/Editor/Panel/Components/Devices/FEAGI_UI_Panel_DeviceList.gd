@@ -60,7 +60,8 @@ func spawn_device_new(device_type: StringName, configurator_template: Dictionary
 
 ## Exports an array of FEAGI Device IO Handlers for saving as a config
 func export_FEAGI_IOHandlers() -> Array[FEAGI_IOHandler_Base]:
-	var device_refs: Array[FEAGI_UI_Panel_Device] = _device_references.values()
+	var device_refs: Array[FEAGI_UI_Panel_Device] = []
+	device_refs.assign(_device_holder.get_children())
 	var output: Array[FEAGI_IOHandler_Base] = []
 	for ref in device_refs:
 		output.append(ref.export_as_FEAGI_IOHandler())
@@ -71,7 +72,8 @@ func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
 	var direction: StringName = "output"
 	if _is_sensory:
 		direction = "input"
-	var device_refs: Array[FEAGI_UI_Panel_Device] = _device_references.values()
+	var device_refs: Array[FEAGI_UI_Panel_Device] = []
+	device_refs.assign(_device_holder.get_children())
 	var inside: Dictionary = {}
 	for ref in device_refs:
 		inside.merge(ref.export_as_FEAGI_config_JSON_device_object())

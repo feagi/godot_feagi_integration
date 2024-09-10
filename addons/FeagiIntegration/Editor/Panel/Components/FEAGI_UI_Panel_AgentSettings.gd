@@ -82,7 +82,7 @@ var _refresh_rate: SpinBox
 ## Called from the panel due to execution order
 func initialize_references() -> void:
 	_enable_FEAGI = $EnableFEAGI/EnableFEAGI
-	_network_settings = $FEAGINetworkSettings
+	_network_settings = $FEAGINetworkSettings/Manual_Connection_Settings
 	_connector_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/Endpoint
 	_API_port = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/API_Port
 	_WS_port = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/WS_Port
@@ -90,7 +90,7 @@ func initialize_references() -> void:
 	_refresh_rate = $RefreshRate/RefreshRate
 
 func toggle_showing_network_settings(is_visible: bool) -> void:
-	_network_settings.visible = is_visible
+	_network_settings.toggle_visibility(is_visible)
 
 ## Exports endpoint (NOTE: we need feagi info?)
 func export_endpoint() -> FEAGI_Resource_Endpoint:
