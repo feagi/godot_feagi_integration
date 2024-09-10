@@ -3,8 +3,10 @@ extends Resource
 class_name FEAGI_Resource_Endpoint
 
 @export var magic_URL: StringName
+@export var is_using_SSL: bool
 @export var FEAGI_endpoint: StringName
 @export var connector_endpoint: StringName
+@export var automatic_port_assignment: bool = true
 @export var FEAGI_API_port: int
 @export var connector_WS_port: int
 

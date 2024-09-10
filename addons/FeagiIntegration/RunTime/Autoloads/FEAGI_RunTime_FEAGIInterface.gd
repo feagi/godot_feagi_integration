@@ -1,6 +1,11 @@
 extends Node
 class_name FEAGI_RunTime_FEAGIInterface
 
+
+
+
+
+
 var _socket: WebSocketPeer
 
 
