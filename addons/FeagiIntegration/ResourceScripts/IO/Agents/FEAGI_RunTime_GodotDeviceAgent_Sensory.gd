@@ -4,24 +4,24 @@ class_name FEAGI_RunTime_GodotDeviceAgent_Sensory
 
 var _data_retrieval_function: Callable = Callable() ## Function that takes no parameters and returns the appropriate data type expected by the sensor
 
-func setup
+func setup_for_sensor_registration(data_retrival_function: Callable, override_device_type: StringName = initial_device_type_of_agent, override_device_name: StringName = initial_device_name_to_map_to_FEAGI) -> void:
+	var is_valid: bool = _base_setup_agent_for_registration(FEAGI_PLUGIN.GODOT_SUPPORTED_SENSORS, FEAGI.godot_device_manager.get_possible_sensor_feagi_names(), override_device_type, override_device_name)
+	if not is_valid:
+		return
+	_data_retrieval_function = data_retrival_function
+	_is_ready_for_registration = true
 
+func get_data_retrival_function() -> Callable:
+	return _data_retrieval_function
 
-## Called from the device node that this object is a member of on its startup
-func setup_device_type(type: StringName, data_retrieval_function: Callable) -> void:
-	_device_type_name = type
-	_data_retrieval_function = data_retrieval_function
-	if attempt_registeration_on_startup:
-		FEAGI_RunTime.signal_all_autoregister_sensors_to_register.connect(register_device)
-		
-
-func _register_device() -> FEAGI_IOHandler_Base:
+func _register_device() -> bool:
 	if _data_retrieval_function.is_null():
 		push_error("FEAGI: Sensor %s does not have a data retrival function defined correctly! Was the 'setup_device_type' function called incorrectly? Skipping Registration!" % _device_name)
-		return null
-	var sensor_device: FEAGI_IOHandler_Base = FEAGI_RunTime.mapping_config.sensor_register(_device_type_name, _device_name, _data_retrieval_function)
-	return sensor_device
+		return false
+	
+	var is_registration_sucessful: bool = FEAGI.godot_device_manager.register_godot_device_sensor(self)
+	return is_registration_sucessful
 
-func _deregister_device() -> FEAGI_IOHandler_Base:
-	var sensor_device: FEAGI_IOHandler_Base = FEAGI_RunTime.mapping_config.sensor_deregister(_device_type_name, _device_name)
-	return sensor_device
+func _deregister_device() -> bool:
+	# TODO
+	return false

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://82q2equvy8mu"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/RunTime/VirtualDevices/Sensors/FEAGI_Device_Camera_ScreenCapture.gd" id="1_jvyd4"]
+
+[node name="FeagiDeviceCameraScreenCapture" type="Node"]
+script = ExtResource("1_jvyd4")

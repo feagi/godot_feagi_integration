@@ -2,13 +2,15 @@ extends RefCounted
 class_name FEAGI_RunTime_DebugInterface
 ## A class that allows for the runtime of FEAGI to talk backa dn forth with the debugger running in the editor
 
-var _devices: Array[FEAGI_IOHandler_Base] = []
+# WARNING see bottom warning about intertacting with these arrays
+var _devices: Array[FEAGI_IOHandler_Base] = [] # NOTE: This is a seperate array from the the one in [FEAGI_RunTime] as the order of this is important!
 var _cached_sending_data: Array = []
 
-func alert_debugger_about_device_creation(is_motor: bool, device: FEAGI_IOHandler_Base) -> void:
-	EngineDebugger.send_message("FEAGI:add_device", [is_motor, device.get_device_type(), device.device_name])
-	_devices.append(device)
-	_cached_sending_data.append(device.get_debug_data())
+func alert_debugger_about_device_creation(FEAGI_device: FEAGI_IOHandler_Base) -> void:
+	EngineDebugger.send_message("FEAGI:add_device", FEAGI_device.get_debug_interface_device_creation_array())
+	_add_device(FEAGI_device)
+	_devices.append(FEAGI_device)
+	_cached_sending_data.append(FEAGI_device.get_debug_data())
 
 func alert_debugger_about_device_removal():
 	#TODO
@@ -19,8 +21,19 @@ func alert_debugger_about_data_update() -> void:
 	for i in len(_devices):
 		_cached_sending_data[i] = _devices[i].get_debug_data()
 	EngineDebugger.send_message("FEAGI:data", _cached_sending_data)
-	
 
-func message_FEAGI_device_rename(is_motor: bool, device_type: String, old_device_name: String, new_device_name: String):
-	#todo?
-	pass
+
+
+# WARNING: Only interact with the arrays using these functions to avoid desyncs
+
+func _add_device(FEAGI_device: FEAGI_IOHandler_Base) -> void:
+	_devices.append(FEAGI_device)
+	_cached_sending_data.append(FEAGI_device.get_debug_data())
+
+func _remove_device(FEAGI_device: FEAGI_IOHandler_Base) -> void:
+	var index: int = _devices.find(FEAGI_device)
+	if index == -1:
+		push_error("FEAGI: Unable to find device of name %s in the debug cache to remove!" % FEAGI_device.device_name)
+		return
+	_devices.remove_at(index)
+	_cached_sending_data.remove_at(index)

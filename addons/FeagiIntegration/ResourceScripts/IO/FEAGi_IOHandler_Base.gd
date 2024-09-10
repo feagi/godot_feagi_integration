@@ -2,25 +2,26 @@
 extends Resource
 class_name FEAGI_IOHandler_Base
 ## Base class for all IO objects (for recieving and sending data to FEAGI)
+## WARNING: Do NOT use this class directly. Use one of the actual device type classes
 
 @export var device_name: StringName
 @export var FEAGI_index: int
 @export var device_ID: int
 @export var is_disabled: bool
 
-## Easy way to set all required base settings
-func setup_required_base_settings(name_of_device: StringName, index_FEAGI: int, ID_device: int) -> void:
-	device_name = name_of_device
-	FEAGI_index = index_FEAGI
-	device_ID = ID_device
+var is_registered_to_godot_device: bool:
+	get: return _is_registered_to_godot_device
 
-## Called by debug views to return data used for showing current state of things
-func get_debug_data() -> Variant:
-	assert(false, "Do not use 'FEAGI_IOHandler_Base' Directly!")
-	return null
+var _is_registered_to_godot_device: bool = false
 
 
 func get_device_type() -> StringName:
-	# override me in all child classses to easily get the FEAGI string name of the class
+	# override me in all child device classses to easily get the FEAGI string name of the class
 	assert(false, "Do not use 'FEAGI_IOHandler_Base' Directly!")
 	return ""
+
+## The debugger needs information in order to create the correct view type in the debugger panel. This creates that array
+func get_debug_interface_device_creation_array() -> Array:
+	assert(false, "Do not use 'FEAGI_IOHandler_Base' Directly!")
+	return [] # NOTE: Array follows this format -> [bool is_motor, str device_type_name, str device_name, (ONLY IN SOME DEVICES: Variant extra parameter(s)]
+	

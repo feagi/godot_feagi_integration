@@ -5,8 +5,8 @@ class_name FEAGI_RunTime_GodotDeviceAgent_Base
 #TODO multi device name registration?
 
 # NOTE: This enum should contain enteries both from [FEAGI_PLUGIN].GODOT_SUPPORTED_SENSORS and [FEAGI_PLUGIN].GODOT_SUPPORTED_MOTORS
-@export_enum("camera") var device_type_of_agent: String ## The type of this device. Note this can be overridden from the setup function
-@export var device_name_to_map_to_FEAGI: StringName ## The name of this device that will be mapped to FEAGI. Note this can be overridden from the setup function
+@export_enum("camera") var initial_device_type_of_agent: String ## The type of this device. Note this can be overridden from the setup function
+@export var initial_device_name_to_map_to_FEAGI: StringName ## The name of this device that will be mapped to FEAGI. Note this can be overridden from the setup function
 
 var _device_type_name: StringName = ""
 var _device_name: StringName
@@ -33,21 +33,20 @@ func register_device() -> void:
 	if _is_registered:
 		push_warning("FEAGI: Device %s attempted to register to FEAGI when it was already registered! Ignoring!" % _device_type_name)
 		return
-	var registration_target: FEAGI_IOHandler_Base = _register_device()
-	if registration_target:
+	if _register_device(): # returns true if successful
 		_is_registered = true
 
 func deregister_device() -> void:
 	if !_is_registered:
 		push_warning("FEAGI: Device %s attempted to deregister to FEAGI when it wasnt registered already! Ignoring!" % _device_type_name)
 		return
-	var deregistration_target: FEAGI_IOHandler_Base = _deregister_device()
-	if deregistration_target:
+	if _deregister_device(): # returns true if successful
 		_is_registered = false
 
-## Attempts to set up base variables required to make this agent registerable. Returns True if succeeds
+
+## Checks if setup variables are valid and sets them. Returns True if succeeds. Called from setup_for_X_registration from child classes
 func _base_setup_agent_for_registration(allowed_types: PackedStringArray, allowed_names: PackedStringArray, 
-device_type: StringName = device_type_of_agent, device_name: StringName = device_name_to_map_to_FEAGI) -> bool:
+device_type: StringName = initial_device_type_of_agent, device_name: StringName = initial_device_name_to_map_to_FEAGI) -> bool:
 	#NOTE: This function does not set _is_ready_for_registration to true! That is handled by the child classes!
 	
 	if device_type.is_empty():
@@ -68,12 +67,12 @@ device_type: StringName = device_type_of_agent, device_name: StringName = device
 	return true
 
 
-## OVERRIDDEN in the child classes to handle proper registration procedures
-func _register_device() -> FEAGI_IOHandler_Base:
+## OVERRIDDEN in the child classes to handle proper registration procedures. Returns if registration was succesful
+func _register_device() -> bool:
 	assert(false, "Do not use FEAGI_RunTime_GodotDeviceAgent_Base directly for FEAGI devices!")
-	return null
+	return false
 
-## OVERRIDDEN in the child classes to handle proper deregistration procedures
-func _deregister_device() -> FEAGI_IOHandler_Base:
+## OVERRIDDEN in the child classes to handle proper deregistration procedures Returns if deregistration was succesful
+func _deregister_device() -> bool:
 	assert(false, "Do not use FEAGI_RunTime_GodotDeviceAgent_Base directly for FEAGI devices!")
-	return null
+	return false

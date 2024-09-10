@@ -1,19 +1,30 @@
 extends Node
 ## AUTOLOADED singleton that runs with the game. Reads established config and communicates to FEAGI
 
-signal signal_all_autoregister_sensors_to_register()
-signal signal_all_autoregister_motors_to_register()
+
+
+var godot_device_manager: FEAGI_RunTime_GodotDeviceManager = FEAGI_RunTime_GodotDeviceManager.new()
+
+var _FEAGI_device_manager: FEAGI_RunTime_FEAGIDeviceManager = FEAGI_RunTime_FEAGIDeviceManager.new()
+
+var _FEAGI_sensors: Dictionary = {} ## Key'd by the device name, value is the relevant [FEAGI_IOHandler_Sensory_Base]. Beware of name conflicts!
+var _FEAGI_sensors_cache: Array[FEAGI_IOHandler_Sensory_Base] = [] ## NOTE: We cache the results of _FEAGI_sensors.values() since its rather slow
+
+
 
 var mapping_config: FEAGI_Genome_Mapping
 var endpoint_config: FEAGI_Resource_Endpoint
-
-var _debug_interface: FEAGI_RunTime_DebugInterface
 var _automatic_device_generator: FEAGIAutomaticDeviceGenerator
 var _tick_engine: FEAGI_RunTime_TickEngine
 
 # General overview of startup
-# Read / verify configs
-# initial loading and setup of variables, check if enabled
+# Read / verify configs, stop if not enabled
+# Load in sensor / motor FEAGI Device objects
+# Activate FEAGI Device manager, including the Debugger and the FEAGI Network Interface (if enabled)
+# Activate Godot Device Manager
+
+
+
 # initialize debugger views
 # Wait for game tree to be ready
 # confirm network connection to feagi
@@ -21,13 +32,12 @@ var _tick_engine: FEAGI_RunTime_TickEngine
 # Have virtual FEAGI devices register themselves to the FEAGI runtime
 # start tick system
 
-func _enter_tree() -> void:
+func initialize_FEAGI_runtime() -> void:
 	print("FEAGI Interface starting up!")
+	
+	# Read / verify configs, stop if not enabled
 	mapping_config = load(FEAGI_PLUGIN.get_genome_mapping_path())
 	endpoint_config = load(FEAGI_PLUGIN.get_endpoint_path())
-	
-	# Checks to ensure everything is valid and enabled
-	
 	if !mapping_config:
 		push_error("FEAGI: No settings found for FEAGI configuration! The FEAGI integration will now halt!")
 		return
@@ -37,6 +47,37 @@ func _enter_tree() -> void:
 	if !endpoint_config:
 		push_error("FEAGI: No connection settings found for FEAGI configuration! THe FEAGI integration will now halt!")
 		return
+	
+	# Load in sensor / motor FEAGI Device objects
+	for incoming_FEAGI_sensor in mapping_config.sensors.values():
+		if incoming_FEAGI_sensor is not FEAGI_IOHandler_Sensory_Base:
+			push_error("FEAGI: Unknown object attempted to be added as a FEAGI Sensor! Skipping!")
+			continue
+			
+		if (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).is_disabled:
+			print("FEAGI: Sensor %s is disabled! Not using it for the debugger AND to FEAGI!" % (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name)
+			continue
+		if (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name in _FEAGI_sensors:
+			push_error("FEAGI: sensor %s is already defined! Ensure there are no motor / sensor devices with repeating names!" % (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name)
+			continue
+		_FEAGI_sensors[(incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name] = incoming_FEAGI_sensor
+	_FEAGI_sensors_cache = _FEAGI_sensors.values()
+	
+	
+	# Activate FEAGI Device manager, including the Debugger and the FEAGI Network Interface (if enabled)
+	_FEAGI_device_manager.setup(_FEAGI_sensors, mapping_config.debugger_enabled, mapping_config.FEAGI_enabled)
+	
+	# Activate Godot Device Manager
+	godot_device_manager.setup(_FEAGI_sensors)
+	
+	
+	
+	
+	
+
+func _enter_tree() -> void:
+
+
 	
 	# process nodes
 	_automatic_device_generator = FEAGIAutomaticDeviceGenerator.new()
