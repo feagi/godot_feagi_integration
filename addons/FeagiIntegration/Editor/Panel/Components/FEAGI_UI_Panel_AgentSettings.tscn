@@ -33,7 +33,6 @@ button_pressed = true
 layout_mode = 2
 
 [node name="MagicURL" type="HBoxContainer" parent="FEAGINetworkSettings"]
-visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="FEAGINetworkSettings/MagicURL"]
@@ -67,23 +66,30 @@ text = "Show Manual Endpoint Configuration"
 [node name="Hide" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="1"]
 text = "Hide Manual Endpoint Configuration"
 
-[node name="Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="0"]
+[node name="PanelContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="2"]
+visible = true
+
+[node name="FEAGI_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="0"]
+layout_mode = 2
+placeholder_text = "FEAGI Endpoint"
+
+[node name="Connector_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="1"]
 layout_mode = 2
 placeholder_text = "FEAGI Godot Connector Endpoint"
 
-[node name="API_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="1"]
+[node name="API_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="2"]
 layout_mode = 2
 min_value = 1.0
 max_value = 65535.0
 value = 9000.0
-prefix = "API Port:"
+prefix = "FEAGI Port:"
 
-[node name="WS_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="2"]
+[node name="WS_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="3"]
 layout_mode = 2
 min_value = 1.0
 max_value = 65535.0
 value = 10003.0
-prefix = "Websocket Port:"
+prefix = "Connector Port:"
 
 [node name="EnableDebug" type="HBoxContainer" parent="."]
 layout_mode = 2

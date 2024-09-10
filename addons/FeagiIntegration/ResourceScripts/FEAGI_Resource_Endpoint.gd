@@ -6,11 +6,10 @@ class_name FEAGI_Resource_Endpoint
 @export var FEAGI_endpoint: StringName
 @export var connector_endpoint: StringName
 @export var FEAGI_API_port: int
-@export var connector_API_port: int
 @export var connector_WS_port: int
 
 static func create_from(FEAGI_endpoint: StringName, FEAGI_API_port: int,
-	connector_endpoint: StringName, connector_API_port: int, connector_WS_port: int,
+	connector_endpoint: StringName, connector_WS_port: int,
 	magic_URL: StringName = "") -> FEAGI_Resource_Endpoint:
 	
 	var output: FEAGI_Resource_Endpoint = FEAGI_Resource_Endpoint.new()
@@ -18,7 +17,6 @@ static func create_from(FEAGI_endpoint: StringName, FEAGI_API_port: int,
 	output.FEAGI_endpoint = FEAGI_endpoint
 	output.connector_endpoint = connector_endpoint
 	output.FEAGI_API_port = FEAGI_API_port
-	output.connector_API_port = connector_API_port
 	output.connector_WS_port = connector_WS_port
 	return output
 

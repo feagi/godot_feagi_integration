@@ -26,33 +26,6 @@ var FEAGI_enabled: bool:
 		if _network_settings:
 			toggle_showing_network_settings(v)
 
-var connector_endpoint_URL: StringName:
-	get:
-		if _connector_endpoint:
-			return _connector_endpoint.text
-		return ""
-	set(v):
-		if _connector_endpoint:
-			_connector_endpoint.text = v
-
-var connector_API_port: int:
-	get:
-		if _API_port:
-			return _API_port.value
-		return -1
-	set(v):
-		if _API_port:
-			_API_port.value = v
-			
-var connector_websocket_port: int:
-	get:
-		if _WS_port:
-			return _WS_port.value
-		return -1
-	set(v):
-		if _WS_port:
-			_WS_port.value = v
-
 var debug_enabled: bool:
 	get: 
 		if _enable_debug: 
@@ -72,7 +45,9 @@ var refresh_rate: float:
 			int(1.0 / v)
 
 var _enable_FEAGI: CheckBox
+# TODO Magic URL
 var _network_settings: FEAGI_UI_Prefab_Collapsible
+var _FEAGI_endpoint: LineEdit
 var _connector_endpoint: LineEdit
 var _API_port: SpinBox
 var _WS_port: SpinBox
@@ -83,7 +58,8 @@ var _refresh_rate: SpinBox
 func initialize_references() -> void:
 	_enable_FEAGI = $EnableFEAGI/EnableFEAGI
 	_network_settings = $FEAGINetworkSettings/Manual_Connection_Settings
-	_connector_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/Endpoint
+	_FEAGI_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/FEAGI_Endpoint
+	_connector_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/Connector_Endpoint
 	_API_port = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/API_Port
 	_WS_port = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/WS_Port
 	_enable_debug = $EnableDebug/EnableDebug
@@ -92,13 +68,12 @@ func initialize_references() -> void:
 func toggle_showing_network_settings(is_visible: bool) -> void:
 	_network_settings.toggle_visibility(is_visible)
 
-## Exports endpoint (NOTE: we need feagi info?)
+## Exports endpoint resource
 func export_endpoint() -> FEAGI_Resource_Endpoint:
 	return FEAGI_Resource_Endpoint.create_from(
-		"",
-		0,
-		connector_endpoint_URL,
-		connector_API_port,
-		connector_websocket_port,
-		""
+		_FEAGI_endpoint.text,
+		_API_port.value,
+		_connector_endpoint.text,
+		_WS_port.value,
+		# TODO magic URL
 	)
