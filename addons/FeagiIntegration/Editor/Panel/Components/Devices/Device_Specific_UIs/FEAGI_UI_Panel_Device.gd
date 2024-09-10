@@ -17,9 +17,16 @@ var is_disabled: bool:
 			return _is_disabled_box.button_pressed
 		return false
 
+var feagi_index: int:
+	get: 
+		if _FEAGI_index_spin:
+			return _FEAGI_index_spin.value
+		return -1
+
 var _type_header: Label
 var _device_name_line: LineEdit
 var _is_disabled_box: CheckBox
+var _FEAGI_index_spin: SpinBox
 var _device_settings: FEAGI_UI_Panel_SpecificDeviceUI_Base  # This node gets replaced on start as per setup()
 var _FEAGI_device_settings_holder: FEAGI_UI_Panel_Device_ParameterManager
 var _device_index: int
@@ -34,6 +41,7 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 	_type_header = $MarginContainer/VBoxContainer/titlebar/type
 	_device_name_line = $MarginContainer/VBoxContainer/name/name
 	_is_disabled_box = $MarginContainer/VBoxContainer/disabled/disabled
+	_FEAGI_index_spin = $MarginContainer/VBoxContainer/feagi_index/index
 	_device_settings = $MarginContainer/VBoxContainer/DeviceSettings_TOBEREPLACED # This is a placeholder about to be replaced
 	_FEAGI_device_settings_holder = $MarginContainer/VBoxContainer/FEAGISettings/PanelContainer/MarginContainer/Internals
 	
@@ -64,7 +72,8 @@ func set_device_name(set_name: StringName) -> void:
 func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 	var inside: Dictionary = {
 		"custom_name": device_friendly_name,
-		"disabled": is_disabled
+		"disabled": is_disabled,
+		"feagi_index": feagi_index
 	}
 	inside.merge(_FEAGI_device_settings_holder.export_as_dict())
 	return {

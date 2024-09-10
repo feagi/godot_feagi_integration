@@ -4,7 +4,7 @@ class_name FEAGI_UI_Panel_Device_ParameterManager
 
 # remove "list" support since it is redudant in all our current uses. use vector3 instead
 const SUPPORTED_TYPES: Array[StringName] = ["string", "boolean", "integer", "float", "percentage", "object", "vector3"] ## The current compenent types we support
-const LABEL_NAMES_OF_COMPONENTS_TO_SKIP: Array[StringName] = ["custom_name", "disabled"] ## If a component has this label name property in the template, it will be skipped!
+const LABEL_NAMES_OF_COMPONENTS_TO_SKIP: Array[StringName] = ["custom_name", "disabled", "feagi_index"] ## If a component has this label name property in the template, it will be skipped!
 
 
 const BOOL_PREFAB_PATH: StringName = "res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/FEAGI_UI_Panel_Device_ParameterBool.tscn"
