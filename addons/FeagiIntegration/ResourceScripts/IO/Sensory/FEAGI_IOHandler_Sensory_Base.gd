@@ -5,17 +5,11 @@ class_name FEAGI_IOHandler_Sensory_Base
 
 var _data_grabber: Callable = Callable() # WARNING: Make sure for the proper class, that this callable returns the expected type
 
-## Get data to be outputted to FEAGI and the debugger
-func get_data_as_byte_array() -> PackedByteArray:
-	assert(false, "Do not use 'FEAGI_IOHandler_Sensory_Base' Directly!")
-	return PackedByteArray()
-
 ## Most sensors will just need this to define their creation to the debugger
 func get_debug_interface_device_creation_array() -> Array:
 	return [false, get_device_type(), device_name]
 	# [bool is motor, str device type, str name of device]
 	
-
 # Register a godot device to this device
 func register_godot_device_sensor(data_grabbing_function: Callable) -> void:
 	if !_data_grabber.is_null():

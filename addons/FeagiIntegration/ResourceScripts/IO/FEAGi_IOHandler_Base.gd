@@ -14,7 +14,6 @@ var is_registered_to_godot_device: bool:
 
 var _is_registered_to_godot_device: bool = false
 
-
 func get_device_type() -> StringName:
 	# override me in all child device classses to easily get the FEAGI string name of the class
 	assert(false, "Do not use 'FEAGI_IOHandler_Base' Directly!")
@@ -25,3 +24,7 @@ func get_debug_interface_device_creation_array() -> Array:
 	assert(false, "Do not use 'FEAGI_IOHandler_Base' Directly!")
 	return [] # NOTE: Array follows this format -> [bool is_motor, str device_type_name, str device_name, (ONLY IN SOME DEVICES: Variant extra parameter(s)]
 	
+## Get data of this device (reading from a sensor or cached value from a motor)
+func get_data_as_byte_array() -> PackedByteArray:
+	assert(false, "Do not use 'FEAGI_IOHandler_Sensory_Base' Directly!")
+	return PackedByteArray()

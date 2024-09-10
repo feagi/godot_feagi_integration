@@ -67,7 +67,7 @@ func _enter_tree():
 ## When the plugin as a whole is removed. Cleanup any resources
 func _exit_tree():
 	_debugger.close_session()
-	remove_autoload_singleton("FEAGI_RunTime")
+	remove_autoload_singleton("FEAGI")
 	print("FEAGI: THe Feagi Interface has been removed from the project!")
 	
 	remove_tool_menu_item("Open FEAGI Configurator")

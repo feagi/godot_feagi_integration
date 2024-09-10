@@ -16,12 +16,6 @@ func _init() -> void:
 	_blank_image.create_empty(resolution.x, resolution.y, false, Image.FORMAT_RGB8)
 	_data_for_blank_image = _blank_image.get_data()
 
-## If there is a data grabber function, get the image from it and process it before outputting the data from it. Otherwise returns a cached copy of an empty image
-func get_data_as_byte_array() -> PackedByteArray:
-	if _data_grabber.is_null():
-		return _data_for_blank_image
-	return _process_image(_data_grabber.call())
-
 func get_device_type() -> StringName:
 	return "camera"
 
@@ -29,6 +23,12 @@ func get_device_type() -> StringName:
 func get_debug_interface_device_creation_array() -> Array:
 	return [false, get_device_type(), device_name, resolution.x, resolution.y]
 	# [bool is motor, str device type, str name of device, int x resolution, int y resolution]
+
+## If there is a data grabber function, get the image from it and process it before outputting the data from it. Otherwise returns a cached copy of an empty image
+func get_data_as_byte_array() -> PackedByteArray:
+	if _data_grabber.is_null():
+		return _data_for_blank_image
+	return _process_image(_data_grabber.call())
 
 ## Processes the input images returns the byte array data of it
 func _process_image(image: Image) -> PackedByteArray:
