@@ -74,7 +74,7 @@ func initialize_FEAGI_runtime() -> void:
 	
 	
 	# Activate FEAGI Device manager, including the Debugger and the FEAGI Network Interface (if enabled)
-	_FEAGI_device_manager.setup(_FEAGI_sensors, mapping_config.debugger_enabled, mapping_config.FEAGI_enabled)
+	_FEAGI_device_manager.setup(_FEAGI_sensors, endpoint_config, mapping_config.configuration_JSON, mapping_config.debugger_enabled, mapping_config.FEAGI_enabled)
 	
 	# Activate Godot Device Manager
 	godot_device_manager.setup(_FEAGI_sensors)

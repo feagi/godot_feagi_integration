@@ -12,25 +12,27 @@ limitations under the License.
 ==============================================================================
 """
 extends RefCounted
-class_name FEAGISocket
+class_name Feagi_Network_Socket
 ## Essentially an extension of [WebSocketPeer] for FEAGI
 
-const DEF_SOCKET_MAX_QUEUED_PACKETS: int = 10000000
+const DEF_SOCKET_MAX_QUEUED_PACKETS: int = 10000000 # Cancer
 const DEF_SOCKET_INBOUND_BUFFER_SIZE: int = 10000000 # 10 MB holy cow
 const DEF_SOCKET_BUFFER_SIZE: int = 10000000 # 10 MB holy cow
 
+signal connection_attempt_complete() ## Fires once an attempt to connect is over (either in success or failure)
 signal socket_state_changed(state: WebSocketPeer.State)
 signal FEAGI_returned_data(data: PackedByteArray)
 
 var websocket_state: WebSocketPeer.State:
 	get: return _websocket_state
-
-var _websocket_state: WebSocketPeer.State
+var _websocket_state: WebSocketPeer.State = WebSocketPeer.State.STATE_CLOSED
 var _socket: WebSocketPeer
 var _closed_warning: bool = true
+var _ready: bool = false
 
 func _init(feagi_socket_address: StringName) -> void:
 	_socket =  WebSocketPeer.new()
+	
 	_socket.connect_to_url(feagi_socket_address)
 	_socket.inbound_buffer_size = DEF_SOCKET_INBOUND_BUFFER_SIZE
 
@@ -77,5 +79,8 @@ func _refresh_socket_state() -> void:
 	if new_state == _websocket_state:
 		## no change, doesn't matter which we return
 		return
+	if _websocket_state == WebSocketPeer.State.STATE_CONNECTING:
+		## Previously was connecting, now not:
+		connection_attempt_complete.emit()
 	_websocket_state = new_state
 	socket_state_changed.emit(new_state)

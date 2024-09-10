@@ -8,7 +8,7 @@ const DEF_HEADERSTOUSE: PackedStringArray = ["Content-Type: application/json"]
 static func update_network_endpoint(endpoint_resource: FEAGI_Resource_Endpoint) -> FEAGI_Resource_Endpoint:
 
 	var websocket_port: int = 9050
-	var http_port: int =  8000
+	var http_port: int = 8000
 	var feagi_web_port: int
 	var feagi_socket_port: int
 	var feagi_TLD: StringName
