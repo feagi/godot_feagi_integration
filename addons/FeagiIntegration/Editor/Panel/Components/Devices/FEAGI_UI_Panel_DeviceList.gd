@@ -44,7 +44,7 @@ func spawn_device_new(device_type: StringName, configurator_template: Dictionary
 		device_specific_UI = SPECIFIC_DEVICE_UI_PATHS_MOTOR[device_type].instantiate()
 	
 	var device: FEAGI_UI_Panel_Device = DEVICE_PREFAB.instantiate()
-	var device_index: int = len(_device_references[device_type]) + 1
+	var device_index: int = len(_device_references[device_type])
 	var device_name_index: int = device_index
 	var device_name: StringName = device_type + " " + str(device_name_index)
 	
@@ -76,7 +76,9 @@ func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
 	device_refs.assign(_device_holder.get_children())
 	var inside: Dictionary = {}
 	for ref in device_refs:
-		inside.merge(ref.export_as_FEAGI_config_JSON_device_object())
+		if ref.device_type not in inside:
+			inside[ref.device_type] = {}
+		inside[ref.device_type].merge(ref.export_as_FEAGI_config_JSON_device_object())
 	return {"capabilities": 
 		{
 			direction: inside
@@ -93,7 +95,7 @@ func _device_request_deletion(device_ref: FEAGI_UI_Panel_Device) -> void:
 
 
 func _update_all_indexes_for_type(type_name: StringName) -> void:
-	var index: int = 1
+	var index: int = 0
 	for device in _device_references[type_name]:
 		if device == null:
 			continue

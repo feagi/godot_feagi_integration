@@ -68,7 +68,7 @@ func set_device_name(set_name: StringName) -> void:
 	_device_friendly_name = set_name
 	_device_name_line.text = set_name
 
-## Returns the dict of the device type name, that contains the index as a string, that then contains the details of that device
+## Returns the dict of the device index as a string, that then contains the details of that device
 func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 	var inside: Dictionary = {
 		"custom_name": device_friendly_name,
@@ -76,10 +76,8 @@ func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 		"feagi_index": feagi_index
 	}
 	inside.merge(_FEAGI_device_settings_holder.export_as_dict())
-	return {
-		_device_type : 
-			{str(_device_index): inside }
-	}
+	print({str(_device_index): inside })
+	return {str(_device_index): inside }
 	
 
 func export_as_FEAGI_IOHandler() -> FEAGI_IOHandler_Base:
