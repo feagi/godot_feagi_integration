@@ -26,4 +26,9 @@ func confirm_endpoint_valid() -> bool:
 
 func save_config() -> void:
 	FEAGI_PLUGIN.confirm_config_directory()
+	if FileAccess.file_exists(FEAGI_PLUGIN.get_endpoint_path()):
+		var error: Error = DirAccess.remove_absolute(FEAGI_PLUGIN.get_endpoint_path())
+		if error != OK:
+			push_error("FEAGI: Unable to overwrite Endpoint file!")
 	ResourceSaver.save(self, FEAGI_PLUGIN.get_endpoint_path())
+	take_over_path(FEAGI_PLUGIN.get_genome_mapping_path()) # work around for godot failing to automatically reload file
