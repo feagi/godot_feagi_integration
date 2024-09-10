@@ -1,8 +1,11 @@
-extends FEAGI_RegistrationAgent_Base
-class_name FEAGI_RegistrationAgent_Sensory
-## A FEAGI Registration Agent for all sensors
+extends FEAGI_RunTime_GodotDeviceAgent_Base
+class_name FEAGI_RunTime_GodotDeviceAgent_Sensory
+## Acts as an agent on all Godot Device Sensors to act as interfaces to handle registration and data transfer
 
 var _data_retrieval_function: Callable = Callable() ## Function that takes no parameters and returns the appropriate data type expected by the sensor
+
+func setup
+
 
 ## Called from the device node that this object is a member of on its startup
 func setup_device_type(type: StringName, data_retrieval_function: Callable) -> void:
