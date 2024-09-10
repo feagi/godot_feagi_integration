@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FEAGI_Resource_Endpoint" load_steps=2 format=3 uid="uid://tuhspxyvqj16"]
+[gd_resource type="Resource" script_class="FEAGI_Resource_Endpoint" load_steps=2 format=3 uid="uid://da2vvqqdjwo1f"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/ResourceScripts/FEAGI_Resource_Endpoint.gd" id="1_c7wls"]
 

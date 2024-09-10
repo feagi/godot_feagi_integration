@@ -19,13 +19,13 @@ text = "XY resolution"
 layout_mode = 2
 min_value = 1.0
 max_value = 256.0
-value = 1.0
+value = 64.0
 
 [node name="y" type="SpinBox" parent="res"]
 layout_mode = 2
 min_value = 1.0
 max_value = 256.0
-value = 1.0
+value = 64.0
 
 [node name="flipped" type="HBoxContainer" parent="."]
 layout_mode = 2
