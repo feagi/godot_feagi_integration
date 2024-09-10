@@ -76,7 +76,6 @@ func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 		"feagi_index": feagi_index
 	}
 	inside.merge(_FEAGI_device_settings_holder.export_as_dict())
-	print({str(_device_index): inside })
 	return {str(_device_index): inside }
 	
 
