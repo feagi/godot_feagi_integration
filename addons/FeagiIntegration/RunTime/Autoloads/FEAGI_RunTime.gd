@@ -1,6 +1,8 @@
 extends Node
 ## AUTOLOADED singleton that runs with the game. Reads established config and communicates to FEAGI
 
+## TODO signals & vars for state
+
 
 #var mapping_config: FEAGI_Genome_Mapping
 #var endpoint_config: FEAGI_Resource_Endpoint
@@ -8,8 +10,7 @@ var godot_device_manager: FEAGI_RunTime_GodotDeviceManager = FEAGI_RunTime_Godot
 
 var _FEAGI_device_manager: FEAGI_RunTime_FEAGIDeviceManager = FEAGI_RunTime_FEAGIDeviceManager.new()
 
-var _FEAGI_sensors: Dictionary = {} ## Key'd by the device name, value is the relevant [FEAGI_IOHandler_Sensory_Base]. Beware of name conflicts!
-var _FEAGI_sensors_cache: Array[FEAGI_IOHandler_Sensory_Base] = [] ## NOTE: We cache the results of _FEAGI_sensors.values() since its rather slow
+var _FEAGI_sensors: Dictionary = {} ## Key'd by the device name, value is the relevant [FEAGI_IOHandler_Sensory_Base]. Beware of name conflicts! Should be treated as static after devices added!
 var _automatic_device_generator: FEAGIAutomaticDeviceGenerator
 var _tick_engine: FEAGI_RunTime_TickEngine
 
@@ -48,7 +49,7 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	if !mapping_config:
 		mapping_config = load(FEAGI_PLUGIN.get_genome_mapping_path())
 		if !mapping_config:
-			push_error("FEAGI: No settings given or found for FEAGI configuration! The FEAGI integration will now halt!")
+			push_error("FEAGI: No mapping settings given or found on disk for FEAGI configuration! The FEAGI integration will now halt!")
 			return
 	
 	if !mapping_config.FEAGI_enabled:
@@ -60,25 +61,26 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	if !endpoint_config:
 		endpoint_config = load(FEAGI_PLUGIN.get_endpoint_path())
 		if !endpoint_config:
-			push_warning("FEAGI: No endpoint settings were given or found on disk. Defaulting to localhost settings for initial endpoint settings!")
+			push_warning("FEAGI: No endpoint settings were given or found on disk. Defaulting to localhost settings for initial endpoint!")
 			endpoint_config = FEAGI_Resource_Endpoint.new()
+	
 	
 
 	
-	# Load in sensor / motor FEAGI Device objects
+	# Load in sensor FEAGI Device objects
 	for incoming_FEAGI_sensor in mapping_config.sensors.values():
 		if incoming_FEAGI_sensor is not FEAGI_IOHandler_Sensory_Base:
 			push_error("FEAGI: Unknown object attempted to be added as a FEAGI Sensor! Skipping!")
 			continue
-			
 		if (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).is_disabled:
-			print("FEAGI: Sensor %s is disabled! Not using it for the debugger AND to FEAGI!" % (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name)
+			print("FEAGI: Sensor %s is disabled! Not using it for the debugger AND for FEAGI!" % (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name)
 			continue
 		if (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name in _FEAGI_sensors:
-			push_error("FEAGI: sensor %s is already defined! Ensure there are no motor / sensor devices with repeating names!" % (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name)
+			push_error("FEAGI: sensor %s is already defined! Ensure there are no motor / sensor devices with repeating names! Skipping" % (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name)
 			continue
 		_FEAGI_sensors[(incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name] = incoming_FEAGI_sensor
-	_FEAGI_sensors_cache.assign(_FEAGI_sensors.values())
+	
+	# TODO Load in motor FEAGI Device objects
 	
 	
 	# Activate FEAGI Device manager, including the Debugger and the FEAGI Network Interface (if enabled)

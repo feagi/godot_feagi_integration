@@ -2,10 +2,13 @@ extends RefCounted
 class_name FEAGI_RunTime_DebugInterface
 ## A class that allows for the runtime of FEAGI to talk back and forth with the debugger running in the editor
 
+#TODO WARNING since desyncs are possible to the remote debugger session, we could get odl data ticks after a device has been removed, causing weird issues. Maybe add a short period following device count changes when tick data isnt sent?
+
 # WARNING see bottom warning about intertacting with these arrays
-var _devices: Array[FEAGI_IOHandler_Base] = [] # NOTE: This is a seperate array from the the one in [FEAGI_RunTime] as the order of this is important!
+var _devices: Array[FEAGI_IOHandler_Base] = []
 var _cached_sending_data: Array = []
 
+## Alerts the remote debugger instance that a new godot device has been added, and to expect its data coming in data updates
 func alert_debugger_about_device_creation(FEAGI_device: FEAGI_IOHandler_Base) -> void:
 	EngineDebugger.send_message("FEAGI:add_device", FEAGI_device.get_debug_interface_device_creation_array())
 	_add_device(FEAGI_device)
@@ -22,7 +25,7 @@ func alert_debugger_about_data_update() -> void:
 	EngineDebugger.send_message("FEAGI:data", _cached_sending_data)
 
 
-# WARNING: Only interact with the arrays using these functions to avoid desyncs
+# WARNING: Only interact with the arrays using these functions to avoid desyncs with the remote debugger instance
 
 func _add_device(FEAGI_device: FEAGI_IOHandler_Base) -> void:
 	_devices.append(FEAGI_device)
