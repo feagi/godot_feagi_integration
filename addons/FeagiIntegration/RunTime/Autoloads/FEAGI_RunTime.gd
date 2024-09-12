@@ -2,8 +2,8 @@ extends Node
 ## AUTOLOADED singleton that runs with the game. Reads established config and communicates to FEAGI
 
 
-var mapping_config: FEAGI_Genome_Mapping
-var endpoint_config: FEAGI_Resource_Endpoint
+#var mapping_config: FEAGI_Genome_Mapping
+#var endpoint_config: FEAGI_Resource_Endpoint
 var godot_device_manager: FEAGI_RunTime_GodotDeviceManager = FEAGI_RunTime_GodotDeviceManager.new()
 
 var _FEAGI_device_manager: FEAGI_RunTime_FEAGIDeviceManager = FEAGI_RunTime_FEAGIDeviceManager.new()
@@ -14,7 +14,7 @@ var _automatic_device_generator: FEAGIAutomaticDeviceGenerator
 var _tick_engine: FEAGI_RunTime_TickEngine
 
 func _enter_tree() -> void:
-	initialize_FEAGI_runtime()
+	initialize_FEAGI_runtime() ## TODO have seperate autoload autostart this as a config
 
 
 	#_tick_engine = FEAGI_RunTime_TickEngine.new()
@@ -41,21 +41,29 @@ func _enter_tree() -> void:
 # Have virtual FEAGI devices register themselves to the FEAGI runtime
 # start tick system
 
-func initialize_FEAGI_runtime() -> void:
+func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpoint_config: FEAGI_Resource_Endpoint = null) -> void:
 	print("FEAGI Interface starting up!")
 	
-	# Read / verify configs, stop if not enabled
-	mapping_config = load(FEAGI_PLUGIN.get_genome_mapping_path())
-	endpoint_config = load(FEAGI_PLUGIN.get_endpoint_path())
+	# If the mapping config isnt defined, attempt to load it from disk. If still not defined -> failure
 	if !mapping_config:
-		push_error("FEAGI: No settings found for FEAGI configuration! The FEAGI integration will now halt!")
-		return
+		mapping_config = load(FEAGI_PLUGIN.get_genome_mapping_path())
+		if !mapping_config:
+			push_error("FEAGI: No settings given or found for FEAGI configuration! The FEAGI integration will now halt!")
+			return
+	
 	if !mapping_config.FEAGI_enabled:
 		push_warning("FEAGI: FEAGI disabled as per configuration")
 		return
+	
+	# If endpoint isnt defined, attempt to load it from disk. If still not defined -> create one with localhost settings
+	# NOTE: Regardless of what endpoint settings are in the object at this point, they can still be overwritten by URL parameters!
 	if !endpoint_config:
-		push_error("FEAGI: No connection settings found for FEAGI configuration! THe FEAGI integration will now halt!")
-		return
+		endpoint_config = load(FEAGI_PLUGIN.get_endpoint_path())
+		if !endpoint_config:
+			push_warning("FEAGI: No endpoint settings were given or found on disk. Defaulting to localhost settings for initial endpoint settings!")
+			endpoint_config = FEAGI_Resource_Endpoint.new()
+	
+
 	
 	# Load in sensor / motor FEAGI Device objects
 	for incoming_FEAGI_sensor in mapping_config.sensors.values():
