@@ -66,9 +66,6 @@ text = "Show Manual Endpoint Configuration"
 [node name="Hide" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="1"]
 text = "Hide Manual Endpoint Configuration"
 
-[node name="PanelContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="2"]
-visible = true
-
 [node name="FEAGI_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="0"]
 layout_mode = 2
 placeholder_text = "FEAGI Endpoint"

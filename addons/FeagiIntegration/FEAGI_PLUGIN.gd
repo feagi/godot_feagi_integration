@@ -57,7 +57,7 @@ var _plugin_panel: FEAGI_UI_Panel
 func _enter_tree():
 	_debugger = FEAGIDebugger.new()
 	add_debugger_plugin(_debugger)
-	add_autoload_singleton("FEAGI", "res://addons/FeagiIntegration/RunTime/FEAGI_RunTime.gd")
+	add_autoload_singleton("FEAGI", "res://addons/FeagiIntegration/RunTime/Autoloads/FEAGI_RunTime.gd")
 	print("FEAGI: The Feagi Interface has been added to the project as an autoload, under the name 'FEAGI'!")
 	
 
