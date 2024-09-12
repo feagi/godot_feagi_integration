@@ -21,8 +21,8 @@ func get_device_type() -> StringName:
 
 ## OVERRIDDEN - cameras need to report their resolution such that the packed data array can be properly applied
 func get_debug_interface_device_creation_array() -> Array:
-	return [false, get_device_type(), device_name, resolution.x, resolution.y]
-	# [bool is motor, str device type, str name of device, int x resolution, int y resolution]
+	return [get_device_type(), device_name, resolution.x, resolution.y]
+	# str device type, str name of device, int x resolution, int y resolution]
 
 ## If there is a data grabber function, get the image from it and process it before outputting the data from it. Otherwise returns a cached copy of an empty image
 func get_data_as_byte_array() -> PackedByteArray:

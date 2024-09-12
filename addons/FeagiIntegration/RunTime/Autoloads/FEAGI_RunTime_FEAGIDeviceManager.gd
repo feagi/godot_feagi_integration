@@ -18,8 +18,16 @@ func _init(reference_to_FEAGI_sensors: Dictionary) -> void:
 func setup_debugger() -> void:
 	_debug_interface = FEAGI_RunTime_DebugInterface.new()
 	for sensor: FEAGI_IOHandler_Sensory_Base in _FEAGI_sensors_reference.values():
-		_debug_interface.alert_debugger_about_device_creation(sensor)
+		_debug_interface.alert_debugger_about_sensor_creation(sensor)
 	# TODO motor
+
+func on_tick() -> void:
+	# TODO possible optimization -> instead of generate the PackedByteArray twice per device, have a seperate event to create them once then grab them by reference
+	if _debug_interface:
+		_debug_interface.alert_debugger_about_sensor_update()
+	if _FEAGI_interface:
+		_FEAGI_interface.on_tick()
+
 
 
 ## OLD
@@ -40,8 +48,3 @@ func setup(reference_to_FEAGI_sensors: Dictionary, endpoint_details: FEAGI_Resou
 	
 	_is_ready = true
 	
-func on_tick() -> void:
-	if _debug_interface:
-		_debug_interface.alert_debugger_about_data_update()
-	if _FEAGI_interface:
-		_FEAGI_interface.on_tick()

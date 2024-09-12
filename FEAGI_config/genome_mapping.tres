@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=5 format=3 uid="uid://cjb5bi3ltej3e"]
 
-[ext_resource type="Script" path="res://addons/FeagiIntegration/ResourceScripts/FEAGI_Genome_Mapping.gd" id="1_s5x07"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/ResourceScripts/IO/Sensory/FEAGI_IOHandler_Sensory_Camera.gd" id="2_37rrf"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="1_s5x07"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/IO/Sensory/FEAGI_IOHandler_Sensory_Camera.gd" id="2_37rrf"]
 
 [sub_resource type="Resource" id="Resource_olo8m"]
 script = ExtResource("2_37rrf")
 resolution = Vector2i(64, 64)
 is_flipped_x = false
-automatically_create_screengrabber = false
+automatically_create_screengrabber = true
 device_name = &"camera 0"
 FEAGI_index = 0
 device_ID = 0

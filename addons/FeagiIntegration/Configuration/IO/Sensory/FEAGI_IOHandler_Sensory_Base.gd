@@ -7,8 +7,8 @@ var _data_grabber: Callable = Callable() # WARNING: Make sure for the proper cla
 
 ## Most sensors will just need this to define their creation to the debugger
 func get_debug_interface_device_creation_array() -> Array:
-	return [false, get_device_type(), device_name]
-	# [bool is motor, str device type, str name of device]
+	return [get_device_type(), device_name]
+	# [str device type, str name of device]
 	
 # Register a godot device to this device
 func register_godot_device_sensor(data_grabbing_function: Callable) -> void:

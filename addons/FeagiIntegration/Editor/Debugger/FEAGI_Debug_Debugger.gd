@@ -34,17 +34,17 @@ func _capture(message: String, data: Array, _session_id: int) -> bool:
 		push_warning("FEAGI Debugger: Debugger has some broken references! This error is likely harmless, and can be resolved by reloading the editor!")
 		return true
 	match(message):
-		"FEAGI:data":
-			debugger_panel.update_visualizations(data)
+		"FEAGI:sensor_data":
+			debugger_panel.update_sensor_visualizations(data)
 			return true
-		"FEAGI:add_device":
-			# Array should be formatted as [bool true if motor, str(device type), str(device name), OPTIONAL Extra Parameters]
-			if data[0]:
-				return true # TODO motor
-			else:
-				debugger_panel.add_sensor_device(data[1], data[2], data.slice(3))
+		"FEAGI:motor_data":
+			#debugger_panel.update_visualizations(data) # TODO
 			return true
-		"FEAGI:remove_device":
+		"FEAGI:add_sensor":
+			# Array should be formatted as [str(device type), str(device name), OPTIONAL Extra Parameters]
+			debugger_panel.add_sensor_device(data[0], data[1], data.slice(2))
+			return true
+		"FEAGI:remove_sensor":
 			return true # TODO
 		_:
 			push_error("FEAGI Debugger: Unknown message of " + message)

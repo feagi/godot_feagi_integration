@@ -10,11 +10,11 @@ var _running: VBoxContainer
 var _sensor_holder: VBoxContainer
 var _motor_holder: VBoxContainer
 
-var _device_update_callables: Array[Callable] = [] # an array of callables for each device (in order), where each function takes in a PackedByteArray of the value to update the UI representing the device
+var _sensor_update_callables: Array[Callable] = [] # an array of callables for each sensor (in order), where each function takes in a PackedByteArray of the value to update the UI representing the device
 
 ## THis function is called directly by [FEAGIDebugger] on the init
 func initialize() -> void:
-	_device_update_callables = []
+	_sensor_update_callables = []
 	_not_running = $Tabs/Data/NotRunning
 	_running = $Tabs/Data/Running
 	_sensor_holder = $Tabs/Data/Running/HSplitContainer/Sensors/PanelContainer/VBoxContainer
@@ -35,7 +35,7 @@ func clear() -> void:
 	_update_none_label(_sensor_holder, true)
 	_update_none_label(_motor_holder, true)
 	set_running_state(false)
-	_device_update_callables = []
+	_sensor_update_callables = []
 	
 
 ## Called by [FEAGIDebugger] when it recieves a message about a device being added
@@ -51,13 +51,13 @@ func add_sensor_device(sensor_type: StringName, sensor_name: StringName, extra_s
 	view.initialize() # establish internal UI references
 	view.setup_base(sensor_name, extra_setup_data) 
 	_sensor_holder.add_child(view)
-	_device_update_callables.append(view.update_visualization)
+	_sensor_update_callables.append(view.update_visualization)
 	_update_none_label(_sensor_holder, false)
 
-## Called by [FEAGIDebugger] when it recieves a message containing data
-func update_visualizations(data: Array) -> void:
-	for i in range(len(_device_update_callables)):
-		_device_update_callables[i].call(data[i])
+## Called by [FEAGIDebugger] when it recieves a message containing data for sensors
+func update_sensor_visualizations(data: Array) -> void:
+	for i in range(len(_sensor_update_callables)):
+		_sensor_update_callables[i].call(data[i])
 
 func _update_none_label(vbox: VBoxContainer, is_visible: bool) -> void:
 	var label: Label = vbox.get_child(0)
