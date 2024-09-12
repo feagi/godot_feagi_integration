@@ -8,13 +8,11 @@ class_name FEAGI_IOHandler_Sensory_Camera
 @export var is_flipped_x: bool
 @export var automatically_create_screengrabber: bool ## If set, the FEAGI runtime will automatically create a screengrabber for use with this
 
-var _blank_image: Image # a cached empty 
-var _data_for_blank_image: PackedByteArray = [] # a cached copy of the raw data representing a blank camera feed
+var _blank_image: Image # a cached empty image for when no Godot Device is registered
 
 func _init() -> void:
 	_blank_image = Image.new()
 	_blank_image.create_empty(resolution.x, resolution.y, false, Image.FORMAT_RGB8)
-	_data_for_blank_image = _blank_image.get_data()
 
 func get_device_type() -> StringName:
 	return "camera"
@@ -24,11 +22,12 @@ func get_debug_interface_device_creation_array() -> Array:
 	return [get_device_type(), device_name, resolution.x, resolution.y]
 	# str device type, str name of device, int x resolution, int y resolution]
 
-## If there is a data grabber function, get the image from it and process it before outputting the data from it. Otherwise returns a cached copy of an empty image
-func get_data_as_byte_array() -> PackedByteArray:
+## If there is a data grabber function, get the image from it and process it before outputting the data from it. Otherwise updates the cached data with an empty image
+func refresh_cached_sensory_data() -> void:
 	if _data_grabber.is_null():
-		return _data_for_blank_image
-	return _process_image(_data_grabber.call())
+		_cached_data = _blank_image.get_data()
+		return
+	_cached_data = _process_image(_data_grabber.call())
 
 ## Processes the input images returns the byte array data of it
 func _process_image(image: Image) -> PackedByteArray:

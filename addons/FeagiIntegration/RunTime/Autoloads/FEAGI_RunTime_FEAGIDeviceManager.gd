@@ -7,11 +7,13 @@ var _debug_interface: FEAGI_RunTime_DebugInterface
 var _FEAGI_interface: FEAGI_RunTime_FEAGIInterface
 
 var _FEAGI_sensors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_IOHandler_Sensory_Base]. Beware of name conflicts! Should be treated as static after devices added!
+var _FEAGI_sensors_reference_arr: Array[FEAGI_IOHandler_Sensory_Base] # cached since "values" is slow
 var _is_ready: bool = false
 
 
 func _init(reference_to_FEAGI_sensors: Dictionary) -> void:
 	_FEAGI_sensors_reference = reference_to_FEAGI_sensors
+	_FEAGI_sensors_reference_arr.assign(_FEAGI_sensors_reference.values)
 
 
 ## Initializes the debugger with all FEAGI Devices!
@@ -22,7 +24,9 @@ func setup_debugger() -> void:
 	# TODO motor
 
 func on_tick() -> void:
-	# TODO possible optimization -> instead of generate the PackedByteArray twice per device, have a seperate event to create them once then grab them by reference
+	# Update all sensor values
+	for sensor_IO in _FEAGI_sensors_reference_arr:
+		sensor_IO.refresh_cached_sensory_data() # ensure all the data is fresh!
 	if _debug_interface:
 		_debug_interface.alert_debugger_about_sensor_update()
 	if _FEAGI_interface:

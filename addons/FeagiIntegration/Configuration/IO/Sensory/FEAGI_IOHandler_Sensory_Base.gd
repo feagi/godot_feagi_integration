@@ -5,11 +5,17 @@ class_name FEAGI_IOHandler_Sensory_Base
 
 var _data_grabber: Callable = Callable() # WARNING: Make sure for the proper class, that this callable returns the expected type
 
+
 ## Most sensors will just need this to define their creation to the debugger
 func get_debug_interface_device_creation_array() -> Array:
 	return [get_device_type(), device_name]
 	# [str device type, str name of device]
 	
+func refresh_cached_sensory_data() -> void:
+	# override me in all child device classes to update _cached_data to the latest value
+	assert(false, "Do not use 'FEAGI_IOHandler_Sensory_Base' Directly!")
+	return
+
 # Register a godot device to this device
 func register_godot_device_sensor(data_grabbing_function: Callable) -> void:
 	if !_data_grabber.is_null():

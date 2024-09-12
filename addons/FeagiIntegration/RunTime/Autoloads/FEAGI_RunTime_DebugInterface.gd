@@ -19,6 +19,7 @@ func alert_debugger_about_sensor_removal():
 
 #TODO motor
 
+## Builds an array of all sensory data in ordered PackedByteArrays. NOTE: Retrieves data from sensor cache, so ensure the sensors just had their sensor values updated!
 func alert_debugger_about_sensor_update() -> void:
 	for i in len(_sensors):
 		_cached_sensor_sending_data[i] = _sensors[i].get_data_as_byte_array()
