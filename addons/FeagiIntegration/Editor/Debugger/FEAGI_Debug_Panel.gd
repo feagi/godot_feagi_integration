@@ -10,7 +10,7 @@ var _running: VBoxContainer
 var _sensor_holder: VBoxContainer
 var _motor_holder: VBoxContainer
 
-var _device_update_callables: Array[Callable] = []
+var _device_update_callables: Array[Callable] = [] # an array of callables for each device (in order), where each function takes in a PackedByteArray of the value to update the UI representing the device
 
 ## THis function is called directly by [FEAGIDebugger] on the init
 func initialize() -> void:
@@ -39,21 +39,19 @@ func clear() -> void:
 	
 
 ## Called by [FEAGIDebugger] when it recieves a message about a device being added
-func add_sensor_device(sensor_type: StringName, sensor_name: StringName) -> void:
+func add_sensor_device(sensor_type: StringName, sensor_name: StringName, extra_setup_data: Array) -> void:
 	var view: FEAGI_Debug_Panel_ViewBase
 	match(sensor_type): # This could be a dict lookup, hmmm
 		"camera":
 			print("FEAGI: Added %s device of name %s!" % [sensor_type, sensor_name])
 			view = CAMERA_DEVICE.instantiate()
 		_:
-			push_error("FEAGI: Unknown device type %s requested to be added to the debugger!" % sensor_type)
+			push_error("FEAGI Debugger: Unknown device type %s requested to be added to the debugger!" % sensor_type)
 			return
-	view.initialize()
-	view.setup_base(sensor_name)
+	view.initialize() # establish internal UI references
+	view.setup_base(sensor_name, extra_setup_data) 
 	_sensor_holder.add_child(view)
 	_device_update_callables.append(view.update_visualization)
-	print("a")
-	print(_device_update_callables)
 	_update_none_label(_sensor_holder, false)
 
 ## Called by [FEAGIDebugger] when it recieves a message containing data

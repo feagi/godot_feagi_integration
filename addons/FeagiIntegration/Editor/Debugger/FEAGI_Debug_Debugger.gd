@@ -13,7 +13,7 @@ var _last_used_session_ID: int
 func close_session() -> void:
 	var session: EditorDebuggerSession = get_session(_last_used_session_ID)
 	if !session:
-		push_error("Unable to remove the FEAGI Debugger Panel! Is the session ID Invalid? Please restart the editor!")
+		push_error("FEAGI Debugger: Unable to remove the FEAGI Debugger Panel! Is the session ID Invalid? Please restart the editor!")
 		return
 	session.remove_session_tab(debugger_panel)
 	debugger_panel.queue_free()
@@ -31,20 +31,23 @@ func _has_capture(capture: String) -> bool:
 ## Virtual func -> When the Game Instance sends messages, this will be called
 func _capture(message: String, data: Array, _session_id: int) -> bool:
 	if !debugger_panel:
-		push_warning("FEAGI: Debugger has some broken references! This error is harmless, and called be resolved by reloading the editor!")
+		push_warning("FEAGI Debugger: Debugger has some broken references! This error is likely harmless, and can be resolved by reloading the editor!")
 		return true
 	match(message):
 		"FEAGI:data":
 			debugger_panel.update_visualizations(data)
 			return true
 		"FEAGI:add_device":
-			# Array should be formatted as [bool true if motor, str(device type), str(device name)]
-			debugger_panel.add_sensor_device(data[1], data[2])
+			# Array should be formatted as [bool true if motor, str(device type), str(device name), OPTIONAL Extra Parameters]
+			if data[0]:
+				return true # TODO motor
+			else:
+				debugger_panel.add_sensor_device(data[1], data[2], data.slice(3))
 			return true
 		"FEAGI:remove_device":
-			return true
+			return true # TODO
 		_:
-			push_error("FEAGI: Unknown message of " + message)
+			push_error("FEAGI Debugger: Unknown message of " + message)
 	return true
 	
 

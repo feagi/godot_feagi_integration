@@ -70,10 +70,4 @@ func toggle_showing_network_settings(is_visible: bool) -> void:
 
 ## Exports endpoint resource
 func export_endpoint() -> FEAGI_Resource_Endpoint:
-	return FEAGI_Resource_Endpoint.create_from(
-		_FEAGI_endpoint.text,
-		_API_port.value,
-		_connector_endpoint.text,
-		_WS_port.value,
-		# TODO magic URL
-	)
+	return FEAGI_Resource_Endpoint.new() #TODO replace

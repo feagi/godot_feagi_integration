@@ -11,10 +11,15 @@ func initialize() -> void:
 	_title = $Title/MarginContainer/VBoxContainer/HBoxContainer/Name
 	_collapse_button = $Title/MarginContainer/VBoxContainer/HBoxContainer/Collapse
 	_holder = $Title/MarginContainer/VBoxContainer/holder
-	_collapse_button.pressed.connect(_toggle_collapse)
+	
 
-func setup_base(device_FEAGI_name: StringName) -> void:
+## Used to initialize the details of the device. Typically "_extra_setup_data" is unused in most cases
+func setup_base(device_FEAGI_name: StringName, _extra_setup_data: Array) -> void:
 	_title.text = device_FEAGI_name
+
+## A few devices need extra context to setup (such as camera needing resolution), but devices dont need this
+func setup_extra_setup_data(_extra_setup_data: Array) -> void:
+	pass
 
 func is_collapsed() -> bool:
 	return _is_collapsed
@@ -31,8 +36,8 @@ func set_collapsed(collapse: bool) -> void:
 	_is_collapsed = collapse
 	_holder.visible = !collapse
 
-# Override this in child classes
-func update_visualization(data: Variant) -> void:
+# Overridden in child classes, the function that recieves a PackedByteArray to update the visualization of the device
+func update_visualization(data: PackedByteArray) -> void:
 	return
 
 func _toggle_collapse() -> void:

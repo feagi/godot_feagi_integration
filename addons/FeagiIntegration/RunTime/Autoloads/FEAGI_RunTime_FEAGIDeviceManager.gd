@@ -1,7 +1,7 @@
 extends RefCounted
 class_name FEAGI_RunTime_FEAGIDeviceManager
 ## Handles all FEAGI Devices ([FEAGI_IOHandler_Base]). NOTE that these are static after initialization, you cannot change feagi device mappings!
-## Not to be confused with [FEAGI_RunTime_GodotDeviceManager) which works with dynamic Godot Devices! Game Devleopers likely don't need to touch this file!
+## Not to be confused with [FEAGI_RunTime_GodotDeviceManager) which works with dynamic Godot Devices! Game Devleopers likely don't need to interact with this class!
 
 var _debug_interface: FEAGI_RunTime_DebugInterface
 var _FEAGI_interface: FEAGI_RunTime_FEAGIInterface
@@ -19,9 +19,10 @@ func setup_debugger() -> void:
 	_debug_interface = FEAGI_RunTime_DebugInterface.new()
 	for sensor: FEAGI_IOHandler_Sensory_Base in _FEAGI_sensors_reference.values():
 		_debug_interface.alert_debugger_about_device_creation(sensor)
+	# TODO motor
 
 
-
+## OLD
 ## Called from [FEAGI_RunTime] To initialize this object with all FEAGI Devices
 func setup(reference_to_FEAGI_sensors: Dictionary, endpoint_details: FEAGI_Resource_Endpoint, configuration_JSON: StringName, enable_debug: bool, enable_FEAGI: bool) -> void: #TODO add motors
 	_FEAGI_sensors_reference = reference_to_FEAGI_sensors
