@@ -75,16 +75,12 @@ func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
 		direction = "input"
 	var device_refs: Array[FEAGI_UI_Panel_Device] = []
 	device_refs.assign(_device_holder.get_children())
-	var inside: Dictionary = {}
+	var output: Dictionary = {}
 	for ref in device_refs:
-		if ref.device_type not in inside:
-			inside[ref.device_type] = {}
-		inside[ref.device_type].merge(ref.export_as_FEAGI_config_JSON_device_object())
-	return {"capabilities": 
-		{
-			direction: inside
-			}
-		}
+		if ref.device_type not in output:
+			output[ref.device_type] = {}
+		output[ref.device_type].merge(ref.export_as_FEAGI_config_JSON_device_object())
+	return output
 	
 
 func _device_request_deletion(device_ref: FEAGI_UI_Panel_Device) -> void:
