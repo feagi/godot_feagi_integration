@@ -5,7 +5,7 @@ class_name FEAGI_RunTime_GodotDeviceAgent_Base
 #TODO multi device name registration?
 
 # NOTE: This enum should contain enteries both from [FEAGI_PLUGIN].GODOT_SUPPORTED_SENSORS and [FEAGI_PLUGIN].GODOT_SUPPORTED_MOTORS
-@export_enum("camera") var initial_device_type_of_agent: String ## The type of this device. Note this can be overridden from the setup function
+@export_enum("camera", "motion_control") var initial_device_type_of_agent: String ## The type of this device. Note this can be overridden from the setup function
 @export var initial_device_name_to_map_to_FEAGI: StringName ## The name of this device that will be mapped to FEAGI. Note this can be overridden from the setup function
 
 var _device_type_name: StringName = ""

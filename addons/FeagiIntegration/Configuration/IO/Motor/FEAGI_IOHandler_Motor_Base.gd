@@ -11,14 +11,14 @@ func update_state_with_retrieved_date(new_data: PackedByteArray) -> void:
 	_process_raw_data(new_data)
 
 # Register a godot device to this device
-func register_godot_device_sensor(data_receiving_function: Callable) -> void:
+func register_godot_device_motor(data_receiving_function: Callable) -> void:
 	if !_data_reciever.is_null():
 		push_warning("FEAGI: A motor attempted to register itself to %s when it was already registered to another motor! Overwriting the registration!" % device_name)
 	_data_reciever = data_receiving_function
 	_is_registered_to_godot_device = true
 
 ## Have a sensor deregister itself
-func deregister_godot_device_sensor() -> void:
+func deregister_godot_device_motor() -> void:
 	if _data_reciever.is_null():
 		push_warning("FEAGI: A call to deregister motor %s was made when it had nothing registered anyways! Skipping!" % device_name)
 		return
