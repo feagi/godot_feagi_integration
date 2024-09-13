@@ -1,3 +1,4 @@
+@tool
 extends FEAGI_IOHandler_Base
 class_name FEAGI_IOHandler_Motor_Base
 

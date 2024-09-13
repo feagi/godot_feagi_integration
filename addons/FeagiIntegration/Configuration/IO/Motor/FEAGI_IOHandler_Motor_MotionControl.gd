@@ -1,3 +1,4 @@
+@tool
 extends FEAGI_IOHandler_Motor_Base
 class_name FEAGI_IOHandler_Motor_MotionControl
 ## Motion Control, recieves data from FEAGI to go forward, backward, right, and left.
