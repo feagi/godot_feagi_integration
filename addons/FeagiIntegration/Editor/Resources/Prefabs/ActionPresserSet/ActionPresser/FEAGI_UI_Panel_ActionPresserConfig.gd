@@ -1,5 +1,5 @@
 @tool
-extends HBoxContainer
+extends VBoxContainer
 class_name FEAGI_UI_Panel_ActionPresserConfig
 ## Allows UI configuration for a single [FEAGI_Emulated_Input]
 
@@ -12,8 +12,8 @@ var _possible_actions: Array[StringName] = []
 
 func setup(key: StringName, friendly_name: StringName, emulated_input: FEAGI_Emulated_Input = FEAGI_Emulated_Input.new()) -> void:
 	name = key
-	var label: Label = $friendly_name
-	_actions = $OptionButton
+	var label: Label = $HBoxContainer/friendly_name
+	_actions = $HBoxContainer/OptionButton
 	_hold = $CollapsiblePrefab/PanelContainer/MarginContainer/Internals/HBoxContainer/hold
 	_action = $CollapsiblePrefab/PanelContainer/MarginContainer/Internals/HBoxContainer2/action_thresh
 	_release = $CollapsiblePrefab/PanelContainer/MarginContainer/Internals/HBoxContainer3/release_thresh
@@ -37,6 +37,8 @@ func setup(key: StringName, friendly_name: StringName, emulated_input: FEAGI_Emu
 	var index: int = _possible_actions.find(emulated_input.godot_action_name)
 	if index != -1:
 		_actions.selected = index + 1
+	else:
+		push_warning("FEAGI: Unable to find Input Mapping %s! Defaulting to No Action" % emulated_input.godot_action_name)
 
 ## Export the [FEAGI_Emulated_Input] represented by the values in the UI
 func export() -> FEAGI_Emulated_Input:

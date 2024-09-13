@@ -104,6 +104,9 @@ visible = false
 layout_mode = 2
 show_text = &"Show Input Configuration"
 
+[node name="Show" parent="CollapsiblePrefab" index="0"]
+text = "Show Input Configuration"
+
 [node name="FeagiUiPanelActionPresserConfigSet" parent="CollapsiblePrefab/PanelContainer/MarginContainer/Internals" index="0" instance=ExtResource("3_cs8tl")]
 layout_mode = 2
 keys = Array[StringName]([&"move_up", &"move_down", &"move_right", &"move_left", &"yaw_left", &"yaw_right", &"roll_left", &"roll_right", &"pitch_forward", &"pitch_backward"])

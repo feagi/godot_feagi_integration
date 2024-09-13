@@ -26,6 +26,9 @@ fit_to_longest_item = false
 layout_mode = 2
 show_text = &"Advanced"
 
+[node name="Show" parent="CollapsiblePrefab" index="0"]
+text = "Advanced"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CollapsiblePrefab/PanelContainer/MarginContainer/Internals" index="0"]
 layout_mode = 2
 
