@@ -61,6 +61,6 @@ theme_override_constants/margin_bottom = 4
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = SubResource("ImageTexture_750vk")
-stretch_mode = 3
+expand_mode = 1
 
 [connection signal="pressed" from="Title/MarginContainer/VBoxContainer/HBoxContainer/Collapse" to="." method="_toggle_collapse"]

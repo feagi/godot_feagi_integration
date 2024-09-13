@@ -16,6 +16,8 @@ func initialize() -> void:
 ## Used to initialize the details of the device. Typically "_extra_setup_data" is unused in most cases
 func setup_base(device_FEAGI_name: StringName, _extra_setup_data: Array) -> void:
 	_title.text = device_FEAGI_name
+	if len(_extra_setup_data) != 0:
+		setup_extra_setup_data(_extra_setup_data)
 
 ## A few devices need extra context to setup (such as camera needing resolution), but devices dont need this
 func setup_extra_setup_data(_extra_setup_data: Array) -> void:

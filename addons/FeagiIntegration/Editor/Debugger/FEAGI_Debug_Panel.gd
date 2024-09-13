@@ -82,6 +82,11 @@ func update_sensor_visualizations(data: Array) -> void:
 	for i in range(len(_sensor_update_callables)):
 		_sensor_update_callables[i].call(data[i])
 
+## Called by [FEAGIDebugger] when it recieves a message containing data for sensors
+func update_motor_visualizations(data: Array) -> void:
+	for i in range(len(_motor_update_callables)):
+		_motor_update_callables[i].call(data[i])
+
 func _update_none_label(vbox: VBoxContainer, is_visible: bool) -> void:
 	var label: Label = vbox.get_child(0)
 	label.visible = is_visible

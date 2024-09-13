@@ -37,7 +37,7 @@ func _capture(message: String, data: Array, _session_id: int) -> bool:
 		"FEAGI:sensor_data":
 			debugger_panel.update_sensor_visualizations(data)
 		"FEAGI:motor_data":
-			#debugger_panel.update_visualizations(data) # TODO
+			debugger_panel.update_motor_visualizations(data)
 			return true
 		"FEAGI:add_sensor":
 			# Array should be formatted as [str(device type), str(device name), OPTIONAL Extra Parameters]

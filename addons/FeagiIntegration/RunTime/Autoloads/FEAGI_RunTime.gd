@@ -97,7 +97,7 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	_tick_engine = FEAGI_RunTime_TickEngine.new()
 	add_child(_tick_engine)
 	_tick_engine.setup(mapping_config.delay_seconds_between_frames)
-	_tick_engine.tick.connect(_FEAGI_tick)
+	_tick_engine.tick.connect(_FEAGI_device_manager.on_sensor_tick)
 	
 	
 	
@@ -105,25 +105,7 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 
 
 
-	
 
-
-## Get data from sensors, send to FEAGI, retrieve motor data from FEAGI, send to godot motor devices, update debug information with both
-func _FEAGI_tick() -> void:
-	# Get sensor data
-	
-	# Send Sensor data
-	
-	# Retrieve Motor data
-	
-	# Apply Motor data
-	
-	# update debug information
-
-	
-	
-	
-	pass
 	
 	
 	

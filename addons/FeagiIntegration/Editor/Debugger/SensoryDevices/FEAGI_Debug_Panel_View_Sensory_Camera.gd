@@ -8,8 +8,9 @@ var _parsed_image: Image
 var _image_resolution: Vector2i = Vector2i(64,64)
 
 func initialize() -> void:
-	super()
 	_texture = $Title/MarginContainer/VBoxContainer/holder/TextureRect
+	super()
+	
 
 ## OVERRIDDEN: camera needs the X resolution (val 0) and Y resolution (val 1)
 func setup_extra_setup_data(extra_settings: Array) -> void:
