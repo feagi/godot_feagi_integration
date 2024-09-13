@@ -21,10 +21,10 @@ func get_device_type() -> StringName:
 	assert(false, "Do not use 'FEAGI_IOHandler_Base' Directly!")
 	return ""
 
-## The debugger needs information in order to create the correct view type in the debugger panel. This creates that array
+## Most devices will just need this to define their creation to the debugger
 func get_debug_interface_device_creation_array() -> Array:
-	assert(false, "Do not use 'FEAGI_IOHandler_Base' Directly!")
-	return [] # NOTE: Array follows this format -> [bool is_motor, str device_type_name, str device_name, (ONLY IN SOME DEVICES: Variant extra parameter(s)]
+	return [get_device_type(), device_name]
+	# [str device type, str name of device]
 	
 ## Get data of this device (reading from a sensor or cached value from a motor)
 func get_data_as_byte_array() -> PackedByteArray:

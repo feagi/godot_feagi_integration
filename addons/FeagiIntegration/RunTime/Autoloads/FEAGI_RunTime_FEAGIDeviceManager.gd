@@ -27,6 +27,7 @@ func on_tick() -> void:
 	# Update all sensor values
 	for sensor_IO in _FEAGI_sensors_reference_arr:
 		sensor_IO.refresh_cached_sensory_data() # ensure all the data is fresh!
+		
 	if _debug_interface:
 		_debug_interface.alert_debugger_about_sensor_update()
 	if _FEAGI_interface:

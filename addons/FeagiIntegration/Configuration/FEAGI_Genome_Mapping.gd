@@ -8,6 +8,7 @@ class_name FEAGI_Genome_Mapping
 @export var configuration_JSON: StringName = ""
 
 @export var sensors: Dictionary = {} ## A dictionary of [FEAGI_IOHandler_Sensory_Base]s key'd by their device type name + "_" + device name
+@export var motors: Dictionary = {} ## A dictionary of [FEAGI_IOHandler_Motor_Base]s key'd by their device type name + "_" + device name
 
 func save_config() -> void:
 	FEAGI_PLUGIN.confirm_config_directory()

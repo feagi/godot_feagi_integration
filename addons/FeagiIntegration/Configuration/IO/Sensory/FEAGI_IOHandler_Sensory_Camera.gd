@@ -1,7 +1,7 @@
 @tool
 extends FEAGI_IOHandler_Sensory_Base
 class_name FEAGI_IOHandler_Sensory_Camera
-## Base camera class, as this may be used for both screencapture cameras and 3D camera, depending on the grabber function
+## Camera IOHandler. Sensor that captures images from game to pass to FEAGI
 ## NOTE: _data_grabber in this class is expected to return an [Image]
 
 @export var resolution: Vector2i = Vector2i(64,64)
