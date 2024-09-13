@@ -24,9 +24,11 @@ func _init(reference_to_FEAGI_sensors: Dictionary, reference_to_FEAGI_motors: Di
 ## Initializes the debugger with all FEAGI Devices!
 func setup_debugger() -> void:
 	_debug_interface = FEAGI_RunTime_DebugInterface.new()
-	for sensor: FEAGI_IOHandler_Sensory_Base in _FEAGI_sensors_reference.values():
+	for sensor: FEAGI_IOHandler_Sensory_Base in _FEAGI_sensors_reference_arr:
 		_debug_interface.alert_debugger_about_sensor_creation(sensor)
-	# TODO motor
+	for motor: FEAGI_IOHandler_Motor_Base in _FEAGI_motors_reference_arr:
+		_debug_interface.alert_debugger_about_motor_creation(motor)
+		
 
 func on_sensor_tick() -> void:
 	# Update all sensor values

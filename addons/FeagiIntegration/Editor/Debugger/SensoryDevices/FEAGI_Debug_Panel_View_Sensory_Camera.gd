@@ -1,6 +1,6 @@
 @tool
 extends FEAGI_Debug_Panel_ViewBase
-class_name FEAGI_Debug_Panel_ViewCamera
+class_name FEAGI_Debug_Panel_View_Sensory_Camera
 
 
 var _texture: TextureRect

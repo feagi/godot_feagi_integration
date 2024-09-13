@@ -4,6 +4,8 @@ class_name FEAGI_IOHandler_Sensory_Camera
 ## Camera IOHandler. Sensor that captures images from game to pass to FEAGI
 ## NOTE: _data_grabber in this class is expected to return an [Image]
 
+const TYPE_NAME = "camera"
+
 @export var resolution: Vector2i = Vector2i(64,64)
 @export var is_flipped_x: bool
 @export var automatically_create_screengrabber: bool ## If set, the FEAGI runtime will automatically create a screengrabber for use with this
@@ -15,7 +17,7 @@ func _init() -> void:
 	_blank_image.create_empty(resolution.x, resolution.y, false, Image.FORMAT_RGB8)
 
 func get_device_type() -> StringName:
-	return "camera"
+	return TYPE_NAME
 
 ## OVERRIDDEN - cameras need to report their resolution such that the packed data array can be properly applied
 func get_debug_interface_device_creation_array() -> Array:

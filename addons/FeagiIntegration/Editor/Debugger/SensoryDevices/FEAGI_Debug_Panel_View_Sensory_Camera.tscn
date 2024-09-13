@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://bkhmu7dnh1xxl"]
 
-[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_ViewCamera.gd" id="1_gcbrc"]
-[ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_jvhcq"]
-[ext_resource type="Texture2D" uid="uid://h2k7ik6modgy" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_S.png" id="3_p7ff2"]
-[ext_resource type="Texture2D" uid="uid://ixr3tkdityna" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_C.png" id="4_su02p"]
-[ext_resource type="Texture2D" uid="uid://cnaefg6bkphfa" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_H.png" id="5_e5jxl"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Camera.gd" id="1_r54yr"]
+[ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_tvs8u"]
+[ext_resource type="Texture2D" uid="uid://h2k7ik6modgy" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_S.png" id="3_u3sxe"]
+[ext_resource type="Texture2D" uid="uid://ixr3tkdityna" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_C.png" id="4_1h3pq"]
+[ext_resource type="Texture2D" uid="uid://cnaefg6bkphfa" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_H.png" id="5_t1ovd"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_750vk"]
 
@@ -12,11 +12,11 @@
 offset_right = 200.0
 offset_bottom = 42.0
 size_flags_horizontal = 3
-script = ExtResource("1_gcbrc")
+script = ExtResource("1_r54yr")
 
 [node name="Title" type="PanelContainer" parent="."]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("2_jvhcq")
+theme_override_styles/panel = ExtResource("2_tvs8u")
 
 [node name="MarginContainer" type="MarginContainer" parent="Title"]
 layout_mode = 2
@@ -42,9 +42,9 @@ text = "TEXT"
 [node name="Collapse" type="TextureButton" parent="Title/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-texture_normal = ExtResource("3_p7ff2")
-texture_pressed = ExtResource("4_su02p")
-texture_hover = ExtResource("5_e5jxl")
+texture_normal = ExtResource("3_u3sxe")
+texture_pressed = ExtResource("4_1h3pq")
+texture_hover = ExtResource("5_t1ovd")
 ignore_texture_size = true
 stretch_mode = 4
 

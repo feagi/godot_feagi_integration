@@ -36,16 +36,15 @@ func _capture(message: String, data: Array, _session_id: int) -> bool:
 	match(message):
 		"FEAGI:sensor_data":
 			debugger_panel.update_sensor_visualizations(data)
-			return true
 		"FEAGI:motor_data":
 			#debugger_panel.update_visualizations(data) # TODO
 			return true
 		"FEAGI:add_sensor":
 			# Array should be formatted as [str(device type), str(device name), OPTIONAL Extra Parameters]
 			debugger_panel.add_sensor_device(data[0], data[1], data.slice(2))
-			return true
-		"FEAGI:remove_sensor":
-			return true # TODO
+		"FEAGI:add_motor":
+			# Array should be formatted as [str(device type), str(device name), OPTIONAL Extra Parameters]
+			debugger_panel.add_motor_device(data[0], data[1], data.slice(2))
 		_:
 			push_error("FEAGI Debugger: Unknown message of " + message)
 	return true
