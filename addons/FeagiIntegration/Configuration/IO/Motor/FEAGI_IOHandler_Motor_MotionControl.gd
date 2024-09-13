@@ -4,10 +4,11 @@ class_name FEAGI_IOHandler_Motor_MotionControl
 ## Motion Control, recieves data from FEAGI to go in various directions.
 ## _data_reciever Callable is expected to have a parameter taking a dictionary, where string keys are mapped to the float value of that direciton, ranging from 0-1
 
-var _output: Dictionary = {}
-
 const TYPE_NAME = "motion_control"
 
+@export var automatically_emulate_keys: Dictionary = {} ## A dictionary that if defined, is key'd by the data key name of this output, and value'd to the input event emulator for a specific event
+
+var _output: Dictionary = {}
 
 func get_device_type() -> StringName:
 	return TYPE_NAME
@@ -26,6 +27,9 @@ func update_state_with_retrieved_date(new_data: PackedByteArray) -> void:
 	_cached_data = floats.to_byte_array()
 	_process_raw_data(_cached_data) # IRONICALLY for this specific usecase its easiest for downstream devs is to have a dictionary, so we are going to turn it back lol.
 	# This is only being done since later we will migrate away from this format
+
+func is_using_automatic_input_key_emulation() -> bool:
+	return len(automatically_emulate_keys) != 0
 
 
 func _process_raw_data(raw_data: PackedByteArray) -> void:
