@@ -8,7 +8,7 @@ var _device_holder: VBoxContainer
 const DEVICE_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/FEAGI_UI_Panel_Device.tscn")
 
 const SPECIFIC_DEVICE_UI_PATHS_SENSORY: Dictionary = {
-	"camera": preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Sensory/FEAGI_UI_Panel_SpecificSensoryDevice_Camera.tscn")
+	FEAGI_IOHandler_Sensory_Camera.TYPE_NAME: preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Sensory/FEAGI_UI_Panel_SpecificSensoryDevice_Camera.tscn")
 }
 
 const SPECIFIC_DEVICE_UI_PATHS_MOTOR: Dictionary = {

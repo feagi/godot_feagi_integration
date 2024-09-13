@@ -44,7 +44,7 @@ func clear() -> void:
 	_motor_update_callables = []
 	
 
-## Called by [FEAGIDebugger] when it recieves a message about a device being added
+## Called by [FEAGIDebugger] when it recieves a message about a sensor being added
 func add_sensor_device(sensor_type: StringName, sensor_name: StringName, extra_setup_data: Array) -> void:
 	var view: FEAGI_Debug_Panel_ViewBase
 	match(sensor_type): # This could be a dict lookup, hmmm
@@ -61,7 +61,7 @@ func add_sensor_device(sensor_type: StringName, sensor_name: StringName, extra_s
 	_update_none_label(_sensor_holder, false)
 	
 	
-## Called by [FEAGIDebugger] when it recieves a message about a device being added
+## Called by [FEAGIDebugger] when it recieves a message about a motor being added
 func add_motor_device(motor_type: StringName, motor_name: StringName, extra_setup_data: Array) -> void:
 	var view: FEAGI_Debug_Panel_ViewBase
 	match(motor_type): # This could be a dict lookup, hmmm
