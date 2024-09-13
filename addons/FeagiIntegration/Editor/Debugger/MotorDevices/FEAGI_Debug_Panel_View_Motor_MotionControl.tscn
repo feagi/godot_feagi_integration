@@ -53,15 +53,10 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Title/MarginContainer/VBoxContainer/holder"]
+[node name="TextEdit" type="TextEdit" parent="Title/MarginContainer/VBoxContainer/holder"]
+custom_minimum_size = Vector2(512, 96)
 layout_mode = 2
-
-[node name="vec4" type="LineEdit" parent="Title/MarginContainer/VBoxContainer/holder/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.66
-
-[node name="vec2" type="LineEdit" parent="Title/MarginContainer/VBoxContainer/holder/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.15
+text = "Move Up: 0, Move Down: 0, Move Right: 0, Move Left: 0
+Yaw Left: 0, Yaw Right: 0, Roll Left: 0, Roll Right: 0
+Pitch Forward: 0, Pitch Backward: 0"
+editable = false

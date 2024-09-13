@@ -2,14 +2,12 @@
 extends FEAGI_Debug_Panel_ViewBase
 class_name FEAGI_Debug_Panel_View_Motor_MotionControl
 
-var _vec4: LineEdit
-var _vec2: LineEdit
+var _text: TextEdit
 
 func initialize() -> void:
 	super()
-	_vec4 = $Title/MarginContainer/VBoxContainer/holder/HBoxContainer/vec4
-	_vec2 = $Title/MarginContainer/VBoxContainer/holder/HBoxContainer/vec2
-	_parse(0.0, 0.0, 0.0, 0.0)
+	_text = $Title/MarginContainer/VBoxContainer/holder/TextEdit
+	_text.text = "Move Up: 0, Move Down: 0, Move Right: 0, Move Left: 0\nYaw Left: 0, Yaw Right: 0, Roll Left: 0, Roll Right: 0\nPitch Forward: 0, Pitch Backward: 0"
 	
 ## OVERRIDDEN: camera needs the X resolution (val 0) and Y resolution (val 1)
 func setup_extra_setup_data(_extra_settings: Array) -> void:
@@ -17,8 +15,4 @@ func setup_extra_setup_data(_extra_settings: Array) -> void:
 	
 func update_visualization(data: PackedByteArray) -> void:
 	var arr: PackedFloat32Array = data.to_float32_array()
-	_parse(arr[0], arr[1], arr[2], arr[3])
-
-func _parse(forward: float, backward: float, right: float, left: float) -> void:
-	_vec4.text = "Forward: %d   Backward: %d   Right: %d   Left: %d" % [forward, backward, right, left]
-	_vec2.text = "X: %d, Y: %d" % [right - left, forward - backward]
+	_text.text = "Move Up: %d, Move Down: %d, Move Right: %d, Move Left: %d\nYaw Left: %d, Yaw Right: %d, Roll Left: %d, Roll Right: %d\nPitch Forward: %d, Pitch Backward: %d" % Array(arr)

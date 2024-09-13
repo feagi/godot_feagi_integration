@@ -1,15 +1,13 @@
 @tool
 extends FEAGI_IOHandler_Motor_Base
 class_name FEAGI_IOHandler_Motor_MotionControl
-## Motion Control, recieves data from FEAGI to go forward, backward, right, and left.
-## NOTE: _data_reciever in this class is to accept 2 parameters: 
-## - A Vector4 (with floats 0.0-1.0 representing strength of forward, backward, right, left in that order),
-## - A Vector2 that represents the above, but as XY movement with floats from -1.0 to 1.0
+## Motion Control, recieves data from FEAGI to go in various directions.
+## _data_reciever Callable is expected to have a parameter taking a dictionary, where string keys are mapped to the float value of that direciton, ranging from 0-1
+
+var _output: Dictionary = {}
 
 const TYPE_NAME = "motion_control"
 
-var _vec4: Vector4
-var _vec2: Vector2
 
 func get_device_type() -> StringName:
 	return TYPE_NAME
@@ -19,19 +17,29 @@ func update_state_with_retrieved_date(new_data: PackedByteArray) -> void:
 	var json_string: String = new_data.get_string_from_utf8()
 	var json: Dictionary = JSON.parse_string(json_string)
 	var floats: PackedFloat32Array = PackedFloat32Array()
-	floats.resize(4)
+	floats.resize(10)
 	floats[0] = json["move_up"]
 	floats[1] = json["move_down"]
 	floats[2] = json["move_right"]
 	floats[3] = json["move_left"]
+	# TODO other variables once connector supports them
 	_cached_data = floats.to_byte_array()
-	_process_raw_data(_cached_data)
+	_process_raw_data(_cached_data) # IRONICALLY for this specific usecase its easiest for downstream devs is to have a dictionary, so we are going to turn it back lol.
+	# This is only being done since later we will migrate away from this format
 
 
 func _process_raw_data(raw_data: PackedByteArray) -> void:
 	var floats: PackedFloat32Array = raw_data.to_float32_array()
-	_vec4 = Vector4(floats[0], floats[1], floats[2], floats[3])
-	_vec2 = Vector2(floats[2] - floats[3], floats[0] - floats[1])
+	_output["move_up"] = floats[0]
+	_output["move_down"] = floats[1]
+	_output["move_right"] = floats[2]
+	_output["move_left"] = floats[3]
+	_output["yaw_left"] = floats[4] 
+	_output["yaw_right"] = floats[5]
+	_output["roll_left"] = floats[6]
+	_output["roll_right"] = floats[7]
+	_output["pitch_forward"] = floats[8]
+	_output["pitch_backward"] = floats[9]
 	if !_data_reciever.is_null():
-		_data_reciever.call(_vec4, _vec2)
+		_data_reciever.call(_output.duplicate())
 	
