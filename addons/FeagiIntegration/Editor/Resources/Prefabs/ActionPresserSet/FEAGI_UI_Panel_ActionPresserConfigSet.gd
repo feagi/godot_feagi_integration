@@ -32,7 +32,7 @@ func add_presser_UI(friendly_name: StringName, key: StringName, action_presser: 
 ## Export the values of all UI elements, as a dict key'd by the key value of each [FEAGI_Emulated_Input] value
 func export_as_dict() -> Dictionary:
 	var output: Dictionary = {}
-	for i in len(get_child_count()):
+	for i in get_child_count():
 		var child: FEAGI_UI_Panel_ActionPresserConfig = get_child(i)
 		output.merge(child.export_as_dict())
 	return output

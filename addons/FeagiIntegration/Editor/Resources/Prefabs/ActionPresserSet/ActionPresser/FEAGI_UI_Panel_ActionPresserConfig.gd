@@ -47,7 +47,7 @@ func export() -> FEAGI_Emulated_Input:
 	if _actions.selected == 0:
 		output.godot_action_name = FEAGI_Emulated_Input.NO_ACTION
 	else:
-		output.godot_action_name = _possible_actions[_actions.selected + 1]
+		output.godot_action_name = _possible_actions[_actions.selected - 1]
 	output.action_hold_seconds = _hold.value
 	output.action_press_FEAGI_threshold = _action.value
 	output.action_release_FEAGI_threshold = _action.value
