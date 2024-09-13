@@ -6,7 +6,7 @@ class_name FEAGI_IOHandler_Motor_MotionControl
 
 const TYPE_NAME = "motion_control"
 
-@export var automatically_emulate_keys: Dictionary = {} ## A dictionary that if defined, is key'd by the data key name of this output, and value'd to the input event emulator for a specific event
+@export var automatically_emulate_keys: Dictionary = {} ## A dictionary that if defined, is key'd by the data key name of this output, and value'd to the [FEAGI_Emulated_Input] for a specific event
 
 var _output: Dictionary = {}
 

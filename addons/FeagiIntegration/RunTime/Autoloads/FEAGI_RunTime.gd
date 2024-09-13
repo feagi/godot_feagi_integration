@@ -85,7 +85,7 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	# TODO feagi network
 	
 	# Activate Godot Device Manager to act as an endpoint for Godot Devices to register themselves to
-	godot_device_manager = FEAGI_RunTime_GodotDeviceManager.new(_FEAGI_sensors)
+	godot_device_manager = FEAGI_RunTime_GodotDeviceManager.new(_FEAGI_sensors, _FEAGI_motors)
 	ready_for_godot_device_registration.emit()
 	
 	# Add all devices that have been requested to be auto-generated

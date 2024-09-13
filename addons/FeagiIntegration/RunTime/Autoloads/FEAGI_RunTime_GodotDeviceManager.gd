@@ -33,12 +33,12 @@ func register_godot_device_motor(agent: FEAGI_RunTime_GodotDeviceAgent_Motor) ->
 		push_error("FEAGI: Unable to find a motor IO handler for the agent of device name %s! Skipping registration!" % agent.get_device_name())
 		return false
 	
-	var relevant_feagi_motor: FEAGI_IOHandler_Motor_Base = _FEAGI_sensors_reference[agent.get_device_name()]
+	var relevant_feagi_motor: FEAGI_IOHandler_Motor_Base = _FEAGI_motors_reference[agent.get_device_name()]
 	if agent.get_device_type() != relevant_feagi_motor.get_device_type():
 		push_error("FEAGI: Motor agent %s is not of expected device type %s! Skipping registration!" % [agent.get_device_name(), relevant_feagi_motor.get_device_type()])
 		return false
 
-	relevant_feagi_motor.register_godot_device_motor(agent.get_data_retrival_function())
+	relevant_feagi_motor.register_godot_device_motor(agent.get_data_setting_function())
 	return true
 
 
