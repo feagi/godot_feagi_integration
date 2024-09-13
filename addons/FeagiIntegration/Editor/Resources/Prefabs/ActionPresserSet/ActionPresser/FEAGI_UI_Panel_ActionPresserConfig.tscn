@@ -35,7 +35,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="CollapsiblePrefab/PanelContainer/MarginContainer/Internals/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Minimum amount of time in seconds to hold a action press from FEAGI"
+tooltip_text = "Minimum amount of time in seconds to hold an action press from FEAGI"
 mouse_filter = 1
 text = "Hold length"
 

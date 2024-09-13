@@ -20,6 +20,7 @@ func setup(key: StringName, friendly_name: StringName, emulated_input: FEAGI_Emu
 	
 	label.text = friendly_name
 	
+	InputMap.load_from_project_settings() # ensure we have the full info!
 	_possible_actions = InputMap.get_actions()
 	
 	_actions.add_item("No Action")
