@@ -30,6 +30,7 @@ func setup_debugger() -> void:
 ## And ASYNC function that initiates the API and websocket conneciton to FEAGI and the connector, but nothing else. Returns true if succesful
 func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node) -> bool:
 	_FEAGI_interface = FEAGI_RunTime_FEAGIInterface.new()
+	_FEAGI_interface.socket_closed.connect(_on_socket_close)
 	_FEAGI_interface.name = "FEAGI Networking"
 	parent_node.add_child(_FEAGI_interface)
 	
@@ -58,7 +59,8 @@ func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node
 		return false
 	print("FEAGI: Connected to connector websocket at %s!" % endpoint.get_full_connector_ws_URL())
 
-	
+	# setup cache device references
+	_FEAGI_interface.set_cached_device_dicts(_FEAGI_sensors_reference, _FEAGI_motors_reference)
 	
 	return true
 
@@ -74,6 +76,7 @@ func send_configurator_and_enable(initial_configurator_json: StringName) -> void
 	# check URl params, update configurator
 	# TODO
 	
+	
 	# send param over socket
 	_FEAGI_interface.send_final_configurator_JSON(initial_configurator_json)
 	
@@ -88,8 +91,11 @@ func on_sensor_tick() -> void:
 		
 	if _debug_interface:
 		_debug_interface.alert_debugger_about_sensor_update()
-	#if _FEAGI_interface:
-		#_FEAGI_interface.on_tick()
+	if _FEAGI_interface:
+		_FEAGI_interface.on_sensor_tick()
 
 func on_retrieved_motor_data_from_FEAGI(data: PackedByteArray) -> void:
 	pass
+
+func _on_socket_close() -> void:
+	_FEAGI_interface = null

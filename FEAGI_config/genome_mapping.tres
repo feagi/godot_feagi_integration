@@ -96,7 +96,7 @@ is_disabled = false
 
 [sub_resource type="Resource" id="Resource_ptmif"]
 script = ExtResource("2_ecihq")
-resolution = Vector2i(256, 256)
+resolution = Vector2i(64, 64)
 is_flipped_x = false
 automatically_create_screengrabber = true
 device_name = &"camera 0"
