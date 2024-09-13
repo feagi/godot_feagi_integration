@@ -66,27 +66,43 @@ text = "Show Manual Endpoint Configuration"
 [node name="Hide" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="1"]
 text = "Hide Manual Endpoint Configuration"
 
+[node name="PanelContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="2"]
+visible = true
+
 [node name="FEAGI_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="0"]
 layout_mode = 2
+text = "127.0.0.1"
 placeholder_text = "FEAGI Endpoint"
 
 [node name="Connector_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="1"]
 layout_mode = 2
+text = "127.0.0.1"
 placeholder_text = "FEAGI Godot Connector Endpoint"
 
 [node name="API_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="2"]
 layout_mode = 2
 min_value = 1.0
 max_value = 65535.0
-value = 9000.0
+value = 8000.0
 prefix = "FEAGI Port:"
 
 [node name="WS_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="3"]
 layout_mode = 2
 min_value = 1.0
 max_value = 65535.0
-value = 10003.0
+value = 9055.0
 prefix = "Connector Port:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Is using SSL"
+
+[node name="SSL" type="CheckBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer"]
+layout_mode = 2
 
 [node name="EnableDebug" type="HBoxContainer" parent="."]
 layout_mode = 2
