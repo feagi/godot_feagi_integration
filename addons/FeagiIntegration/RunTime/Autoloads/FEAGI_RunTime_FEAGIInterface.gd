@@ -5,6 +5,7 @@ const HTTP_WORKER_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/R
 
 signal socket_closed()
 signal socket_state_changed(new_state: WebSocketPeer.State)
+signal socket_recieved_motor_data(motor_data: Dictionary) # dictionary structure is {device_type str : {device_ID int : data packedbytearray}}}
 
 var connection_active: bool = false
 
@@ -13,6 +14,7 @@ var _cached_FEAGI_sensors: Array[FEAGI_IOHandler_Sensory_Base]
 var _socket: WebSocketPeer
 var _socket_state: WebSocketPeer.State = WebSocketPeer.State.STATE_CLOSED
 var _FEAGI_sending_dict_structure: Dictionary ## Cached dict
+var _FEAGI_receiving_dict_structure: Dictionary ## Cached dict
 
 
 func _process(delta: float) -> void:
@@ -24,15 +26,13 @@ func _process(delta: float) -> void:
 		socket_state_changed.emit(_socket_state)
 	match(_socket_state):
 		WebSocketPeer.State.STATE_OPEN:
-			pass
-			#while _socket.get_available_packet_count():
-			#	pass # TODO motor
+			while _socket.get_available_packet_count():
+				_on_motor_receive(_socket.get_packet())
 		WebSocketPeer.State.STATE_CLOSED:
 			push_error("FEAGI: WS Socket to connector closed!")
 			socket_closed.emit()
 			_socket = null
 			set_process(false)
-			
 
 ## ASYNC function that returns true if feagis healthcheck returns at the given address
 func ping_feagi_available(full_feagi_address: StringName) -> bool:
@@ -67,12 +67,18 @@ func setup_websocket(full_connector_WS_address: StringName) -> bool:
 func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
 	_cached_FEAGI_sensors.assign(sensors.values())
 	
-	# Set up structure of sending dict
+	# setup dictionary layout of reciving and sending dicts so we dont constantly have to reformat them
 	for sensor: FEAGI_IOHandler_Sensory_Base in sensors.values():
 		if sensor.get_device_type() not in _FEAGI_sending_dict_structure:
 			_FEAGI_sending_dict_structure[sensor.get_device_type()] = {}
 		if sensor.device_ID not in _FEAGI_sending_dict_structure[sensor.get_device_type()]:
 			_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = PackedByteArray()
+	
+	for motor: FEAGI_IOHandler_Motor_Base in motors.values():
+		if motor.get_device_type() not in _FEAGI_receiving_dict_structure:
+			_FEAGI_receiving_dict_structure[ motor.get_device_type()] = {}
+		if motor.device_ID not in _FEAGI_receiving_dict_structure[motor.get_device_type()]:
+			_FEAGI_receiving_dict_structure[motor.get_device_type()][motor.device_ID] = PackedByteArray()
 		
 	
 
@@ -91,3 +97,8 @@ func on_sensor_tick() -> void:
 	for sensor in _cached_FEAGI_sensors:
 		_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = sensor.get_data_as_byte_array() # Retrieves cached sensor byte data. Make sure this was recently updated!
 	_socket.send(str(_FEAGI_sending_dict_structure).to_ascii_buffer().compress(FileAccess.COMPRESSION_DEFLATE))
+
+func _on_motor_receive(raw_data: PackedByteArray) -> void:
+	print(raw_data.get_string_from_utf8())
+	
+	
