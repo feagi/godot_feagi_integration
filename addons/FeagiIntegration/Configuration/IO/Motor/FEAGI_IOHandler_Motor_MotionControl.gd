@@ -25,6 +25,26 @@ static func byte_array_to_dictionary(bytes: PackedByteArray) -> Dictionary:
 	output["pitch_backward"] = floats[9]
 	return output
 
+## Return what the packed byte array equivalent of a zero value would be
+static func retrieve_zero_value_byte_array() -> PackedByteArray:
+	# HACK what is commented out is correct, but for now using a hack
+	#var arr: PackedFloat32Array = PackedFloat32Array([0,0,0,0,0,0,0,0,0,0])
+	#return arr.to_byte_array()
+	var dict: Dictionary = {
+		"move_up": 0.0,
+		"move_down": 0.0,
+		"move_right": 0.0,
+		"move_left": 0.0,
+		"yaw_left" : 0.0,
+		"yaw_right": 0.0,
+		"roll_left": 0.0,
+		"roll_right": 0.0,
+		"pitch_forward": 0.0,
+		"pitch_backward": 0.0
+		}
+	return JSON.stringify(dict).to_utf8_buffer()
+	
+
 func get_device_type() -> StringName:
 	return TYPE_NAME
 
@@ -38,6 +58,12 @@ func update_state_with_retrieved_date(new_data: PackedByteArray) -> void:
 	floats[1] = json["move_down"]
 	floats[2] = json["move_right"]
 	floats[3] = json["move_left"]
+	floats[4] = json["yaw_left"]
+	floats[5] = json["yaw_right"]
+	floats[5] = json["roll_left"]
+	floats[5] = json["roll_right"]
+	floats[5] = json["pitch_forward"]
+	floats[5] = json["pitch_backward"]
 	# TODO other variables once connector supports them
 	_cached_bytes = floats.to_byte_array()
 	_process_raw_data(_cached_bytes) # IRONICALLY for this specific usecase its easiest for downstream devs is to have a dictionary, so we are going to turn it back lol.

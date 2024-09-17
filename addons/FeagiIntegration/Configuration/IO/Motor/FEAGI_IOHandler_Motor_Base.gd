@@ -4,6 +4,11 @@ class_name FEAGI_IOHandler_Motor_Base
 
 var _data_reciever: Callable = Callable() # WARNING: Make sure for the proper class, that this callable accepts the expected type
 
+## For the given device, return what the packed byte array equivalent of a zero value would be
+static func retrieve_zero_value_byte_array() -> PackedByteArray:
+	assert(false, "Do not use 'FEAGI_IOHandler_Motor_Base' Directly!")
+	return PackedByteArray()
+
 ## Data retrieved right from FEAGI, process the data and alert whatever is connected to the motor
 func update_state_with_retrieved_date(new_data: PackedByteArray) -> void:
 	#NOTE: Right now most child classes override this since data is being sent as dicts, which isnt good performance wise.

@@ -13,6 +13,13 @@ var _output: Dictionary = {}
 static func byte_array_to_float(bytes: PackedByteArray) -> float:
 	return bytes.decode_float(0)
 
+## Return what the packed byte array equivalent of a zero value would be
+static func retrieve_zero_value_byte_array() -> PackedByteArray:
+	var output: PackedByteArray = PackedByteArray()
+	output.resize(4)
+	output.encode_float(0, 0.0)
+	return output
+
 func _init() -> void:
 	_cached_bytes = PackedByteArray()
 	_cached_bytes.resize(4) # Since "encode_float" does not modify byte array lengths, we need to ensure we can fit a float in it

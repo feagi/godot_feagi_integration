@@ -5,11 +5,12 @@ const HTTP_WORKER_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/R
 
 signal socket_closed()
 signal socket_state_changed(new_state: WebSocketPeer.State)
-signal socket_recieved_motor_data(motor_data: Dictionary) # dictionary structure is {device_type str : {device_ID int : data packedbytearray}}}
+signal socket_recieved_motor_data() ## data retrieved, and updated the caches of the motors
 
 var connection_active: bool = false
 
 var _cached_FEAGI_sensors: Array[FEAGI_IOHandler_Sensory_Base]
+var _cached_FEAGI_motors: Array[FEAGI_IOHandler_Motor_Base]
 
 var _socket: WebSocketPeer
 var _socket_state: WebSocketPeer.State = WebSocketPeer.State.STATE_CLOSED
@@ -66,6 +67,7 @@ func setup_websocket(full_connector_WS_address: StringName) -> bool:
 ## Send the dicts used to define the device listings
 func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
 	_cached_FEAGI_sensors.assign(sensors.values())
+	_cached_FEAGI_motors.assign(motors.values())
 	
 	# setup dictionary layout of reciving and sending dicts so we dont constantly have to reformat them
 	for sensor: FEAGI_IOHandler_Sensory_Base in sensors.values():
@@ -111,6 +113,26 @@ func on_sensor_tick() -> void:
 	_socket.send(str(_FEAGI_sending_dict_structure).to_ascii_buffer().compress(FileAccess.COMPRESSION_DEFLATE))
 
 func _on_motor_receive(raw_data: PackedByteArray) -> void:
-	print(raw_data.get_string_from_utf8())
+	## NOTE For now we are doing the HACK method with json. Yes this will be updated in a future date
+	# yes this is very slow. We will be replacing this all soon though, this is justy for demonstation
+	var some_value
+	var device_incoming_data: PackedByteArray
 	
+	var incoming_dict: Dictionary = JSON.parse_string(raw_data.get_string_from_utf8())
+	for motor in _cached_FEAGI_motors:
+		if motor.get_device_type() in incoming_dict:
+			if motor.device_ID in incoming_dict[motor.get_device_type()]:
+				some_value = incoming_dict[motor.get_device_type()][motor.device_ID]
+				if some_value is float or some_value is int:
+					device_incoming_data.resize(4)
+					device_incoming_data.encode_float(0, some_value)
+				if some_value is Dictionary:
+					# HACK right now we know the only type of dictionary is motion control. hard coding...
+					device_incoming_data = JSON.stringify(some_value).to_utf8_buffer()
+			else:
+				device_incoming_data = motor.retrieve_zero_value_byte_array()
+		else:
+			device_incoming_data = motor.retrieve_zero_value_byte_array()
+		motor.update_state_with_retrieved_date(device_incoming_data)
+	socket_recieved_motor_data.emit()
 	
