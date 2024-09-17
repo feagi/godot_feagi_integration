@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=10 format=3 uid="uid://cjb5bi3ltej3e"]
+[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=12 format=3 uid="uid://cjb5bi3ltej3e"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="1_xrcls"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/IO/Sensory/FEAGI_IOHandler_Sensory_Camera.gd" id="2_ecihq"]
@@ -6,9 +6,23 @@
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/IO/Sensory/FEAGI_IOHandler_Sensory_Proximity.gd" id="4_2dcws"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/IO/Sensory/FEAGI_IOHandler_Sensory_Accelerometer.gd" id="5_qk2xw"]
 
-[sub_resource type="Resource" id="Resource_ij5t8"]
+[sub_resource type="Resource" id="Resource_4daqt"]
+script = ExtResource("5_qk2xw")
+device_name = &"accelerometer 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_0wrs7"]
+script = ExtResource("5_qk2xw")
+device_name = &"accelerometer 1"
+FEAGI_index = 0
+device_ID = 1
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_h33mo"]
 script = ExtResource("2_ecihq")
-resolution = Vector2i(64, 64)
+resolution = Vector2i(2, 2)
 is_flipped_x = false
 automatically_create_screengrabber = true
 device_name = &"camera 0"
@@ -16,21 +30,21 @@ FEAGI_index = 0
 device_ID = 0
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_l7u2j"]
+[sub_resource type="Resource" id="Resource_ai3ec"]
 script = ExtResource("3_7gecp")
 device_name = &"gyro 0"
 FEAGI_index = 0
 device_ID = 0
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_ndfi3"]
-script = ExtResource("5_qk2xw")
-device_name = &"accelerometer 0"
+[sub_resource type="Resource" id="Resource_r5shp"]
+script = ExtResource("3_7gecp")
+device_name = &"gyro 1"
 FEAGI_index = 0
-device_ID = 0
+device_ID = 1
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_vx5sl"]
+[sub_resource type="Resource" id="Resource_q2r0e"]
 script = ExtResource("4_2dcws")
 device_name = &"proximity 0"
 FEAGI_index = 0
@@ -42,11 +56,13 @@ script = ExtResource("1_xrcls")
 FEAGI_enabled = true
 debugger_enabled = true
 delay_seconds_between_frames = 1.0
-configuration_JSON = &"{\"capabilities\":{\"input\":{\"accelerometer\":{\"0\":{\"custom_name\":\"accelerometer 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"camera\":{\"0\":{\"custom_name\":\"camera 0\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"00\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}},\"gyro\":{\"0\":{\"custom_name\":\"gyro 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"proximity\":{\"0\":{\"custom_name\":\"proximity 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":0,\"min_value\":0}}},\"output\":{}}}"
+configuration_JSON = &"{\"capabilities\":{\"input\":{\"accelerometer\":{\"0\":{\"custom_name\":\"accelerometer 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]},\"1\":{\"custom_name\":\"accelerometer 1\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"camera\":{\"0\":{\"custom_name\":\"camera 0\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"00\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}},\"gyro\":{\"0\":{\"custom_name\":\"gyro 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]},\"1\":{\"custom_name\":\"gyro 1\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"proximity\":{\"0\":{\"custom_name\":\"proximity 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":0,\"min_value\":0}}},\"output\":{}}}"
 sensors = {
-"accelerometer_accelerometer 0": SubResource("Resource_ndfi3"),
-"camera_camera 0": SubResource("Resource_ij5t8"),
-"gyro_gyro 0": SubResource("Resource_l7u2j"),
-"proximity_proximity 0": SubResource("Resource_vx5sl")
+"accelerometer_accelerometer 0": SubResource("Resource_4daqt"),
+"accelerometer_accelerometer 1": SubResource("Resource_0wrs7"),
+"camera_camera 0": SubResource("Resource_h33mo"),
+"gyro_gyro 0": SubResource("Resource_ai3ec"),
+"gyro_gyro 1": SubResource("Resource_r5shp"),
+"proximity_proximity 0": SubResource("Resource_q2r0e")
 }
 motors = {}
