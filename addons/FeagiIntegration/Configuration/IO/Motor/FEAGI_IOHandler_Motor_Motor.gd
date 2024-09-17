@@ -10,6 +10,9 @@ const TYPE_NAME = "motor"
 
 var _output: Dictionary = {}
 
+static func byte_array_to_float(bytes: PackedByteArray) -> float:
+	return bytes.decode_float(0)
+
 func get_device_type() -> StringName:
 	return TYPE_NAME
 
@@ -18,4 +21,4 @@ func is_using_automatic_input_key_emulation() -> bool:
 
 func _process_raw_data(raw_data: PackedByteArray) -> void:
 	if !_data_reciever.is_null():
-		_data_reciever.call(raw_data.decode_float(0))
+		_data_reciever.call(FEAGI_IOHandler_Motor_Motor.byte_array_to_float(raw_data))

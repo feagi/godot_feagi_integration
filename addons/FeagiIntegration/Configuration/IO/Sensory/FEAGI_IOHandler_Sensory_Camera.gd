@@ -27,9 +27,9 @@ func get_debug_interface_device_creation_array() -> Array:
 ## If there is a data grabber function, get the image from it and process it before storing the data from it. Otherwise updates the cached data with an empty image
 func refresh_cached_sensory_data() -> void:
 	if _data_grabber.is_null():
-		_cached_data = _blank_image.get_data()
+		_cached_bytes = _blank_image.get_data()
 		return
-	_cached_data = _process_image(_data_grabber.call())
+	_cached_bytes = _process_image(_data_grabber.call())
 
 ## Processes the input images returns the byte array data of it
 func _process_image(image: Image) -> PackedByteArray:

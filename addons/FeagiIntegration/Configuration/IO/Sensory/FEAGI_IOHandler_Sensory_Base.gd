@@ -6,7 +6,7 @@ class_name FEAGI_IOHandler_Sensory_Base
 var _data_grabber: Callable = Callable() # WARNING: Make sure for the proper class, that this callable returns the expected type
 	
 func refresh_cached_sensory_data() -> void:
-	# override me in all child device classes to update _cached_data to the latest value
+	# override me in all child device classes to update _cached_bytes to the latest value
 	assert(false, "Do not use 'FEAGI_IOHandler_Sensory_Base' Directly!")
 	return
 

@@ -10,6 +10,21 @@ const TYPE_NAME = "motion_control"
 
 var _output: Dictionary = {}
 
+static func byte_array_to_dictionary(bytes: PackedByteArray) -> Dictionary:
+	var output: Dictionary
+	var floats: PackedFloat32Array = bytes.to_float32_array()
+	output["move_up"] = floats[0]
+	output["move_down"] = floats[1]
+	output["move_right"] = floats[2]
+	output["move_left"] = floats[3]
+	output["yaw_left"] = floats[4] 
+	output["yaw_right"] = floats[5]
+	output["roll_left"] = floats[6]
+	output["roll_right"] = floats[7]
+	output["pitch_forward"] = floats[8]
+	output["pitch_backward"] = floats[9]
+	return output
+
 func get_device_type() -> StringName:
 	return TYPE_NAME
 
@@ -24,8 +39,8 @@ func update_state_with_retrieved_date(new_data: PackedByteArray) -> void:
 	floats[2] = json["move_right"]
 	floats[3] = json["move_left"]
 	# TODO other variables once connector supports them
-	_cached_data = floats.to_byte_array()
-	_process_raw_data(_cached_data) # IRONICALLY for this specific usecase its easiest for downstream devs is to have a dictionary, so we are going to turn it back lol.
+	_cached_bytes = floats.to_byte_array()
+	_process_raw_data(_cached_bytes) # IRONICALLY for this specific usecase its easiest for downstream devs is to have a dictionary, so we are going to turn it back lol.
 	# This is only being done since later we will migrate away from this format
 
 func is_using_automatic_input_key_emulation() -> bool:
@@ -33,17 +48,7 @@ func is_using_automatic_input_key_emulation() -> bool:
 
 
 func _process_raw_data(raw_data: PackedByteArray) -> void:
-	var floats: PackedFloat32Array = raw_data.to_float32_array()
-	_output["move_up"] = floats[0]
-	_output["move_down"] = floats[1]
-	_output["move_right"] = floats[2]
-	_output["move_left"] = floats[3]
-	_output["yaw_left"] = floats[4] 
-	_output["yaw_right"] = floats[5]
-	_output["roll_left"] = floats[6]
-	_output["roll_right"] = floats[7]
-	_output["pitch_forward"] = floats[8]
-	_output["pitch_backward"] = floats[9]
+	_output = FEAGI_IOHandler_Motor_MotionControl.byte_array_to_dictionary(raw_data)
 	if !_data_reciever.is_null():
 		_data_reciever.call(_output.duplicate())
 	

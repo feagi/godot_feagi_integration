@@ -7,7 +7,7 @@ var _data_reciever: Callable = Callable() # WARNING: Make sure for the proper cl
 ## Data retrieved right from FEAGI, process the data and alert whatever is connected to the motor
 func update_state_with_retrieved_date(new_data: PackedByteArray) -> void:
 	#NOTE: Right now most child classes override this since data is being sent as dicts, which isnt good performance wise.
-	_cached_data = new_data
+	_cached_bytes = new_data
 	_process_raw_data(new_data)
 
 # Register a godot device to this device
