@@ -94,8 +94,22 @@ func on_sensor_tick() -> void:
 	if not _socket:
 		push_error("FEAGI: Cannot send data to a closed socket!")
 		return
+	#for sensor in _cached_FEAGI_sensors: NOTE: This comment of code directly translates bytes to string. THis was an attempt to translate what we were doing to the current standard but didnt work. Still keeping this here as a template. for now we will use a worse performing implementation that works with the current JSON nonsense we have
+	#	_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = sensor.get_data_as_byte_array() # Retrieves cached sensor byte data. Make sure this was recently updated!
 	for sensor in _cached_FEAGI_sensors:
-		_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = sensor.get_data_as_byte_array() # Retrieves cached sensor byte data. Make sure this was recently updated!
+		if sensor.get_device_type() == "camera":
+			_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = sensor.get_data_as_byte_array()
+			continue
+		else: # WARNING: temporarily using a temp function to get around json issue
+			if sensor.get_device_type() == "proximity":
+				_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] =  sensor.get_data_as_byte_array().decode_float(0)
+				continue
+			if sensor.get_device_type() == "gyro" or sensor.get_device_type() == "accelerometer":
+				var temp: Vector3 = FEAGI_IOHandler_Sensory_Accelerometer.byte_array_to_vector3(sensor.get_data_as_byte_array())
+				_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = [temp.x, temp.y, temp.z]
+		# RIP frames
+	
+	print(str(_FEAGI_sending_dict_structure))
 	_socket.send(str(_FEAGI_sending_dict_structure).to_ascii_buffer().compress(FileAccess.COMPRESSION_DEFLATE))
 
 func _on_motor_receive(raw_data: PackedByteArray) -> void:
