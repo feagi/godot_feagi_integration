@@ -40,7 +40,7 @@ func _export_config() -> void:
 	var mapping: FEAGI_Genome_Mapping = FEAGI_Genome_Mapping.new()
 	mapping.FEAGI_enabled = _section_agent.FEAGI_enabled
 	mapping.debugger_enabled = _section_agent.debug_enabled
-	mapping.delay_seconds_between_frames = 1.0 / _section_agent.refresh_rate
+	mapping.delay_seconds_between_frames = _section_agent.refresh_rate
 	mapping.configuration_JSON = JSON.stringify(JSON_dict)
 	mapping.sensors = sensory
 	mapping.motors = motor
