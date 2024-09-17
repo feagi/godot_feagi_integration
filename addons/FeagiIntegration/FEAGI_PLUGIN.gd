@@ -23,7 +23,7 @@ const CONFIG_GITIGNORE_TEXT: StringName = "# This gitignore is automatically gen
 const TEMPLATE_DIR: StringName = "res://addons/FeagiIntegration/Editor/Resources/template.json"
 
 #WARNING: Make sure you also update the exports of [FEAGI_RunTime_GodotDeviceAgent_Base]!
-const GODOT_SUPPORTED_SENSORS: PackedStringArray = ["camera", "gyro", "proxmity", "accelerometer"] ## All supported FEAGI Sensor devices that have Godot components available to emulate
+const GODOT_SUPPORTED_SENSORS: PackedStringArray = ["camera", "gyro", "proximity", "accelerometer"] ## All supported FEAGI Sensor devices that have Godot components available to emulate
 const GODOT_SUPPORTED_MOTORS: PackedStringArray = ["motion_control"] ## All supported FEAGI Sensor devices that have Godot components available to emulate
 
 const PANEL_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/FEAGI_UI_Panel.tscn")

@@ -4,7 +4,7 @@ class_name FEAGI_IOHandler_Sensory_Proximity
 ## Proxmimity IOHandler. Sensor that captures distances from game to pass to FEAGI. Single Float.
 ## NOTE: _data_grabber in this class is expected to return an [float]
 
-const TYPE_NAME = "proxmity"
+const TYPE_NAME = "proximity"
 
 static func byte_array_to_float(bytes: PackedByteArray) -> float:
 	return bytes.decode_float(0)
