@@ -29,6 +29,10 @@ func import_IOHandler(device_config: FEAGI_IOHandler_Base) -> void:
 	_screengrab.button_pressed = camera_config.automatically_create_screengrabber
 	_screengrab_note.visible = camera_config.automatically_create_screengrabber
 
+## OVERRIDDEN since we also need the resolution for the json
+func export_additional_JSON_configurator_data() -> Dictionary:
+	return {"camera_resolution" = [_x.value, _y.value]}
+
 ## Called by the parent [FEAGI_UI_Panel_Device] node when it needs to build the device settings to export a save file
 func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_IOHandler_Base:
 	var camera_config: FEAGI_IOHandler_Sensory_Camera = FEAGI_IOHandler_Sensory_Camera.new()

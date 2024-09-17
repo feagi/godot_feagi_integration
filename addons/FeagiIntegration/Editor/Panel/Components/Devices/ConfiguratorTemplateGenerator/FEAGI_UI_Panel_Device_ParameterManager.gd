@@ -3,8 +3,8 @@ extends VBoxContainer
 class_name FEAGI_UI_Panel_Device_ParameterManager
 
 # remove "list" support since it is redudant in all our current uses. use vector3 instead
-const SUPPORTED_TYPES: Array[StringName] = ["string", "boolean", "integer", "float", "percentage", "object", "vector3"] ## The current compenent types we support
-const LABEL_NAMES_OF_COMPONENTS_TO_SKIP: Array[StringName] = ["custom_name", "disabled", "feagi_index"] ## If a component has this label name property in the template, it will be skipped!
+const SUPPORTED_TYPES: Array[StringName] = ["string", "boolean", "integer", "float", "percentage", "object", "vector2", "vector3"] ## The current compenent types we support
+const LABEL_NAMES_OF_COMPONENTS_TO_SKIP: Array[StringName] = ["custom_name", "disabled", "feagi_index", "camera_resolution"] ## If a component has this label name property in the template, it will be skipped!
 
 
 const BOOL_PREFAB_PATH: StringName = "res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/FEAGI_UI_Panel_Device_ParameterBool.tscn"
@@ -14,6 +14,7 @@ const LIST_PREFAB_PATH: StringName = "res://addons/FeagiIntegration/Editor/Panel
 const OBJECT_PREFAB_PATH: StringName = "res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/FEAGI_UI_Panel_Device_ParameterObject.tscn"
 const PERCENTAGE_PREFAB_PATH: StringName = "res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/FEAGI_UI_Panel_Device_ParameterPercentage.tscn"
 const STRING_PREFAB_PATH: StringName = "res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/FEAGI_UI_Panel_Device_ParameterString.tscn"
+const VECTOR2_PREFAB_PATH: StringName = "res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/FEAGI_UI_Panel_Device_ParameterVector2.tscn"
 const VECTOR3_PREFAB_PATH: StringName = "res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/FEAGI_UI_Panel_Device_ParameterVector3.tscn"
 
 var _parameter_objects: Array[FEAGI_UI_Panel_Device_ParameterBase] = []
@@ -141,6 +142,11 @@ func _spawn_parameter(parameter_template: Dictionary, paremeter_given_values: Di
 			var subparameters_array: Array[Dictionary]
 			subparameters_array.assign(parameter_template["parameters"])
 			(appending as FEAGI_UI_Panel_Device_ParameterObject).setup_internals(_generate_parameter_controls(subparameters_array, paremeter_given_values))
+		"vector2":
+			appending = load(VECTOR2_PREFAB_PATH).instantiate()
+			(appending as FEAGI_UI_Panel_Device_ParameterVector2).setup(label, description)
+			if default_value:
+				(appending as FEAGI_UI_Panel_Device_ParameterVector2).set_value(default_value)
 		"vector3":
 			appending = load(VECTOR3_PREFAB_PATH).instantiate()
 			(appending as FEAGI_UI_Panel_Device_ParameterVector3).setup(label, description)
