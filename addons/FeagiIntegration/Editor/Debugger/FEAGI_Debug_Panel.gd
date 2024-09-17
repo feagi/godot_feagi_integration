@@ -4,6 +4,9 @@ class_name FEAGI_Debug_Panel
 ## The actual Debug Panel visible in editor to see what the FEAGI integration is doing
 
 const SENSOR_CAMERA_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Camera.tscn")
+const SENSOR_ACCELEROMETER_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Accelerometer.tscn")
+const SENSOR_GYRO_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Gyro.tscn")
+const SENSOR_PROXIMITY_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Proximity.tscn")
 
 const MOTOR_MOTIONCONTROL_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/MotorDevices/FEAGI_Debug_Panel_View_Motor_MotionControl.tscn")
 
@@ -49,11 +52,17 @@ func add_sensor_device(sensor_type: StringName, sensor_name: StringName, extra_s
 	var view: FEAGI_Debug_Panel_ViewBase
 	match(sensor_type): # This could be a dict lookup, hmmm
 		FEAGI_IOHandler_Sensory_Camera.TYPE_NAME:
-			print("FEAGI: Added %s device of name %s!" % [sensor_type, sensor_name])
 			view = SENSOR_CAMERA_DEVICE.instantiate()
+		FEAGI_IOHandler_Sensory_Accelerometer.TYPE_NAME:
+			view = SENSOR_ACCELEROMETER_DEVICE.instantiate()
+		FEAGI_IOHandler_Sensory_Gyro.TYPE_NAME:
+			view = SENSOR_GYRO_DEVICE.instantiate()
+		FEAGI_IOHandler_Sensory_Proximity.TYPE_NAME:
+			view = SENSOR_PROXIMITY_DEVICE.instantiate()
 		_:
 			push_error("FEAGI Debugger: Unknown device type %s requested to be added to the debugger!" % sensor_type)
 			return
+	print("FEAGI: Added %s device of name %s!" % [sensor_type, sensor_name])
 	view.initialize() # establish internal UI references
 	view.setup_base(sensor_name, extra_setup_data) 
 	_sensor_holder.add_child(view)

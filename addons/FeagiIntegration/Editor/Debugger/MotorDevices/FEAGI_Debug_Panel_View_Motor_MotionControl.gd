@@ -9,9 +9,6 @@ func initialize() -> void:
 	_text = $Title/MarginContainer/VBoxContainer/holder/TextEdit
 	_text.text = "Move Up: 0, Move Down: 0, Move Right: 0, Move Left: 0\nYaw Left: 0, Yaw Right: 0, Roll Left: 0, Roll Right: 0\nPitch Forward: 0, Pitch Backward: 0"
 	
-## OVERRIDDEN: camera needs the X resolution (val 0) and Y resolution (val 1)
-func setup_extra_setup_data(_extra_settings: Array) -> void:
-	pass
 	
 func update_visualization(data: PackedByteArray) -> void:
 	var arr: PackedFloat32Array = data.to_float32_array()
