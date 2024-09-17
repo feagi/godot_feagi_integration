@@ -13,8 +13,7 @@ const TYPE_NAME = "camera"
 var _blank_image: Image # a cached empty image for when no Godot Device is registered
 
 func _init() -> void:
-	_blank_image = Image.new()
-	_blank_image.create_empty(resolution.x, resolution.y, false, Image.FORMAT_RGB8)
+	_blank_image = Image.create_empty(resolution.x, resolution.y, false, Image.FORMAT_RGB8)
 
 func get_device_type() -> StringName:
 	return TYPE_NAME
