@@ -15,8 +15,8 @@ const SPECIFIC_DEVICE_UI_PATHS_SENSORY: Dictionary = {
 }
 
 const SPECIFIC_DEVICE_UI_PATHS_MOTOR: Dictionary = {
-	FEAGI_IOHandler_Motor_MotionControl.TYPE_NAME: preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Motor/FEAGI_UI_Panel_SpecificMotorDevice_MotionControl.tscn")
-
+	FEAGI_IOHandler_Motor_MotionControl.TYPE_NAME: preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Motor/FEAGI_UI_Panel_SpecificMotorDevice_MotionControl.tscn"),
+	FEAGI_IOHandler_Motor_Motor.TYPE_NAME: preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Motor/FEAGI_UI_Panel_SpecificMotorDevice_Motor.tscn")
 }
 
 var _is_sensory: bool

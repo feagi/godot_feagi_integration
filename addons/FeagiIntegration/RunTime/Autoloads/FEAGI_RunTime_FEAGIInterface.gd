@@ -108,8 +108,6 @@ func on_sensor_tick() -> void:
 				var temp: Vector3 = FEAGI_IOHandler_Sensory_Accelerometer.byte_array_to_vector3(sensor.get_data_as_byte_array())
 				_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = [temp.x, temp.y, temp.z]
 		# RIP frames
-	
-	print(str(_FEAGI_sending_dict_structure))
 	_socket.send(str(_FEAGI_sending_dict_structure).to_ascii_buffer().compress(FileAccess.COMPRESSION_DEFLATE))
 
 func _on_motor_receive(raw_data: PackedByteArray) -> void:

@@ -1,28 +1,119 @@
-[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=12 format=3 uid="uid://cjb5bi3ltej3e"]
+[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=25 format=3 uid="uid://cjb5bi3ltej3e"]
 
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Emulated_Input.gd" id="1_fnrtx"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/IO/Motor/FEAGI_IOHandler_Motor_MotionControl.gd" id="1_ipr3c"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="1_xrcls"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/IO/Sensory/FEAGI_IOHandler_Sensory_Camera.gd" id="2_ecihq"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/IO/Sensory/FEAGI_IOHandler_Sensory_Gyro.gd" id="3_7gecp"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/IO/Sensory/FEAGI_IOHandler_Sensory_Proximity.gd" id="4_2dcws"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/IO/Sensory/FEAGI_IOHandler_Sensory_Accelerometer.gd" id="5_qk2xw"]
 
-[sub_resource type="Resource" id="Resource_4daqt"]
+[sub_resource type="Resource" id="Resource_yvhy1"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"move_down"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_5rb3q"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"move_left"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_adwya"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"move_right"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_n4vk2"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"move_up"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_qsf8n"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"NONE!"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_ea1p0"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"NONE!"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_exsly"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"NONE!"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_4r34i"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"NONE!"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_3sllg"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"NONE!"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_edn2l"]
+script = ExtResource("1_fnrtx")
+godot_action_name = &"NONE!"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_e3qg0"]
+script = ExtResource("1_ipr3c")
+automatically_emulate_keys = {
+"move_down": SubResource("Resource_yvhy1"),
+"move_left": SubResource("Resource_5rb3q"),
+"move_right": SubResource("Resource_adwya"),
+"move_up": SubResource("Resource_n4vk2"),
+"pitch_backward": SubResource("Resource_qsf8n"),
+"pitch_forward": SubResource("Resource_ea1p0"),
+"roll_left": SubResource("Resource_exsly"),
+"roll_right": SubResource("Resource_4r34i"),
+"yaw_left": SubResource("Resource_3sllg"),
+"yaw_right": SubResource("Resource_edn2l")
+}
+device_name = &"motion_control 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_61o1l"]
 script = ExtResource("5_qk2xw")
 device_name = &"accelerometer 0"
 FEAGI_index = 0
 device_ID = 0
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_0wrs7"]
+[sub_resource type="Resource" id="Resource_6yw3y"]
 script = ExtResource("5_qk2xw")
 device_name = &"accelerometer 1"
 FEAGI_index = 0
 device_ID = 1
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_h33mo"]
+[sub_resource type="Resource" id="Resource_te5fn"]
 script = ExtResource("2_ecihq")
-resolution = Vector2i(2, 2)
+resolution = Vector2i(32, 32)
 is_flipped_x = false
 automatically_create_screengrabber = true
 device_name = &"camera 0"
@@ -30,21 +121,21 @@ FEAGI_index = 0
 device_ID = 0
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_ai3ec"]
+[sub_resource type="Resource" id="Resource_kdws7"]
 script = ExtResource("3_7gecp")
 device_name = &"gyro 0"
 FEAGI_index = 0
 device_ID = 0
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_r5shp"]
+[sub_resource type="Resource" id="Resource_y4vf4"]
 script = ExtResource("3_7gecp")
 device_name = &"gyro 1"
 FEAGI_index = 0
 device_ID = 1
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_q2r0e"]
+[sub_resource type="Resource" id="Resource_lebc5"]
 script = ExtResource("4_2dcws")
 device_name = &"proximity 0"
 FEAGI_index = 0
@@ -55,14 +146,16 @@ is_disabled = false
 script = ExtResource("1_xrcls")
 FEAGI_enabled = true
 debugger_enabled = true
-delay_seconds_between_frames = 1.0
-configuration_JSON = &"{\"capabilities\":{\"input\":{\"accelerometer\":{\"0\":{\"custom_name\":\"accelerometer 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]},\"1\":{\"custom_name\":\"accelerometer 1\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"camera\":{\"0\":{\"custom_name\":\"camera 0\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"00\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}},\"gyro\":{\"0\":{\"custom_name\":\"gyro 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]},\"1\":{\"custom_name\":\"gyro 1\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"proximity\":{\"0\":{\"custom_name\":\"proximity 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":0,\"min_value\":0}}},\"output\":{}}}"
+delay_seconds_between_frames = 20.0
+configuration_JSON = &"{\"capabilities\":{\"input\":{\"accelerometer\":{\"0\":{\"custom_name\":\"accelerometer 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]},\"1\":{\"custom_name\":\"accelerometer 1\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"camera\":{\"0\":{\"custom_name\":\"camera 0\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"00\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}},\"gyro\":{\"0\":{\"custom_name\":\"gyro 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]},\"1\":{\"custom_name\":\"gyro 1\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"proximity\":{\"0\":{\"custom_name\":\"proximity 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":0,\"min_value\":0}}},\"output\":{\"motion_control\":{\"0\":{\"custom_name\":\"motion_control 0\",\"disabled\":false,\"feagi_index\":0}}}}}"
 sensors = {
-"accelerometer_accelerometer 0": SubResource("Resource_4daqt"),
-"accelerometer_accelerometer 1": SubResource("Resource_0wrs7"),
-"camera_camera 0": SubResource("Resource_h33mo"),
-"gyro_gyro 0": SubResource("Resource_ai3ec"),
-"gyro_gyro 1": SubResource("Resource_r5shp"),
-"proximity_proximity 0": SubResource("Resource_q2r0e")
+"accelerometer_accelerometer 0": SubResource("Resource_61o1l"),
+"accelerometer_accelerometer 1": SubResource("Resource_6yw3y"),
+"camera_camera 0": SubResource("Resource_te5fn"),
+"gyro_gyro 0": SubResource("Resource_kdws7"),
+"gyro_gyro 1": SubResource("Resource_y4vf4"),
+"proximity_proximity 0": SubResource("Resource_lebc5")
 }
-motors = {}
+motors = {
+"motion_control_motion_control 0": SubResource("Resource_e3qg0")
+}

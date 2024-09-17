@@ -13,6 +13,10 @@ var _output: Dictionary = {}
 static func byte_array_to_float(bytes: PackedByteArray) -> float:
 	return bytes.decode_float(0)
 
+func _init() -> void:
+	_cached_bytes = PackedByteArray()
+	_cached_bytes.resize(4) # Since "encode_float" does not modify byte array lengths, we need to ensure we can fit a float in it
+
 func get_device_type() -> StringName:
 	return TYPE_NAME
 
