@@ -72,13 +72,13 @@ func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
 		if sensor.get_device_type() not in _FEAGI_sending_dict_structure:
 			_FEAGI_sending_dict_structure[sensor.get_device_type()] = {}
 		if sensor.device_ID not in _FEAGI_sending_dict_structure[sensor.get_device_type()]:
-			_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = PackedByteArray()
+			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = PackedByteArray()
 	
 	for motor: FEAGI_IOHandler_Motor_Base in motors.values():
 		if motor.get_device_type() not in _FEAGI_receiving_dict_structure:
 			_FEAGI_receiving_dict_structure[ motor.get_device_type()] = {}
 		if motor.device_ID not in _FEAGI_receiving_dict_structure[motor.get_device_type()]:
-			_FEAGI_receiving_dict_structure[motor.get_device_type()][motor.device_ID] = PackedByteArray()
+			_FEAGI_receiving_dict_structure[motor.get_device_type()][str(motor.device_ID)] = PackedByteArray()
 		
 	
 
@@ -98,15 +98,15 @@ func on_sensor_tick() -> void:
 	#	_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = sensor.get_data_as_byte_array() # Retrieves cached sensor byte data. Make sure this was recently updated!
 	for sensor in _cached_FEAGI_sensors:
 		if sensor.get_device_type() == "camera":
-			_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = sensor.get_data_as_byte_array()
+			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = sensor.get_data_as_byte_array()
 			continue
 		else: # WARNING: temporarily using a temp function to get around json issue
 			if sensor.get_device_type() == "proximity":
-				_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] =  sensor.get_data_as_byte_array().decode_float(0)
+				_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] =  sensor.get_data_as_byte_array().decode_float(0)
 				continue
 			if sensor.get_device_type() == "gyro" or sensor.get_device_type() == "accelerometer":
 				var temp: Vector3 = FEAGI_IOHandler_Sensory_Accelerometer.byte_array_to_vector3(sensor.get_data_as_byte_array())
-				_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = [temp.x, temp.y, temp.z]
+				_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = [temp.x, temp.y, temp.z]
 		# RIP frames
 	_socket.send(str(_FEAGI_sending_dict_structure).to_ascii_buffer().compress(FileAccess.COMPRESSION_DEFLATE))
 
