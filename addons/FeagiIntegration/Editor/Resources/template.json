@@ -471,6 +471,15 @@
 					"default": false
 				},
 				{
+					"label": "camera_resolution",
+					"description": "The number of pixels of the camera in the x and y directions",
+					"type": "vector2",
+					"default": [
+						0,
+						0
+					]
+				},
+				{
 					"label": "index",
 					"description": "An index to create cortical vision name such as iv00_C, iv01_C, etc.",
 					"type": "string",
