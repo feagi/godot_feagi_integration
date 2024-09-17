@@ -84,7 +84,7 @@ func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 	
 
 func export_as_FEAGI_IOHandler() -> FEAGI_IOHandler_Base:
-	return _device_settings.export_IOHandler(_device_friendly_name, _device_index, 0, is_disabled) # TODO what is going onm with device index / device ID?
+	return _device_settings.export_IOHandler(_device_friendly_name, _FEAGI_index_spin.value, _device_index, is_disabled) # TODO what is going onm with device index / device ID?
 
 
 ## When the name lineedit loses focus, check if the text in it cheanged. If it did, send a signal to confirm if the name should be changed or not
