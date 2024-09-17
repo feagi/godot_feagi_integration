@@ -9,7 +9,7 @@ const SENSOR_GYRO_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/E
 const SENSOR_PROXIMITY_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Proximity.tscn")
 
 const MOTOR_MOTIONCONTROL_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/MotorDevices/FEAGI_Debug_Panel_View_Motor_MotionControl.tscn")
-
+const MOTOR_MOTOR_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/MotorDevices/FEAGI_Debug_Panel_View_Motor_Motor.tscn")
 
 var _not_running: VBoxContainer
 var _running: VBoxContainer
@@ -62,7 +62,7 @@ func add_sensor_device(sensor_type: StringName, sensor_name: StringName, extra_s
 		_:
 			push_error("FEAGI Debugger: Unknown device type %s requested to be added to the debugger!" % sensor_type)
 			return
-	print("FEAGI: Added %s device of name %s!" % [sensor_type, sensor_name])
+	print("FEAGI: Added sensor %s device of name %s!" % [sensor_type, sensor_name])
 	view.initialize() # establish internal UI references
 	view.setup_base(sensor_name, extra_setup_data) 
 	_sensor_holder.add_child(view)
@@ -75,11 +75,13 @@ func add_motor_device(motor_type: StringName, motor_name: StringName, extra_setu
 	var view: FEAGI_Debug_Panel_ViewBase
 	match(motor_type): # This could be a dict lookup, hmmm
 		FEAGI_IOHandler_Motor_MotionControl.TYPE_NAME:
-			print("FEAGI: Added %s device of name %s!" % [motor_type, motor_name])
 			view = MOTOR_MOTIONCONTROL_DEVICE.instantiate()
+		FEAGI_IOHandler_Motor_Motor.TYPE_NAME:
+			view = MOTOR_MOTOR_DEVICE.instantiate()
 		_:
 			push_error("FEAGI Debugger: Unknown device type %s requested to be added to the debugger!" % motor_type)
 			return
+	print("FEAGI: Added motor %s device of name %s!" % [motor_type, motor_name])
 	view.initialize() # establish internal UI references
 	view.setup_base(motor_name, extra_setup_data) 
 	_motor_holder.add_child(view)
