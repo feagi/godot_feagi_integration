@@ -9,4 +9,5 @@ func initialize() -> void:
 	super()
 	
 func update_visualization(data: PackedByteArray) -> void:
-	_text.text = "X: %d, Y: %d, Z: %d" % data.to_float32_array()
+	var arr: PackedFloat32Array = data.to_float32_array()
+	_text.text = "X: %d, Y: %d, Z: %d" % [arr[0], arr[1], arr[2]] # Yes this is stupid, but godot gets pissy if I pass the PackedFloat32Array directly

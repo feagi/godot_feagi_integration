@@ -101,14 +101,3 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	add_child(_tick_engine)
 	_tick_engine.setup(mapping_config.delay_seconds_between_frames)
 	_tick_engine.tick.connect(_FEAGI_device_manager.on_sensor_tick)
-	
-	
-	
-	
-
-
-
-
-	
-	
-	

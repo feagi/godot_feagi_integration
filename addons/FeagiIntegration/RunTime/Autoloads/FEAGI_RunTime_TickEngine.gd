@@ -14,7 +14,7 @@ func setup(initial_frame_time: float) -> void:
 	_timer.one_shot = false
 	_set_refresh_rate(initial_frame_time)
 	_timer.timeout.connect(_on_timer)
-	_timer.start()
+	_timer.start(initial_frame_time)
 
 func set_paused(is_paused: bool) -> void:
 	_timer.paused = is_paused
