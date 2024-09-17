@@ -79,6 +79,10 @@ func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 		"disabled": is_disabled,
 		"feagi_index": feagi_index
 	}
+	# TODO remove me DIRTY HACK
+	if _device_settings is FEAGI_UI_Panel_SpecificSensoryDevice_Camera:
+		inside["camera_resolution"] = [(_device_settings as FEAGI_UI_Panel_SpecificSensoryDevice_Camera)._x.value, (_device_settings as FEAGI_UI_Panel_SpecificSensoryDevice_Camera)._y.value]
+	
 	inside.merge(_FEAGI_device_settings_holder.export_as_dict())
 	return {str(_device_index): inside }
 	
