@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bshlh0v1bu1hv"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/FEAGI_UI_Panel_SpecificDeviceUI_Base.gd" id="5_lk5m0"]
+
+[node name="FeagiUiPanelSpecificSensoryDeviceAccelerometer" type="VBoxContainer"]
+offset_right = 319.0
+offset_bottom = 218.0
+script = ExtResource("5_lk5m0")

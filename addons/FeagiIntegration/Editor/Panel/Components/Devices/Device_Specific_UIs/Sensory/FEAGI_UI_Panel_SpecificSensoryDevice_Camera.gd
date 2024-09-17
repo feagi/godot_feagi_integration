@@ -2,8 +2,6 @@
 extends FEAGI_UI_Panel_SpecificDeviceUI_Base
 class_name FEAGI_UI_Panel_SpecificSensoryDevice_Camera
 
-var resolution: Vector2i
-
 var _x: SpinBox
 var _y: SpinBox
 var _flipped: CheckBox
