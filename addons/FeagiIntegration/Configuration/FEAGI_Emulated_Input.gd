@@ -44,6 +44,5 @@ func press_action(strength: float) -> void:
 		
 	
 func _release() -> void:
-	print("released")
 	_timer.stop()
 	Input.action_release(godot_action_name)
