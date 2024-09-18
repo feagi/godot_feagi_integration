@@ -88,4 +88,10 @@ func toggle_showing_network_settings(is_visible: bool) -> void:
 
 ## Exports endpoint resource
 func export_endpoint() -> FEAGI_Resource_Endpoint:
-	return FEAGI_Resource_Endpoint.new() #TODO replace
+	return _cached_endpoint
+	
+	
+
+func import_endpoint(endpoint: FEAGI_Resource_Endpoint) -> void:
+	_cached_endpoint = endpoint
+	update_UI_from_cached_endpoint()

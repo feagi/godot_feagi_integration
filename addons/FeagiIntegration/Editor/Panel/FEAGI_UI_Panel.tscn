@@ -148,3 +148,4 @@ disabled = true
 text = "Import Configuration"
 
 [connection signal="pressed" from="ScrollContainer/Options/HBoxContainer/export" to="." method="_export_config"]
+[connection signal="pressed" from="ScrollContainer/Options/HBoxContainer/import" to="." method="_import_config"]

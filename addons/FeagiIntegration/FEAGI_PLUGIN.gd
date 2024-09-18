@@ -46,6 +46,11 @@ static func confirm_config_directory() -> void:
 		file.store_string(CONFIG_GITIGNORE_TEXT)
 		file.close()
 
+static func does_mapping_file_exist() -> bool:
+	return FileAccess.file_exists(get_genome_mapping_path())
+
+static func does_endpoint_file_exist() -> bool:
+	return FileAccess.file_exists(get_endpoint_path())
 
 var debugger_control: FEAGI_Debug_Panel ## Accessed Externally by [FEAGIDebugger]
 

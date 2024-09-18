@@ -3,8 +3,6 @@ extends ScrollContainer
 class_name FEAGI_UI_Panel_DeviceList
 ## Handles spawning the devices
 
-var _device_holder: VBoxContainer
-
 const DEVICE_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/FEAGI_UI_Panel_Device.tscn")
 
 const SPECIFIC_DEVICE_UI_PATHS_SENSORY: Dictionary = {
@@ -19,6 +17,7 @@ const SPECIFIC_DEVICE_UI_PATHS_MOTOR: Dictionary = {
 	FEAGI_IOHandler_Motor_Motor.TYPE_NAME: preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Motor/FEAGI_UI_Panel_SpecificMotorDevice_Motor.tscn")
 }
 
+var _device_holder: VBoxContainer
 var _is_sensory: bool
 var _device_references: Dictionary = {} # key'd by device type name, values are the references to the device objects [FEAGI_UI_Panel_Device]. Used for counting, and name deduplication
 
@@ -35,7 +34,7 @@ func setup(is_sensory: bool) -> void:
 		var typed_array: Array[FEAGI_UI_Panel_Device] = []
 		_device_references[possible_device_type_name] = typed_array
 
-func spawn_device_new(device_type: StringName, configurator_template: Dictionary) -> void:
+func spawn_device_new(device_type: StringName, configurator_template: Dictionary) -> FEAGI_UI_Panel_Device:
 	var device_specific_UI: FEAGI_UI_Panel_SpecificDeviceUI_Base
 	if _is_sensory:
 		if device_type not in SPECIFIC_DEVICE_UI_PATHS_SENSORY:
@@ -62,6 +61,7 @@ func spawn_device_new(device_type: StringName, configurator_template: Dictionary
 	device.confirm_name_change.connect(_confirm_device_name_change_request)
 	device.request_deletion.connect(_device_request_deletion)
 	device.setup(device_type, device_index, device_name, false, device_specific_UI, configurator_template)
+	return device
 
 ## Exports an array of FEAGI Device IO Handlers for saving as a config
 func export_FEAGI_IOHandlers() -> Array[FEAGI_IOHandler_Base]:
@@ -85,6 +85,31 @@ func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
 			output[ref.device_type] = {}
 		output[ref.device_type].merge(ref.export_as_FEAGI_config_JSON_device_object())
 	return output
+
+func clear() -> void:
+	for child in _device_holder.get_children():
+		_device_holder.queue_free()
+	_device_references = {}
+
+## Given an unsorted array of devices, spawns them in order such that their device ID order is satisfied
+func load_sort_and_spawn_devices(devices: Array[FEAGI_IOHandler_Base], configurator_section_of_devices: Dictionary) -> void:
+	var device_orders: Dictionary = {}
+	for device_def in devices:
+		if device_def.get_device_type() not in device_orders:
+			var arr: Array[FEAGI_IOHandler_Base] = []
+			device_orders[device_def.get_device_type()] = arr
+		device_orders[device_def.get_device_type()].append(device_def)
+	for device_type in device_orders:
+		var arr: Array[FEAGI_IOHandler_Base] = device_orders[device_type]
+		arr.sort_custom(func(a: FEAGI_IOHandler_Base, b: FEAGI_IOHandler_Base): return a.device_ID < b.device_ID)
+		for device_def in arr:
+			var configurator_prefilled: Dictionary = {}
+			if device_def.get_device_type() in configurator_section_of_devices:
+				if str(device_def.device_ID) in configurator_section_of_devices[device_def.get_device_type()]:
+					configurator_prefilled = configurator_section_of_devices[device_def.get_device_type()][str(device_def.device_ID)]
+			spawn_device_new(device_def.get_device_type(), configurator_prefilled)
+	
+	
 	
 
 func _device_request_deletion(device_ref: FEAGI_UI_Panel_Device) -> void:
