@@ -9,4 +9,4 @@ func initialize() -> void:
 	super()
 	
 func update_visualization(data: PackedByteArray) -> void:
-	_text.text = "Distance: %d" % data.decode_float(0)
+	_text.text = "Distance: %.2f" % data.decode_float(0)

@@ -9,4 +9,4 @@ func initialize() -> void:
 	_text = $Title/MarginContainer/VBoxContainer/holder/TextEdit
 	
 func update_visualization(data: PackedByteArray) -> void:
-	_text.text = "Motor Power: %d" % data.decode_float(0)
+	_text.text = "Motor Power: %.2f" % data.decode_float(0)
