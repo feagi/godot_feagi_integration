@@ -58,7 +58,6 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 	_device_settings.setup()
 	
 	var parameters_JSON_for_this_device: Array[Dictionary]
-	print(configurator_JSON_template_for_this_device)
 	parameters_JSON_for_this_device.assign(configurator_JSON_template_for_this_device["parameters"])
 	_FEAGI_device_settings_holder.setup(parameters_JSON_for_this_device, configurator_JSON_values)
 	if _FEAGI_device_settings_holder.get_child_count() == 0:
