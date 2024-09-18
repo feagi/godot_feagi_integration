@@ -33,8 +33,8 @@ func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
 func clear() -> void:
 	_device_list.clear()
 
-func load_sort_and_spawn_devices(devices: Array[FEAGI_IOHandler_Base], configurator_section_of_devices: Dictionary) -> void:
-	_device_list.load_sort_and_spawn_devices(devices, configurator_section_of_devices)
+func load_sort_and_spawn_devices(devices: Array[FEAGI_IOHandler_Base], IO_template: Dictionary, configurator_section_of_devices: Dictionary) -> void:
+	_device_list.load_sort_and_spawn_devices(devices, _whole_IO_template, configurator_section_of_devices)
 	
 
 func _add_device_button_pressed() -> void:

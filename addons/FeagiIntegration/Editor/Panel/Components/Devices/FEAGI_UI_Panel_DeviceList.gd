@@ -25,6 +25,7 @@ var _device_references: Dictionary = {} # key'd by device type name, values are 
 func setup(is_sensory: bool) -> void:
 	_device_holder = $VBoxContainer
 	_is_sensory = is_sensory
+	_device_references = {}
 	var possible_device_type_names: PackedStringArray
 	if is_sensory:
 		possible_device_type_names = FEAGI_PLUGIN.GODOT_SUPPORTED_SENSORS
@@ -34,7 +35,7 @@ func setup(is_sensory: bool) -> void:
 		var typed_array: Array[FEAGI_UI_Panel_Device] = []
 		_device_references[possible_device_type_name] = typed_array
 
-func spawn_device_new(device_type: StringName, configurator_template: Dictionary) -> FEAGI_UI_Panel_Device:
+func spawn_device_new(device_type: StringName, configurator_template: Dictionary, preexisting_definition: FEAGI_IOHandler_Base = null, preexisting_configurator: Dictionary = {}) -> FEAGI_UI_Panel_Device:
 	var device_specific_UI: FEAGI_UI_Panel_SpecificDeviceUI_Base
 	if _is_sensory:
 		if device_type not in SPECIFIC_DEVICE_UI_PATHS_SENSORY:
@@ -60,7 +61,7 @@ func spawn_device_new(device_type: StringName, configurator_template: Dictionary
 	_device_holder.add_child(device)
 	device.confirm_name_change.connect(_confirm_device_name_change_request)
 	device.request_deletion.connect(_device_request_deletion)
-	device.setup(device_type, device_index, device_name, false, device_specific_UI, configurator_template)
+	device.setup(device_type, device_index, device_name, false, device_specific_UI, configurator_template, preexisting_definition, preexisting_configurator)
 	return device
 
 ## Exports an array of FEAGI Device IO Handlers for saving as a config
@@ -89,10 +90,10 @@ func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
 func clear() -> void:
 	for child in _device_holder.get_children():
 		_device_holder.queue_free()
-	_device_references = {}
+	setup(_is_sensory)
 
 ## Given an unsorted array of devices, spawns them in order such that their device ID order is satisfied
-func load_sort_and_spawn_devices(devices: Array[FEAGI_IOHandler_Base], configurator_section_of_devices: Dictionary) -> void:
+func load_sort_and_spawn_devices(devices: Array[FEAGI_IOHandler_Base], IO_template: Dictionary, configurator_section_of_devices: Dictionary) -> void:
 	var device_orders: Dictionary = {}
 	for device_def in devices:
 		if device_def.get_device_type() not in device_orders:
@@ -107,7 +108,7 @@ func load_sort_and_spawn_devices(devices: Array[FEAGI_IOHandler_Base], configura
 			if device_def.get_device_type() in configurator_section_of_devices:
 				if str(device_def.device_ID) in configurator_section_of_devices[device_def.get_device_type()]:
 					configurator_prefilled = configurator_section_of_devices[device_def.get_device_type()][str(device_def.device_ID)]
-			spawn_device_new(device_def.get_device_type(), configurator_prefilled)
+			spawn_device_new(device_def.get_device_type(), IO_template[device_def.get_device_type()], device_def, configurator_prefilled)
 	
 	
 	
