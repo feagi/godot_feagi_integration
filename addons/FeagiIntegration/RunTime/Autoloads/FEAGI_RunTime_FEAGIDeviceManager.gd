@@ -81,6 +81,8 @@ func send_configurator_and_enable(initial_configurator_json: StringName) -> void
 	_FEAGI_interface.send_final_configurator_JSON(initial_configurator_json)
 	
 	# connect motor signals
+	if _debug_interface:
+		_FEAGI_interface.socket_recieved_motor_data.connect(_debug_interface.alert_debugger_about_motor_update)
 	pass
 
 
@@ -93,9 +95,6 @@ func on_sensor_tick() -> void:
 		_debug_interface.alert_debugger_about_sensor_update()
 	if _FEAGI_interface:
 		_FEAGI_interface.on_sensor_tick()
-
-func on_retrieved_motor_data_from_FEAGI(data: PackedByteArray) -> void:
-	pass
 
 func _on_socket_close() -> void:
 	_FEAGI_interface = null

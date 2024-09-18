@@ -31,7 +31,7 @@ func setup_for_use(node_to_hold_timer: Node) -> void:
 func press_action(strength: float) -> void:
 	if !_timer:
 		return
-	if strength < action_release_FEAGI_threshold:
+	if strength < action_release_FEAGI_threshold and action_release_FEAGI_threshold != 0:
 		_release()
 		return
 	if strength > action_press_FEAGI_threshold:

@@ -121,18 +121,32 @@ func _on_motor_receive(raw_data: PackedByteArray) -> void:
 	var incoming_dict: Dictionary = JSON.parse_string(raw_data.get_string_from_utf8())
 	for motor in _cached_FEAGI_motors:
 		if motor.get_device_type() in incoming_dict:
-			if motor.device_ID in incoming_dict[motor.get_device_type()]:
-				some_value = incoming_dict[motor.get_device_type()][motor.device_ID]
+			if str(motor.device_ID) in incoming_dict[motor.get_device_type()]:
+				some_value = incoming_dict[motor.get_device_type()][str(motor.device_ID)]
 				if some_value is float or some_value is int:
 					device_incoming_data.resize(4)
 					device_incoming_data.encode_float(0, some_value)
 				if some_value is Dictionary:
 					# HACK right now we know the only type of dictionary is motion control. hard coding...
+					var dict: Dictionary = {
+						"move_up": 0.0,
+						"move_down": 0.0,
+						"move_right": 0.0,
+						"move_left": 0.0,
+						"yaw_left" : 0.0,
+						"yaw_right": 0.0,
+						"roll_left": 0.0,
+						"roll_right": 0.0,
+						"pitch_forward": 0.0,
+						"pitch_backward": 0.0
+						}
+					some_value.merge(dict)
 					device_incoming_data = JSON.stringify(some_value).to_utf8_buffer()
 			else:
 				device_incoming_data = motor.retrieve_zero_value_byte_array()
 		else:
 			device_incoming_data = motor.retrieve_zero_value_byte_array()
 		motor.update_state_with_retrieved_date(device_incoming_data)
+	print(JSON.stringify(incoming_dict))
 	socket_recieved_motor_data.emit()
 	
