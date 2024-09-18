@@ -147,6 +147,5 @@ func _on_motor_receive(raw_data: PackedByteArray) -> void:
 		else:
 			device_incoming_data = motor.retrieve_zero_value_byte_array()
 		motor.update_state_with_retrieved_date(device_incoming_data)
-	print(JSON.stringify(incoming_dict))
 	socket_recieved_motor_data.emit()
 	
