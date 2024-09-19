@@ -89,7 +89,7 @@ func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
 
 func clear() -> void:
 	for child in _device_holder.get_children():
-		_device_holder.queue_free()
+		child.queue_free()
 	setup(_is_sensory)
 
 ## Given an unsorted array of devices, spawns them in order such that their device ID order is satisfied
