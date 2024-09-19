@@ -24,7 +24,6 @@ func import_IOHandler(device_config: FEAGI_IOHandler_Base) -> void:
 		return
 	
 	if motor_config.is_using_automatic_input_key_emulation():
-		_emulation_settings.clear()
 		_emulation_settings.setup_given_existing_configs(motor_config.automatically_emulate_keys)
 		_enable_emulate.button_pressed = true
 

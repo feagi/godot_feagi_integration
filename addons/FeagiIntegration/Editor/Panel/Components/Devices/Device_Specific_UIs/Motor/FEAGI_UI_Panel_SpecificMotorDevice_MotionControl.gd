@@ -22,9 +22,7 @@ func import_IOHandler(device_config: FEAGI_IOHandler_Base) -> void:
 	if motion_config == null:
 		push_error("FEAGI: Unknown IOHandler sent to Motion Control device!")
 		return
-	
 	if motion_config.is_using_automatic_input_key_emulation():
-		_emulation_settings.clear()
 		_emulation_settings.setup_given_existing_configs(motion_config.automatically_emulate_keys)
 		_enable_emulate.button_pressed = true
 

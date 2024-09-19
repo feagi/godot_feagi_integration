@@ -20,9 +20,12 @@ func setup_from_export_vars() -> void:
 
 func setup_given_existing_configs(existing: Dictionary) -> void: ## Key'd by the key string, with the value being the associated [FEAGI_Emulated_Input]
 	for key in existing:
-		var index: int = keys.find(key)
-		add_presser_UI(keys_mapped_to_friendly_names[index], key, existing[key])
-
+		var UI: FEAGI_UI_Panel_ActionPresserConfig = get_node(key) # If the node exist, the node name would be the key
+		var action: FEAGI_Emulated_Input = existing[key]
+		if UI:
+			UI.overwrite_values(action.godot_action_name, action.action_hold_seconds, action.action_press_FEAGI_threshold, action.action_release_FEAGI_threshold)
+		else:
+			push_error("FEAGI: unable to find relvant device action %s to set mapping of!" % key)
 
 func add_presser_UI(friendly_name: StringName, key: StringName, action_presser: FEAGI_Emulated_Input) -> void:
 	var UI: FEAGI_UI_Panel_ActionPresserConfig = PRESSER_UI_PREFAB.instantiate()
@@ -37,7 +40,6 @@ func export_as_dict() -> Dictionary:
 		output.merge(child.export_as_dict())
 	return output
 
-## Deletes all child [FEAGI_UI_Panel_ActionPresserConfig] elements
 func clear() -> void:
-	while len(get_child_count()) > 0:
-		get_child(0).queue_free()
+	for i in len(get_children()):
+		get_child(i).queue_free()

@@ -56,6 +56,8 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 	
 	set_title_label_index(_device_index)
 	_device_settings.setup()
+	if specific_device_handler:
+		_device_settings.import_IOHandler(specific_device_handler)
 	
 	var parameters_JSON_for_this_device: Array[Dictionary]
 	parameters_JSON_for_this_device.assign(configurator_JSON_template_for_this_device["parameters"])
