@@ -21,7 +21,7 @@ func register_device() -> void:
 	if registration_agent:
 		registration_agent.register_device()
 
-func _press_input(directions_and_strengths: Dictionary) -> void: ## The direction as keys,a nd the values are the strengths
+func _press_input(directions_and_strengths: Dictionary) -> void: ## The direction as keys, and the values are the strengths
 	var input_emulator: FEAGI_Emulated_Input
 	for direction in directions_and_strengths:
 		input_emulator = _input_emulators_keyd_by_action[direction]
