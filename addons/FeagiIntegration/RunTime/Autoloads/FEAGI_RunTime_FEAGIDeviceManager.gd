@@ -6,10 +6,10 @@ class_name FEAGI_RunTime_FEAGIDeviceManager
 var _debug_interface: FEAGI_RunTime_DebugInterface
 var _FEAGI_interface: FEAGI_RunTime_FEAGIInterface
 
-var _FEAGI_sensors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_IOHandler_Sensory_Base]. Beware of name conflicts! Should be treated as static after devices added!
-var _FEAGI_sensors_reference_arr: Array[FEAGI_IOHandler_Sensory_Base] # cached since "values" is slow
-var _FEAGI_motors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_IOHandler_Motor_Base]. Beware of name conflicts! Should be treated as static after devices added!
-var _FEAGI_motors_reference_arr: Array[FEAGI_IOHandler_Motor_Base] # cached since "values" is slow
+var _FEAGI_sensors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_Device_Sensor_Base]. Beware of name conflicts! Should be treated as static after devices added!
+var _FEAGI_sensors_reference_arr: Array[FEAGI_Device_Sensor_Base] # cached since "values" is slow
+var _FEAGI_motors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_Device_Motor_Base]. Beware of name conflicts! Should be treated as static after devices added!
+var _FEAGI_motors_reference_arr: Array[FEAGI_Device_Motor_Base] # cached since "values" is slow
 
 
 func _init(reference_to_FEAGI_sensors: Dictionary, reference_to_FEAGI_motors: Dictionary) -> void:
@@ -22,9 +22,9 @@ func _init(reference_to_FEAGI_sensors: Dictionary, reference_to_FEAGI_motors: Di
 ## Initializes the debugger with all FEAGI Devices!
 func setup_debugger() -> void:
 	_debug_interface = FEAGI_RunTime_DebugInterface.new()
-	for sensor: FEAGI_IOHandler_Sensory_Base in _FEAGI_sensors_reference_arr:
+	for sensor: FEAGI_Device_Sensor_Base in _FEAGI_sensors_reference_arr:
 		_debug_interface.alert_debugger_about_sensor_creation(sensor)
-	for motor: FEAGI_IOHandler_Motor_Base in _FEAGI_motors_reference_arr:
+	for motor: FEAGI_Device_Motor_Base in _FEAGI_motors_reference_arr:
 		_debug_interface.alert_debugger_about_motor_creation(motor)
 
 ## And ASYNC function that initiates the API and websocket conneciton to FEAGI and the connector, but nothing else. Returns true if succesful
@@ -89,7 +89,7 @@ func send_configurator_and_enable(initial_configurator_json: StringName) -> void
 func on_sensor_tick() -> void:
 	# Update all sensor values
 	for sensor_IO in _FEAGI_sensors_reference_arr:
-		sensor_IO.refresh_cached_sensory_data() # ensure all the data is fresh!
+		sensor_IO.update_cache_with_sensory_call() # ensure all the data is fresh!
 	
 	if _debug_interface:
 		_debug_interface.alert_debugger_about_sensor_update()

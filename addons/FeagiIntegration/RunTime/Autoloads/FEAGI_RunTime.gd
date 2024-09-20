@@ -9,16 +9,17 @@ var _FEAGI_device_manager: FEAGI_RunTime_FEAGIDeviceManager = null
 var _automatic_device_generator: FEAGIAutomaticDeviceGenerator = null
 var _tick_engine: FEAGI_RunTime_TickEngine = null
 
-var _FEAGI_sensors: Dictionary = {} ## Key'd by the device name, value is the relevant [FEAGI_IOHandler_Sensory_Base]. Beware of name conflicts! Should be treated as static after devices added!
-var _FEAGI_motors: Dictionary = {} ## ditto but with [FEAGI_IOHandler_Motor_Base]
+var _FEAGI_sensors: Dictionary = {} ## Key'd by the device name, value is the relevant [FEAGI_Device_Sensor_Base]. Beware of name conflicts! Should be treated as static after devices added!
+var _FEAGI_motors: Dictionary = {} ## ditto but with [FEAGI_Device_Motor_Base]
+var _registration_allowed: bool
+
 
 func _enter_tree() -> void:
 	initialize_FEAGI_runtime() ## TODO have seperate autoload autostart this as a config
 
-
-	#_tick_engine = FEAGI_RunTime_TickEngine.new()
-	#add_child(_tick_engine)
-
+## Are Godot devices allowed to register?
+func is_ready_for_device_registration() -> bool:
+	return _registration_allowed
 
 
 
@@ -53,29 +54,29 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	
 	# Load in sensor FEAGI Device objects
 	for incoming_FEAGI_sensor in mapping_config.sensors.values():
-		if incoming_FEAGI_sensor is not FEAGI_IOHandler_Sensory_Base:
+		if incoming_FEAGI_sensor is not FEAGI_Device_Sensor_Base:
 			push_error("FEAGI: Unknown object attempted to be added as a FEAGI Sensor! Skipping!")
 			continue
-		if (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).is_disabled:
-			print("FEAGI: Sensor %s is disabled! Not using it for the debugger AND for FEAGI!" % (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name)
+		if (incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).is_disabled:
+			print("FEAGI: Sensor %s is disabled! Not using it for the debugger AND for FEAGI!" % (incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).device_friendly_name)
 			continue
-		if (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name in _FEAGI_sensors:
-			push_error("FEAGI: Sensor %s is already defined! Ensure there are no sensor devices with repeating names! Skipping" % (incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name)
+		if (incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).device_friendly_name in _FEAGI_sensors:
+			push_error("FEAGI: Sensor %s is already defined! Ensure there are no sensor devices with repeating names! Skipping" % (incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).device_friendly_name)
 			continue
-		_FEAGI_sensors[(incoming_FEAGI_sensor as FEAGI_IOHandler_Sensory_Base).device_name] = incoming_FEAGI_sensor
+		_FEAGI_sensors[(incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).device_friendly_name] = incoming_FEAGI_sensor
 	
 	# Load in motor FEAGI Device objects
 	for outgoing_FEAGI_motor in mapping_config.motors.values():
-		if outgoing_FEAGI_motor is not FEAGI_IOHandler_Motor_Base:
+		if outgoing_FEAGI_motor is not FEAGI_Device_Motor_Base:
 			push_error("FEAGI: Unknown object attempted to be added as a FEAGI Motor! Skipping!")
 			continue
-		if (outgoing_FEAGI_motor as FEAGI_IOHandler_Motor_Base).is_disabled:
-			print("FEAGI: Motor %s is disabled! Not using it for the debugger AND for FEAGI!" % (outgoing_FEAGI_motor as FEAGI_IOHandler_Motor_Base).device_name)
+		if (outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).is_disabled:
+			print("FEAGI: Motor %s is disabled! Not using it for the debugger AND for FEAGI!" % (outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).device_friendly_name)
 			continue
-		if (outgoing_FEAGI_motor as FEAGI_IOHandler_Motor_Base).device_name in _FEAGI_motors:
-			push_error("FEAGI: Motor %s is already defined! Ensure there are no motor devices with repeating names! Skipping" % (outgoing_FEAGI_motor as FEAGI_IOHandler_Motor_Base).device_name)
+		if (outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).device_friendly_name in _FEAGI_motors:
+			push_error("FEAGI: Motor %s is already defined! Ensure there are no motor devices with repeating names! Skipping" % (outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).device_friendly_name)
 			continue
-		_FEAGI_motors[(outgoing_FEAGI_motor as FEAGI_IOHandler_Motor_Base).device_name] = outgoing_FEAGI_motor
+		_FEAGI_motors[(outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).device_friendly_name] = outgoing_FEAGI_motor
 	
 	
 	# Activate FEAGI Device manager, including the Debugger (if enabled) and the FEAGI Network Interface (if enabled)
@@ -89,7 +90,9 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 		
 	# Activate Godot Device Manager to act as an endpoint for Godot Devices to register themselves to
 	godot_device_manager = FEAGI_RunTime_GodotDeviceManager.new(_FEAGI_sensors, _FEAGI_motors)
+	_registration_allowed = true
 	ready_for_godot_device_registration.emit()
+	
 	
 	# Add all devices that have been requested to be auto-generated
 	_automatic_device_generator = FEAGIAutomaticDeviceGenerator.new()

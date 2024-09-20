@@ -9,8 +9,8 @@ signal socket_recieved_motor_data() ## data retrieved, and updated the caches of
 
 var connection_active: bool = false
 
-var _cached_FEAGI_sensors: Array[FEAGI_IOHandler_Sensory_Base]
-var _cached_FEAGI_motors: Array[FEAGI_IOHandler_Motor_Base]
+var _cached_FEAGI_sensors: Array[FEAGI_Device_Sensor_Base]
+var _cached_FEAGI_motors: Array[FEAGI_Device_Motor_Base]
 
 var _socket: WebSocketPeer
 var _socket_state: WebSocketPeer.State = WebSocketPeer.State.STATE_CLOSED
@@ -70,13 +70,13 @@ func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
 	_cached_FEAGI_motors.assign(motors.values())
 	
 	# setup dictionary layout of reciving and sending dicts so we dont constantly have to reformat them
-	for sensor: FEAGI_IOHandler_Sensory_Base in sensors.values():
+	for sensor: FEAGI_Device_Sensor_Base in sensors.values():
 		if sensor.get_device_type() not in _FEAGI_sending_dict_structure:
 			_FEAGI_sending_dict_structure[sensor.get_device_type()] = {}
 		if sensor.device_ID not in _FEAGI_sending_dict_structure[sensor.get_device_type()]:
 			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = PackedByteArray()
 	
-	for motor: FEAGI_IOHandler_Motor_Base in motors.values():
+	for motor: FEAGI_Device_Motor_Base in motors.values():
 		if motor.get_device_type() not in _FEAGI_receiving_dict_structure:
 			_FEAGI_receiving_dict_structure[ motor.get_device_type()] = {}
 		if motor.device_ID not in _FEAGI_receiving_dict_structure[motor.get_device_type()]:
@@ -97,18 +97,17 @@ func on_sensor_tick() -> void:
 		push_error("FEAGI: Cannot send data to a closed socket!")
 		return
 	#for sensor in _cached_FEAGI_sensors: NOTE: This comment of code directly translates bytes to string. THis was an attempt to translate what we were doing to the current standard but didnt work. Still keeping this here as a template. for now we will use a worse performing implementation that works with the current JSON nonsense we have
-	#	_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = sensor.get_data_as_byte_array() # Retrieves cached sensor byte data. Make sure this was recently updated!
+	#	_FEAGI_sending_dict_structure[sensor.get_device_type()][sensor.device_ID] = sensor.get_cached_data_as_byte_array() # Retrieves cached sensor byte data. Make sure this was recently updated!
 	for sensor in _cached_FEAGI_sensors:
 		if sensor.get_device_type() == "camera":
-			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = sensor.get_data_as_byte_array()
+			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = sensor.get_cached_data_as_byte_array()
 			continue
-		else: # WARNING: temporarily using a temp function to get around json issue
-			if sensor.get_device_type() == "proximity":
-				_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] =  sensor.get_data_as_byte_array().decode_float(0)
-				continue
-			if sensor.get_device_type() == "gyro" or sensor.get_device_type() == "accelerometer":
-				var temp: Vector3 = FEAGI_IOHandler_Sensory_Accelerometer.byte_array_to_vector3(sensor.get_data_as_byte_array())
-				_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = [temp.x, temp.y, temp.z]
+		if sensor.get_device_type() == "proximity":
+			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] =  (sensor as FEAGI_Device_Sensor_Proximity).get_cached_data_as_float()
+			continue
+		if sensor.get_device_type() == "gyro" or sensor.get_device_type() == "accelerometer":
+			var temp: Vector3 = _parse_bytes_as_vector3(sensor.get_cached_data_as_byte_array())
+			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = [temp.x, temp.y, temp.z]
 		# RIP frames
 	_socket.send(str(_FEAGI_sending_dict_structure).to_ascii_buffer().compress(FileAccess.COMPRESSION_DEFLATE))
 
@@ -117,7 +116,6 @@ func _on_motor_receive(raw_data: PackedByteArray) -> void:
 	# yes this is very slow. We will be replacing this all soon though, this is justy for demonstation
 	var some_value
 	var device_incoming_data: PackedByteArray
-	
 	var incoming_dict: Dictionary = JSON.parse_string(raw_data.get_string_from_utf8())
 	for motor in _cached_FEAGI_motors:
 		if motor.get_device_type() in incoming_dict:
@@ -128,24 +126,16 @@ func _on_motor_receive(raw_data: PackedByteArray) -> void:
 					device_incoming_data.encode_float(0, some_value)
 				if some_value is Dictionary:
 					# HACK right now we know the only type of dictionary is motion control. hard coding...
-					var dict: Dictionary = {
-						"move_up": 0.0,
-						"move_down": 0.0,
-						"move_right": 0.0,
-						"move_left": 0.0,
-						"yaw_left" : 0.0,
-						"yaw_right": 0.0,
-						"roll_left": 0.0,
-						"roll_right": 0.0,
-						"pitch_forward": 0.0,
-						"pitch_backward": 0.0
-						}
-					some_value.merge(dict)
-					device_incoming_data = JSON.stringify(some_value).to_utf8_buffer()
+					var transpose: FEAGI_Data_MotionControl = FEAGI_Data_MotionControl.create_from_FEAGI_JSON(some_value)
+					device_incoming_data = transpose.to_bytes()
+					
 			else:
 				device_incoming_data = motor.retrieve_zero_value_byte_array()
 		else:
 			device_incoming_data = motor.retrieve_zero_value_byte_array()
-		motor.update_state_with_retrieved_date(device_incoming_data)
+		motor.update_cache_with_latest_FEAGI_data(device_incoming_data)
 	socket_recieved_motor_data.emit()
 	
+func _parse_bytes_as_vector3(bytes: PackedByteArray) -> Vector3:
+	var arr: PackedFloat32Array = bytes.to_float32_array()
+	return Vector3(arr[0], arr[1], arr[2])

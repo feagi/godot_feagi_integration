@@ -11,36 +11,33 @@ func _init(reference_to_FEAGI_sensors: Dictionary, reference_to_FEAGI_motors: Di
 	_FEAGI_sensors_reference = reference_to_FEAGI_sensors
 	_FEAGI_motors_reference = reference_to_FEAGI_motors
 
-## Attempt to register a godot sensor to its equavilant [FEAGI_IOHandler_Sensory_Base], returns true if succeeds 
-func register_godot_device_sensor(agent: FEAGI_RunTime_GodotDeviceAgent_Sensory) -> bool:
+## Attempt to register a godot sensor to its equavilant [FEAGI_Device_Sensor_Base], returns the FEAGI Sensor if succeeds
+func register_godot_device_sensor(agent: FEAGI_RegistrationAgent_Sensory) -> FEAGI_Device_Sensor_Base:
 	# NOTE: We assume the agent itself already made all the needed checks
 	if agent.get_device_name() not in _FEAGI_sensors_reference:
-		push_error("FEAGI: Unable to find a sensory IO handler for the agent of device name %s! Skipping registration!" % agent.get_device_name())
-		return false
+		push_error("FEAGI: Unable to find a sensory Registration Agent for the agent of device name %s! Skipping registration!" % agent.get_device_name())
+		return null
 	
-	var relevant_feagi_sensor: FEAGI_IOHandler_Sensory_Base = _FEAGI_sensors_reference[agent.get_device_name()]
+	var relevant_feagi_sensor: FEAGI_Device_Sensor_Base = _FEAGI_sensors_reference[agent.get_device_name()]
 	if agent.get_device_type() != relevant_feagi_sensor.get_device_type():
 		push_error("FEAGI: Sensory agent %s is not of expected device type %s! Skipping registration!" % [agent.get_device_name(), relevant_feagi_sensor.get_device_type()])
-		return false
+		return null
 
-	relevant_feagi_sensor.register_godot_device_sensor(agent.get_data_retrival_function())
-	return true
+	return relevant_feagi_sensor.register_godot_device_sensor(agent.get_sensor_callable())
 
-## Attempt to register a godot motor to its equavilant [FEAGI_IOHandler_Motor_Base], returns true if succeeds 
-func register_godot_device_motor(agent: FEAGI_RunTime_GodotDeviceAgent_Motor) -> bool:
+## Attempt to register a godot motor to its equavilant [FEAGI_Device_Motor_Base],  returns the FEAGI Motor if succeeds
+func register_godot_device_motor(agent: FEAGI_RegistrationAgent_Motor) -> FEAGI_Device_Motor_Base:
 	# NOTE: We assume the agent itself already made all the needed checks
 	if agent.get_device_name() not in _FEAGI_motors_reference:
-		push_error("FEAGI: Unable to find a motor IO handler for the agent of device name %s! Skipping registration!" % agent.get_device_name())
-		return false
+		push_error("FEAGI: Unable to find a motor Registration Agent for the agent of device name %s! Skipping registration!" % agent.get_device_name())
+		return null
 	
-	var relevant_feagi_motor: FEAGI_IOHandler_Motor_Base = _FEAGI_motors_reference[agent.get_device_name()]
+	var relevant_feagi_motor: FEAGI_Device_Motor_Base = _FEAGI_motors_reference[agent.get_device_name()]
 	if agent.get_device_type() != relevant_feagi_motor.get_device_type():
 		push_error("FEAGI: Motor agent %s is not of expected device type %s! Skipping registration!" % [agent.get_device_name(), relevant_feagi_motor.get_device_type()])
-		return false
+		return null
 
-	relevant_feagi_motor.register_godot_device_motor(agent.get_data_setting_function())
-	return true
-
+	return relevant_feagi_motor.register_godot_device_motor(agent.get_motor_callable())
 
 ## TODO Deregister
 
@@ -48,12 +45,12 @@ func register_godot_device_motor(agent: FEAGI_RunTime_GodotDeviceAgent_Motor) ->
 func get_possible_sensor_feagi_names() -> PackedStringArray:
 	var output: Array[StringName] = []
 	for sensor in _FEAGI_sensors_reference.values():
-		output.append(sensor.device_name)
+		output.append(sensor.device_friendly_name)
 	return PackedStringArray(output)
 
 func get_possible_motor_feagi_names() -> PackedStringArray:
 	var output: Array[StringName] = []
 	for motor in _FEAGI_motors_reference.values():
-		output.append(motor.device_name)
+		output.append(motor.device_friendly_name)
 	return PackedStringArray(output)
 	

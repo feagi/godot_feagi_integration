@@ -36,7 +36,7 @@ var _device_friendly_name: StringName
 var _device_type: StringName = ""
 
 func setup(device_type_name: StringName, device_index: int, initial_name: StringName, is_device_disabled: bool, specific_device_UI: FEAGI_UI_Panel_SpecificDeviceUI_Base, 
-configurator_JSON_template_for_this_device: Dictionary, specific_device_handler: FEAGI_IOHandler_Base = null, configurator_JSON_values: Dictionary = {}) -> void:
+configurator_JSON_template_for_this_device: Dictionary, specific_device_handler: FEAGI_Device_Base = null, configurator_JSON_values: Dictionary = {}) -> void:
 	# NOTE: The default value import is part of this function cause it is easier to mix that with the TemplateJSon Generator
 	# configurator_JSON_template_for_this_device refers to the dictionary  that is the value corresponding to {"input/output" : {"device_name" : (this dict)}}
 	_type_header = $MarginContainer/VBoxContainer/titlebar/type
@@ -86,7 +86,7 @@ func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 	return {str(_device_index): inside }
 	
 
-func export_as_FEAGI_IOHandler() -> FEAGI_IOHandler_Base:
+func export_as_FEAGI_IOHandler() -> FEAGI_Device_Base:
 	return _device_settings.export_IOHandler(_device_friendly_name, _FEAGI_index_spin.value, _device_index, is_disabled) # TODO what is going onm with device index / device ID?
 
 

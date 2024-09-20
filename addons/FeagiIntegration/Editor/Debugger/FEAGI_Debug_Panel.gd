@@ -3,14 +3,6 @@ extends MarginContainer
 class_name FEAGI_Debug_Panel
 ## The actual Debug Panel visible in editor to see what the FEAGI integration is doing
 
-const SENSOR_CAMERA_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Camera.tscn")
-const SENSOR_ACCELEROMETER_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Accelerometer.tscn")
-const SENSOR_GYRO_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Gyro.tscn")
-const SENSOR_PROXIMITY_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_Proximity.tscn")
-
-const MOTOR_MOTIONCONTROL_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/MotorDevices/FEAGI_Debug_Panel_View_Motor_MotionControl.tscn")
-const MOTOR_MOTOR_DEVICE: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/MotorDevices/FEAGI_Debug_Panel_View_Motor_Motor.tscn")
-
 var _not_running: VBoxContainer
 var _running: VBoxContainer
 var _sensor_holder: VBoxContainer
@@ -50,18 +42,12 @@ func clear() -> void:
 ## Called by [FEAGIDebugger] when it recieves a message about a sensor being added
 func add_sensor_device(sensor_type: StringName, sensor_name: StringName, extra_setup_data: Array) -> void:
 	var view: FEAGI_Debug_Panel_ViewBase
-	match(sensor_type): # This could be a dict lookup, hmmm
-		FEAGI_IOHandler_Sensory_Camera.TYPE_NAME:
-			view = SENSOR_CAMERA_DEVICE.instantiate()
-		FEAGI_IOHandler_Sensory_Accelerometer.TYPE_NAME:
-			view = SENSOR_ACCELEROMETER_DEVICE.instantiate()
-		FEAGI_IOHandler_Sensory_Gyro.TYPE_NAME:
-			view = SENSOR_GYRO_DEVICE.instantiate()
-		FEAGI_IOHandler_Sensory_Proximity.TYPE_NAME:
-			view = SENSOR_PROXIMITY_DEVICE.instantiate()
-		_:
+	var string_type: String = sensor_type
+	var path: String = "res://addons/FeagiIntegration/Editor/Debugger/SensoryDevices/FEAGI_Debug_Panel_View_Sensory_%s.tscn" % (string_type[0].to_upper() + string_type.substr(1))
+	if !FileAccess.file_exists(path):
 			push_error("FEAGI Debugger: Unknown device type %s requested to be added to the debugger!" % sensor_type)
 			return
+	view = load(path).instantiate()
 	print("FEAGI: Added sensor %s device of name %s!" % [sensor_type, sensor_name])
 	view.initialize() # establish internal UI references
 	view.setup_base(sensor_name, extra_setup_data) 
@@ -73,14 +59,12 @@ func add_sensor_device(sensor_type: StringName, sensor_name: StringName, extra_s
 ## Called by [FEAGIDebugger] when it recieves a message about a motor being added
 func add_motor_device(motor_type: StringName, motor_name: StringName, extra_setup_data: Array) -> void:
 	var view: FEAGI_Debug_Panel_ViewBase
-	match(motor_type): # This could be a dict lookup, hmmm
-		FEAGI_IOHandler_Motor_MotionControl.TYPE_NAME:
-			view = MOTOR_MOTIONCONTROL_DEVICE.instantiate()
-		FEAGI_IOHandler_Motor_Motor.TYPE_NAME:
-			view = MOTOR_MOTOR_DEVICE.instantiate()
-		_:
+	var string_type: String = motor_type
+	var path: String = "res://addons/FeagiIntegration/Editor/Debugger/MotorDevices/FEAGI_Debug_Panel_View_Motor_%s.tscn" % (string_type[0].to_upper() + string_type.substr(1))
+	if !FileAccess.file_exists(path):
 			push_error("FEAGI Debugger: Unknown device type %s requested to be added to the debugger!" % motor_type)
 			return
+	view = load(path).instantiate()
 	print("FEAGI: Added motor %s device of name %s!" % [motor_type, motor_name])
 	view.initialize() # establish internal UI references
 	view.setup_base(motor_name, extra_setup_data) 
@@ -101,3 +85,4 @@ func update_motor_visualizations(data: Array) -> void:
 func _update_none_label(vbox: VBoxContainer, is_visible: bool) -> void:
 	var label: Label = vbox.get_child(0)
 	label.visible = is_visible
+	var s : String

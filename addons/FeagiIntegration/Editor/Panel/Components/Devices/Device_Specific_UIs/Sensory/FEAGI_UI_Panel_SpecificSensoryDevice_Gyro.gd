@@ -7,17 +7,17 @@ func setup() -> void:
 	pass
 
 ## Called by the parent [FEAGI_UI_Panel_Device] node IF it has a prior device config
-func import_IOHandler(device_config: FEAGI_IOHandler_Base) -> void:
-	var gyro_config: FEAGI_IOHandler_Sensory_Gyro = device_config as FEAGI_IOHandler_Sensory_Gyro
+func import_IOHandler(device_config: FEAGI_Device_Base) -> void:
+	var gyro_config: FEAGI_Device_Sensor_Gyro = device_config as FEAGI_Device_Sensor_Gyro
 	if gyro_config == null:
 		push_error("FEAGI: Unknown IOHandler sent to gyro device!")
 		return
 
 
 ## Called by the parent [FEAGI_UI_Panel_Device] node when it needs to build the device settings to export a save file
-func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_IOHandler_Base:
-	var gyro_config: FEAGI_IOHandler_Sensory_Gyro = FEAGI_IOHandler_Sensory_Gyro.new()
-	gyro_config.device_name = device_name
+func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_Device_Base:
+	var gyro_config: FEAGI_Device_Sensor_Gyro = FEAGI_Device_Sensor_Gyro.new()
+	gyro_config.device_friendly_name = device_name
 	gyro_config.FEAGI_index = FEAGI_index
 	gyro_config.device_ID = device_ID
 	gyro_config.is_disabled = is_disabled

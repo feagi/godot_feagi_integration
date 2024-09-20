@@ -17,8 +17,8 @@ func setup() -> void:
 
 
 ## Called by the parent [FEAGI_UI_Panel_Device] node IF it has a prior device config
-func import_IOHandler(device_config: FEAGI_IOHandler_Base) -> void:
-	var motor_config: FEAGI_IOHandler_Motor_Motor = device_config as FEAGI_IOHandler_Motor_Motor
+func import_IOHandler(device_config: FEAGI_Device_Base) -> void:
+	var motor_config: FEAGI_Device_Motor_Motor = device_config as FEAGI_Device_Motor_Motor
 	if motor_config == null:
 		push_error("FEAGI: Unknown IOHandler sent to Motor device!")
 		return
@@ -28,9 +28,9 @@ func import_IOHandler(device_config: FEAGI_IOHandler_Base) -> void:
 		_enable_emulate.button_pressed = true
 
 ## Called by the parent [FEAGI_UI_Panel_Device] node when it needs to build the device settings to export a save file
-func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_IOHandler_Base:
-	var motor_config: FEAGI_IOHandler_Motor_Motor = FEAGI_IOHandler_Motor_Motor.new()
-	motor_config.device_name = device_name
+func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_Device_Base:
+	var motor_config: FEAGI_Device_Motor_Motor = FEAGI_Device_Motor_Motor.new()
+	motor_config.device_friendly_name = device_name
 	motor_config.FEAGI_index = FEAGI_index
 	motor_config.device_ID = device_ID
 	motor_config.is_disabled = is_disabled

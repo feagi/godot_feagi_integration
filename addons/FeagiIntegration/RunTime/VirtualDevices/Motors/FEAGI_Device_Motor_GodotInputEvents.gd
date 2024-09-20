@@ -3,26 +3,45 @@ class_name FEAGI_Device_GodotInputEvents
 ## Can emulate a set of Godot Input events as a motor output
 #NOTE: This system is also automatically added as per genome mapping settings!
 
-@export var registration_agent: FEAGI_RunTime_GodotDeviceAgent_Motor
+## Used to easily create a callable to process the outputs of motion control as input events
+static func create_callable_for_motion_control(motion_control_automatic_inputs: Dictionary, node_for_timers: Node) -> Callable:
+	(motion_control_automatic_inputs["move_up"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motion_control_automatic_inputs["move_down"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motion_control_automatic_inputs["move_left"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motion_control_automatic_inputs["move_right"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motion_control_automatic_inputs["yaw_left"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motion_control_automatic_inputs["yaw_right"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motion_control_automatic_inputs["roll_left"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motion_control_automatic_inputs["roll_right"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motion_control_automatic_inputs["pitch_forward"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motion_control_automatic_inputs["pitch_backward"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	
+	return func(motion_control_data: FEAGI_Data_MotionControl) -> void:
+		(motion_control_automatic_inputs["move_up"] as FEAGI_Emulated_Input).press_action(motion_control_data.move_up)
+		(motion_control_automatic_inputs["move_down"] as FEAGI_Emulated_Input).press_action(motion_control_data.move_down)
+		(motion_control_automatic_inputs["move_left"] as FEAGI_Emulated_Input).press_action(motion_control_data.move_left)
+		(motion_control_automatic_inputs["move_right"] as FEAGI_Emulated_Input).press_action(motion_control_data.move_right)
+		(motion_control_automatic_inputs["yaw_left"] as FEAGI_Emulated_Input).press_action(motion_control_data.yaw_left)
+		(motion_control_automatic_inputs["yaw_right"] as FEAGI_Emulated_Input).press_action(motion_control_data.yaw_right)
+		(motion_control_automatic_inputs["roll_left"] as FEAGI_Emulated_Input).press_action(motion_control_data.roll_left)
+		(motion_control_automatic_inputs["roll_right"] as FEAGI_Emulated_Input).press_action(motion_control_data.roll_right)
+		(motion_control_automatic_inputs["pitch_forward"] as FEAGI_Emulated_Input).press_action(motion_control_data.pitch_forward)
+		(motion_control_automatic_inputs["pitch_backward"] as FEAGI_Emulated_Input).press_action(motion_control_data.pitch_backward)
 
-var _input_emulators_keyd_by_action: Dictionary
+static func create_callable_for_motor(motor_automatic_inputs: Dictionary, node_for_timers: Node) -> Callable:
+	(motor_automatic_inputs["forward"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	(motor_automatic_inputs["backward"] as FEAGI_Emulated_Input).setup_for_use(node_for_timers)
+	
+	return func(motor_power: float) -> void:
+		if motor_power > 0:
+			(motor_automatic_inputs["forward"] as FEAGI_Emulated_Input).press_action(motor_power)
+		else:
+			(motor_automatic_inputs["backward"] as FEAGI_Emulated_Input).press_action(abs(motor_power))
 
-## Initializes the agent var and preps it for registration
-func setup_input_emulation(FEAGI_motor_name: StringName, input_emulators: Dictionary) -> void:
-	_input_emulators_keyd_by_action = input_emulators
-	for direction in _input_emulators_keyd_by_action:
-		var input_emulator: FEAGI_Emulated_Input = _input_emulators_keyd_by_action[direction]
-		input_emulator.setup_for_use(self)
-	registration_agent = FEAGI_RunTime_GodotDeviceAgent_Motor.new()
-	registration_agent.setup_for_motor_registration(_press_input, FEAGI_IOHandler_Motor_MotionControl.TYPE_NAME, FEAGI_motor_name)
 
-## Actually calls for the registration
-func register_device() -> void:
-	if registration_agent:
-		registration_agent.register_device()
+var _registration_agent: FEAGI_RegistrationAgent_Motor
 
-func _press_input(directions_and_strengths: Dictionary) -> void: ## The direction as keys, and the values are the strengths
-	var input_emulator: FEAGI_Emulated_Input
-	for direction in directions_and_strengths:
-		input_emulator = _input_emulators_keyd_by_action[direction]
-		input_emulator.press_action(directions_and_strengths[direction])
+## The callable here should be essentially the entire thing setup already, and is where all input differntiation should take place within
+func register_input_emulator(filled_callable: Callable, device_type: StringName, emulator_device_name: StringName) -> void:
+	_registration_agent = FEAGI_RegistrationAgent_Motor.new()
+	_registration_agent.register_with_FEAGI(filled_callable, device_type, emulator_device_name)

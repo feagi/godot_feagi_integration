@@ -31,17 +31,17 @@ func _export_config() -> void:
 	JSON_dict["capabilities"]["output"] =  _section_motor.export_as_FEAGI_config_JSON_device_objects()
 
 	
-	var sensory_devices: Array[FEAGI_IOHandler_Sensory_Base] = []
+	var sensory_devices: Array[FEAGI_Device_Sensor_Base] = []
 	sensory_devices.assign(_section_sensory.export_FEAGI_IOHandlers())
 	var sensory: Dictionary = {}
 	for sensory_device in sensory_devices:
-		sensory[sensory_device.get_device_type() + "_" + sensory_device.device_name] = sensory_device
+		sensory[sensory_device.get_device_type() + "_" + sensory_device.device_friendly_name] = sensory_device
 	
-	var motor_devices: Array[FEAGI_IOHandler_Motor_Base] = []
+	var motor_devices: Array[FEAGI_Device_Motor_Base] = []
 	motor_devices.assign(_section_motor.export_FEAGI_IOHandlers())
 	var motor: Dictionary = {}
 	for motor_device in motor_devices:
-		motor[motor_device.get_device_type() + "_" + motor_device.device_name] = motor_device
+		motor[motor_device.get_device_type() + "_" + motor_device.device_friendly_name] = motor_device
 	
 	var mapping: FEAGI_Genome_Mapping = FEAGI_Genome_Mapping.new()
 	mapping.FEAGI_enabled = _section_agent.FEAGI_enabled
@@ -70,8 +70,8 @@ func _import_config() -> void:
 		_section_sensory.clear()
 		_section_motor.clear()
 		var json_dict: Dictionary = JSON.parse_string(loading_mapping.configuration_JSON)
-		var sensors: Array[FEAGI_IOHandler_Base] = []
-		var motors: Array[FEAGI_IOHandler_Base] = []
+		var sensors: Array[FEAGI_Device_Base] = []
+		var motors: Array[FEAGI_Device_Base] = []
 		sensors.assign(loading_mapping.sensors.values())
 		motors.assign(loading_mapping.motors.values())
 		_section_sensory.load_sort_and_spawn_devices(sensors, _json_base_template["input"], json_dict["capabilities"]["input"])

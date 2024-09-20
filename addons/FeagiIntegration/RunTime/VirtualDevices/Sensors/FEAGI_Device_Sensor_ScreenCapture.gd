@@ -3,17 +3,13 @@ class_name FEAGI_Device_Sensor_ScreenCapture
 ## Camera Device that takes a capture of the entire global viewport
 #NOTE: This system is also automatically added as per genome mapping settings!
 
-@export var registration_agent: FEAGI_RunTime_GodotDeviceAgent_Sensory
+@export var camera_sensor_name: StringName = ""
+var _registration_agent: FEAGI_RegistrationAgent_Sensory
 
 ## Initializes the agent var and preps it for registration
-func setup_screenshot_system(FEAGI_camera_name: StringName) -> void:
-	registration_agent = FEAGI_RunTime_GodotDeviceAgent_Sensory.new()
-	registration_agent.setup_for_sensor_registration(_capture_viewport, "camera" , FEAGI_camera_name)
-
-## Actually calls for the registration
-func register_device() -> void:
-	if registration_agent:
-		registration_agent.register_device()
+func register_screenshot_system(FEAGI_camera_name: StringName = camera_sensor_name) -> void:
+	_registration_agent = FEAGI_RegistrationAgent_Sensory.new()
+	_registration_agent.register_with_FEAGI(_capture_viewport, "camera", FEAGI_camera_name)
 
 func _capture_viewport() -> Image:
 	var viewPort: Viewport = get_tree().root.get_viewport()
