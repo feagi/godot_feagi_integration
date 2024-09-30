@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=18 format=3 uid="uid://djdngmp6vqc4r"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Emulated_Input.gd" id="1_220nq"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI Devices/Motor/FEAGI_Device_Motor_MotionControl.gd" id="2_d6bgj"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI Devices/Motor/FEAGI_Device_Motor_Motor.gd" id="2_sir0t"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="3_63cyt"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI Devices/Sensor/FEAGI_Device_Sensor_Camera.gd" id="4_b354i"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI Devices/Sensor/FEAGI_Device_Sensor_Gyro.gd" id="6_omlhy"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI Devices/Sensor/FEAGI_Device_Sensor_Proximity.gd" id="7_7h7b7"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI Devices/Sensor/FEAGI_Device_Sensor_Accelerometer.gd" id="8_mimlo"]
+
+[sub_resource type="Resource" id="Resource_hsqqt"]
+script = ExtResource("1_220nq")
+godot_action_name = &"move_up"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_4jrwk"]
+script = ExtResource("1_220nq")
+godot_action_name = &"move_down"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.5
+
+[sub_resource type="Resource" id="Resource_70xjr"]
+script = ExtResource("2_sir0t")
+automatically_emulate_keys = {
+"backward": SubResource("Resource_4jrwk"),
+"forward": SubResource("Resource_hsqqt")
+}
+device_friendly_name = &"motor 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_rw52i"]
+script = ExtResource("2_sir0t")
+automatically_emulate_keys = {}
+device_friendly_name = &"motor 1"
+FEAGI_index = 0
+device_ID = 1
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_y370k"]
+script = ExtResource("2_d6bgj")
+automatically_emulate_keys = {}
+device_friendly_name = &"motion_control 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_bi6qh"]
+script = ExtResource("4_b354i")
+resolution = Vector2i(64, 64)
+is_flipped_x = false
+automatically_create_screengrabber = true
+device_friendly_name = &"camera 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_3hkr8"]
+script = ExtResource("6_omlhy")
+device_friendly_name = &"gyro 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_rv2a1"]
+script = ExtResource("7_7h7b7")
+device_friendly_name = &"proximity 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_4gf06"]
+script = ExtResource("8_mimlo")
+device_friendly_name = &"accelerometer 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
+
+[resource]
+script = ExtResource("3_63cyt")
+FEAGI_enabled = true
+debugger_enabled = true
+delay_seconds_between_frames = 1.0
+configuration_JSON = &"{\"capabilities\":{\"input\":{\"accelerometer\":{\"0\":{\"custom_name\":\"accelerometer 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"camera\":{\"0\":{\"camera_resolution\":[64,64],\"custom_name\":\"camera 0\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"00\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}},\"gyro\":{\"0\":{\"custom_name\":\"gyro 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"proximity\":{\"0\":{\"custom_name\":\"proximity 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":0,\"min_value\":0}}},\"output\":{\"motion_control\":{\"0\":{\"custom_name\":\"motion_control 0\",\"disabled\":false,\"feagi_index\":0}},\"motor\":{\"0\":{\"custom_name\":\"motor 0\",\"disabled\":false,\"feagi_index\":0,\"max_power\":0,\"rolling_window_len\":0},\"1\":{\"custom_name\":\"motor 1\",\"disabled\":false,\"feagi_index\":0,\"max_power\":0,\"rolling_window_len\":0}}}}}"
+sensors = {
+"accelerometer_accelerometer 0": SubResource("Resource_4gf06"),
+"camera_camera 0": SubResource("Resource_bi6qh"),
+"gyro_gyro 0": SubResource("Resource_3hkr8"),
+"proximity_proximity 0": SubResource("Resource_rv2a1")
+}
+motors = {
+"motion_control_motion_control 0": SubResource("Resource_y370k"),
+"motor_motor 0": SubResource("Resource_70xjr"),
+"motor_motor 1": SubResource("Resource_rw52i")
+}

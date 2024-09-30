@@ -1,0 +1,557 @@
+{
+	"description": "FEAGI Connector IO Object Definition Template",
+	"version": "0.0.0",
+	"output": {
+		"motor": {
+			"label": "Motor Control",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "max_power",
+					"description": "Full power or max power to go full speed on your robot.",
+					"type": "integer",
+					"default": 0
+				},
+				{
+					"label": "rolling_window_len",
+					"description": "How many windows are needed to slow the motor to a stop.",
+					"type": "integer",
+					"default": 0
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"servo": {
+			"label": "Servo Control",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "max_value",
+					"description": "maximum range to move the servo",
+					"type": "float",
+					"default": 1
+				},
+				{
+					"label": "min_value",
+					"description": "minimum range to move the servo",
+					"type": "float",
+					"default": 0
+				},
+				{
+					"label": "max_power",
+					"description": "max power to go full speed on your robot.",
+					"type": "float",
+					"default": 10
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				},
+				{
+					"label": "default_value",
+					"description": "A default value to set the servo to.",
+					"type": "float",
+					"default": 0,
+					"optional": true
+				}
+			]
+		},
+		"misc": {
+			"label": "Miscellaneous",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"led": {
+			"label": "Led",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"motion_control": {
+			"label": "Motion control",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		}
+	},
+	"input": {
+		"infrared": {
+			"label": "Infrared",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"gyro": {
+			"label": "Gyroscope Sensor",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "min_value",
+					"description": "Minimum range detectable by the sensor.",
+					"type": "vector3",
+					"default": [
+						0.0,
+						0.0,
+						0.0
+					]
+				},
+				{
+					"label": "max_value",
+					"description": "Maximum range detectable by the sensor",
+					"type": "vector3",
+					"default": [
+						0.0,
+						0.0,
+						0.0
+					]
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"gpio_input": {
+			"label": "GPIO Input",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "digital",
+					"description": "If true designates the GPIO input as a digital type",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "digital_pin_configuration",
+					"description": "Captures Digital input GPIO port configuration settings",
+					"type": "object",
+					"depends_on": "digital",
+					"parameters": [
+						{
+							"label": "GPIO Pin number",
+							"description": "",
+							"type": "string",
+							"default": ""
+						},
+						{
+							"label": "disable",
+							"description": "",
+							"type": "boolean",
+							"default": false
+						}
+					]
+				},
+				{
+					"label": "Analog pin Configuration",
+					"description": "Captures analog input GPIO port configuration settings",
+					"type": "object",
+					"depends_on": "!digital",
+					"parameters": [
+						{
+							"label": "max_value",
+							"description": "",
+							"type": "float",
+							"default": 1.0,
+							"min": 0.0,
+							"max": 1.0
+						},
+						{
+							"label": "min_value",
+							"description": "",
+							"type": "float",
+							"default": 0.0,
+							"min": 0.0,
+							"max": 1.0
+						},
+						{
+							"label": "disable",
+							"description": "",
+							"type": "boolean",
+							"default": false
+						},
+						{
+							"label": "custom_name",
+							"description": "",
+							"type": "string",
+							"default": ""
+						}
+					]
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"servo_position": {
+			"label": "Servo Position",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "max_value",
+					"description": "A maximum number to read the value",
+					"type": "float",
+					"default": 0
+				},
+				{
+					"label": "min_value",
+					"description": "A minimum number to read the value",
+					"type": "float",
+					"default": 0
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"proximity": {
+			"label": "Proximity sensor",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "max_value",
+					"description": "A maximum number to read the value",
+					"type": "float",
+					"default": 0
+				},
+				{
+					"label": "min_value",
+					"description": "A minimum number to read the value",
+					"type": "float",
+					"default": 0
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"accelerometer": {
+			"label": "Accelerometer Sensor",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "min_value",
+					"description": "Minimum range detectable by the sensor.",
+					"type": "vector3",
+					"default": [
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"label": "max_value",
+					"description": "Maximum range detectable by the sensor",
+					"type": "vector3",
+					"default": [
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"battery": {
+			"label": "Battery gauge",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "max_value",
+					"description": "A maximum battery percentage",
+					"type": "percentage",
+					"default": 100
+				},
+				{
+					"label": "min_value",
+					"description": "A minimum battery percentage",
+					"type": "percentage",
+					"default": 0
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"camera": {
+			"label": "Vision",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "camera_resolution",
+					"description": "The number of pixels of the camera in the x and y directions",
+					"type": "vector2",
+					"default": [
+						0,
+						0
+					]
+				},
+				{
+					"label": "index",
+					"description": "An index to create cortical vision name such as iv00_C, iv01_C, etc.",
+					"type": "string",
+					"default": "00"
+				},
+				{
+					"label": "mirror",
+					"description": "horizontal flip",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"label": "eccentricity_control",
+					"description": "Controls the eccentricity amount of the signal",
+					"type": "object",
+					"parameters": [
+						{
+							"label": "X offset percentage",
+							"description": "X offset percentage",
+							"type": "percentage",
+							"default": 1,
+							"min": 1,
+							"max": 99
+						},
+						{
+							"label": "Y offset percentage",
+							"description": "Y offset percentage",
+							"type": "percentage",
+							"default": 1,
+							"min": 1,
+							"max": 99
+						}
+					]
+				},
+				{
+					"label": "modulation_control",
+					"description": "Controls the modulation amount of the signal",
+					"type": "object",
+					"parameters": [
+						{
+							"label": "X offset percentage",
+							"description": "",
+							"type": "percentage",
+							"default": 99,
+							"min": 1,
+							"max": 99
+						},
+						{
+							"label": "Y offset percentage",
+							"description": "",
+							"type": "percentage",
+							"default": 99,
+							"min": 1,
+							"max": 99
+						}
+					]
+				},
+				{
+					"label": "threshold_default",
+					"description": "A value that will pick the pixel up otherwise ignore it",
+					"type": "integer",
+					"default": 50,
+					"min": 1,
+					"max": 255
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		}
+	}
+}

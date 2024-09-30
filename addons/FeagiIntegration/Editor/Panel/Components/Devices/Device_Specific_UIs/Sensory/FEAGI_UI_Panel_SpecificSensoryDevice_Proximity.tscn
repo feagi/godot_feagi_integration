@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bshlh0v1bu1hv"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Sensory/FEAGI_UI_Panel_SpecificSensoryDevice_Proximity.gd" id="1_f1ipi"]
+
+[node name="FeagiUiPanelSpecificSensoryDeviceProximity" type="VBoxContainer"]
+offset_right = 319.0
+offset_bottom = 218.0
+script = ExtResource("1_f1ipi")
