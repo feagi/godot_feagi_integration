@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bleh55any0dbr"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/RunTime/Networking/FEAGIHTTP.gd" id="1_ju7qc"]
+
+[node name="Feagihttp" type="HTTPRequest"]
+script = ExtResource("1_ju7qc")

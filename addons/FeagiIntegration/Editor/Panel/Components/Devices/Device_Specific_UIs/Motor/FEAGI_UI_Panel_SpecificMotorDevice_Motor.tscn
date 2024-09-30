@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://cexu5utf3fo58"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Motor/FEAGI_UI_Panel_SpecificMotorDevice_Motor.gd" id="1_yvyki"]
+[ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/Collapsible/FEAGI_UI_Prefab_Collapsible.tscn" id="2_1puhg"]
+[ext_resource type="PackedScene" uid="uid://bh7tpnisquksd" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/ActionPresserSet/FEAGI_UI_Panel_ActionPresserConfigSet.tscn" id="3_7vytk"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Emulated_Input.gd" id="4_j0osc"]
+
+[sub_resource type="Resource" id="Resource_eu4xv"]
+script = ExtResource("4_j0osc")
+godot_action_name = &"move_up"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.1
+
+[sub_resource type="Resource" id="Resource_8hea7"]
+script = ExtResource("4_j0osc")
+godot_action_name = &"move_down"
+action_hold_seconds = 0.3
+action_press_FEAGI_threshold = 0.5
+action_release_FEAGI_threshold = 0.1
+
+[node name="FeagiUiPanelSpecificMotorDeviceMotor" type="VBoxContainer"]
+offset_right = 319.0
+offset_bottom = 24.0
+script = ExtResource("1_yvyki")
+
+[node name="keyboard" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="keyboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Emulate Godot Input Events"
+
+[node name="emulate" type="CheckBox" parent="keyboard"]
+layout_mode = 2
+
+[node name="keyboardnote" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "[b]Note:[/b] This will automatically set up Godot Input Emulation. [i]No Godot Device registration is needed on your part![/i]"
+fit_content = true
+
+[node name="CollapsiblePrefab" parent="." instance=ExtResource("2_1puhg")]
+visible = false
+layout_mode = 2
+show_text = &"Show Input Configuration"
+
+[node name="Show" parent="CollapsiblePrefab" index="0"]
+text = "Show Input Configuration"
+
+[node name="FeagiUiPanelActionPresserConfigSet" parent="CollapsiblePrefab/PanelContainer/MarginContainer/Internals" index="0" instance=ExtResource("3_7vytk")]
+layout_mode = 2
+keys = Array[StringName]([&"forward", &"backward"])
+action_pressers = Array[ExtResource("4_j0osc")]([SubResource("Resource_eu4xv"), SubResource("Resource_8hea7")])
+keys_mapped_to_friendly_names = Array[StringName]([&"Forward", &"Backward"])
+
+[connection signal="toggled" from="keyboard/emulate" to="keyboardnote" method="set_visible"]
+[connection signal="toggled" from="keyboard/emulate" to="CollapsiblePrefab" method="set_visible"]
+
+[editable path="CollapsiblePrefab"]
