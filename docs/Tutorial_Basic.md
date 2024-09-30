@@ -7,24 +7,24 @@ This guide serves as an example for adding the plugin to your godot game, using 
 ## Steps
 
 - Have your project open in Godot
-![alt text](https://github.com/feagi/godot_feagi_integration/blob/staging/docs/Tutorials/Basics/01_initial_project.png)
+![1](https://github.com/feagi/godot_feagi_integration/blob/main/docs/Tutorials/Basics/01_initial_project.png?raw=true)
 
 - From the asset lib, install the plugin
-![alt text](https://github.com/feagi/godot_feagi_integration/blob/staging/docs/Tutorials/Basics/02_download_plugin.PNG)
+![2](https://github.com/feagi/godot_feagi_integration/blob/main/docs/Tutorials/Basics/02_download_plugin.PNG)
 
 - Enable the plugin in the project settings, and reload the editor
 
 - Open the Configurator window
-![alt text](https://github.com/feagi/godot_feagi_integration/blob/staging/docs/Tutorials/Basics/03_open_configurator.png)
+![3](https://github.com/feagi/godot_feagi_integration/blob/main/docs/Tutorials/Basics/03_open_configurator.png)
 
 - Set up the agent settings such that we capture 30 Hz, and set your FEAGI connection settings here (defaults to localhost)
-![alt text](https://github.com/feagi/godot_feagi_integration/blob/staging/docs/Tutorials/Basics/04_agent_settings.PNG)
+![4](https://github.com/feagi/godot_feagi_integration/blob/main/docs/Tutorials/Basics/04_agent_settings.PNG)
 
 - The Sensory settings allow FEAGI to "See" your game. In this example, lets set up a camera device, and have it automatically configure itself to record your whole screen
-![alt text](https://github.com/feagi/godot_feagi_integration/blob/staging/docs/Tutorials/Basics/05_sensory.PNG)
+![5](https://github.com/feagi/godot_feagi_integration/blob/main/docs/Tutorials/Basics/05_sensory.PNG)
 
 - The Motor settings allow FEAGI to control your game. In this example, we will make use of the motion_control output, and have it autoconfigure to act as input events. Be sure to match the direction you want with the appropriate input action!
-![alt text](https://github.com/feagi/godot_feagi_integration/blob/staging/docs/Tutorials/Basics/06_motor.PNG)
+![6](https://github.com/feagi/godot_feagi_integration/blob/main/docs/Tutorials/Basics/06_motor.PNG)
 
 - Save the configuration at the bottom, and run them game!
 
