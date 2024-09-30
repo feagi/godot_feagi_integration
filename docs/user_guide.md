@@ -6,7 +6,7 @@ This plugin for godot allows easy integration with FEAGI to your Godot game, all
 
 If you wish to learn more about FEAGI itself, please check out its github [here](https://github.com/feagi/feagi).
 
-Note you will need access to FEAGI either online via our cloud hosted NeuroRobotics Studio (NRS), or a self hosted instance of FEAGI. More details here (TODO)
+Note you will need access to FEAGI either online via our cloud hosted NeuroRobotics Studio (NRS), or a self hosted instance of FEAGI. More details [here](https://alpha.neurorobotics.studio) 
 
 ## Installation
 
