@@ -1,6 +1,6 @@
-(WIP)
-
 # FEAGI Godot Integrator -> Bringing Human Neuron based AI to your Godot games easily!
+
+### FEAGI and this FEAGI Godot Integrator are still early and WIP, feel free to reach out if you have questions!
 
 This plugin for godot allows easy integration with FEAGI to your Godot game, allowing any FEAGI agent to see / sense aspects in your game, and then send outputs to respond. Have FEAGI play as the player, or integrate tighter to allow FEAGI agents to control NPCs and other entities!
 
