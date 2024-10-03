@@ -21,6 +21,14 @@ func _init(reference_to_FEAGI_sensors: Dictionary, reference_to_FEAGI_motors: Di
 
 ## Initializes the debugger with all FEAGI Devices!
 func setup_debugger() -> void:
+	if !OS.is_debug_build():
+		push_warning("FEAGI: This is a non-debug build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
+		_debug_interface = null
+		return
+	if OS.get_name() == "Web":
+		push_warning("FEAGI: This is a web build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
+		_debug_interface = null
+		return
 	_debug_interface = FEAGI_RunTime_DebugInterface.new()
 	for sensor: FEAGI_Device_Sensor_Base in _FEAGI_sensors_reference_arr:
 		_debug_interface.alert_debugger_about_sensor_creation(sensor)
