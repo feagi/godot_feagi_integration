@@ -117,8 +117,6 @@ func _on_motor_receive(raw_data: PackedByteArray) -> void:
 	var some_value
 	var device_incoming_data: PackedByteArray
 	var incoming_dict: Dictionary = JSON.parse_string(raw_data.get_string_from_utf8())
-	if incoming_dict.keys().size() != 0:
-		print(incoming_dict)
 	for motor in _cached_FEAGI_motors:
 		if motor.get_device_type() in incoming_dict:
 			if str(motor.device_ID) in incoming_dict[motor.get_device_type()]:

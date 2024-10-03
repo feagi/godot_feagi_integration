@@ -112,10 +112,10 @@ func parse_full_connector_URL(full_URL: String) -> bool:
 	return true
 
 func save_config() -> void:
-	FEAGI_PLUGIN.confirm_config_directory()
-	if FileAccess.file_exists(FEAGI_PLUGIN.get_endpoint_path()):
-		var error: Error = DirAccess.remove_absolute(FEAGI_PLUGIN.get_endpoint_path())
+	FEAGI_PLUGIN_CONFIG.confirm_config_directory()
+	if FileAccess.file_exists(FEAGI_PLUGIN_CONFIG.get_endpoint_path()):
+		var error: Error = DirAccess.remove_absolute(FEAGI_PLUGIN_CONFIG.get_endpoint_path())
 		if error != OK:
 			push_error("FEAGI: Unable to overwrite Endpoint file!")
-	ResourceSaver.save(self, FEAGI_PLUGIN.get_endpoint_path())
-	take_over_path(FEAGI_PLUGIN.get_genome_mapping_path()) # work around for godot failing to automatically reload file
+	ResourceSaver.save(self, FEAGI_PLUGIN_CONFIG.get_endpoint_path())
+	take_over_path(FEAGI_PLUGIN_CONFIG.get_genome_mapping_path()) # work around for godot failing to automatically reload file

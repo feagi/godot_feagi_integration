@@ -15,11 +15,11 @@ func setup() -> void:
 	_import_button = $ScrollContainer/Options/HBoxContainer/import
 	
 	_section_agent.initialize_references()
-	_json_base_template= JSON.parse_string(FileAccess.get_file_as_string(FEAGI_PLUGIN.TEMPLATE_DIR))
+	_json_base_template= JSON.parse_string(FileAccess.get_file_as_string(FEAGI_PLUGIN_CONFIG.TEMPLATE_DIR))
 	_section_sensory.setup(true, _json_base_template["input"])
 	_section_motor.setup(false, _json_base_template["output"])
 	
-	_import_button.disabled = !(FEAGI_PLUGIN.does_mapping_file_exist() or FEAGI_PLUGIN.does_endpoint_file_exist())
+	_import_button.disabled = !(FEAGI_PLUGIN_CONFIG.does_mapping_file_exist() or FEAGI_PLUGIN_CONFIG.does_endpoint_file_exist())
 	
 
 func _export_config() -> void:
@@ -55,14 +55,14 @@ func _export_config() -> void:
 	mapping.save_config()
 
 func _import_config() -> void:
-	if !(FEAGI_PLUGIN.does_mapping_file_exist() or FEAGI_PLUGIN.does_endpoint_file_exist()):
+	if !(FEAGI_PLUGIN_CONFIG.does_mapping_file_exist() or FEAGI_PLUGIN_CONFIG.does_endpoint_file_exist()):
 		push_error("FEAGI: No config of any kind found!")
 		_import_button.disabled = true
 		return
 
 
-	if FEAGI_PLUGIN.does_mapping_file_exist():
-		var loading_mapping: FEAGI_Genome_Mapping = load(FEAGI_PLUGIN.get_genome_mapping_path())
+	if FEAGI_PLUGIN_CONFIG.does_mapping_file_exist():
+		var loading_mapping: FEAGI_Genome_Mapping = load(FEAGI_PLUGIN_CONFIG.get_genome_mapping_path())
 		if !loading_mapping:
 			push_error("FEAGI: Mapping file appears corrupt?")
 			_import_button.disabled = true
@@ -79,8 +79,8 @@ func _import_config() -> void:
 	else:
 		push_warning("FEAGI: No Mapping file found. Not loading those parameters!")
 	
-	if FEAGI_PLUGIN.does_endpoint_file_exist():
-		var loading_endpoint: FEAGI_Resource_Endpoint = load(FEAGI_PLUGIN.get_endpoint_path())
+	if FEAGI_PLUGIN_CONFIG.does_endpoint_file_exist():
+		var loading_endpoint: FEAGI_Resource_Endpoint = load(FEAGI_PLUGIN_CONFIG.get_endpoint_path())
 		_section_agent.import_endpoint(loading_endpoint)
 	else:
 		push_warning("FEAGI: No endpoint file found. Not loading network information!")
