@@ -3,7 +3,7 @@ class_name FEAGI_JS
 
 ## Returns true if this is a web export
 static func is_web_build() -> bool:
-	return OS.get_name() == "HTML5" # Not JS but I dont care
+	return OS.get_name() == "Web" # Not JS but I dont care
 
 ## attempts to return the value of a URL parameter as a string. Returns null if the parameter is not found or if we are not running in a webpage at all
 static func attempt_get_parameter_from_URL(parameter_name: String) -> Variant:

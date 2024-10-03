@@ -25,7 +25,7 @@ func setup_debugger() -> void:
 		push_warning("FEAGI: This is a non-debug build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
 		_debug_interface = null
 		return
-	if OS.get_name() == "Web":
+	if FEAGI_JS.is_web_build():
 		push_warning("FEAGI: This is a web build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
 		_debug_interface = null
 		return
@@ -47,10 +47,14 @@ func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node
 		pass #have endpoint querty magic link to update itself
 		
 		if FEAGI_JS.is_web_build():
-			print("FEAGI: Please note that any Web URL parameters for endpoint settings are ignored as we loaded them from magic link instead")
+			push_warning("FEAGI: Please note that any Web URL parameters for endpoint settings are ignored as we loaded them from magic link instead")
 	
 	# otherwise if there are url parameters with endpoint settings
 	elif FEAGI_JS.is_web_build():
+		if endpoint.contains_URL_parameters_needed_for_magic_link_parsing():
+			push_warning("FEAGI: Please note that any Web URL parameters for endpoint settings are ignored as we loaded them from URL Parameters instead")
+			endpoint.update_internal_vars_from_URL_parameters()
+			
 		pass ## use endpoint to check URL parameters with endpoint settings
 	
 	# check HTTP connection
