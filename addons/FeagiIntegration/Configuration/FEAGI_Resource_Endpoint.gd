@@ -19,7 +19,7 @@ func contains_magic_link() -> bool:
 
 ## returns tue if ALL parameters required for URL parsing are available in the URL
 func contains_URL_parameters_needed_for_URL_parsing() -> bool:
-	return FEAGI_JS.attempt_get_parameter_from_URL("feagi_url") and FEAGI_JS.attempt_get_parameter_from_URL("connector_url")
+	return FEAGI_JS.attempt_get_parameter_from_URL("feagi_url") and FEAGI_JS.attempt_get_parameter_from_URL("ws_url")
 
 ## returns tue if parameter of the magic link exists in the URL
 func contains_URL_parameters_needed_for_magic_link_parsing() -> bool:
@@ -35,7 +35,7 @@ func update_internal_vars_from_URL_parameters() -> bool:
 	if !contains_URL_parameters_needed_for_URL_parsing():
 		return false
 	var feagi_full_URL: String = FEAGI_JS.attempt_get_parameter_from_URL("feagi_url")
-	var connector_full_URL: String = FEAGI_JS.attempt_get_parameter_from_URL("connector_url")
+	var connector_full_URL: String = FEAGI_JS.attempt_get_parameter_from_URL("ws_url")
 	
 	var success: bool = false
 	success = parse_full_FEAGI_URL(feagi_full_URL)
