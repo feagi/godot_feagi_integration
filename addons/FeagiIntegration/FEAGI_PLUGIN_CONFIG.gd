@@ -11,7 +11,7 @@ const TEMPLATE_DIR: StringName = "res://addons/FeagiIntegration/Editor/Resources
 
 #WARNING: Make sure you also update the exports of [FEAGI_RunTime_GodotDeviceAgent_Base]!
 const GODOT_SUPPORTED_SENSORS: PackedStringArray = ["camera", "gyro", "proximity", "accelerometer"] ## All supported FEAGI Sensor devices that have Godot components available to emulate
-const GODOT_SUPPORTED_MOTORS: PackedStringArray = ["motion_control", "motor"] ## All supported FEAGI Sensor devices that have Godot components available to emulate
+const GODOT_SUPPORTED_MOTORS: PackedStringArray = ["motion_control", "motor", "misc"] ## All supported FEAGI Sensor devices that have Godot components available to emulate
 
 #NOTE: Yes these return strings due to godot casting shenanigans
 static func get_gitignore_path() -> String:
