@@ -114,6 +114,7 @@ func on_sensor_tick() -> void:
 func _on_motor_receive(raw_data: PackedByteArray) -> void:
 	## NOTE For now we are doing the HACK method with json. Yes this will be updated in a future date
 	# yes this is very slow. We will be replacing this all soon though, this is justy for demonstation
+	# CANCER CANCER CANCER
 	var some_value
 	var device_incoming_data: PackedByteArray
 	var incoming_dict: Dictionary = JSON.parse_string(raw_data.get_string_from_utf8())
