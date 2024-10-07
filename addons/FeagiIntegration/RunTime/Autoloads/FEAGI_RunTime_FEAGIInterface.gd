@@ -91,6 +91,7 @@ func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
 func send_final_configurator_JSON(configurator_JSON: StringName) -> void:
 	if not _socket:
 		return
+	
 	_socket.send((configurator_JSON.to_ascii_buffer()).compress(FileAccess.COMPRESSION_DEFLATE))
 	await get_tree().create_timer(0.2).timeout # await connector to process
 

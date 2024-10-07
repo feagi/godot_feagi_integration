@@ -92,8 +92,10 @@ func send_configurator_and_enable(initial_configurator_json: StringName) -> void
 		return
 	
 	# check URl params, update configurator
-	# TODO
-	
+	if FEAGI_JS.is_web_build():
+		var configurator: Dictionary = JSON.parse_string(initial_configurator_json)
+		configurator = FEAGI_JS.overwrite_config(configurator)
+		initial_configurator_json = JSON.stringify(configurator)
 	
 	# send param over socket
 	_FEAGI_interface.send_final_configurator_JSON(initial_configurator_json)
