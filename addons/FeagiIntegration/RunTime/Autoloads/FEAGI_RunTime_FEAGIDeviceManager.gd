@@ -51,12 +51,16 @@ func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node
 	
 	# otherwise if there are url parameters with endpoint settings
 	elif FEAGI_JS.is_web_build():
-		if endpoint.contains_URL_parameters_needed_for_magic_link_parsing():
-			push_warning("FEAGI: Please note that any Web URL parameters for endpoint settings are ignored as we loaded them from URL Parameters instead")
+		if endpoint.contains_all_URL_parameters_needed_for_magic_link_parsing():
+			push_warning("FEAGI: Please note that any Web URL parameters from the endpoint file are ignored as we loaded them from magic link from the URL Parameters instead")
+			pass #TODO magic URL handling
+			
+		elif endpoint.contains_all_URL_parameters_needed_for_URL_parsing():
+			push_warning("FEAGI: Please note that any Web URL parameters from the endpoint file are ignored as we loaded them directly from URL Parameters instead")
 			endpoint.update_internal_vars_from_URL_parameters()
 			
-		pass ## use endpoint to check URL parameters with endpoint settings
-	
+			
+	print("FEAGI: Network prep complete! Using %s for FEAGI endpoint and %s for WS endpoint!" % [endpoint.get_full_FEAGI_API_URL(), endpoint.get_full_connector_ws_URL()])
 	# check HTTP connection
 	var is_FEAGI_available: bool = await _FEAGI_interface.ping_feagi_available(endpoint.get_full_FEAGI_API_URL())
 	if not is_FEAGI_available:

@@ -15,15 +15,17 @@ class_name FEAGI_Resource_Endpoint
 
 
 func contains_magic_link() -> bool:
-	return magic_link_full == &""
+	return magic_link_full != &""
 
 ## returns tue if ALL parameters required for URL parsing are available in the URL
-func contains_URL_parameters_needed_for_URL_parsing() -> bool:
-	return FEAGI_JS.attempt_get_parameter_from_URL("feagi_url") and FEAGI_JS.attempt_get_parameter_from_URL("ws_url")
+func contains_all_URL_parameters_needed_for_URL_parsing() -> bool:
+	print(FEAGI_JS.attempt_get_parameter_from_URL("feagi_url"))
+	print(FEAGI_JS.attempt_get_parameter_from_URL("ws_url"))
+	return (FEAGI_JS.attempt_get_parameter_from_URL("feagi_url") != null) and (FEAGI_JS.attempt_get_parameter_from_URL("ws_url") != null)
 
 ## returns tue if parameter of the magic link exists in the URL
-func contains_URL_parameters_needed_for_magic_link_parsing() -> bool:
-	return FEAGI_JS.attempt_get_parameter_from_URL("magic_link")
+func contains_all_URL_parameters_needed_for_magic_link_parsing() -> bool:
+	return FEAGI_JS.attempt_get_parameter_from_URL("magic_link") != null
 
 ## Attempts to update internal vars from magic link. Returns true if successful
 func update_internal_vars_from_magic_link() -> bool:
@@ -32,7 +34,7 @@ func update_internal_vars_from_magic_link() -> bool:
 
 ## Attempts to update internal vars from URL parameters. Returns true if successful
 func update_internal_vars_from_URL_parameters() -> bool:
-	if !contains_URL_parameters_needed_for_URL_parsing():
+	if !contains_all_URL_parameters_needed_for_URL_parsing():
 		return false
 	var feagi_full_URL: String = FEAGI_JS.attempt_get_parameter_from_URL("feagi_url")
 	var connector_full_URL: String = FEAGI_JS.attempt_get_parameter_from_URL("ws_url")
