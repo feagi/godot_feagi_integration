@@ -32,7 +32,7 @@ static func confirm_config_directory() -> void:
 		file.close()
 
 static func does_mapping_file_exist() -> bool:
-	return FileAccess.file_exists(get_genome_mapping_path())
+	return ResourceLoader.exists(get_genome_mapping_path())
 
 static func does_endpoint_file_exist() -> bool:
-	return FileAccess.file_exists(get_endpoint_path())
+	return ResourceLoader.exists(get_endpoint_path())

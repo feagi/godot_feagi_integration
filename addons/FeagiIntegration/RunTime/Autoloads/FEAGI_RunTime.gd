@@ -36,7 +36,7 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	# If the mapping config isnt defined, attempt to load it from disk. If still not defined -> failure
 	if !mapping_config:
 		if !FEAGI_PLUGIN_CONFIG.does_mapping_file_exist():
-			push_error("FEAGI: No mapping settings given or found on disk for FEAGI configuration! The FEAGI integration will now halt!")
+			push_error("FEAGI: No mapping settings file found on disk for FEAGI configuration! The FEAGI integration will now halt!")
 			return
 		else:
 			mapping_config = load(FEAGI_PLUGIN_CONFIG.get_genome_mapping_path())
