@@ -37,11 +37,4 @@ func _check_if_registration_valid_base(callable: Callable, device_name: StringNa
 	if is_registered():
 		push_error("FEAGI: This Godot Device is already registered to a FEAGI Device and cannot register again!")
 		return false
-	if !FEAGI.is_ready_for_device_registration():
-		push_error("FEAGI: The FEAGI Integration is not ready for devices to register yet!")
-		return false
-	if !FEAGI.godot_device_manager:
-		# How could this happen?
-		push_error("FEAGI: The FEAGI Integration failed to load correctly!")
-		return false
 	return true
