@@ -16,9 +16,9 @@ func setup(is_sensory: bool, whole_IO_template: Dictionary) -> void:
 	
 	var acceptable_device_types: PackedStringArray
 	if is_sensory:
-		acceptable_device_types = FEAGI_PLUGIN.GODOT_SUPPORTED_SENSORS
+		acceptable_device_types = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_SENSORS
 	else:
-		acceptable_device_types = FEAGI_PLUGIN.GODOT_SUPPORTED_MOTORS
+		acceptable_device_types = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_MOTORS
 	for acceptable_type in acceptable_device_types:
 		_dropdown.add_item(acceptable_type)
 	
@@ -43,9 +43,9 @@ func _add_device_button_pressed() -> void:
 		return
 	var spawn_name: StringName
 	if _is_sensory:
-		spawn_name = FEAGI_PLUGIN.GODOT_SUPPORTED_SENSORS[spawn_index]
+		spawn_name = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_SENSORS[spawn_index]
 	else:
-		spawn_name = FEAGI_PLUGIN.GODOT_SUPPORTED_MOTORS[spawn_index]
+		spawn_name = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_MOTORS[spawn_index]
 
 	_device_list.spawn_device_new(spawn_name, _whole_IO_template[spawn_name])
 	

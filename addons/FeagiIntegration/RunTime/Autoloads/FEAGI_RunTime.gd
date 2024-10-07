@@ -35,9 +35,13 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	
 	# If the mapping config isnt defined, attempt to load it from disk. If still not defined -> failure
 	if !mapping_config:
-		mapping_config = load(FEAGI_PLUGIN.get_genome_mapping_path())
+		if !FEAGI_PLUGIN_CONFIG.does_mapping_file_exist():
+			push_error("FEAGI: No mapping settings file found on disk for FEAGI configuration! The FEAGI integration will now halt!")
+			return
+		else:
+			mapping_config = load(FEAGI_PLUGIN_CONFIG.get_genome_mapping_path())
 		if !mapping_config:
-			push_error("FEAGI: No mapping settings given or found on disk for FEAGI configuration! The FEAGI integration will now halt!")
+			push_error("FEAGI: Mapping settings file found but was unable to be read! The FEAGI integration will now halt!")
 			return
 	
 	if !mapping_config.FEAGI_enabled:
@@ -47,9 +51,13 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	# If endpoint isnt defined, attempt to load it from disk. If still not defined -> create one with localhost settings
 	# NOTE: Regardless of what endpoint settings are in the object at this point, they can still be overwritten by URL parameters!
 	if !endpoint_config:
-		endpoint_config = load(FEAGI_PLUGIN.get_endpoint_path())
-		if !endpoint_config:
+		if !FEAGI_PLUGIN_CONFIG.does_endpoint_file_exist():
 			push_warning("FEAGI: No endpoint settings were given or found on disk. Defaulting to localhost settings for initial endpoint!")
+			endpoint_config = FEAGI_Resource_Endpoint.new()
+		else:
+			endpoint_config = load(FEAGI_PLUGIN_CONFIG.get_endpoint_path())
+		if !endpoint_config:
+			push_warning("FEAGI: Endpoint file found but was unable to be read! Defaulting to localhost settings for initial endpoint!")
 			endpoint_config = FEAGI_Resource_Endpoint.new()
 	
 	# Load in sensor FEAGI Device objects

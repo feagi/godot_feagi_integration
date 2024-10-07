@@ -15,15 +15,17 @@ class_name FEAGI_Resource_Endpoint
 
 
 func contains_magic_link() -> bool:
-	return magic_link_full == &""
+	return magic_link_full != &""
 
 ## returns tue if ALL parameters required for URL parsing are available in the URL
-func contains_URL_parameters_needed_for_URL_parsing() -> bool:
-	return FEAGI_JS.attempt_get_parameter_from_URL("feagi_url") and FEAGI_JS.attempt_get_parameter_from_URL("connector_url")
+func contains_all_URL_parameters_needed_for_URL_parsing() -> bool:
+	print(FEAGI_JS.attempt_get_parameter_from_URL("feagi_url"))
+	print(FEAGI_JS.attempt_get_parameter_from_URL("ws_url"))
+	return (FEAGI_JS.attempt_get_parameter_from_URL("feagi_url") != null) and (FEAGI_JS.attempt_get_parameter_from_URL("ws_url") != null)
 
 ## returns tue if parameter of the magic link exists in the URL
-func contains_URL_parameters_needed_for_magic_link_parsing() -> bool:
-	return FEAGI_JS.attempt_get_parameter_from_URL("magic_link")
+func contains_all_URL_parameters_needed_for_magic_link_parsing() -> bool:
+	return FEAGI_JS.attempt_get_parameter_from_URL("magic_link") != null
 
 ## Attempts to update internal vars from magic link. Returns true if successful
 func update_internal_vars_from_magic_link() -> bool:
@@ -32,10 +34,10 @@ func update_internal_vars_from_magic_link() -> bool:
 
 ## Attempts to update internal vars from URL parameters. Returns true if successful
 func update_internal_vars_from_URL_parameters() -> bool:
-	if !contains_URL_parameters_needed_for_URL_parsing():
+	if !contains_all_URL_parameters_needed_for_URL_parsing():
 		return false
 	var feagi_full_URL: String = FEAGI_JS.attempt_get_parameter_from_URL("feagi_url")
-	var connector_full_URL: String = FEAGI_JS.attempt_get_parameter_from_URL("connector_url")
+	var connector_full_URL: String = FEAGI_JS.attempt_get_parameter_from_URL("ws_url")
 	
 	var success: bool = false
 	success = parse_full_FEAGI_URL(feagi_full_URL)
@@ -112,10 +114,10 @@ func parse_full_connector_URL(full_URL: String) -> bool:
 	return true
 
 func save_config() -> void:
-	FEAGI_PLUGIN.confirm_config_directory()
-	if FileAccess.file_exists(FEAGI_PLUGIN.get_endpoint_path()):
-		var error: Error = DirAccess.remove_absolute(FEAGI_PLUGIN.get_endpoint_path())
+	FEAGI_PLUGIN_CONFIG.confirm_config_directory()
+	if FileAccess.file_exists(FEAGI_PLUGIN_CONFIG.get_endpoint_path()):
+		var error: Error = DirAccess.remove_absolute(FEAGI_PLUGIN_CONFIG.get_endpoint_path())
 		if error != OK:
 			push_error("FEAGI: Unable to overwrite Endpoint file!")
-	ResourceSaver.save(self, FEAGI_PLUGIN.get_endpoint_path())
-	take_over_path(FEAGI_PLUGIN.get_genome_mapping_path()) # work around for godot failing to automatically reload file
+	ResourceSaver.save(self, FEAGI_PLUGIN_CONFIG.get_endpoint_path())
+	take_over_path(FEAGI_PLUGIN_CONFIG.get_genome_mapping_path()) # work around for godot failing to automatically reload file

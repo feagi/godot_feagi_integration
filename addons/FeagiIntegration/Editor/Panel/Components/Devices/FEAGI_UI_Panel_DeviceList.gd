@@ -16,9 +16,9 @@ func setup(is_sensory: bool) -> void:
 	_device_references = {}
 	var possible_device_type_names: PackedStringArray
 	if is_sensory:
-		possible_device_type_names = FEAGI_PLUGIN.GODOT_SUPPORTED_SENSORS
+		possible_device_type_names = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_SENSORS
 	else:
-		possible_device_type_names = FEAGI_PLUGIN.GODOT_SUPPORTED_MOTORS
+		possible_device_type_names = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_MOTORS
 	for possible_device_type_name in possible_device_type_names:
 		var typed_array: Array[FEAGI_UI_Panel_Device] = []
 		_device_references[possible_device_type_name] = typed_array

@@ -3,7 +3,7 @@ class_name FEAGI_JS
 
 ## Returns true if this is a web export
 static func is_web_build() -> bool:
-	return OS.get_name() == "HTML5" # Not JS but I dont care
+	return OS.get_name() == "Web" # Not JS but I dont care
 
 ## attempts to return the value of a URL parameter as a string. Returns null if the parameter is not found or if we are not running in a webpage at all
 static func attempt_get_parameter_from_URL(parameter_name: String) -> Variant:
@@ -19,5 +19,21 @@ static func attempt_get_parameter_from_URL(parameter_name: String) -> Variant:
 		""" % parameter_name
 	return JavaScriptBridge.eval(JS_func)
 	
+static func overwrite_config(configuration: Dictionary) -> Dictionary:
+	if !FEAGI_JS.is_web_build():
+		return configuration
 	
+	var url_parameter_string: String = "capabilities"
+	var feagi_indexes = FEAGI_JS.attempt_get_parameter_from_URL(url_parameter_string)
+	
+	if feagi_indexes:
+		var str_index_replacements: StringName = str(feagi_indexes)
+		var str_index_replacement_arr: PackedStringArray = str_index_replacements.split("|")
+		for str_index_replacement in str_index_replacement_arr:
+			var replacing_device: PackedStringArray = str_index_replacement.split(".")
+			var key_and_val_replacing: String = replacing_device[3]
+			var key: String = key_and_val_replacing.split("=")[0]
+			var val_as_int: int = key_and_val_replacing.split("=")[1].to_int()
+			configuration["capabilities"][replacing_device[0]][replacing_device[1]][replacing_device[2]][key] = val_as_int
+	return configuration
 	

@@ -21,6 +21,14 @@ func _init(reference_to_FEAGI_sensors: Dictionary, reference_to_FEAGI_motors: Di
 
 ## Initializes the debugger with all FEAGI Devices!
 func setup_debugger() -> void:
+	if !OS.is_debug_build():
+		push_warning("FEAGI: This is a non-debug build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
+		_debug_interface = null
+		return
+	if FEAGI_JS.is_web_build():
+		push_warning("FEAGI: This is a web build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
+		_debug_interface = null
+		return
 	_debug_interface = FEAGI_RunTime_DebugInterface.new()
 	for sensor: FEAGI_Device_Sensor_Base in _FEAGI_sensors_reference_arr:
 		_debug_interface.alert_debugger_about_sensor_creation(sensor)
@@ -39,16 +47,25 @@ func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node
 		pass #have endpoint querty magic link to update itself
 		
 		if FEAGI_JS.is_web_build():
-			print("FEAGI: Please note that any Web URL parameters for endpoint settings are ignored as we loaded them from magic link instead")
+			push_warning("FEAGI: Please note that any Web URL parameters for endpoint settings are ignored as we loaded them from magic link instead")
 	
 	# otherwise if there are url parameters with endpoint settings
 	elif FEAGI_JS.is_web_build():
-		pass ## use endpoint to check URL parameters with endpoint settings
-	
+		if endpoint.contains_all_URL_parameters_needed_for_magic_link_parsing():
+			push_warning("FEAGI: Please note that any Web URL parameters from the endpoint file are ignored as we loaded them from magic link from the URL Parameters instead")
+			pass #TODO magic URL handling
+			
+		elif endpoint.contains_all_URL_parameters_needed_for_URL_parsing():
+			push_warning("FEAGI: Please note that any Web URL parameters from the endpoint file are ignored as we loaded them directly from URL Parameters instead")
+			endpoint.update_internal_vars_from_URL_parameters()
+			
+			
+	print("FEAGI: Network prep complete! Using %s for FEAGI endpoint and %s for WS endpoint!" % [endpoint.get_full_FEAGI_API_URL(), endpoint.get_full_connector_ws_URL()])
 	# check HTTP connection
 	var is_FEAGI_available: bool = await _FEAGI_interface.ping_feagi_available(endpoint.get_full_FEAGI_API_URL())
 	if not is_FEAGI_available:
 		push_error("FEAGI: Unable to connect to FEAGI API at %s!" % endpoint.get_full_FEAGI_API_URL())
+		_FEAGI_interface = null
 		return false
 	print("FEAGI: Confirmed FEAGI HTTP connection at %s!" % endpoint.get_full_FEAGI_API_URL())
 	
@@ -56,6 +73,7 @@ func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node
 	var connected_to_ws: bool = await _FEAGI_interface.setup_websocket(endpoint.get_full_connector_ws_URL())
 	if not connected_to_ws:
 		push_error("FEAGI: Unable to connect to connector websocket at %s!" % endpoint.get_full_connector_ws_URL())
+		_FEAGI_interface = null
 		return false
 	print("FEAGI: Connected to connector websocket at %s!" % endpoint.get_full_connector_ws_URL())
 
@@ -74,8 +92,10 @@ func send_configurator_and_enable(initial_configurator_json: StringName) -> void
 		return
 	
 	# check URl params, update configurator
-	# TODO
-	
+	if FEAGI_JS.is_web_build():
+		var configurator: Dictionary = JSON.parse_string(initial_configurator_json)
+		configurator = FEAGI_JS.overwrite_config(configurator)
+		initial_configurator_json = JSON.stringify(configurator)
 	
 	# send param over socket
 	_FEAGI_interface.send_final_configurator_JSON(initial_configurator_json)

@@ -1,5 +1,6 @@
 extends Node
 class_name FEAGI_RunTime_FEAGIInterface
+## Handles the actual data transfer with FEAGI and the Godot Games Connector
 
 const HTTP_WORKER_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/RunTime/Networking/FEAGIHTTP.tscn")
 
@@ -31,9 +32,11 @@ func _process(delta: float) -> void:
 				_on_motor_receive(_socket.get_packet())
 		WebSocketPeer.State.STATE_CLOSED:
 			push_error("FEAGI: WS Socket to connector closed!")
+			connection_active = false
 			socket_closed.emit()
 			_socket = null
 			set_process(false)
+
 
 ## ASYNC function that returns true if feagis healthcheck returns at the given address
 func ping_feagi_available(full_feagi_address: StringName) -> bool:
@@ -88,6 +91,7 @@ func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
 func send_final_configurator_JSON(configurator_JSON: StringName) -> void:
 	if not _socket:
 		return
+	
 	_socket.send((configurator_JSON.to_ascii_buffer()).compress(FileAccess.COMPRESSION_DEFLATE))
 	await get_tree().create_timer(0.2).timeout # await connector to process
 
@@ -114,6 +118,7 @@ func on_sensor_tick() -> void:
 func _on_motor_receive(raw_data: PackedByteArray) -> void:
 	## NOTE For now we are doing the HACK method with json. Yes this will be updated in a future date
 	# yes this is very slow. We will be replacing this all soon though, this is justy for demonstation
+	# CANCER CANCER CANCER
 	var some_value
 	var device_incoming_data: PackedByteArray
 	var incoming_dict: Dictionary = JSON.parse_string(raw_data.get_string_from_utf8())
