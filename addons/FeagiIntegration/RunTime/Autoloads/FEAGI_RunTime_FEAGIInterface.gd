@@ -1,5 +1,6 @@
 extends Node
 class_name FEAGI_RunTime_FEAGIInterface
+## Handles the actual data transfer with FEAGI and the Godot Games Connector
 
 const HTTP_WORKER_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/RunTime/Networking/FEAGIHTTP.tscn")
 
@@ -31,9 +32,11 @@ func _process(delta: float) -> void:
 				_on_motor_receive(_socket.get_packet())
 		WebSocketPeer.State.STATE_CLOSED:
 			push_error("FEAGI: WS Socket to connector closed!")
+			connection_active = false
 			socket_closed.emit()
 			_socket = null
 			set_process(false)
+
 
 ## ASYNC function that returns true if feagis healthcheck returns at the given address
 func ping_feagi_available(full_feagi_address: StringName) -> bool:

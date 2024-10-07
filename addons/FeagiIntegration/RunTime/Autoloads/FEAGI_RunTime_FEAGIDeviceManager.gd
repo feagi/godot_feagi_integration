@@ -65,6 +65,7 @@ func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node
 	var is_FEAGI_available: bool = await _FEAGI_interface.ping_feagi_available(endpoint.get_full_FEAGI_API_URL())
 	if not is_FEAGI_available:
 		push_error("FEAGI: Unable to connect to FEAGI API at %s!" % endpoint.get_full_FEAGI_API_URL())
+		_FEAGI_interface = null
 		return false
 	print("FEAGI: Confirmed FEAGI HTTP connection at %s!" % endpoint.get_full_FEAGI_API_URL())
 	
@@ -72,6 +73,7 @@ func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node
 	var connected_to_ws: bool = await _FEAGI_interface.setup_websocket(endpoint.get_full_connector_ws_URL())
 	if not connected_to_ws:
 		push_error("FEAGI: Unable to connect to connector websocket at %s!" % endpoint.get_full_connector_ws_URL())
+		_FEAGI_interface = null
 		return false
 	print("FEAGI: Connected to connector websocket at %s!" % endpoint.get_full_connector_ws_URL())
 
