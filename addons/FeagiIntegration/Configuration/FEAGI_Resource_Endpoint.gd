@@ -87,6 +87,10 @@ func parse_full_FEAGI_URL(full_URL: String) -> bool:
 		full_URL = full_URL.split(":")[0]
 	elif !full_URL.is_valid_ip_address(): # we are assuming that if we pass an IP address for some reason, not to update a port. A domain is free game to assume the standard http/https port though
 		_disable_automatic_port_addition_API = true
+		if set_SSL:
+			set_port = 443
+		else:
+			set_port = 80
 		
 	set_TLD = full_URL
 	
@@ -118,6 +122,11 @@ func parse_full_connector_URL(full_URL: String) -> bool:
 		full_URL = full_URL.split(":")[0]
 	elif !full_URL.is_valid_ip_address(): # we are assuming that if we pass an IP address for some reason, not to update a port. A domain is free game to assume the standard http/https port though
 		_disable_automatic_port_addition_WS = true
+		if set_SSL:
+			set_port = 443
+		else:
+			set_port = 80
+	
 	set_TLD = full_URL
 	
 	# everything seems good, apply and return successful
