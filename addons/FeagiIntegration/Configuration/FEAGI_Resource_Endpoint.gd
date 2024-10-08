@@ -13,6 +13,8 @@ class_name FEAGI_Resource_Endpoint
 @export var connector_TLD: StringName = "127.0.0.1"
 @export var connector_ws_port: int = 9055
 
+var _disable_automatic_port_addition_API: bool = false
+var _disable_automatic_port_addition_WS: bool = false
 
 func contains_magic_link() -> bool:
 	return magic_link_full != &""
@@ -49,13 +51,19 @@ func get_full_FEAGI_API_URL() -> StringName:
 	var prefix: StringName = "http://"
 	if is_using_SSL:
 		prefix = "https://"
-	return prefix + FEAGI_TLD + ":" + str(FEAGI_API_port)
+	if not _disable_automatic_port_addition_API:
+		return prefix + FEAGI_TLD + ":" + str(FEAGI_API_port)
+	else:
+		return prefix + FEAGI_TLD # assuming default HTTP/HTTPS standard ports
 
 func get_full_connector_ws_URL() -> StringName:
 	var prefix: StringName = "ws://"
 	if is_using_SSL:
 		prefix = "wss://"
-	return prefix + connector_TLD + ":" + str(connector_ws_port)
+	if not _disable_automatic_port_addition_WS:
+		return prefix + connector_TLD + ":" + str(FEAGI_API_port)
+	else:
+		return prefix + connector_TLD # assuming default HTTP/HTTPS standard ports
 
 ## Attempts to parse a full URL as a FEAGI URL. Returns true if there were no issues
 func parse_full_FEAGI_URL(full_URL: String) -> bool:
@@ -77,6 +85,9 @@ func parse_full_FEAGI_URL(full_URL: String) -> bool:
 			return false
 		set_port = port_str.to_int()
 		full_URL = full_URL.split(":")[0]
+	elif !full_URL.is_valid_ip_address(): # we are assuming that if we pass an IP address for some reason, not to update a port. A domain is free game to assume the standard http/https port though
+		_disable_automatic_port_addition_API = true
+		
 	set_TLD = full_URL
 	
 	# everything seems good, apply and return successful
@@ -105,6 +116,8 @@ func parse_full_connector_URL(full_URL: String) -> bool:
 			return false
 		set_port = port_str.to_int()
 		full_URL = full_URL.split(":")[0]
+	elif !full_URL.is_valid_ip_address(): # we are assuming that if we pass an IP address for some reason, not to update a port. A domain is free game to assume the standard http/https port though
+		_disable_automatic_port_addition_WS = true
 	set_TLD = full_URL
 	
 	# everything seems good, apply and return successful
