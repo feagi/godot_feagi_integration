@@ -9,4 +9,6 @@ func initialize() -> void:
 	_text = $Title/MarginContainer/VBoxContainer/holder/TextEdit
 	
 func update_visualization(data: PackedByteArray) -> void:
+	if len(data) != 4:
+		return # data out of order, we recived something incorrect
 	_text.text = "Motor Power: %.2f" % data.decode_float(0)

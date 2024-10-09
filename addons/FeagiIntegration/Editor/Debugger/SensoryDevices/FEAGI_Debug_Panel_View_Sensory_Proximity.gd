@@ -9,4 +9,6 @@ func initialize() -> void:
 	super()
 	
 func update_visualization(data: PackedByteArray) -> void:
+	if len(data) != 4:
+		return # data out of order, we recived something incorrect
 	_text.text = "Distance: %.2f" % data.decode_float(0)

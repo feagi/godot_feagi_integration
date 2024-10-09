@@ -26,5 +26,7 @@ func setup_extra_setup_data(extra_settings: Array) -> void:
 	_texture.texture = initial_texture
 	
 func update_visualization(data: PackedByteArray) -> void:
+	if len(data) != _image_resolution.x * _image_resolution.y * 3:
+		return # data out of order, we recived something incorrect
 	_parsed_image = Image.create_from_data(_image_resolution.x, _image_resolution.y, false, Image.FORMAT_RGB8, data)
 	(_texture.texture as ImageTexture).set_image(_parsed_image)
