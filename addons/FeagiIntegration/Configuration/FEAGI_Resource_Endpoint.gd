@@ -61,7 +61,7 @@ func get_full_connector_ws_URL() -> StringName:
 	if is_using_SSL:
 		prefix = "wss://"
 	if not _disable_automatic_port_addition_WS:
-		return prefix + connector_TLD + ":" + str(FEAGI_API_port)
+		return prefix + connector_TLD + ":" + str(connector_ws_port)
 	else:
 		return prefix + connector_TLD # assuming default HTTP/HTTPS standard ports
 
