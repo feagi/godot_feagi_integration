@@ -99,6 +99,7 @@ func send_configurator_and_enable(initial_configurator_json: StringName) -> void
 	
 	# send param over socket
 	_FEAGI_interface.send_final_configurator_JSON(initial_configurator_json)
+	print("FEAGI: Sent the Configurator JSON!")
 	
 	# connect motor signals
 	if _debug_interface:
