@@ -141,7 +141,7 @@ func _spawn_parameter(parameter_template: Dictionary, paremeter_given_values: Di
 			(appending as FEAGI_UI_Panel_Device_ParameterObject).setup(label, description)
 			var subparameters_array: Array[Dictionary]
 			subparameters_array.assign(parameter_template["parameters"])
-			(appending as FEAGI_UI_Panel_Device_ParameterObject).setup_internals(_generate_parameter_controls(subparameters_array, paremeter_given_values))
+			(appending as FEAGI_UI_Panel_Device_ParameterObject).setup_internals(_generate_parameter_controls(subparameters_array, paremeter_given_values[label]))
 		"vector2":
 			appending = load(VECTOR2_PREFAB_PATH).instantiate()
 			(appending as FEAGI_UI_Panel_Device_ParameterVector2).setup(label, description)
