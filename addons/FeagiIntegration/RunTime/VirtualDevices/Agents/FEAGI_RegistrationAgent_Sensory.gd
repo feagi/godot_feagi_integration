@@ -1,6 +1,7 @@
 extends FEAGI_RegistrationAgent_Base
 class_name FEAGI_RegistrationAgent_Sensory
 
+#WARNING: This remains in sync with GODOT_SUPPORTED_SENSORS of [FEAGI_PLUGIN_CONFIG]!
 @export_enum("camera", "accelerometer", "gyro", "proximity") var default_sensor_type: String ## The type of this device. Note this can be overridden from the setup function
 
 func get_sensor_callable() -> Callable:
