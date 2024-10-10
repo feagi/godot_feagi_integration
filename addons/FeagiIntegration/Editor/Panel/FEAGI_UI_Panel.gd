@@ -24,7 +24,6 @@ func setup() -> void:
 
 func _export_config() -> void:
 	var endpoint: FEAGI_Resource_Endpoint = _section_agent.export_endpoint()
-	# TODO validate endpoint
 	
 	var JSON_dict: Dictionary = {"capabilities": {"input": {}, "output": {}}}
 	JSON_dict["capabilities"]["input"] =  _section_sensory.export_as_FEAGI_config_JSON_device_objects()
@@ -53,6 +52,7 @@ func _export_config() -> void:
 	
 	endpoint.save_config()
 	mapping.save_config()
+	_import_button.disabled = false
 
 func _import_config() -> void:
 	if !(FEAGI_PLUGIN_CONFIG.does_mapping_file_exist() or FEAGI_PLUGIN_CONFIG.does_endpoint_file_exist()):

@@ -35,6 +35,7 @@ text = "FEAGI Configurator"
 horizontal_alignment = 1
 
 [node name="StateContainer" type="HBoxContainer" parent="ScrollContainer/Options"]
+visible = false
 layout_mode = 2
 alignment = 1
 
@@ -46,10 +47,12 @@ fit_content = true
 autowrap_mode = 0
 
 [node name="Gap" type="Control" parent="ScrollContainer/Options"]
+visible = false
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
 [node name="DescriptionContainer" type="HBoxContainer" parent="ScrollContainer/Options"]
+visible = false
 layout_mode = 2
 alignment = 1
 
@@ -132,6 +135,12 @@ metadata/_tab_index = 3
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/Metrics"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
+
+[node name="Label" type="Label" parent="ScrollContainer/Options/TabContainer/Metrics/PanelContainer"]
+layout_mode = 2
+text = "Feature Coming Soon!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options"]
 layout_mode = 2
