@@ -45,7 +45,7 @@ func _export_config() -> void:
 	var mapping: FEAGI_Genome_Mapping = FEAGI_Genome_Mapping.new()
 	mapping.FEAGI_enabled = _section_agent.FEAGI_enabled
 	mapping.debugger_enabled = _section_agent.debug_enabled
-	mapping.delay_seconds_between_frames = _section_agent.refresh_rate
+	mapping.delay_seconds_between_frames = 1.0 / float(_section_agent.refresh_rate)
 	mapping.configuration_JSON = JSON.stringify(JSON_dict)
 	mapping.sensors = sensory
 	mapping.motors = motor
@@ -67,6 +67,12 @@ func _import_config() -> void:
 			push_error("FEAGI: Mapping file appears corrupt?")
 			_import_button.disabled = true
 			return
+		
+		_section_agent.FEAGI_enabled = loading_mapping.FEAGI_enabled
+		# Endpoint details are handled seperately below
+		_section_agent.debug_enabled = loading_mapping.debugger_enabled
+		_section_agent.refresh_rate = int(1.0 / float(loading_mapping.delay_seconds_between_frames))
+		
 		_section_sensory.clear()
 		_section_motor.clear()
 		var json_dict: Dictionary = JSON.parse_string(loading_mapping.configuration_JSON)

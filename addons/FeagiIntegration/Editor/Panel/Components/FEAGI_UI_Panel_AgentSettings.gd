@@ -35,14 +35,15 @@ var debug_enabled: bool:
 		if _enable_debug: 
 			_enable_debug.button_pressed = v
 
-var refresh_rate: float:
+var refresh_rate: int:
 	get:
-		if _WS_port:
-			return 1.0 / float(_refresh_rate.value)
-		return -1.0
+		if _refresh_rate:
+			return _refresh_rate.value
+		push_warning("FEAGI: Unable to access refresh rate! Disabling!")
+		return 0
 	set(v):
-		if _WS_port:
-			int(1.0 / v)
+		if _refresh_rate:
+			_refresh_rate.value = v
 
 var _enable_FEAGI: CheckBox
 # TODO Magic URL
@@ -90,8 +91,6 @@ func toggle_showing_network_settings(is_visible: bool) -> void:
 func export_endpoint() -> FEAGI_Resource_Endpoint:
 	return _cached_endpoint
 	
-	
-
 func import_endpoint(endpoint: FEAGI_Resource_Endpoint) -> void:
 	_cached_endpoint = endpoint
 	update_UI_from_cached_endpoint()
