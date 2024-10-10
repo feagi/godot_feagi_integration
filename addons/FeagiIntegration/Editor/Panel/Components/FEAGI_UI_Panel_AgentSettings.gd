@@ -60,10 +60,10 @@ var _cached_endpoint: FEAGI_Resource_Endpoint = FEAGI_Resource_Endpoint.new()
 func initialize_references() -> void:
 	_enable_FEAGI = $EnableFEAGI/EnableFEAGI
 	_network_settings = $FEAGINetworkSettings/Manual_Connection_Settings
-	_FEAGI_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/FEAGI_Endpoint
-	_connector_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/Connector_Endpoint
-	_API_port = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/API_Port
-	_WS_port = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/WS_Port
+	_FEAGI_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer2/FEAGI_Endpoint
+	_connector_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer3/Connector_Endpoint
+	_API_port = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer4/API_Port
+	_WS_port = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer5/WS_Port
 	_enable_debug = $EnableDebug/EnableDebug
 	_refresh_rate = $RefreshRate/RefreshRate
 	_SSL = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer/SSL

@@ -8,10 +8,11 @@
 bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.243137)
 
 [node name="FEAGI_UI_Panel" type="PanelContainer"]
+custom_minimum_size = Vector2(600, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 36.0
+offset_right = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_silxe")
@@ -70,10 +71,9 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 512)
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 2
+current_tab = 0
 
 [node name="FEAGI" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
@@ -105,6 +105,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
 layout_mode = 2
 
 [node name="Motor" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
