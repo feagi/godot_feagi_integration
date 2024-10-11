@@ -25,10 +25,6 @@ func contains_all_URL_parameters_needed_for_URL_parsing() -> bool:
 	print(FEAGI_JS.attempt_get_parameter_from_URL("ws_url"))
 	return (FEAGI_JS.attempt_get_parameter_from_URL("feagi_url") != null) and (FEAGI_JS.attempt_get_parameter_from_URL("ws_url") != null)
 
-## returns tue if parameter of the magic link exists in the URL
-func contains_all_URL_parameters_needed_for_magic_link_parsing() -> bool:
-	return FEAGI_JS.attempt_get_parameter_from_URL("magic_link") != null
-
 ## ASYNC Attempts to update internal vars from magic link. Returns true if successful
 func update_internal_vars_from_magic_link(node_for_HTTP_worker: Node) -> bool:
 	if magic_link_full == "":

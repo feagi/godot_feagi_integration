@@ -42,23 +42,17 @@ func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node
 	_FEAGI_interface.name = "FEAGI Networking"
 	parent_node.add_child(_FEAGI_interface)
 	
-	# if have magic link, update values from it (TODO)
-	if endpoint.contains_magic_link():
-		pass #have endpoint querty magic link to update itself
-		
-		if FEAGI_JS.is_web_build():
-			push_warning("FEAGI: Please note that any Web URL parameters for endpoint settings are ignored as we loaded them from magic link instead")
-	
-	# otherwise if there are url parameters with endpoint settings
-	elif FEAGI_JS.is_web_build():
-		if endpoint.contains_all_URL_parameters_needed_for_magic_link_parsing():
-			push_warning("FEAGI: Please note that any Web URL parameters from the endpoint file are ignored as we loaded them from magic link from the URL Parameters instead")
-			pass #TODO magic URL handling
-			
-		elif endpoint.contains_all_URL_parameters_needed_for_URL_parsing():
-			push_warning("FEAGI: Please note that any Web URL parameters from the endpoint file are ignored as we loaded them directly from URL Parameters instead")
-			endpoint.update_internal_vars_from_URL_parameters()
-			
+	if FEAGI_JS.is_web_build() and endpoint.contains_all_URL_parameters_needed_for_URL_parsing():
+		push_warning("FEAGI: Please note that any Web URL parameters from the endpoint file are ignored as we loaded them directly from URL Parameters instead")
+		endpoint.update_internal_vars_from_URL_parameters()
+	else:
+		if endpoint.contains_magic_link():
+			if !await endpoint.update_internal_vars_from_magic_link(parent_node):
+				# failed get endpoints from magic link
+				push_error("FEAGI: Failed to get endpoint information from supplied magic link!")
+				return false
+			print("FEAGI: Updated endpoint information from supplied magic link!")
+			# We updated the endpoints from magic link!
 			
 	print("FEAGI: Network prep complete! Using %s for FEAGI endpoint and %s for WS endpoint!" % [endpoint.get_full_FEAGI_API_URL(), endpoint.get_full_connector_ws_URL()])
 	# check HTTP connection
