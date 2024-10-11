@@ -45,6 +45,7 @@ text = "Login via NRS: "
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Magic Link"
+secret = true
 
 [node name="Login" type="Button" parent="FEAGINetworkSettings/MagicURL"]
 custom_minimum_size = Vector2(100, 0)
@@ -66,29 +67,63 @@ text = "Show Manual Endpoint Configuration"
 [node name="Hide" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="1"]
 text = "Hide Manual Endpoint Configuration"
 
-[node name="FEAGI_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="0"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="0"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FEAGI API Endpoint"
+
+[node name="FEAGI_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer2"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 text = "127.0.0.1"
 placeholder_text = "FEAGI Endpoint"
 
-[node name="Connector_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="1"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="1"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Connector WS Endpoint"
+
+[node name="Connector_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer3"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 text = "127.0.0.1"
 placeholder_text = "FEAGI Godot Connector Endpoint"
 
-[node name="API_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="2"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FEAGI API Port"
+
+[node name="API_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer4"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 min_value = 1.0
 max_value = 65535.0
 value = 8000.0
-prefix = "FEAGI Port:"
 
-[node name="WS_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="3"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Connector WS Port"
+
+[node name="WS_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer5"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 min_value = 1.0
 max_value = 65535.0
 value = 9055.0
-prefix = "Connector Port:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="4"]
 layout_mode = 2
@@ -127,9 +162,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 min_value = 1.0
 max_value = 60.0
-value = 1.0
+value = 30.0
 suffix = "Hz"
 
 [connection signal="toggled" from="EnableFEAGI/EnableFEAGI" to="." method="toggle_showing_network_settings"]
+[connection signal="pressed" from="FEAGINetworkSettings/MagicURL/Login" to="." method="load_endpoints_from_magic_link"]
 
 [editable path="FEAGINetworkSettings/Manual_Connection_Settings"]

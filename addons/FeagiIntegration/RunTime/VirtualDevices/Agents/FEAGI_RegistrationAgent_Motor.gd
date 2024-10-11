@@ -1,7 +1,8 @@
 extends FEAGI_RegistrationAgent_Base
 class_name FEAGI_RegistrationAgent_Motor
 
-@export_enum("motor", "motion_control") var default_motor_type: String ## The type of this device. Note this can be overridden from the setup function
+#WARNING: This remains in sync with GODOT_SUPPORTED_MOTORS of [FEAGI_PLUGIN_CONFIG]!
+@export_enum("motor", "motion_control", "misc") var default_motor_type: String ## The type of this device. Note this can be overridden from the setup function
 
 func get_motor_callable() -> Callable:
 	return _registered_callable

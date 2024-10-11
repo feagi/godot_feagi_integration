@@ -1,54 +1,12 @@
-[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=9 format=3 uid="uid://djdngmp6vqc4r"]
+[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=2 format=3 uid="uid://djdngmp6vqc4r"]
 
-[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Emulated_Input.gd" id="1_220nq"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI Devices/Motor/FEAGI_Device_Motor_Motor.gd" id="2_sir0t"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="3_63cyt"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI Devices/Sensor/FEAGI_Device_Sensor_Camera.gd" id="4_b354i"]
-
-[sub_resource type="Resource" id="Resource_08ewa"]
-script = ExtResource("1_220nq")
-godot_action_name = &"move_down"
-action_hold_seconds = 0.3
-action_press_FEAGI_threshold = 0.5
-action_release_FEAGI_threshold = 0.5
-
-[sub_resource type="Resource" id="Resource_y06ef"]
-script = ExtResource("1_220nq")
-godot_action_name = &"move_up"
-action_hold_seconds = 0.3
-action_press_FEAGI_threshold = 0.5
-action_release_FEAGI_threshold = 0.5
-
-[sub_resource type="Resource" id="Resource_3o6yh"]
-script = ExtResource("2_sir0t")
-automatically_emulate_keys = {
-"backward": SubResource("Resource_08ewa"),
-"forward": SubResource("Resource_y06ef")
-}
-device_friendly_name = &"motor 0"
-FEAGI_index = 0
-device_ID = 0
-is_disabled = false
-
-[sub_resource type="Resource" id="Resource_ss4ju"]
-script = ExtResource("4_b354i")
-resolution = Vector2i(64, 64)
-is_flipped_x = false
-automatically_create_screengrabber = true
-device_friendly_name = &"camera 0"
-FEAGI_index = 0
-device_ID = 0
-is_disabled = false
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="1_5dnig"]
 
 [resource]
-script = ExtResource("3_63cyt")
+script = ExtResource("1_5dnig")
 FEAGI_enabled = true
 debugger_enabled = true
-delay_seconds_between_frames = 1.0
-configuration_JSON = &"{\"capabilities\":{\"input\":{\"camera\":{\"0\":{\"camera_resolution\":[64,64],\"custom_name\":\"camera 0\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"00\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}}},\"output\":{\"motor\":{\"0\":{\"custom_name\":\"motor 0\",\"disabled\":false,\"feagi_index\":0,\"max_power\":1,\"rolling_window_len\":1}}}}}"
-sensors = {
-"camera_camera 0": SubResource("Resource_ss4ju")
-}
-motors = {
-"motor_motor 0": SubResource("Resource_3o6yh")
-}
+delay_seconds_between_frames = 0.0333333
+configuration_JSON = &"{\"capabilities\":{\"input\":{},\"output\":{}}}"
+sensors = {}
+motors = {}
