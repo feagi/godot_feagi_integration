@@ -9,7 +9,7 @@ const HEADER: PackedStringArray = ["Content-Type: application/json"]
 func _ready() -> void:
 	request_completed.connect(_on_call_complete)
 
-func send_GET_request(base_URL: StringName, URL_path: StringName) -> void:
+func send_GET_request(base_URL: StringName, URL_path: StringName = "") -> void:
 	request(base_URL + URL_path, HEADER, HTTPClient.METHOD_GET)
 
 func send_POST_request(base_URL: StringName, URL_path: StringName, json: StringName) -> void:

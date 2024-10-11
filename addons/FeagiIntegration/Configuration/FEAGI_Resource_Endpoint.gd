@@ -29,10 +29,47 @@ func contains_all_URL_parameters_needed_for_URL_parsing() -> bool:
 func contains_all_URL_parameters_needed_for_magic_link_parsing() -> bool:
 	return FEAGI_JS.attempt_get_parameter_from_URL("magic_link") != null
 
-## Attempts to update internal vars from magic link. Returns true if successful
-func update_internal_vars_from_magic_link() -> bool:
-	#todo
-	return false
+## ASYNC Attempts to update internal vars from magic link. Returns true if successful
+func update_internal_vars_from_magic_link(node_for_HTTP_worker: Node) -> bool:
+	if magic_link_full == "":
+		return false # no link to update!
+	
+	var http_worker: FEAGIHTTP = FEAGIHTTP.new()
+	node_for_HTTP_worker.add_child(http_worker)
+	http_worker.send_GET_request(magic_link_full)
+	var arr: Array = await http_worker.FEAGI_call_complete
+	
+	if arr[0] != 200:
+		print("FEAGI: Unable to connect to Magic Link %s to get FEAGI connection endpoints!" % magic_link_full)
+		return false
+	var return_data: String = (arr[1] as PackedByteArray).get_string_from_utf8()
+	var parsed_data: Variant = JSON.parse_string(return_data)
+	if !parsed_data:
+		print("FEAGI: Unable to parse data from Magic Link %s for FEAGI!" % magic_link_full)
+		return false
+	if parsed_data is Array:
+		# How did you do this lol
+		print("FEAGI: Unable to parse data from Magic Link %s for FEAGI!" % magic_link_full)
+		return false
+	var parsed: Dictionary = parsed_data as Dictionary
+	if !parsed.has("feagi_url") or !parsed.has("feagi_api_port") or !parsed.has("feagi_ws_port"):
+		print("FEAGI: Unable to parse data from Magic Link %s for FEAGI!" % magic_link_full)
+		return false
+	if !parsed["feagi_url"]: # If a FEAGI instance is down, the URL returned will be null
+		print("FEAGI: The FEAGI instance at Magic Link address %s appears to be down! Is the instance running?" % magic_link_full)
+		return false
+	
+	# We have all the needed information to parse connection data
+	var api_URL: String = parsed["feagi_url"] + ":" + parsed["feagi_api_port"]
+	parse_full_FEAGI_URL(api_URL)
+	
+	var wss_URL: String = parsed["feagi_url"] + "/p" + parsed["feagi_api_port"]
+	wss_URL = wss_URL.right(wss_URL.length() - 5)
+	wss_URL = "wss" + wss_URL + "/p" + parsed["feagi_api_port"]
+	parse_full_connector_URL(wss_URL)
+	
+	print("FEAGI: Retrieved endpoints from Magic Link!")
+	return true
 
 ## Attempts to update internal vars from URL parameters. Returns true if successful
 func update_internal_vars_from_URL_parameters() -> bool:

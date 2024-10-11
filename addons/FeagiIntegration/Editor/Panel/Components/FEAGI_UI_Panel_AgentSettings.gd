@@ -46,7 +46,7 @@ var refresh_rate: int:
 			_refresh_rate.value = v
 
 var _enable_FEAGI: CheckBox
-# TODO Magic URL
+var _magic_URL: LineEdit
 var _network_settings: FEAGI_UI_Prefab_Collapsible
 var _FEAGI_endpoint: LineEdit
 var _connector_endpoint: LineEdit
@@ -56,10 +56,12 @@ var _enable_debug: CheckBox
 var _refresh_rate: SpinBox
 var _SSL: CheckBox
 var _cached_endpoint: FEAGI_Resource_Endpoint = FEAGI_Resource_Endpoint.new()
+var _processing_magic_link: bool = false
 
 ## Called from the panel due to execution order
 func initialize_references() -> void:
 	_enable_FEAGI = $EnableFEAGI/EnableFEAGI
+	_magic_URL = $FEAGINetworkSettings/MagicURL/URL
 	_network_settings = $FEAGINetworkSettings/Manual_Connection_Settings
 	_FEAGI_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer2/FEAGI_Endpoint
 	_connector_endpoint = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer3/Connector_Endpoint
@@ -70,11 +72,13 @@ func initialize_references() -> void:
 	_SSL = $FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer/SSL
 
 func update_UI_from_cached_endpoint() -> void:
+	_magic_URL.text = _cached_endpoint.magic_link_full
 	_FEAGI_endpoint.text = _cached_endpoint.FEAGI_TLD
 	_connector_endpoint.text = _cached_endpoint.connector_TLD
 	_API_port.value = _cached_endpoint.FEAGI_API_port
 	_WS_port.value = _cached_endpoint.connector_ws_port
 	_SSL.button_pressed = _cached_endpoint.is_using_SSL
+
 
 func parse_FEAGI_URL(feagi_URL: StringName) -> void:
 	_cached_endpoint.parse_full_FEAGI_URL(feagi_URL)
@@ -94,3 +98,15 @@ func export_endpoint() -> FEAGI_Resource_Endpoint:
 func import_endpoint(endpoint: FEAGI_Resource_Endpoint) -> void:
 	_cached_endpoint = endpoint
 	update_UI_from_cached_endpoint()
+
+## ASYNC Attempts to load FEAGI endpoint information from NRS and if succeeds, overwrites local connection information with it
+func load_endpoints_from_magic_link() -> void:
+	if _processing_magic_link:
+		return # avoid spam clicks
+	_processing_magic_link = true
+	_cached_endpoint.magic_link_full = _magic_URL.text
+	await _cached_endpoint.update_internal_vars_from_magic_link(self)
+	update_UI_from_cached_endpoint()
+	_processing_magic_link = false
+	
+	

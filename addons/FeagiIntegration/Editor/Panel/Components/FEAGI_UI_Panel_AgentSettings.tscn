@@ -33,7 +33,6 @@ button_pressed = true
 layout_mode = 2
 
 [node name="MagicURL" type="HBoxContainer" parent="FEAGINetworkSettings"]
-visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="FEAGINetworkSettings/MagicURL"]
@@ -46,6 +45,7 @@ text = "Login via NRS: "
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Magic Link"
+secret = true
 
 [node name="Login" type="Button" parent="FEAGINetworkSettings/MagicURL"]
 custom_minimum_size = Vector2(100, 0)
@@ -166,5 +166,6 @@ value = 30.0
 suffix = "Hz"
 
 [connection signal="toggled" from="EnableFEAGI/EnableFEAGI" to="." method="toggle_showing_network_settings"]
+[connection signal="pressed" from="FEAGINetworkSettings/MagicURL/Login" to="." method="load_endpoints_from_magic_link"]
 
 [editable path="FEAGINetworkSettings/Manual_Connection_Settings"]
