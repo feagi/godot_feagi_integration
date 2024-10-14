@@ -34,6 +34,14 @@ static func overwrite_config(configuration: Dictionary) -> Dictionary:
 			var key_and_val_replacing: String = replacing_device[3]
 			var key: String = key_and_val_replacing.split("=")[0]
 			var val_as_int: int = key_and_val_replacing.split("=")[1].to_int()
+			if not configuration["capabilities"].has(replacing_device[0]):
+				continue
+			if not configuration["capabilities"][replacing_device[0]].has(replacing_device[1]):
+				continue
+			if not configuration["capabilities"][replacing_device[0]][replacing_device[1]].has(replacing_device[2]):
+				continue
+			if not configuration["capabilities"][replacing_device[0]][replacing_device[1]][replacing_device[2]].has(key):
+				continue
 			configuration["capabilities"][replacing_device[0]][replacing_device[1]][replacing_device[2]][key] = val_as_int
 	return configuration
 	
