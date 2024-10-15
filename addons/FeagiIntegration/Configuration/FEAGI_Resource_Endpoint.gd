@@ -30,8 +30,6 @@ func update_internal_vars_from_magic_link(node_for_HTTP_worker: Node) -> bool:
 	if magic_link_full == "":
 		return false # no link to update!
 	
-	print("a")
-	
 	var http_worker: FEAGIHTTP = FEAGIHTTP.new()
 	node_for_HTTP_worker.add_child(http_worker)
 	http_worker.send_GET_request(magic_link_full)
@@ -63,7 +61,7 @@ func update_internal_vars_from_magic_link(node_for_HTTP_worker: Node) -> bool:
 	
 	var wss_URL: String = parsed["feagi_url"]
 	wss_URL = wss_URL.right(wss_URL.length() - 5)
-	wss_URL = "wss" + wss_URL + "/p" + parsed["feagi_ws_port"]
+	wss_URL = "wss" + wss_URL + "/p" + "9055"# DIRTY HACK parsed["feagi_ws_port"]
 	parse_full_connector_URL(wss_URL)
 	
 	print("FEAGI: Retrieved endpoints from Magic Link!")
