@@ -43,7 +43,7 @@ func update_internal_vars_from_magic_link(node_for_HTTP_worker: Node) -> bool:
 	if !parsed_data:
 		print("FEAGI: Unable to parse data from Magic Link %s for FEAGI!" % magic_link_full)
 		return false
-	if parsed_data is Array:
+	if parsed_data is not Dictionary:
 		# How did you do this lol
 		print("FEAGI: Unable to parse data from Magic Link %s for FEAGI!" % magic_link_full)
 		return false
@@ -56,12 +56,12 @@ func update_internal_vars_from_magic_link(node_for_HTTP_worker: Node) -> bool:
 		return false
 	
 	# We have all the needed information to parse connection data
-	var api_URL: String = parsed["feagi_url"] + ":" + parsed["feagi_api_port"]
+	var api_URL: String = parsed["feagi_url"]
 	parse_full_FEAGI_URL(api_URL)
 	
-	var wss_URL: String = parsed["feagi_url"] + "/p" + parsed["feagi_api_port"]
+	var wss_URL: String = parsed["feagi_url"]
 	wss_URL = wss_URL.right(wss_URL.length() - 5)
-	wss_URL = "wss" + wss_URL + "/p" + parsed["feagi_api_port"]
+	wss_URL = "wss" + wss_URL + "/p" + "9055"# DIRTY HACK parsed["feagi_ws_port"]
 	parse_full_connector_URL(wss_URL)
 	
 	print("FEAGI: Retrieved endpoints from Magic Link!")
