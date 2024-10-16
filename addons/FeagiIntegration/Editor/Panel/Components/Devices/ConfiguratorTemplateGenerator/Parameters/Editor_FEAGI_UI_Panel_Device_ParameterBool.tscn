@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://bn4r3yqvwgie7"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/Editor_FEAGI_UI_Panel_Device_ParameterBool.gd" id="1_vnrqo"]
+
+
+[node name="Bool" type="HBoxContainer"]
+script = ExtResource("1_vnrqo")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Why are you locked in the bathroom?
+You talking to me?
+Maybe you should try getting a job?
+Okay, where?
+Majestic 12"
+mouse_filter = 1
+text = "NAME: "
+
+[node name="Value" type="CheckBox" parent="."]
+layout_mode = 2

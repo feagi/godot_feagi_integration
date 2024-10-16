@@ -1,5 +1,5 @@
 @tool
-extends FEAGI_UI_Panel_SpecificDeviceUI_Base
+extends Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base
 class_name FEAGI_UI_Panel_SpecificSensoryDevice_Camera
 
 var _x: SpinBox

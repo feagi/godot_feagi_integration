@@ -3,9 +3,9 @@ extends EditorDebuggerPlugin
 class_name FEAGIDebugger
 ## Handles the Debug implementation of FEAGI in Godot
 
-const PREFAB_DEBUGGER_PANEL: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/FEAGI_Debug_Panel.tscn")
+const PREFAB_DEBUGGER_PANEL: PackedScene = preload("res://addons/FeagiIntegration/Editor/Debugger/Editor_FEAGI_Debug_Panel.tscn")
 
-var debugger_panel: FEAGI_Debug_Panel = null
+var debugger_panel: Editor_FEAGI_Debug_Panel = null
 
 var _last_used_session_ID: int
 
@@ -57,7 +57,7 @@ func _setup_session(session_ID: int) -> void:
 	session.stopped.connect(clear_session)
 	session.started.connect(_attempt_set_panel_to_running)
 
-func _refresh_FEAGIDebugger_panel_reference(session_ID: int) -> FEAGI_Debug_Panel:
+func _refresh_FEAGIDebugger_panel_reference(session_ID: int) -> Editor_FEAGI_Debug_Panel:
 	_last_used_session_ID = session_ID
 	debugger_panel = PREFAB_DEBUGGER_PANEL.instantiate()
 	debugger_panel.initialize()

@@ -1,0 +1,171 @@
+[gd_scene load_steps=3 format=3 uid="uid://b041xhhnpjs5e"]
+
+[ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/Collapsible/FEAGI_UI_Prefab_Collapsible.tscn" id="1_evhmk"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Editor_FEAGI_UI_Panel_AgentSettings.gd" id="1_xrx83"]
+
+[node name="FEAGIPanelAgentSettings" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_xrx83")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Agent Settings"
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="EnableFEAGI" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EnableFEAGI"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Enable Connection To FEAGI"
+
+[node name="EnableFEAGI" type="CheckBox" parent="EnableFEAGI"]
+layout_mode = 2
+button_pressed = true
+
+[node name="FEAGINetworkSettings" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MagicURL" type="HBoxContainer" parent="FEAGINetworkSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/MagicURL"]
+layout_mode = 2
+tooltip_text = "NRS ONLY - Paste in the magic link to automagically retrieve connection endpoint information!"
+mouse_filter = 1
+text = "Login via NRS: "
+
+[node name="URL" type="LineEdit" parent="FEAGINetworkSettings/MagicURL"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Magic Link"
+secret = true
+
+[node name="Login" type="Button" parent="FEAGINetworkSettings/MagicURL"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Login"
+
+[node name="Help" type="Button" parent="FEAGINetworkSettings/MagicURL"]
+layout_mode = 2
+text = "?"
+
+[node name="Manual_Connection_Settings" parent="FEAGINetworkSettings" instance=ExtResource("1_evhmk")]
+layout_mode = 2
+show_text = &"Show Manual Endpoint Configuration"
+hide_text = &"Hide Manual Endpoint Configuration"
+
+[node name="Show" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="0"]
+text = "Show Manual Endpoint Configuration"
+
+[node name="Hide" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="1"]
+text = "Hide Manual Endpoint Configuration"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="0"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FEAGI API Endpoint"
+
+[node name="FEAGI_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer2"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "FEAGI Endpoint"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="1"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Connector WS Endpoint"
+
+[node name="Connector_Endpoint" type="LineEdit" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer3"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "FEAGI Godot Connector Endpoint"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FEAGI API Port"
+
+[node name="API_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer4"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+min_value = 1.0
+max_value = 65535.0
+value = 8000.0
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Connector WS Port"
+
+[node name="WS_Port" type="SpinBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer5"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+min_value = 1.0
+max_value = 65535.0
+value = 9055.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Is using SSL"
+
+[node name="SSL" type="CheckBox" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals/HBoxContainer"]
+layout_mode = 2
+
+[node name="EnableDebug" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EnableDebug"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Enable Device Debugging"
+
+[node name="EnableDebug" type="CheckBox" parent="EnableDebug"]
+layout_mode = 2
+button_pressed = true
+
+[node name="RefreshRate" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RefreshRate"]
+layout_mode = 2
+tooltip_text = "The refresh rate of sending data to FEAGI. Usually should equal FEAGI's refresh rate"
+mouse_filter = 1
+text = "Refresh Rate: "
+
+[node name="RefreshRate" type="SpinBox" parent="RefreshRate"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 60.0
+value = 30.0
+suffix = "Hz"
+
+[connection signal="toggled" from="EnableFEAGI/EnableFEAGI" to="." method="toggle_showing_network_settings"]
+[connection signal="pressed" from="FEAGINetworkSettings/MagicURL/Login" to="." method="load_endpoints_from_magic_link"]
+
+[editable path="FEAGINetworkSettings/Manual_Connection_Settings"]

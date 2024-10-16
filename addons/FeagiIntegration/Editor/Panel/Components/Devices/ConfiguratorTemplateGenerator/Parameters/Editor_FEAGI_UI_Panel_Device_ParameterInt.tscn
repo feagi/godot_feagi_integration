@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm8uum1gije7f"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/Editor_FEAGI_UI_Panel_Device_ParameterInt.gd" id="1_ntqp2"]
+
+
+[node name="Int" type="HBoxContainer"]
+script = ExtResource("1_ntqp2")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+mouse_filter = 1
+text = "NAME: "
+
+[node name="Value" type="SpinBox" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -9999.0
+max_value = 9999.0
