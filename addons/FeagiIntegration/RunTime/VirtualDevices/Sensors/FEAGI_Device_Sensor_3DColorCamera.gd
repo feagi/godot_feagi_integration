@@ -1,8 +1,8 @@
 extends Camera3D
 class_name FEAGI_Device_Sensor_3DColorCamera
-## Camera Device That sends its view to FEAGI
+## Camera Device That sends its view to FEAGI. Camera Sensor
 
-@export var camera_sensor_name: StringName = ""
+@export var camera_sensor_name: StringName = "" ## What is the matching camera sensor name in FEAGI?
 @export var capture_resolution: Vector2i = Vector2i(64,64) ## The capture resolution of the camera. This is not the final size and will be resized by the FEAGI camera sensor
 @export var autoregister_on_start: bool = true
 
@@ -14,10 +14,10 @@ func _ready() -> void:
 	if autoregister_on_start:
 		if not FEAGI.is_ready_for_device_registration():
 			await FEAGI.ready_for_godot_device_registration
-		register_color_camera()
+		register_color_camera(camera_sensor_name)
 
 ## Initializes the agent var and preps it for registration
-func register_color_camera(FEAGI_camera_name: StringName = camera_sensor_name, viewport_resolution: Vector2i = capture_resolution) -> void:
+func register_color_camera(FEAGI_camera_name: StringName, viewport_resolution: Vector2i = capture_resolution) -> void:
 	current = false
 	# May John Carmack forgive me for what I am about to do
 	if not _viewport:
