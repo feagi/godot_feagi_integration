@@ -16,6 +16,7 @@ var _registration_allowed: bool
 
 func _enter_tree() -> void:
 	initialize_FEAGI_runtime() ## TODO have seperate autoload autostart this as a config
+	name = "FEAGI Runtime"
 
 ## Are Godot devices allowed to register?
 func is_ready_for_device_registration() -> bool:

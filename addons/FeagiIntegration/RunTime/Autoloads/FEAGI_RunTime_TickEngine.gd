@@ -8,6 +8,9 @@ signal tick()
 
 var _timer: Timer
 
+func _enter_tree() -> void:
+	name = "FEAGI Sensor TickEngine"
+
 func setup(initial_frame_time: float) -> void:
 	_timer = Timer.new()
 	add_child(_timer)

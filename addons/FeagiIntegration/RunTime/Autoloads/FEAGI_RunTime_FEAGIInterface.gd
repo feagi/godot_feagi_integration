@@ -18,6 +18,8 @@ var _socket_state: WebSocketPeer.State = WebSocketPeer.State.STATE_CLOSED
 var _FEAGI_sending_dict_structure: Dictionary ## Cached dict
 var _FEAGI_receiving_dict_structure: Dictionary ## Cached dict
 
+func _enter_tree() -> void:
+	name = "FEAGI Interface"
 
 func _process(delta: float) -> void:
 	if not _socket:
