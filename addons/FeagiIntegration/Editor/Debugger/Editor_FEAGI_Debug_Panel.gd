@@ -48,7 +48,6 @@ func add_sensor_device(sensor_type: StringName, sensor_name: StringName, extra_s
 			push_error("FEAGI Debugger: Unknown device type %s requested to be added to the debugger!" % sensor_type)
 			return
 	view = load(path).instantiate()
-	print("FEAGI: Added sensor %s device of name %s!" % [sensor_type, sensor_name])
 	view.initialize() # establish internal UI references
 	view.setup_base(sensor_name, extra_setup_data) 
 	_sensor_holder.add_child(view)
@@ -65,7 +64,6 @@ func add_motor_device(motor_type: StringName, motor_name: StringName, extra_setu
 			push_error("FEAGI Debugger: Unknown device type %s requested to be added to the debugger!" % motor_type)
 			return
 	view = load(path).instantiate()
-	print("FEAGI: Added motor %s device of name %s!" % [motor_type, motor_name])
 	view.initialize() # establish internal UI references
 	view.setup_base(motor_name, extra_setup_data) 
 	_motor_holder.add_child(view)
