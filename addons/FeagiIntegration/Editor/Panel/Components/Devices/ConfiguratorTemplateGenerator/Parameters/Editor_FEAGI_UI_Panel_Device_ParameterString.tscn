@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cup1av784ay1i"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Parameters/Editor_FEAGI_UI_Panel_Device_ParameterString.gd" id="1_tx5sj"]
+
+
+[node name="String" type="HBoxContainer"]
+script = ExtResource("1_tx5sj")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+mouse_filter = 1
+text = "NAME: "
+
+[node name="Value" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3

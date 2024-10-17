@@ -222,8 +222,8 @@
 				}
 			]
 		},
-		"gpio_input": {
-			"label": "GPIO Input",
+		"analog_input": {
+			"label": "Analog Input",
 			"description": "",
 			"parameters": [
 				{
@@ -238,66 +238,39 @@
 					"default": false
 				},
 				{
-					"label": "digital",
-					"description": "If true designates the GPIO input as a digital type",
+					"label": "max_value",
+					"description": "A maximum number to read the value",
+					"type": "float",
+					"default": 1
+				},
+				{
+					"label": "min_value",
+					"description": "A minimum number to read the value",
+					"type": "float",
+					"default": 0
+				},
+				{
+					"label": "feagi_index",
+					"description": "An index to place",
+					"type": "integer",
+					"default": 0
+				}
+			]
+		},
+		"digital_input": {
+			"label": "Digital Input",
+			"description": "",
+			"parameters": [
+				{
+					"label": "custom_name",
+					"description": "User defined name for the device.",
+					"type": "string"
+				},
+				{
+					"label": "disabled",
+					"description": "Disables the device when true.",
 					"type": "boolean",
 					"default": false
-				},
-				{
-					"label": "digital_pin_configuration",
-					"description": "Captures Digital input GPIO port configuration settings",
-					"type": "object",
-					"depends_on": "digital",
-					"parameters": [
-						{
-							"label": "GPIO Pin number",
-							"description": "",
-							"type": "string",
-							"default": ""
-						},
-						{
-							"label": "disable",
-							"description": "",
-							"type": "boolean",
-							"default": false
-						}
-					]
-				},
-				{
-					"label": "Analog pin Configuration",
-					"description": "Captures analog input GPIO port configuration settings",
-					"type": "object",
-					"depends_on": "!digital",
-					"parameters": [
-						{
-							"label": "max_value",
-							"description": "",
-							"type": "float",
-							"default": 1.0,
-							"min": 0.0,
-							"max": 1.0
-						},
-						{
-							"label": "min_value",
-							"description": "",
-							"type": "float",
-							"default": 0.0,
-							"min": 0.0,
-							"max": 1.0
-						},
-						{
-							"label": "disable",
-							"description": "",
-							"type": "boolean",
-							"default": false
-						},
-						{
-							"label": "custom_name",
-							"description": "",
-							"type": "string",
-							"default": ""
-						}
-					]
 				},
 				{
 					"label": "feagi_index",
@@ -469,15 +442,6 @@
 					"description": "Disables the device when true.",
 					"type": "boolean",
 					"default": false
-				},
-				{
-					"label": "camera_resolution",
-					"description": "The number of pixels of the camera in the x and y directions",
-					"type": "vector2",
-					"default": [
-						0,
-						0
-					]
 				},
 				{
 					"label": "index",

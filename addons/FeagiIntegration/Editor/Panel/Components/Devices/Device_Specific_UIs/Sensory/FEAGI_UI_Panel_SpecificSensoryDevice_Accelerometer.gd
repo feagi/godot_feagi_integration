@@ -1,5 +1,5 @@
 @tool
-extends FEAGI_UI_Panel_SpecificDeviceUI_Base
+extends Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base
 class_name FEAGI_UI_Panel_SpecificSensoryDevice_Accelerometer
 
 ## This function is called by the parent [FEAGI_UI_Panel_Device] node first, use this to init anything needed

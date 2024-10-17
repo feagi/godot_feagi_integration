@@ -15,12 +15,12 @@ limitations under the License.
 extends EditorPlugin
 class_name FEAGI_PLUGIN
 
-const PANEL_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/FEAGI_UI_Panel.tscn")
+const PANEL_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/Editor_FEAGI_UI_Panel.tscn")
 
-var debugger_control: FEAGI_Debug_Panel ## Accessed Externally by [FEAGIDebugger]
+var debugger_control: Editor_FEAGI_Debug_Panel ## Accessed Externally by [FEAGIDebugger]
 
 var _debugger: FEAGIDebugger
-var _plugin_panel: FEAGI_UI_Panel
+var _plugin_panel: Editor_FEAGI_UI_Panel
 
 ## When the plugin as a whole is enabled
 func _enter_tree():

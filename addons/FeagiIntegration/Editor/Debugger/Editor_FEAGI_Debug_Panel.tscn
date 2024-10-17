@@ -1,0 +1,88 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnbnk3o1wm3jp"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Debugger/Editor_FEAGI_Debug_Panel.gd" id="1_1vhk6"]
+[ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_rm85c"]
+
+
+[node name="FEAGI Debug" type="MarginContainer"]
+offset_right = 463.0
+offset_bottom = 204.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+script = ExtResource("1_1vhk6")
+
+[node name="Tabs" type="TabContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 1
+
+[node name="Events" type="VBoxContainer" parent="Tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Data" type="VBoxContainer" parent="Tabs"]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="NotRunning" type="VBoxContainer" parent="Tabs/Data"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Tabs/Data/NotRunning"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Project is not paused / not running!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Running" type="VBoxContainer" parent="Tabs/Data"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Tabs/Data/Running"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 100
+
+[node name="Sensors" type="MarginContainer" parent="Tabs/Data/Running/HSplitContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Tabs/Data/Running/HSplitContainer/Sensors"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_rm85c")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Tabs/Data/Running/HSplitContainer/Sensors/PanelContainer"]
+layout_mode = 2
+
+[node name="none" type="Label" parent="Tabs/Data/Running/HSplitContainer/Sensors/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "No Sensors Defined!"
+horizontal_alignment = 1
+
+[node name="Motors" type="MarginContainer" parent="Tabs/Data/Running/HSplitContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Tabs/Data/Running/HSplitContainer/Motors"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_rm85c")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Tabs/Data/Running/HSplitContainer/Motors/PanelContainer"]
+layout_mode = 2
+
+[node name="none" type="Label" parent="Tabs/Data/Running/HSplitContainer/Motors/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "No Motors Defined!"
+horizontal_alignment = 1
+
+[node name="Network" type="VBoxContainer" parent="Tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="About" type="VBoxContainer" parent="Tabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3

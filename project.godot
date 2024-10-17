@@ -13,7 +13,7 @@ config_version=5
 config/name="FEAGI Godot Plugin"
 config/description="THe Main development project for the FEAGI Godot Integration Plugin. Uses the \"Dodge the Creeps\" Godot example game as a template to test upon"
 config/tags=PackedStringArray("2d", "demo", "official")
-run/main_scene="res://Main.tscn"
+run/main_scene="res://ExampleGame_DodgeTheCreeps/Main.tscn"
 config/features=PackedStringArray("4.3")
 
 [autoload]

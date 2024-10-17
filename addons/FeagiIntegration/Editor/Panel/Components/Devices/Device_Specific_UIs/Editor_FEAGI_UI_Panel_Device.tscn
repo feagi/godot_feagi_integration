@@ -1,0 +1,118 @@
+[gd_scene load_steps=8 format=3 uid="uid://ced3kblj58cjk"]
+
+[ext_resource type="Texture2D" uid="uid://e8cye000i6ss" path="res://addons/FeagiIntegration/Editor/Resources/Icons/close_S.png" id="1_6yxxu"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Editor_FEAGI_UI_Panel_Device.gd" id="1_nsfw8"]
+[ext_resource type="Texture2D" uid="uid://cscqpmnec3ssu" path="res://addons/FeagiIntegration/Editor/Resources/Icons/close_C.png" id="2_opnpl"]
+[ext_resource type="Texture2D" uid="uid://bhmb383wkhwi0" path="res://addons/FeagiIntegration/Editor/Resources/Icons/close_H.png" id="3_gej0y"]
+[ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/Collapsible/FEAGI_UI_Prefab_Collapsible.tscn" id="4_bw68p"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base.gd" id="5_1cjuf"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Editor_FEAGI_UI_Panel_Device_ParameterManager.gd" id="7_jnq6p"]
+
+[node name="FEAGI_UI_Panel_Device" type="PanelContainer"]
+offset_right = 123.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+script = ExtResource("1_nsfw8")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="titlebar" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="gap" type="Control" parent="MarginContainer/VBoxContainer/titlebar"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="type" type="Label" parent="MarginContainer/VBoxContainer/titlebar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = " type "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="close" type="TextureButton" parent="MarginContainer/VBoxContainer/titlebar"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture_normal = ExtResource("1_6yxxu")
+texture_pressed = ExtResource("2_opnpl")
+texture_hover = ExtResource("3_gej0y")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="name" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/name"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Device Name"
+
+[node name="name" type="LineEdit" parent="MarginContainer/VBoxContainer/name"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+
+[node name="disabled" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/disabled"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Is Disabled?"
+
+[node name="gap" type="Control" parent="MarginContainer/VBoxContainer/disabled"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="disabled" type="CheckBox" parent="MarginContainer/VBoxContainer/disabled"]
+layout_mode = 2
+
+[node name="feagi_index" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/feagi_index"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "FEAGI Index"
+
+[node name="gap" type="Control" parent="MarginContainer/VBoxContainer/feagi_index"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="index" type="SpinBox" parent="MarginContainer/VBoxContainer/feagi_index"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+
+[node name="DeviceSettings_TOBEREPLACED" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("5_1cjuf")
+
+[node name="FEAGISettings" parent="MarginContainer/VBoxContainer" instance=ExtResource("4_bw68p")]
+layout_mode = 2
+show_text = &"Show FEAGI Settings"
+hide_text = &"Hide FEAGI Settings"
+
+[node name="Show" parent="MarginContainer/VBoxContainer/FEAGISettings" index="0"]
+text = "Show FEAGI Settings"
+
+[node name="Hide" parent="MarginContainer/VBoxContainer/FEAGISettings" index="1"]
+text = "Hide FEAGI Settings"
+
+[node name="Internals" parent="MarginContainer/VBoxContainer/FEAGISettings/PanelContainer/MarginContainer" index="0"]
+script = ExtResource("7_jnq6p")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/titlebar/close" to="." method="_request_deletion"]
+[connection signal="focus_exited" from="MarginContainer/VBoxContainer/name/name" to="." method="_check_name_change"]
+
+[editable path="MarginContainer/VBoxContainer/FEAGISettings"]

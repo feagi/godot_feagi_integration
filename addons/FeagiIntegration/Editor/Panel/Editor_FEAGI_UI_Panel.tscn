@@ -1,0 +1,160 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3h87noes5edd"]
+
+[ext_resource type="PackedScene" uid="uid://b041xhhnpjs5e" path="res://addons/FeagiIntegration/Editor/Panel/Components/Editor_FEAGI_UI_Panel_AgentSettings.tscn" id="1_fqfdh"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Editor_FEAGI_UI_Panel.gd" id="1_silxe"]
+[ext_resource type="PackedScene" uid="uid://cyclx8mgddas0" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Editor_FEAGI_UI_Panel_Devices.tscn" id="2_y48mn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnoq7"]
+bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.243137)
+
+[node name="FEAGI_UI_Panel" type="PanelContainer"]
+custom_minimum_size = Vector2(600, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_silxe")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Options" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Title" type="Label" parent="ScrollContainer/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "FEAGI Configurator"
+horizontal_alignment = 1
+
+[node name="StateContainer" type="HBoxContainer" parent="ScrollContainer/Options"]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="Status" type="RichTextLabel" parent="ScrollContainer/Options/StateContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Feagi Integration is [b]not ready[/b]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Gap" type="Control" parent="ScrollContainer/Options"]
+visible = false
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="DescriptionContainer" type="HBoxContainer" parent="ScrollContainer/Options"]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="Description" type="RichTextLabel" parent="ScrollContainer/Options/DescriptionContainer"]
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 2
+theme_override_font_sizes/bold_italics_font_size = 12
+theme_override_font_sizes/italics_font_size = 12
+bbcode_enabled = true
+text = "[i]DESCRIPTION[/i]"
+scroll_active = false
+autowrap_mode = 2
+
+[node name="Gap2" type="Control" parent="ScrollContainer/Options"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="ScrollContainer/Options"]
+custom_minimum_size = Vector2(0, 512)
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="FEAGI" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+metadata/_tab_index = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/FEAGI"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
+
+[node name="FEAGIPanelFEAGIAgentSettings" parent="ScrollContainer/Options/TabContainer/FEAGI/PanelContainer" instance=ExtResource("1_fqfdh")]
+layout_mode = 2
+
+[node name="Sensory" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+metadata/_tab_index = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/Sensory"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
+
+[node name="FeagiUiPanelDevices" parent="ScrollContainer/Options/TabContainer/Sensory/PanelContainer" instance=ExtResource("2_y48mn")]
+layout_mode = 2
+
+[node name="Motor" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+metadata/_tab_index = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/Motor"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
+
+[node name="FeagiUiPanelDevices" parent="ScrollContainer/Options/TabContainer/Motor/PanelContainer" instance=ExtResource("2_y48mn")]
+layout_mode = 2
+
+[node name="Metrics" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+metadata/_tab_index = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/Metrics"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
+
+[node name="Label" type="Label" parent="ScrollContainer/Options/TabContainer/Metrics/PanelContainer"]
+layout_mode = 2
+text = "Feature Coming Soon!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options"]
+layout_mode = 2
+
+[node name="export" type="Button" parent="ScrollContainer/Options/HBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save Configuration"
+
+[node name="import" type="Button" parent="ScrollContainer/Options/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Import Configuration"
+
+[connection signal="pressed" from="ScrollContainer/Options/HBoxContainer/export" to="." method="_export_config"]
+[connection signal="pressed" from="ScrollContainer/Options/HBoxContainer/import" to="." method="_import_config"]

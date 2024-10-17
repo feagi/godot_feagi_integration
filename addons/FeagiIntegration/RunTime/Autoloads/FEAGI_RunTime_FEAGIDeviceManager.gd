@@ -35,7 +35,7 @@ func setup_debugger() -> void:
 	for motor: FEAGI_Device_Motor_Base in _FEAGI_motors_reference_arr:
 		_debug_interface.alert_debugger_about_motor_creation(motor)
 
-## And ASYNC function that initiates the API and websocket conneciton to FEAGI and the connector, but nothing else. Returns true if succesful
+## An ASYNC function that initiates the API and websocket conneciton to FEAGI and the connector, but nothing else. Returns true if succesful
 func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node) -> bool:
 	_FEAGI_interface = FEAGI_RunTime_FEAGIInterface.new()
 	_FEAGI_interface.socket_closed.connect(_on_socket_close)

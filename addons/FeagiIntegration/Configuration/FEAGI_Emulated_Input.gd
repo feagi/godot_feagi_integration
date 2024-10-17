@@ -20,6 +20,7 @@ func setup_for_use(node_to_hold_timer: Node) -> void:
 		push_error("FEAGI: Unable to find input action %s in the project settings! FEAGI will not be able to press it!" % godot_action_name)
 		return
 	_timer = Timer.new()
+	_timer.name = "timer for input - " + godot_action_name
 	node_to_hold_timer.add_child(_timer) # dont want to leave the timer orphaned
 	_timer.autostart = false
 	_timer.one_shot = false

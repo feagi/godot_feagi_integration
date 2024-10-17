@@ -21,14 +21,14 @@ action_release_FEAGI_threshold = 0.1
 
 [sub_resource type="Resource" id="Resource_k2c6b"]
 script = ExtResource("4_54ev5")
-godot_action_name = &"move_right"
+godot_action_name = &"move_left"
 action_hold_seconds = 0.3
 action_press_FEAGI_threshold = 0.5
 action_release_FEAGI_threshold = 0.1
 
 [sub_resource type="Resource" id="Resource_1r6sx"]
 script = ExtResource("4_54ev5")
-godot_action_name = &"move_left"
+godot_action_name = &"move_right"
 action_hold_seconds = 0.3
 action_press_FEAGI_threshold = 0.5
 action_release_FEAGI_threshold = 0.1
@@ -109,7 +109,7 @@ text = "Show Input Configuration"
 
 [node name="FeagiUiPanelActionPresserConfigSet" parent="CollapsiblePrefab/PanelContainer/MarginContainer/Internals" index="0" instance=ExtResource("3_cs8tl")]
 layout_mode = 2
-keys = Array[StringName]([&"move_up", &"move_down", &"move_right", &"move_left", &"yaw_left", &"yaw_right", &"roll_left", &"roll_right", &"pitch_forward", &"pitch_backward"])
+keys = Array[StringName]([&"move_up", &"move_down", &"move_left", &"move_right", &"yaw_left", &"yaw_right", &"roll_left", &"roll_right", &"pitch_forward", &"pitch_backward"])
 action_pressers = Array[ExtResource("4_54ev5")]([SubResource("Resource_eu4xv"), SubResource("Resource_8hea7"), SubResource("Resource_k2c6b"), SubResource("Resource_1r6sx"), SubResource("Resource_cybho"), SubResource("Resource_34xic"), SubResource("Resource_rrrch"), SubResource("Resource_bartx"), SubResource("Resource_djkqd"), SubResource("Resource_hl13j")])
 keys_mapped_to_friendly_names = Array[StringName]([&"Move Up", &"Move Down", &"Move Left", &"Move Right", &"Turn Left", &"Turn Right", &"Roll Left", &"Roll Right", &"Pitch Forward", &"Pitch Backward"])
 
