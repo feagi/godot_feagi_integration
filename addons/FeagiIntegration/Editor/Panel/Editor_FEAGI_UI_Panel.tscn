@@ -74,9 +74,10 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 512)
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 0
+current_tab = 3
 
 [node name="FEAGI" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
@@ -124,23 +125,12 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
 layout_mode = 2
 
 [node name="Metrics" type="MarginContainer" parent="ScrollContainer/Options/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 metadata/_tab_index = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Options/TabContainer/Metrics"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hnoq7")
-
-[node name="Label" type="Label" parent="ScrollContainer/Options/TabContainer/Metrics/PanelContainer"]
-layout_mode = 2
-text = "Feature Coming Soon!"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Options"]
 layout_mode = 2
