@@ -3,6 +3,7 @@ extends Node
 
 ## TODO signals & vars for state
 signal ready_for_godot_device_registration()
+signal ready_for_metric_posting()
 
 var metric_reporting: FEAGI_RunTime_MetricReporting:
 	get: return _metric_reporting
@@ -122,4 +123,11 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	_tick_engine.setup(mapping_config.delay_seconds_between_frames)
 	_tick_engine.tick.connect(_FEAGI_device_manager.on_sensor_tick)
 	print("FEAGI: Sensor Tick Engine is now enabled!")
+	
+	# Initialize Metric Reporting
+	_metric_reporting = FEAGI_RunTime_MetricReporting.new(endpoint_config.get_full_FEAGI_API_URL(), self)
+	ready_for_metric_posting.emit()
+	print("FEAGI: Metrics are now enabled!")
 	print("FEAGI: FEAGI plugin Initialization is now complete!")
+	
+	

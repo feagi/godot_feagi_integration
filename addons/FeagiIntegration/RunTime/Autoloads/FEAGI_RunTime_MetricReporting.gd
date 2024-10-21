@@ -59,6 +59,7 @@ func _send_dictionary_to_endpoint(dict: Dictionary) -> bool:
 		return false
 	var worker: FEAGIHTTP = FEAGIHTTP.new()
 	_node_for_parenting_http_node.add_child(worker)
+	dict = {"fitness_stats": dict} # TODO remove this extra nesting once FEAGI updates to not need it!
 	worker.send_PUT_request(_full_endpoint_URL, FEAGI_PLUGIN_CONFIG.PATH_TO_METRICS, JSON.stringify(dict))
 	var results: Array = await worker.FEAGI_call_complete
 	if results[0] != 200:

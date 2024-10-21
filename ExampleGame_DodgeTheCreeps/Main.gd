@@ -3,16 +3,22 @@ extends Node
 @export var mob_scene: PackedScene
 var score
 
+func _ready() -> void:
+	await FEAGI.ready_for_metric_posting
+	FEAGI.metric_reporting.configure_endgame_metric_settings({"score_trying_to_max": 1.0})
+
 func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
-	#FEAGI.metric_reporting.send_endgame_metrics({"score_trying_to_max": ($HUD/ScoreLabel.text).as_float()})
+	if FEAGI.metric_reporting:
+		FEAGI.metric_reporting.send_endgame_metrics({"score_trying_to_max": float(score)})
 
 
 func new_game():
+	
 	get_tree().call_group(&"mobs", &"queue_free")
 	score = 0
 	$Player.start($StartPosition.position)
@@ -20,9 +26,6 @@ func new_game():
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready")
 	$Music.play()
-	#FEAGI.metric_reporting.configure_endgame_metric_settings({"score_trying_to_max": 1.0})
-	
-	
 
 
 func _on_MobTimer_timeout():
