@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://ExampleGame_DodgeTheCreeps/HUD.gd" id="1"]
 
-
 [sub_resource type="InputEventAction" id="InputEventAction_fopy7"]
 action = &"start_game"
 

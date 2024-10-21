@@ -4,10 +4,14 @@ extends Node
 ## TODO signals & vars for state
 signal ready_for_godot_device_registration()
 
+var metric_reporting: FEAGI_RunTime_MetricReporting:
+	get: return _metric_reporting
+
 var godot_device_manager: FEAGI_RunTime_GodotDeviceManager = null
 var _FEAGI_device_manager: FEAGI_RunTime_FEAGIDeviceManager = null
 var _automatic_device_generator: FEAGIAutomaticDeviceGenerator = null
 var _tick_engine: FEAGI_RunTime_TickEngine = null
+var _metric_reporting: FEAGI_RunTime_MetricReporting
 
 var _FEAGI_sensors: Dictionary = {} ## Key'd by the device name, value is the relevant [FEAGI_Device_Sensor_Base]. Beware of name conflicts! Should be treated as static after devices added!
 var _FEAGI_motors: Dictionary = {} ## ditto but with [FEAGI_Device_Motor_Base]
@@ -96,13 +100,15 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 		var connection_succesful: bool = await _FEAGI_device_manager.setup_FEAGI_networking(endpoint_config, self)
 		if connection_succesful:
 			_FEAGI_device_manager.send_configurator_and_enable(mapping_config.configuration_JSON)
+		else:
+			push_error("FEAGI: Failed to connect to FEAGI! Integration will now halt!")
+			return
 		
 	# Activate Godot Device Manager to act as an endpoint for Godot Devices to register themselves to
 	godot_device_manager = FEAGI_RunTime_GodotDeviceManager.new(_FEAGI_sensors, _FEAGI_motors)
 	_registration_allowed = true
 	print("FEAGI: Godot Device registration now enabled! About the sent signal allowing Godot devices to register themselves to their relevant FEAGI Device!")
 	ready_for_godot_device_registration.emit()
-	
 	
 	# Add all devices that have been requested to be auto-generated
 	_automatic_device_generator = FEAGIAutomaticDeviceGenerator.new()

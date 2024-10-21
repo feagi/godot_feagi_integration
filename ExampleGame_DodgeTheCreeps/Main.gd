@@ -9,6 +9,7 @@ func game_over():
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
+	#FEAGI.metric_reporting.send_endgame_metrics({"score_trying_to_max": ($HUD/ScoreLabel.text).as_float()})
 
 
 func new_game():
@@ -19,6 +20,9 @@ func new_game():
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready")
 	$Music.play()
+	#FEAGI.metric_reporting.configure_endgame_metric_settings({"score_trying_to_max": 1.0})
+	
+	
 
 
 func _on_MobTimer_timeout():
