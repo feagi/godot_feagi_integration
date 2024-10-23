@@ -33,24 +33,25 @@ func update_internal_vars_from_magic_link(node_for_HTTP_worker: Node) -> bool:
 	http_worker.send_GET_request(magic_link_full)
 	var arr: Array = await http_worker.FEAGI_call_complete
 	
+	# NOTE: Since Magic link contains token information, do NOT log it
 	if arr[0] != 200:
-		push_error("FEAGI: Unable to connect to Magic Link %s to get FEAGI connection endpoints!" % magic_link_full)
+		push_error("FEAGI: Unable to connect to Magic Link to get FEAGI connection endpoints!")
 		return false
 	var return_data: String = (arr[1] as PackedByteArray).get_string_from_utf8()
 	var parsed_data: Variant = JSON.parse_string(return_data)
 	if !parsed_data:
-		push_error("FEAGI: Unable to parse data from Magic Link %s for FEAGI!" % magic_link_full)
+		push_error("FEAGI: Unable to parse data from Magic Link for FEAGI!")
 		return false
 	if parsed_data is not Dictionary:
 		# How did you do this lol
-		push_error("FEAGI: Unable to parse data from Magic Link %s for FEAGI!" % magic_link_full)
+		push_error("FEAGI: Unable to parse data from Magic Link for FEAGI!")
 		return false
 	var parsed: Dictionary = parsed_data as Dictionary
 	if !parsed.has("feagi_url") or !parsed.has("feagi_api_port") or !parsed.has("godot_game_ws_port"):
-		push_error("FEAGI: Unable to parse data from Magic Link %s for FEAGI Due to missing information! Something is wrong with the backend!" % magic_link_full)
+		push_error("FEAGI: Unable to parse data from Magic Link for FEAGI Due to missing information! Something is wrong with the backend!")
 		return false
 	if !parsed["feagi_url"]: # If a FEAGI instance is down, the URL returned will be null
-		push_error("FEAGI: The FEAGI instance at Magic Link address %s appears to be down! Is the instance running?" % magic_link_full)
+		push_error("FEAGI: The FEAGI instance at input Magic Link appears to be down! Is the instance running?")
 		return false
 	
 	# We have all the needed information to parse connection data
