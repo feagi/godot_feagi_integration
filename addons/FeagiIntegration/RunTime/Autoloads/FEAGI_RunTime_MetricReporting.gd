@@ -54,6 +54,7 @@ func configure_endgame_metric_settings(string_keys_mapped_to_float_weights: Dict
 	var results: Array = await worker.FEAGI_call_complete
 	if results[0] == 200:
 		_sent_configuration = true
+		print("FEAGI: Sent Metric Configuration!")
 		return true
 	_acceptable_keys = []
 	return false
@@ -74,10 +75,10 @@ func send_endgame_metrics(string_keys_mapped_to_float_values: Dictionary, metada
 			return false
 		elif key as String not in _acceptable_keys:
 			push_error("FEAGI: Unknown metric key %s! Skipping!") # I Never Asked for This
-			remaining.erase(key)
 		elif string_keys_mapped_to_float_values[key] is not float:
 			push_error("FEAGI: Invalid value type for endpoint metrics!") # I Never Asked for This
 			return false
+		remaining.erase(key)
 	if len(remaining) != 0:
 			push_error("FEAGI: Unexpected keys in metrics!") # I Never Asked for This
 			return false
@@ -100,4 +101,7 @@ func send_endgame_metrics(string_keys_mapped_to_float_values: Dictionary, metada
 	_node_for_parenting_http_node.add_child(worker)
 	worker.send_PUT_request(_full_endpoint_URL, FEAGI_PATH_FITNESS_STATS, JSON.stringify(sending_dict))
 	var results: Array = await worker.FEAGI_call_complete
-	return results[0] == 200
+	if results[0] == 200:
+		print("FEAGI: Sent Metric Data!")
+		return true
+	return false
