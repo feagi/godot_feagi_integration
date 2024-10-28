@@ -2,8 +2,6 @@ extends Node
 class_name FEAGI_RunTime_FEAGIInterface
 ## Handles the actual data transfer with FEAGI and the Godot Games Connector
 
-const HTTP_WORKER_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/RunTime/Networking/FEAGIHTTP.tscn")
-
 signal socket_closed()
 signal socket_state_changed(new_state: WebSocketPeer.State)
 signal socket_recieved_motor_data() ## data retrieved, and updated the caches of the motors

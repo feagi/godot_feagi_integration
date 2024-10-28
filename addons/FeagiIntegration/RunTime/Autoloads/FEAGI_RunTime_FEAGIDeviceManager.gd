@@ -6,6 +6,7 @@ class_name FEAGI_RunTime_FEAGIDeviceManager
 var _debug_interface: FEAGI_RunTime_DebugInterface
 var _FEAGI_interface: FEAGI_RunTime_FEAGIInterface
 
+
 var _FEAGI_sensors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_Device_Sensor_Base]. Beware of name conflicts! Should be treated as static after devices added!
 var _FEAGI_sensors_reference_arr: Array[FEAGI_Device_Sensor_Base] # cached since "values" is slow
 var _FEAGI_motors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_Device_Motor_Base]. Beware of name conflicts! Should be treated as static after devices added!
