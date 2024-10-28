@@ -4,11 +4,11 @@ class_name FEAGI_RunTime_FakeFEAGIInterface
 
 signal recieved_bytes(bytes: PackedByteArray)
 
-var callback: JavaScriptObject = JavaScriptBridge.create_callback(_on_recieve_message)
+var _callback: JavaScriptObject = JavaScriptBridge.create_callback(_on_recieve_message)
 
-func _ready() -> void:
+func _init() -> void:
 	var browser_window: JavaScriptObject = JavaScriptBridge.get_interface("window")
-	browser_window.addEventListener("message", _on_recieve_message)
+	browser_window.addEventListener("message", _callback)
 
 func _on_recieve_message(incoming_JS_data) -> void:
 	recieved_bytes.emit(incoming_JS_data.data as PackedByteArray)
