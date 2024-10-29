@@ -71,6 +71,30 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	
 	if is_in_post_message_mode:
 		push_warning("FEAGI: Loaded in PostMessage Mode! This means that we expect to use the browserside FakeFeagi. All Sensors will be disabled!")
+		var JS_func: String = """ 
+		const postMessage = () => {
+		  const messageHandler = (event) => {
+			const data = event.data;
+			console.log('received message:', data)
+
+			if (data?.motion_control || data?.misc) {
+			  // do something here
+			} else {
+			  console.warn("Received message without motion_control or misc", data);
+			}
+		  };
+
+		  window.addEventListener("message", messageHandler);
+
+		  return () => {
+			window.removeEventListener("message", messageHandler);
+		  };
+		};
+		postMessage()
+		window.postMessage("is this really all we need", "*")
+		console.log("worked");
+		"""
+		print("debugging JS data: ", JavaScriptBridge.eval(JS_func))
 	else:
 		# Load in sensor FEAGI Device objects
 		for incoming_FEAGI_sensor in mapping_config.sensors.values():
