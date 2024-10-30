@@ -60,7 +60,7 @@ func setup_postmessage() -> bool:
 		return false
 	_PM = FEAGI_RunTime_FakeFEAGIInterface.new()
 	if !_PM.recieved_bytes.is_connected(_on_motor_receive):
-		_WS.recieved_bytes.connect(_on_motor_receive)
+		_PM.recieved_bytes.connect(_on_motor_receive)
 	connection_active = true
 	_mode = MODE.POSTMESSAGE
 	return true
