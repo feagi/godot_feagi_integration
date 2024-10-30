@@ -11,4 +11,5 @@ func _init() -> void:
 	browser_window.addEventListener("message", _callback)
 
 func _on_recieve_message(incoming_JS_data) -> void:
+	print(incoming_JS_data.data)
 	recieved_bytes.emit(incoming_JS_data.data as PackedByteArray)
