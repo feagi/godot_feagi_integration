@@ -29,6 +29,7 @@ func _enter_tree() -> void:
 	name = "FEAGI Interface"
 
 func _process(_delta: float) -> void:
+	
 	if !_WS:
 		return
 	_WS.process_WS()
@@ -58,6 +59,8 @@ func setup_postmessage() -> bool:
 		_mode = MODE.NONE
 		return false
 	_PM = FEAGI_RunTime_FakeFEAGIInterface.new()
+	if !_PM.recieved_bytes.is_connected(_on_motor_receive):
+		_WS.recieved_bytes.connect(_on_motor_receive)
 	connection_active = true
 	_mode = MODE.POSTMESSAGE
 	return true
@@ -138,6 +141,7 @@ func _on_motor_receive(raw_data: PackedByteArray) -> void:
 	var some_value
 	var device_incoming_data: PackedByteArray
 	var incoming_dict: Dictionary = JSON.parse_string(raw_data.get_string_from_utf8())
+	print("2: ", incoming_dict)
 	for motor in _cached_FEAGI_motors:
 		if motor.get_device_type() in incoming_dict:
 			if str(motor.device_ID) in incoming_dict[motor.get_device_type()]:
