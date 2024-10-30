@@ -17,4 +17,6 @@ func _on_recieve_message(incoming_JS_data) -> void:
 		print("3: " + (incoming_JS_data.data))
 	if incoming_JS_data.message:
 		print("4: " + (incoming_JS_data.message))
+	print("99: " + (incoming_JS_data)["data"])
+	print("990: " + (incoming_JS_data as Dictionary)["data"])
 	recieved_bytes.emit(incoming_JS_data.data as PackedByteArray)
