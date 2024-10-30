@@ -15,11 +15,8 @@ func _on_recieve_message(incoming_JS_data) -> void:
 	#print("2: " + (incoming_JS_data as String))
 	print("starting logic")
 	var js_data = incoming_JS_data[0]
-	print("step 1")
-	print(JavaScriptBridge.eval(js_data.data))
-	print("step 2")
-	print(JavaScriptBridge.eval(js_data))
-	print("ending logic")
+	print(js_data["data"])
+	
 	#print("1: " + str(incoming_JS_data))
 	#print("2: " + (incoming_JS_data as String))
 	#print("2: " + (incoming_JS_data as String))
