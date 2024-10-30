@@ -88,6 +88,9 @@ func setup_FEAGI_fake(parent_node: Node) -> bool:
 	_FEAGI_interface.name = "FEAGI Networking PM"
 	parent_node.add_child(_FEAGI_interface)
 	
+	# setup cache device references
+	_FEAGI_interface.set_cached_device_dicts(_FEAGI_sensors_reference, _FEAGI_motors_reference)
+	
 	#NOTE We cannot register debug interface because this was exported
 	
 	return _FEAGI_interface.setup_postmessage()
