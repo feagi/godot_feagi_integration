@@ -14,6 +14,7 @@ func _on_recieve_message(incoming_JS_data) -> void:
 	print("1: " + str(incoming_JS_data))
 	print("2: " + (incoming_JS_data as String))
 	print("42: + " + incoming_JS_data[0]) # WHY  https://docs.godotengine.org/cs/4.x/tutorials/platform/web/javascript_bridge.html#callbacks
+	print("420 + " + incoming_JS_data[0].data) # WHY  https://docs.godotengine.org/cs/4.x/tutorials/platform/web/javascript_bridge.html#callbacks
 	if incoming_JS_data.data:
 		print("3: " + (incoming_JS_data.data))
 	if incoming_JS_data.message:
