@@ -1,6 +1,6 @@
 @tool
 extends Resource
-class_name FEAGI_Device_Base
+class_name FEAGI_IOConnector_Base
 ## Base class for all FEAGI Devices. A FEAGI Device is a definition / endpoint / representation for a device found on FEAGI itself.
 
 @export var device_friendly_name: StringName ## What the device is named in FEAGI
@@ -8,16 +8,16 @@ class_name FEAGI_Device_Base
 @export var device_ID: int
 @export var is_disabled: bool
 
-var is_registered_to_godot_device: bool:  ## Is this FEAGI device currently suscribed to something?
-	get: return _is_registered_to_godot_device
+var is_registered_to_registration_agent: bool:  ## Is this FEAGI device currently suscribed to something?
+	get: return _is_registered_to_registration_agent
 
-var _is_registered_to_godot_device: bool = false
+var _is_registered_to_registration_agent: bool = false
 var _cached_bytes: PackedByteArray = [] ## The last state of the device as bytes. Either read from game in the case of a sensor or the last thing retrieved from FEAGI in the case of a motor
 
 ## Returns the device name type as FEAGI configurator json expects
 func get_device_type() -> StringName:
 	# override me in all child device classses to easily get the FEAGI string name of the class
-	assert(false, "Do not use 'FEAGI_Device_Base' Directly!")
+	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
 	return ""
 
 ## Most devices will just need this to define their creation to the debugger
@@ -31,7 +31,7 @@ func get_cached_data_as_byte_array() -> PackedByteArray:
 
 ## Returns the byte array of if this device was in its "0" state
 func retrieve_zero_value_byte_array() -> PackedByteArray:
-	assert(false, "Do not use 'FEAGI_Device_Base' Directly!")
+	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
 	return PackedByteArray()
 
 

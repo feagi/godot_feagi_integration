@@ -19,8 +19,8 @@ var _mode: MODE = MODE.NONE
 var _WS: FEAGI_Networking_WS = null
 var _PM: FEAGI_RunTime_FakeFEAGIInterface = null
 
-var _cached_FEAGI_sensors: Array[FEAGI_Device_Sensor_Base]
-var _cached_FEAGI_motors: Array[FEAGI_Device_Motor_Base]
+var _cached_FEAGI_sensors: Array[FEAGI_IOConnector_Sensor_Base]
+var _cached_FEAGI_motors: Array[FEAGI_IOConnector_Motor_Base]
 
 var _FEAGI_sending_dict_structure: Dictionary ## Cached dict
 var _FEAGI_receiving_dict_structure: Dictionary ## Cached dict
@@ -85,13 +85,13 @@ func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
 	_cached_FEAGI_motors.assign(motors.values())
 	
 	# setup dictionary layout of reciving and sending dicts so we dont constantly have to reformat them
-	for sensor: FEAGI_Device_Sensor_Base in sensors.values():
+	for sensor: FEAGI_IOConnector_Sensor_Base in sensors.values():
 		if sensor.get_device_type() not in _FEAGI_sending_dict_structure:
 			_FEAGI_sending_dict_structure[sensor.get_device_type()] = {}
 		if sensor.device_ID not in _FEAGI_sending_dict_structure[sensor.get_device_type()]:
 			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = PackedByteArray()
 	
-	for motor: FEAGI_Device_Motor_Base in motors.values():
+	for motor: FEAGI_IOConnector_Motor_Base in motors.values():
 		if motor.get_device_type() not in _FEAGI_receiving_dict_structure:
 			_FEAGI_receiving_dict_structure[ motor.get_device_type()] = {}
 		if motor.device_ID not in _FEAGI_receiving_dict_structure[motor.get_device_type()]:
@@ -119,7 +119,7 @@ func on_sensor_tick() -> void:
 			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = sensor.get_cached_data_as_byte_array()
 			continue
 		if sensor.get_device_type() == "proximity":
-			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] =  (sensor as FEAGI_Device_Sensor_Proximity).get_cached_data_as_float()
+			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] =  (sensor as FEAGI_IOConnector_Sensor_Proximity).get_cached_data_as_float()
 			continue
 		if sensor.get_device_type() == "gyro" or sensor.get_device_type() == "accelerometer":
 			var temp: Vector3 = _parse_bytes_as_vector3(sensor.get_cached_data_as_byte_array())
@@ -141,7 +141,6 @@ func _on_motor_receive(raw_data: PackedByteArray) -> void:
 	var some_value
 	var device_incoming_data: PackedByteArray
 	var incoming_dict: Dictionary = JSON.parse_string(raw_data.get_string_from_utf8())
-	print("2: ", incoming_dict)
 	for motor in _cached_FEAGI_motors:
 		if motor.get_device_type() in incoming_dict:
 			if str(motor.device_ID) in incoming_dict[motor.get_device_type()]:

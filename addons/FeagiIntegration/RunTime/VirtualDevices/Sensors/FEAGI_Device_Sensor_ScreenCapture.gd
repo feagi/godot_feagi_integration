@@ -1,5 +1,5 @@
 extends Node
-class_name FEAGI_Device_Sensor_ScreenCapture
+class_name FEAGI_IOConnector_Sensor_ScreenCapture
 ## Camera Device that takes a capture of the entire global viewport
 #NOTE: This system is also automatically added as per genome mapping settings!
 

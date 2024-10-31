@@ -1,6 +1,6 @@
 @tool
-extends FEAGI_Device_Sensor_Base
-class_name FEAGI_Device_Sensor_Camera
+extends FEAGI_IOConnector_Sensor_Base
+class_name FEAGI_IOConnector_Sensor_Camera
 ## Camera FEAGI Device. Sensor that relays images from game to pass to FEAGI.
 ## NOTE: _function_to_grab_from_godot_with in this class is expected to return an [Image]
 
@@ -10,8 +10,8 @@ const TYPE_NAME = "camera"
 @export var is_flipped_x: bool
 @export var automatically_create_screengrabber: bool ## If set, the FEAGI runtime will automatically create a screengrabber for use with this
 
-var _sensor_image: Image # a cached empty image for when no Godot Device is registered
-var _blank_image: Image # a cached empty image for when no Godot Device is registered
+var _sensor_image: Image # a cached empty image for when no Registration Agent is registered
+var _blank_image: Image # a cached empty image for when no Registration Agent is registered
 
 func _init() -> void:
 	_blank_image = Image.create_empty(resolution.x, resolution.y, false, Image.FORMAT_RGB8)

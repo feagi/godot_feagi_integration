@@ -2,20 +2,20 @@ extends Node
 ## AUTOLOADED singleton that runs with the game. Reads established config and communicates to FEAGI
 
 ## TODO signals & vars for state
-signal ready_for_godot_device_registration()
+signal ready_for_registration_agent_registration()
 signal ready_for_metric_posting()
 
 var metric_reporting: FEAGI_RunTime_MetricReporting:
 	get: return _metric_reporting
 
-var godot_device_manager: FEAGI_RunTime_GodotDeviceManager = null
-var _FEAGI_device_manager: FEAGI_RunTime_FEAGIDeviceManager = null
+var registration_agent_manager: FEAGI_RunTime_RegistrationAgentManager = null
+var _FEAGI_IOConnector_manager: FEAGI_RunTime_IOConnectorManager = null
 var _automatic_device_generator: FEAGIAutomaticDeviceGenerator = null
 var _tick_engine: FEAGI_RunTime_TickEngine = null
 var _metric_reporting: FEAGI_RunTime_MetricReporting
 
-var _FEAGI_sensors: Dictionary = {} ## Key'd by the device name, value is the relevant [FEAGI_Device_Sensor_Base]. Beware of name conflicts! Should be treated as static after devices added!
-var _FEAGI_motors: Dictionary = {} ## ditto but with [FEAGI_Device_Motor_Base]
+var _FEAGI_sensors: Dictionary = {} ## Key'd by the device name, value is the relevant [FEAGI_IOConnector_Sensor_Base]. Beware of name conflicts! Should be treated as static after devices added!
+var _FEAGI_motors: Dictionary = {} ## ditto but with [FEAGI_IOConnector_Motor_Base]
 var _registration_allowed: bool
 
 
@@ -23,7 +23,7 @@ func _enter_tree() -> void:
 	initialize_FEAGI_runtime() ## TODO have seperate autoload autostart this as a config
 	name = "FEAGI Runtime"
 
-## Are Godot devices allowed to register?
+## Are Registration Agents allowed to register?
 func is_ready_for_device_registration() -> bool:
 	return _registration_allowed
 
@@ -33,7 +33,7 @@ func is_ready_for_device_registration() -> bool:
 # Read / verify configs, stop if not enabled
 # Load in sensor / motor FEAGI Device objects
 # Activate FEAGI Device manager, including the Debugger (if enabled) and the FEAGI Network Interface (if enabled)
-# Activate Godot Device Manager to act as an endpoint for Godot Devices to register themselves to
+# Activate Registration Agent Manager to act as an endpoint for Registration Agents to register themselves to
 # Add all devices that have been requested to be auto-generated
 # Initialize tick engine
 func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpoint_config: FEAGI_Resource_Endpoint = null) -> void:
@@ -74,58 +74,58 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	else:
 		# Load in sensor FEAGI Device objects
 		for incoming_FEAGI_sensor in mapping_config.sensors.values():
-			if incoming_FEAGI_sensor is not FEAGI_Device_Sensor_Base:
+			if incoming_FEAGI_sensor is not FEAGI_IOConnector_Sensor_Base:
 				push_error("FEAGI: Unknown object attempted to be added as a FEAGI Sensor! Skipping!")
 				continue
-			if (incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).is_disabled:
-				print("FEAGI: Sensor %s is disabled! Not using it for the debugger AND for FEAGI!" % (incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).device_friendly_name)
+			if (incoming_FEAGI_sensor as FEAGI_IOConnector_Sensor_Base).is_disabled:
+				print("FEAGI: Sensor %s is disabled! Not using it for the debugger AND for FEAGI!" % (incoming_FEAGI_sensor as FEAGI_IOConnector_Sensor_Base).device_friendly_name)
 				continue
-			if (incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).device_friendly_name in _FEAGI_sensors:
-				push_error("FEAGI: Sensor %s is already defined! Ensure there are no sensor devices with repeating names! Skipping" % (incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).device_friendly_name)
+			if (incoming_FEAGI_sensor as FEAGI_IOConnector_Sensor_Base).device_friendly_name in _FEAGI_sensors:
+				push_error("FEAGI: Sensor %s is already defined! Ensure there are no sensor devices with repeating names! Skipping" % (incoming_FEAGI_sensor as FEAGI_IOConnector_Sensor_Base).device_friendly_name)
 				continue
-			_FEAGI_sensors[(incoming_FEAGI_sensor as FEAGI_Device_Sensor_Base).device_friendly_name] = incoming_FEAGI_sensor
+			_FEAGI_sensors[(incoming_FEAGI_sensor as FEAGI_IOConnector_Sensor_Base).device_friendly_name] = incoming_FEAGI_sensor
 	
 	#NOTE: We always load motors, whether we are in post message mode or not
 	# Load in motor FEAGI Device objects
 	for outgoing_FEAGI_motor in mapping_config.motors.values():
-		if outgoing_FEAGI_motor is not FEAGI_Device_Motor_Base:
+		if outgoing_FEAGI_motor is not FEAGI_IOConnector_Motor_Base:
 			push_error("FEAGI: Unknown object attempted to be added as a FEAGI Motor! Skipping!")
 			continue
-		if (outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).is_disabled:
-			print("FEAGI: Motor %s is disabled! Not using it for the debugger AND for FEAGI!" % (outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).device_friendly_name)
+		if (outgoing_FEAGI_motor as FEAGI_IOConnector_Motor_Base).is_disabled:
+			print("FEAGI: Motor %s is disabled! Not using it for the debugger AND for FEAGI!" % (outgoing_FEAGI_motor as FEAGI_IOConnector_Motor_Base).device_friendly_name)
 			continue
-		if (outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).device_friendly_name in _FEAGI_motors:
-			push_error("FEAGI: Motor %s is already defined! Ensure there are no motor devices with repeating names! Skipping" % (outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).device_friendly_name)
+		if (outgoing_FEAGI_motor as FEAGI_IOConnector_Motor_Base).device_friendly_name in _FEAGI_motors:
+			push_error("FEAGI: Motor %s is already defined! Ensure there are no motor devices with repeating names! Skipping" % (outgoing_FEAGI_motor as FEAGI_IOConnector_Motor_Base).device_friendly_name)
 			continue
-		_FEAGI_motors[(outgoing_FEAGI_motor as FEAGI_Device_Motor_Base).device_friendly_name] = outgoing_FEAGI_motor
+		_FEAGI_motors[(outgoing_FEAGI_motor as FEAGI_IOConnector_Motor_Base).device_friendly_name] = outgoing_FEAGI_motor
 
 	# Activate FEAGI Device manager, including the Debugger (if enabled) and the FEAGI Network Interface (if enabled)
-	_FEAGI_device_manager = FEAGI_RunTime_FEAGIDeviceManager.new(_FEAGI_sensors, _FEAGI_motors)
+	_FEAGI_IOConnector_manager = FEAGI_RunTime_IOConnectorManager.new(_FEAGI_sensors, _FEAGI_motors)
 	if mapping_config.debugger_enabled:
-		_FEAGI_device_manager.setup_debugger()
+		_FEAGI_IOConnector_manager.setup_debugger()
 	if is_in_post_message_mode:
-		var connection_succesful: bool = _FEAGI_device_manager.setup_FEAGI_fake(self)
+		var connection_succesful: bool = _FEAGI_IOConnector_manager.setup_FEAGI_fake(self)
 		if !connection_succesful:
 			push_error("FEAGI: Unable to initialize PostMessage mode! Integration will now halt")
 			return
 	else:
-		var connection_succesful: bool = await _FEAGI_device_manager.setup_FEAGI_networking(endpoint_config, self)
+		var connection_succesful: bool = await _FEAGI_IOConnector_manager.setup_FEAGI_networking(endpoint_config, self)
 		if connection_succesful:
-			_FEAGI_device_manager.send_configurator_and_enable(mapping_config.configuration_JSON)
+			_FEAGI_IOConnector_manager.send_configurator_and_enable(mapping_config.configuration_JSON)
 		else:
 			push_error("FEAGI: Failed to connect to FEAGI! Integration will now halt!")
 			return
 		
-	# Activate Godot Device Manager to act as an endpoint for Godot Devices to register themselves to
-	godot_device_manager = FEAGI_RunTime_GodotDeviceManager.new(_FEAGI_sensors, _FEAGI_motors)
+	# Activate Registration Agent Manager to act as an endpoint for Registration Agents to register themselves to
+	registration_agent_manager = FEAGI_RunTime_RegistrationAgentManager.new(_FEAGI_sensors, _FEAGI_motors)
 	_registration_allowed = true
-	print("FEAGI: Godot Device registration now enabled! About the sent signal allowing Godot devices to register themselves to their relevant FEAGI Device!")
-	ready_for_godot_device_registration.emit()
+	print("FEAGI: Registration Agent registration now enabled! About the sent signal allowing Registration Agents to register themselves to their relevant FEAGI Device!")
+	ready_for_registration_agent_registration.emit()
 	
 	# Add all devices that have been requested to be auto-generated
 	_automatic_device_generator = FEAGIAutomaticDeviceGenerator.new()
 	add_child(_automatic_device_generator)
-	print("FEAGI: Adding all automatically generated Godot Devices as per configuration!")
+	print("FEAGI: Adding all automatically generated Registration Agents as per configuration!")
 	_automatic_device_generator.add_all_autogenerated_objects(_FEAGI_sensors, _FEAGI_motors)
 	
 	if !is_in_post_message_mode:
@@ -133,7 +133,7 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 		_tick_engine = FEAGI_RunTime_TickEngine.new()
 		add_child(_tick_engine)
 		_tick_engine.setup(mapping_config.delay_seconds_between_frames)
-		_tick_engine.tick.connect(_FEAGI_device_manager.on_sensor_tick)
+		_tick_engine.tick.connect(_FEAGI_IOConnector_manager.on_sensor_tick)
 		print("FEAGI: Sensor Tick Engine is now enabled!")
 		
 		# Initialize Metric Reporting

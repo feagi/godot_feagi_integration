@@ -17,8 +17,8 @@ func setup() -> void:
 	_screengrab_note = $screengrabnote
 
 ## Called by the parent [FEAGI_UI_Panel_Device] node IF it has a prior device config
-func import_IOHandler(device_config: FEAGI_Device_Base) -> void:
-	var camera_config: FEAGI_Device_Sensor_Camera = device_config as FEAGI_Device_Sensor_Camera
+func import_IOHandler(device_config: FEAGI_IOConnector_Base) -> void:
+	var camera_config: FEAGI_IOConnector_Sensor_Camera = device_config as FEAGI_IOConnector_Sensor_Camera
 	if camera_config == null:
 		push_error("FEAGI: Unknown IOHandler sent to camera device!")
 		return
@@ -34,8 +34,8 @@ func export_additional_JSON_configurator_data() -> Dictionary:
 	return {"camera_resolution" = [_x.value, _y.value]}
 
 ## Called by the parent [FEAGI_UI_Panel_Device] node when it needs to build the device settings to export a save file
-func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_Device_Base:
-	var camera_config: FEAGI_Device_Sensor_Camera = FEAGI_Device_Sensor_Camera.new()
+func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_IOConnector_Base:
+	var camera_config: FEAGI_IOConnector_Sensor_Camera = FEAGI_IOConnector_Sensor_Camera.new()
 	camera_config.device_friendly_name = device_name
 	camera_config.FEAGI_index = FEAGI_index
 	camera_config.device_ID = device_ID

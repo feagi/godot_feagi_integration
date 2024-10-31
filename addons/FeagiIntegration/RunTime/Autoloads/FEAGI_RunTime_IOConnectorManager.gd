@@ -1,16 +1,16 @@
 extends RefCounted
-class_name FEAGI_RunTime_FEAGIDeviceManager
+class_name FEAGI_RunTime_IOConnectorManager
 ## Handles all FEAGI Devices ([FEAGI_IOHandler_Base]). NOTE that these are static after initialization, you cannot change feagi device mappings!
-## Not to be confused with [FEAGI_RunTime_GodotDeviceManager) which works with dynamic Godot Devices! Game Devleopers likely don't need to interact with this class!
+## Not to be confused with [FEAGI_RunTime_RegistrationAgentManager) which works with dynamic Registration Agents! Game Devleopers likely don't need to interact with this class!
 
 var _debug_interface: FEAGI_RunTime_DebugInterface
 var _FEAGI_interface: FEAGI_RunTime_FEAGIInterface
 
 
-var _FEAGI_sensors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_Device_Sensor_Base]. Beware of name conflicts! Should be treated as static after devices added!
-var _FEAGI_sensors_reference_arr: Array[FEAGI_Device_Sensor_Base] # cached since "values" is slow
-var _FEAGI_motors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_Device_Motor_Base]. Beware of name conflicts! Should be treated as static after devices added!
-var _FEAGI_motors_reference_arr: Array[FEAGI_Device_Motor_Base] # cached since "values" is slow
+var _FEAGI_sensors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_IOConnector_Sensor_Base]. Beware of name conflicts! Should be treated as static after devices added!
+var _FEAGI_sensors_reference_arr: Array[FEAGI_IOConnector_Sensor_Base] # cached since "values" is slow
+var _FEAGI_motors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_IOConnector_Motor_Base]. Beware of name conflicts! Should be treated as static after devices added!
+var _FEAGI_motors_reference_arr: Array[FEAGI_IOConnector_Motor_Base] # cached since "values" is slow
 
 
 func _init(reference_to_FEAGI_sensors: Dictionary, reference_to_FEAGI_motors: Dictionary) -> void:
@@ -31,9 +31,9 @@ func setup_debugger() -> void:
 		_debug_interface = null
 		return
 	_debug_interface = FEAGI_RunTime_DebugInterface.new()
-	for sensor: FEAGI_Device_Sensor_Base in _FEAGI_sensors_reference_arr:
+	for sensor: FEAGI_IOConnector_Sensor_Base in _FEAGI_sensors_reference_arr:
 		_debug_interface.alert_debugger_about_sensor_creation(sensor)
-	for motor: FEAGI_Device_Motor_Base in _FEAGI_motors_reference_arr:
+	for motor: FEAGI_IOConnector_Motor_Base in _FEAGI_motors_reference_arr:
 		_debug_interface.alert_debugger_about_motor_creation(motor)
 
 ## An ASYNC function that initiates the API and websocket conneciton to FEAGI and the connector, but nothing else. Returns true if succesful

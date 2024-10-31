@@ -1,5 +1,5 @@
 extends Camera3D
-class_name FEAGI_Device_Sensor_3DColorCamera
+class_name FEAGI_IOConnector_Sensor_3DColorCamera
 ## Camera Device That sends its view to FEAGI. Camera Sensor
 
 @export var camera_sensor_name: StringName = "" ## What is the matching camera sensor name in FEAGI?
@@ -13,7 +13,7 @@ var _cloned_camera: Camera3D
 func _ready() -> void:
 	if autoregister_on_start:
 		if not FEAGI.is_ready_for_device_registration():
-			await FEAGI.ready_for_godot_device_registration
+			await FEAGI.ready_for_registration_agent_registration
 		register_color_camera(camera_sensor_name)
 
 ## Initializes the agent var and preps it for registration

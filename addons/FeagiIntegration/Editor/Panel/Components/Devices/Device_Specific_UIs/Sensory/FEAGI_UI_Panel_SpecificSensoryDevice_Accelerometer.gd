@@ -7,16 +7,16 @@ func setup() -> void:
 	pass
 
 ## Called by the parent [FEAGI_UI_Panel_Device] node IF it has a prior device config
-func import_IOHandler(device_config: FEAGI_Device_Base) -> void:
-	var accelerometer_config: FEAGI_Device_Sensor_Accelerometer = device_config as FEAGI_Device_Sensor_Accelerometer
+func import_IOHandler(device_config: FEAGI_IOConnector_Base) -> void:
+	var accelerometer_config: FEAGI_IOConnector_Sensor_Accelerometer = device_config as FEAGI_IOConnector_Sensor_Accelerometer
 	if accelerometer_config == null:
 		push_error("FEAGI: Unknown IOHandler sent to accelerometer device!")
 		return
 
 
 ## Called by the parent [FEAGI_UI_Panel_Device] node when it needs to build the device settings to export a save file
-func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_Device_Base:
-	var accelerometer_config: FEAGI_Device_Sensor_Accelerometer = FEAGI_Device_Sensor_Accelerometer.new()
+func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_IOConnector_Base:
+	var accelerometer_config: FEAGI_IOConnector_Sensor_Accelerometer = FEAGI_IOConnector_Sensor_Accelerometer.new()
 	accelerometer_config.device_friendly_name = device_name
 	accelerometer_config.FEAGI_index = FEAGI_index
 	accelerometer_config.device_ID = device_ID
