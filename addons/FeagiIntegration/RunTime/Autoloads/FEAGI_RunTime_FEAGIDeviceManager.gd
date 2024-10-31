@@ -6,6 +6,7 @@ class_name FEAGI_RunTime_FEAGIDeviceManager
 var _debug_interface: FEAGI_RunTime_DebugInterface
 var _FEAGI_interface: FEAGI_RunTime_FEAGIInterface
 
+
 var _FEAGI_sensors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_Device_Sensor_Base]. Beware of name conflicts! Should be treated as static after devices added!
 var _FEAGI_sensors_reference_arr: Array[FEAGI_Device_Sensor_Base] # cached since "values" is slow
 var _FEAGI_motors_reference: Dictionary ## Key'd by the device name, value is the relevant [FEAGI_Device_Motor_Base]. Beware of name conflicts! Should be treated as static after devices added!
@@ -38,8 +39,8 @@ func setup_debugger() -> void:
 ## An ASYNC function that initiates the API and websocket conneciton to FEAGI and the connector, but nothing else. Returns true if succesful
 func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node) -> bool:
 	_FEAGI_interface = FEAGI_RunTime_FEAGIInterface.new()
-	_FEAGI_interface.socket_closed.connect(_on_socket_close)
-	_FEAGI_interface.name = "FEAGI Networking"
+	_FEAGI_interface.interface_closed.connect(_on_interface_close)
+	_FEAGI_interface.name = "FEAGI Networking WS"
 	parent_node.add_child(_FEAGI_interface)
 	
 	if FEAGI_JS.is_web_build() and endpoint.contains_all_URL_parameters_needed_for_URL_parsing():
@@ -70,19 +71,38 @@ func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node
 		_FEAGI_interface = null
 		return false
 	print("FEAGI: Connected to connector websocket at %s!" % endpoint.get_full_connector_ws_URL())
-
 	# setup cache device references
 	_FEAGI_interface.set_cached_device_dicts(_FEAGI_sensors_reference, _FEAGI_motors_reference)
 	
+	# connect motor signals
+	if _debug_interface:
+		_FEAGI_interface.interface_recieved_motor_data.connect(_debug_interface.alert_debugger_about_motor_update)
 	return true
 
+## Sets up a connection to a "Fake FEAGI" running locally in browser. Only useful for demos due to extremely limited functions
+func setup_FEAGI_fake(parent_node: Node) -> bool:
+	if !FEAGI_JS.is_web_build():
+		return false # Not possible on nonweb builds
+	_FEAGI_interface = FEAGI_RunTime_FEAGIInterface.new()
+	_FEAGI_interface.interface_closed.connect(_on_interface_close)
+	_FEAGI_interface.name = "FEAGI Networking PM"
+	parent_node.add_child(_FEAGI_interface)
 	
+	# setup cache device references
+	_FEAGI_interface.set_cached_device_dicts(_FEAGI_sensors_reference, _FEAGI_motors_reference)
+	
+	#NOTE We cannot register debug interface because this was exported
+	
+	return _FEAGI_interface.setup_postmessage()
 
 func send_configurator_and_enable(initial_configurator_json: StringName) -> void:
 	# check network active
 	if !_FEAGI_interface:
 		return
 	if !_FEAGI_interface.connection_active:
+		return
+	if _FEAGI_interface.mode == _FEAGI_interface.MODE.POSTMESSAGE:
+		push_warning("FEAGI: No need to send configurator in PostMessage mode!")
 		return
 	
 	# check URl params, update configurator
@@ -95,12 +115,6 @@ func send_configurator_and_enable(initial_configurator_json: StringName) -> void
 	_FEAGI_interface.send_final_configurator_JSON(initial_configurator_json)
 	print("FEAGI: Sent the Configurator JSON!")
 	
-	# connect motor signals
-	if _debug_interface:
-		_FEAGI_interface.socket_recieved_motor_data.connect(_debug_interface.alert_debugger_about_motor_update)
-	pass
-
-
 func on_sensor_tick() -> void:
 	# Update all sensor values
 	for sensor_IO in _FEAGI_sensors_reference_arr:
@@ -111,5 +125,5 @@ func on_sensor_tick() -> void:
 	if _FEAGI_interface:
 		_FEAGI_interface.on_sensor_tick()
 
-func _on_socket_close() -> void:
+func _on_interface_close() -> void:
 	_FEAGI_interface = null
