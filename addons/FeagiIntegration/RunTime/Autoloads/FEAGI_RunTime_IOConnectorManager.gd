@@ -1,7 +1,7 @@
 extends RefCounted
-class_name FEAGI_RunTime_FEAGIDeviceManager
+class_name FEAGI_RunTime_IOConnectorManager
 ## Handles all FEAGI Devices ([FEAGI_IOHandler_Base]). NOTE that these are static after initialization, you cannot change feagi device mappings!
-## Not to be confused with [FEAGI_RunTime_GodotDeviceManager) which works with dynamic Godot Devices! Game Devleopers likely don't need to interact with this class!
+## Not to be confused with [FEAGI_RunTime_RegistrationAgentManager) which works with dynamic Registration Agents! Game Devleopers likely don't need to interact with this class!
 
 var _debug_interface: FEAGI_RunTime_DebugInterface
 var _FEAGI_interface: FEAGI_RunTime_FEAGIInterface

@@ -13,14 +13,14 @@ func register_with_FEAGI(sensor_callable: Callable, override_device_type: String
 		return false
 	
 	if !FEAGI.is_ready_for_device_registration():
-		await FEAGI.ready_for_godot_device_registration
+		await FEAGI.ready_for_registration_agent_registration
 	
-	if override_device_name not in FEAGI.godot_device_manager.get_possible_sensor_feagi_names():
+	if override_device_name not in FEAGI.registration_agent_manager.get_possible_sensor_feagi_names():
 		push_error("FEAGI: Device name %s is not found as a registered sensor from the loaded FEAGI config! Refusing to allow registration!" % override_device_name)
 		return false
 	
 	_registered_callable = sensor_callable
 	_registered_device_type = override_device_type
 	_registered_device_name = override_device_name
-	_is_registered_with = FEAGI.godot_device_manager.register_godot_device_sensor(self)
+	_is_registered_with = FEAGI.registration_agent_manager.register_registration_agent_sensor(self)
 	return _is_registered_with != null

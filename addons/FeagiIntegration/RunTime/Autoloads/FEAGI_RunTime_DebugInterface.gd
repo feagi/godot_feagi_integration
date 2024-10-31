@@ -10,7 +10,7 @@ var _cached_sensor_sending_data: Array[PackedByteArray] = []
 var _motors: Array[FEAGI_IOConnector_Motor_Base] = []
 var _cached_motor_sending_data: Array[PackedByteArray] = []
 
-## Alerts the remote debugger instance that a new godot device sensor has been added, and to expect its data coming in data updates
+## Alerts the remote debugger instance that a new Registration Agent sensor has been added, and to expect its data coming in data updates
 func alert_debugger_about_sensor_creation(FEAGI_sensor: FEAGI_IOConnector_Sensor_Base) -> void:
 	EngineDebugger.send_message("FEAGI:add_sensor", FEAGI_sensor.get_debug_interface_device_creation_array())
 	_add_sensor(FEAGI_sensor)

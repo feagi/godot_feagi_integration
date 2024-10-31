@@ -10,21 +10,21 @@ func update_cache_with_latest_FEAGI_data(new_data: PackedByteArray) -> void:
 	if _function_to_interact_with_godot_with.is_valid():
 		_parse_FEAGI_raw_data(_cached_bytes)
 
-# Register a godot device to this device
-func register_godot_device_motor(data_receiving_function: Callable) -> FEAGI_IOConnector_Motor_Base:
+# Register a registration agent to this device
+func register_registration_agent_motor(data_receiving_function: Callable) -> FEAGI_IOConnector_Motor_Base:
 	if !_function_to_interact_with_godot_with.is_null():
 		push_warning("FEAGI: A motor attempted to register itself to %s when it was already registered to another motor! Overwriting the registration!" % device_friendly_name)
 	_function_to_interact_with_godot_with = data_receiving_function
-	_is_registered_to_godot_device = true
+	_is_registered_to_registration_agent = true
 	return self
 
 ## Have a sensor deregister itself
-func deregister_godot_device_motor() -> void:
+func deregister_registration_agent_motor() -> void:
 	if _function_to_interact_with_godot_with.is_null():
 		push_warning("FEAGI: A call to deregister motor %s was made when it had nothing registered anyways! Skipping!" % device_friendly_name)
 		return
 	_function_to_interact_with_godot_with = Callable()
-	_is_registered_to_godot_device = false
+	_is_registered_to_registration_agent = false
 
 ## If callable is valid, upon recvieving the byte data from feagi, parse the data into the expected form and execute the callable on it
 func _parse_FEAGI_raw_data(raw_FEAGI_data: PackedByteArray) -> void:

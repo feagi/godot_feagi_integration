@@ -12,21 +12,21 @@ func update_cache_with_sensory_call() -> void:
 		return
 	_fallback_sensory_update_when_no_callable()
 
-# Register a godot device to this FEAGI device
-func register_godot_device_sensor(data_grabbing_function: Callable) -> FEAGI_IOConnector_Sensor_Base:
+# Register a Registration Agent to this FEAGI device
+func register_registration_agent_sensor(data_grabbing_function: Callable) -> FEAGI_IOConnector_Sensor_Base:
 	if !_function_to_grab_from_godot_with.is_null():
 		push_warning("FEAGI: A sensor attempted to register itself to %s when it was already registered to another sensor! Overwriting the registration!" % device_friendly_name)
 	_function_to_grab_from_godot_with = data_grabbing_function
-	_is_registered_to_godot_device = true
+	_is_registered_to_registration_agent = true
 	return self
 
 ## Have a sensor deregister itself
-func deregister_godot_device_sensor() -> void:
+func deregister_registration_agent_sensor() -> void:
 	if _function_to_grab_from_godot_with.is_null():
 		push_warning("FEAGI: A call to deregister sensor %s was made when it had nothing registered anyways! Skipping!" % device_friendly_name)
 		return
 	_function_to_grab_from_godot_with = Callable()
-	_is_registered_to_godot_device = false
+	_is_registered_to_registration_agent = false
 
 
 ## Given the user defined callable exists, call it , and child classes will do neccasry processing to it to turn that data type into a byte array

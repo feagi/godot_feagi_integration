@@ -1,7 +1,7 @@
 @tool
 extends MarginContainer
 class_name Editor_FEAGI_Debug_Panel
-## The actual Debug Panel visible in editor to see what the FEAGI integration is doing
+## The actual Debug Panel visible in editor to see what the FEAGI integration is doing. Shows all FEAGI IO activity
 
 var _not_running: VBoxContainer
 var _running: VBoxContainer

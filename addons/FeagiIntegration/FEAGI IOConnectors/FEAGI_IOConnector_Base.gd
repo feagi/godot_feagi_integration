@@ -8,10 +8,10 @@ class_name FEAGI_IOConnector_Base
 @export var device_ID: int
 @export var is_disabled: bool
 
-var is_registered_to_godot_device: bool:  ## Is this FEAGI device currently suscribed to something?
-	get: return _is_registered_to_godot_device
+var is_registered_to_registration_agent: bool:  ## Is this FEAGI device currently suscribed to something?
+	get: return _is_registered_to_registration_agent
 
-var _is_registered_to_godot_device: bool = false
+var _is_registered_to_registration_agent: bool = false
 var _cached_bytes: PackedByteArray = [] ## The last state of the device as bytes. Either read from game in the case of a sensor or the last thing retrieved from FEAGI in the case of a motor
 
 ## Returns the device name type as FEAGI configurator json expects

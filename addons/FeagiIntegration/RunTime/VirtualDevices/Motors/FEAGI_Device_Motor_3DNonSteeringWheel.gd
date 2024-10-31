@@ -12,7 +12,7 @@ var _max_engine_force
 func _ready() -> void:
 	if autoregister_on_start:
 		if not FEAGI.is_ready_for_device_registration():
-			await FEAGI.ready_for_godot_device_registration
+			await FEAGI.ready_for_registration_agent_registration
 		register_wheel_motor(wheel_motor_name)
 
 func register_wheel_motor(device_name_in_FEAGI: StringName) -> void:
