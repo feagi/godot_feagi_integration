@@ -24,7 +24,7 @@ func setup(is_sensory: bool, whole_IO_template: Dictionary) -> void:
 	
 	_device_list.setup(is_sensory)
 
-func export_FEAGI_IOHandlers() -> Array[FEAGI_Device_Base]:
+func export_FEAGI_IOHandlers() -> Array[FEAGI_IOConnector_Base]:
 	return _device_list.export_FEAGI_IOHandlers()
 
 func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
@@ -33,7 +33,7 @@ func export_as_FEAGI_config_JSON_device_objects() -> Dictionary:
 func clear() -> void:
 	_device_list.clear()
 
-func load_sort_and_spawn_devices(devices: Array[FEAGI_Device_Base], IO_template: Dictionary, configurator_section_of_devices: Dictionary) -> void:
+func load_sort_and_spawn_devices(devices: Array[FEAGI_IOConnector_Base], IO_template: Dictionary, configurator_section_of_devices: Dictionary) -> void:
 	_device_list.load_sort_and_spawn_devices(devices, _whole_IO_template, configurator_section_of_devices)
 	
 

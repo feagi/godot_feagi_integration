@@ -1,6 +1,6 @@
 @tool
-extends FEAGI_Device_Sensor_Base
-class_name FEAGI_Device_Sensor_Camera
+extends FEAGI_IOConnector_Sensor_Base
+class_name FEAGI_IOConnector_Sensor_Camera
 ## Camera FEAGI Device. Sensor that relays images from game to pass to FEAGI.
 ## NOTE: _function_to_grab_from_godot_with in this class is expected to return an [Image]
 

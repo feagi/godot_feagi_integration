@@ -23,7 +23,7 @@ func setup(is_sensory: bool) -> void:
 		var typed_array: Array[Editor_FEAGI_UI_Panel_Device] = []
 		_device_references[possible_device_type_name] = typed_array
 
-func spawn_device_new(device_type: StringName, configurator_template: Dictionary, preexisting_definition: FEAGI_Device_Base = null, preexisting_configurator: Dictionary = {}) -> Editor_FEAGI_UI_Panel_Device:
+func spawn_device_new(device_type: StringName, configurator_template: Dictionary, preexisting_definition: FEAGI_IOConnector_Base = null, preexisting_configurator: Dictionary = {}) -> Editor_FEAGI_UI_Panel_Device:
 	var device_specific_UI: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base
 	var string_type: String = device_type
 	var path: String
@@ -57,10 +57,10 @@ func spawn_device_new(device_type: StringName, configurator_template: Dictionary
 	return device
 
 ## Exports an array of FEAGI Device IO Handlers for saving as a config
-func export_FEAGI_IOHandlers() -> Array[FEAGI_Device_Base]:
+func export_FEAGI_IOHandlers() -> Array[FEAGI_IOConnector_Base]:
 	var device_refs: Array[Editor_FEAGI_UI_Panel_Device] = []
 	device_refs.assign(_device_holder.get_children())
-	var output: Array[FEAGI_Device_Base] = []
+	var output: Array[FEAGI_IOConnector_Base] = []
 	for ref in device_refs:
 		output.append(ref.export_as_FEAGI_IOHandler())
 	return output
@@ -85,16 +85,16 @@ func clear() -> void:
 	setup(_is_sensory)
 
 ## Given an unsorted array of devices, spawns them in order such that their device ID order is satisfied
-func load_sort_and_spawn_devices(devices: Array[FEAGI_Device_Base], IO_template: Dictionary, configurator_section_of_devices: Dictionary) -> void:
+func load_sort_and_spawn_devices(devices: Array[FEAGI_IOConnector_Base], IO_template: Dictionary, configurator_section_of_devices: Dictionary) -> void:
 	var device_orders: Dictionary = {}
 	for device_def in devices:
 		if device_def.get_device_type() not in device_orders:
-			var arr: Array[FEAGI_Device_Base] = []
+			var arr: Array[FEAGI_IOConnector_Base] = []
 			device_orders[device_def.get_device_type()] = arr
 		device_orders[device_def.get_device_type()].append(device_def)
 	for device_type in device_orders:
-		var arr: Array[FEAGI_Device_Base] = device_orders[device_type]
-		arr.sort_custom(func(a: FEAGI_Device_Base, b: FEAGI_Device_Base): return a.device_ID < b.device_ID)
+		var arr: Array[FEAGI_IOConnector_Base] = device_orders[device_type]
+		arr.sort_custom(func(a: FEAGI_IOConnector_Base, b: FEAGI_IOConnector_Base): return a.device_ID < b.device_ID)
 		for device_def in arr:
 			var configurator_prefilled: Dictionary = {}
 			if device_def.get_device_type() in configurator_section_of_devices:

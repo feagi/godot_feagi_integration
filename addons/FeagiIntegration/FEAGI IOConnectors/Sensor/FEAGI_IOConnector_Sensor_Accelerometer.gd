@@ -1,10 +1,10 @@
 @tool
-extends FEAGI_Device_Sensor_Base
-class_name FEAGI_Device_Sensor_Gyro
-## Gyroscope FEAGI Device. Sensor that captures gyroscopic rotations as euler angles from game to pass to FEAGI.
-## NOTE: _function_to_grab_from_godot with in this class is expected to return an [Vector3]
+extends FEAGI_IOConnector_Sensor_Base
+class_name FEAGI_IOConnector_Sensor_Accelerometer
+## Acceleration FEAGI Device. Sensor that captures Accelerations from game to pass to FEAGI.
+## NOTE: _function_to_grab_from_godot_with in this class is expected to return an [Vector3]
 
-const TYPE_NAME = "gyro"
+const TYPE_NAME = "accelerometer"
 
 func _init() -> void:
 	_cached_bytes = PackedFloat32Array([0,0,0]).to_byte_array()

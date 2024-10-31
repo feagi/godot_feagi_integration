@@ -29,14 +29,14 @@ var _is_disabled_box: CheckBox
 var _FEAGI_index_spin: SpinBox
 var _device_settings: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base  # This node gets replaced on start as per setup()
 var _FEAGI_settings: FEAGI_UI_Prefab_Collapsible
-var _FEAGI_device_settings_holder: Editor_FEAGI_UI_Panel_Device_ParameterManager
+var _FEAGI_IOConnector_settings_holder: Editor_FEAGI_UI_Panel_Device_ParameterManager
 var _device_index: int
 var _device_friendly_name: StringName
 
 var _device_type: StringName = ""
 
 func setup(device_type_name: StringName, device_index: int, initial_name: StringName, is_device_disabled: bool, specific_device_UI: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base, 
-configurator_JSON_template_for_this_device: Dictionary, specific_device_handler: FEAGI_Device_Base = null, configurator_JSON_values: Dictionary = {}) -> void:
+configurator_JSON_template_for_this_device: Dictionary, specific_device_handler: FEAGI_IOConnector_Base = null, configurator_JSON_values: Dictionary = {}) -> void:
 	# NOTE: The default value import is part of this function cause it is easier to mix that with the TemplateJSon Generator
 	# configurator_JSON_template_for_this_device refers to the dictionary  that is the value corresponding to {"input/output" : {"device_name" : (this dict)}}
 	_type_header = $MarginContainer/VBoxContainer/titlebar/type
@@ -44,7 +44,7 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 	_is_disabled_box = $MarginContainer/VBoxContainer/disabled/disabled
 	_FEAGI_index_spin = $MarginContainer/VBoxContainer/feagi_index/index
 	_device_settings = $MarginContainer/VBoxContainer/DeviceSettings_TOBEREPLACED # This is a placeholder about to be replaced
-	_FEAGI_device_settings_holder = $MarginContainer/VBoxContainer/FEAGISettings/PanelContainer/MarginContainer/Internals
+	_FEAGI_IOConnector_settings_holder = $MarginContainer/VBoxContainer/FEAGISettings/PanelContainer/MarginContainer/Internals
 	_FEAGI_settings = $MarginContainer/VBoxContainer/FEAGISettings
 	
 	_device_settings.replace_by(specific_device_UI)
@@ -61,8 +61,8 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 	
 	var parameters_JSON_for_this_device: Array[Dictionary]
 	parameters_JSON_for_this_device.assign(configurator_JSON_template_for_this_device["parameters"])
-	_FEAGI_device_settings_holder.setup(parameters_JSON_for_this_device, configurator_JSON_values)
-	if _FEAGI_device_settings_holder.get_child_count() == 0:
+	_FEAGI_IOConnector_settings_holder.setup(parameters_JSON_for_this_device, configurator_JSON_values)
+	if _FEAGI_IOConnector_settings_holder.get_child_count() == 0:
 		_FEAGI_settings.visible = false # no point showing the section if theres nothing in it!
 	
 	# We have to set the values of the Device name, isDisabled, and FEAGI Index seperately!
@@ -97,11 +97,11 @@ func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 		"feagi_index": feagi_index
 	}
 	inside.merge(_device_settings.export_additional_JSON_configurator_data())
-	inside.merge(_FEAGI_device_settings_holder.export_as_dict())
+	inside.merge(_FEAGI_IOConnector_settings_holder.export_as_dict())
 	return {str(_device_index): inside }
 	
 
-func export_as_FEAGI_IOHandler() -> FEAGI_Device_Base:
+func export_as_FEAGI_IOHandler() -> FEAGI_IOConnector_Base:
 	return _device_settings.export_IOHandler(_device_friendly_name, _FEAGI_index_spin.value, _device_index, is_disabled) # TODO what is going onm with device index / device ID?
 
 

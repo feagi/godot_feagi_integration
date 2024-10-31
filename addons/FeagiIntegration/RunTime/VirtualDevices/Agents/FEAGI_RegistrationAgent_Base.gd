@@ -4,7 +4,7 @@ class_name FEAGI_RegistrationAgent_Base
 
 @export var default_device_name: StringName = "" ## The name of the FEAGI device this will connect to. MUST MATCH EXACTLY
 
-var _is_registered_with: FEAGI_Device_Base = null
+var _is_registered_with: FEAGI_IOConnector_Base = null
 var _registered_device_type: StringName = "INVALID" # NOTE: On init of child classes, this is filled in properly
 var _registered_device_name: StringName
 var _registered_callable: Callable

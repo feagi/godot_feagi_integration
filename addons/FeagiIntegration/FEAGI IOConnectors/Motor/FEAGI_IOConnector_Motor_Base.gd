@@ -1,6 +1,6 @@
 @tool
-extends FEAGI_Device_Base
-class_name FEAGI_Device_Motor_Base
+extends FEAGI_IOConnector_Base
+class_name FEAGI_IOConnector_Motor_Base
 
 var _function_to_interact_with_godot_with: Callable = Callable() ## Function that will be called with the single expected argument type that this motor type outputs. This callable will interact with FEAGI
 
@@ -11,7 +11,7 @@ func update_cache_with_latest_FEAGI_data(new_data: PackedByteArray) -> void:
 		_parse_FEAGI_raw_data(_cached_bytes)
 
 # Register a godot device to this device
-func register_godot_device_motor(data_receiving_function: Callable) -> FEAGI_Device_Motor_Base:
+func register_godot_device_motor(data_receiving_function: Callable) -> FEAGI_IOConnector_Motor_Base:
 	if !_function_to_interact_with_godot_with.is_null():
 		push_warning("FEAGI: A motor attempted to register itself to %s when it was already registered to another motor! Overwriting the registration!" % device_friendly_name)
 	_function_to_interact_with_godot_with = data_receiving_function
@@ -28,6 +28,6 @@ func deregister_godot_device_motor() -> void:
 
 ## If callable is valid, upon recvieving the byte data from feagi, parse the data into the expected form and execute the callable on it
 func _parse_FEAGI_raw_data(raw_FEAGI_data: PackedByteArray) -> void:
-	assert(false, "Do not use 'FEAGI_Device_Motor_Base' Directly!")
+	assert(false, "Do not use 'FEAGI_IOConnector_Motor_Base' Directly!")
 	# parse the byte data into the expected data type, then run "_function_to_interact_with_godot_with" on it
 	return

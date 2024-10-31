@@ -1,5 +1,5 @@
 extends Node
-class_name FEAGI_Device_GodotInputEvents
+class_name FEAGI_IOConnector_GodotInputEvents
 ## Can emulate a set of Godot Input events as a motor output
 #NOTE: This system is also automatically added as per genome mapping settings!
 

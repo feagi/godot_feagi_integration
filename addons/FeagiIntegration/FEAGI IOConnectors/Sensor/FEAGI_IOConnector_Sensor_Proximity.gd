@@ -1,6 +1,6 @@
 @tool
-extends FEAGI_Device_Sensor_Base
-class_name FEAGI_Device_Sensor_Proximity
+extends FEAGI_IOConnector_Sensor_Base
+class_name FEAGI_IOConnector_Sensor_Proximity
 ## Proximity FEAGI Device. Sensor that captures distances in game to pass to FEAGI
 ## NOTE: _function_to_grab_from_godot with in this class is expected to return a [float]
 

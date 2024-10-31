@@ -1,6 +1,6 @@
 @tool
 extends Resource
-class_name FEAGI_Device_Base
+class_name FEAGI_IOConnector_Base
 ## Base class for all FEAGI Devices. A FEAGI Device is a definition / endpoint / representation for a device found on FEAGI itself.
 
 @export var device_friendly_name: StringName ## What the device is named in FEAGI
@@ -17,7 +17,7 @@ var _cached_bytes: PackedByteArray = [] ## The last state of the device as bytes
 ## Returns the device name type as FEAGI configurator json expects
 func get_device_type() -> StringName:
 	# override me in all child device classses to easily get the FEAGI string name of the class
-	assert(false, "Do not use 'FEAGI_Device_Base' Directly!")
+	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
 	return ""
 
 ## Most devices will just need this to define their creation to the debugger
@@ -31,7 +31,7 @@ func get_cached_data_as_byte_array() -> PackedByteArray:
 
 ## Returns the byte array of if this device was in its "0" state
 func retrieve_zero_value_byte_array() -> PackedByteArray:
-	assert(false, "Do not use 'FEAGI_Device_Base' Directly!")
+	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
 	return PackedByteArray()
 
 

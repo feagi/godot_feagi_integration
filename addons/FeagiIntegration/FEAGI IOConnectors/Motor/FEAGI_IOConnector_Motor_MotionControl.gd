@@ -1,6 +1,6 @@
 @tool
-extends FEAGI_Device_Motor_Base
-class_name FEAGI_Device_Motor_MotionControl
+extends FEAGI_IOConnector_Motor_Base
+class_name FEAGI_IOConnector_Motor_MotionControl
 ## Motion Control FEAGI Device. Can signal for movement in various directions
 ## NOTE: _function_to_interact_with_godot_with with in this class is expected to accept a [FEAGI_Data_MotionControl]
 

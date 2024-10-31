@@ -1,5 +1,5 @@
 extends VehicleWheel3D
-class_name FEAGI_Device_Motor_3DNonSteeringWheel
+class_name FEAGI_IOConnector_Motor_3DNonSteeringWheel
 ## Acts as a robot wheel controllable by FEAGI. Is a "Motor" type FEAGI Motor
 
 @export var wheel_motor_name: StringName = "" ## What is the matching motor motor name in FEAGI?
@@ -17,7 +17,7 @@ func _ready() -> void:
 
 func register_wheel_motor(device_name_in_FEAGI: StringName) -> void:
 	_registration_agent = FEAGI_RegistrationAgent_Motor.new()
-	_registration_agent.register_with_FEAGI(_FEAGI_action_motor, FEAGI_Device_Motor_Motor.TYPE_NAME, device_name_in_FEAGI)
+	_registration_agent.register_with_FEAGI(_FEAGI_action_motor, FEAGI_IOConnector_Motor_Motor.TYPE_NAME, device_name_in_FEAGI)
 
 func _FEAGI_action_motor(motor_strength_and_direction: float) -> void:
 	engine_force = max_forward_engine_force * motor_strength_and_direction
