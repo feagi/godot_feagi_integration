@@ -21,6 +21,10 @@ func setup() -> void:
 	
 	_import_button.disabled = !(FEAGI_PLUGIN_CONFIG.does_mapping_file_exist() or FEAGI_PLUGIN_CONFIG.does_endpoint_file_exist())
 	
+	if FEAGI_PLUGIN_CONFIG.does_mapping_file_exist() and FEAGI_PLUGIN_CONFIG.does_endpoint_file_exist():
+		print("FEAGI: Found mapping and endpoint files. Importing Automatically!")
+		_import_config()
+	
 
 func _export_config() -> void:
 	var endpoint: FEAGI_Resource_Endpoint = _section_agent.export_endpoint()
@@ -28,7 +32,6 @@ func _export_config() -> void:
 	var JSON_dict: Dictionary = {"capabilities": {"input": {}, "output": {}}}
 	JSON_dict["capabilities"]["input"] =  _section_sensory.export_as_FEAGI_config_JSON_device_objects()
 	JSON_dict["capabilities"]["output"] =  _section_motor.export_as_FEAGI_config_JSON_device_objects()
-
 	
 	var sensory_devices: Array[FEAGI_IOConnector_Sensor_Base] = []
 	sensory_devices.assign(_section_sensory.export_FEAGI_IOHandlers())
@@ -88,6 +91,7 @@ func _import_config() -> void:
 	if FEAGI_PLUGIN_CONFIG.does_endpoint_file_exist():
 		var loading_endpoint: FEAGI_Resource_Endpoint = load(FEAGI_PLUGIN_CONFIG.get_endpoint_path())
 		_section_agent.import_endpoint(loading_endpoint)
+		print("FEAGI: Imported saved data!")
 	else:
 		push_warning("FEAGI: No endpoint file found. Not loading network information!")
 	
