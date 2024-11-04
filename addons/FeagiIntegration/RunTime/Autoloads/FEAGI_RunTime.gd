@@ -57,7 +57,18 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	var network_mode: FEAGI_NetworkingConnector_Base.MODE = FEAGI_NetworkingConnector_Base.MODE.WS_ONLY
 	var result = FEAGI_JS.attempt_get_parameter_from_URL("postmessage")
 	if !result: # if result is null, we know we must be in websocket mode
-		network_mode = FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM # TODO more logic?
+		match result:
+			"pm":
+				network_mode = FEAGI_NetworkingConnector_Base.MODE.PM_ONLY
+			"pm_ws_px":
+				network_mode = FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM
+			"ws_px_controls":
+				network_mode =  FEAGI_NetworkingConnector_Base.MODE.WS_ONLY
+			_:
+				push_error("FEAGI: Unknown network mode passed in URL parameter: %s. Halting Integration!" % str(result))
+				return
+		
+		
 	match(network_mode):
 		FEAGI_NetworkingConnector_Base.MODE.PM_ONLY:
 			print("FEAGI: Initializing in Post Message Mode!")
