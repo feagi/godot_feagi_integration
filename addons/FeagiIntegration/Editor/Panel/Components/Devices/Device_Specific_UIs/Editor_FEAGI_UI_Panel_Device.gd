@@ -68,6 +68,7 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 	# We have to set the values of the Device name, isDisabled, and FEAGI Index seperately!
 	if configurator_JSON_values.has("custom_name"):
 		_device_name_line.text = configurator_JSON_values["custom_name"]
+		_device_friendly_name = configurator_JSON_values["custom_name"]
 	elif len(configurator_JSON_values) != 0:
 		push_warning("FEAGI: Device is missing the 'custom_name' value, is this corrupt?")
 
