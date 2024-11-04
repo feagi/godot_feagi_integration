@@ -16,6 +16,21 @@ class_name FEAGI_Resource_Endpoint
 var _disable_automatic_port_addition_API: bool = false
 var _disable_automatic_port_addition_WS: bool = false
 
+## Updates parameters for connection URL, and from magic link, in correct order of importence. Returns true if results are valid
+func automatically_update_internals(node_for_HTTP_worker: Node) -> bool:
+	if FEAGI_JS.is_web_build() and contains_all_URL_parameters_needed_for_URL_parsing():
+		push_warning("FEAGI: Please note that any Web URL parameters from the endpoint file are ignored as we loaded them directly from URL Parameters instead")
+		update_internal_vars_from_URL_parameters()
+	else:
+		if contains_magic_link():
+			if !await update_internal_vars_from_magic_link(node_for_HTTP_worker):
+				# failed get endpoints from magic link
+				push_error("FEAGI: Failed to get endpoint information from supplied magic link!")
+				return false
+			print("FEAGI: Updated endpoint information from supplied magic link!")
+	# We updated the endpoints from magic link!
+	return true
+
 func contains_magic_link() -> bool:
 	return magic_link_full != &""
 

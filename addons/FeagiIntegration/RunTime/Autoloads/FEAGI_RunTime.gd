@@ -39,9 +39,7 @@ func is_ready_for_device_registration() -> bool:
 func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpoint_config: FEAGI_Resource_Endpoint = null) -> void:
 	print("FEAGI Interface starting up!")
 	
-	var is_in_post_message_mode: bool = FEAGI_JS.attempt_get_parameter_from_URL("postmessage") != null ## In post message mode, we are using an emulated fake feagi runnign in browser
-	
-	# If the mapping config isnt defined, attempt to load it from disk. If still not defined -> failure
+	# Validate Mapping Config
 	if !mapping_config:
 		if !FEAGI_PLUGIN_CONFIG.does_mapping_file_exist():
 			push_error("FEAGI: No mapping settings file found on disk for FEAGI configuration! The FEAGI integration will now halt!")
@@ -51,12 +49,26 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 		if !mapping_config:
 			push_error("FEAGI: Mapping settings file found but was unable to be read! The FEAGI integration will now halt!")
 			return
-	
 	if !mapping_config.FEAGI_enabled:
 		push_warning("FEAGI: FEAGI disabled as per configuration")
 		return
 	
-	if !is_in_post_message_mode: # we dont care about this in post message mode
+	# Determine the network mode we are in
+	var network_mode: FEAGI_NetworkingConnector_Base.MODE = FEAGI_NetworkingConnector_Base.MODE.WS_ONLY
+	var result = FEAGI_JS.attempt_get_parameter_from_URL("postmessage")
+	if !result: # if result is null, we know we must be in websocket mode
+		network_mode = FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM # TODO more logic?
+	match(network_mode):
+		FEAGI_NetworkingConnector_Base.MODE.PM_ONLY:
+			print("FEAGI: Initializing in Post Message Mode!")
+			print("FEAGI: As per Post Message Mode Mode, no network features will be enabled! Sensors will be disabled!")
+		FEAGI_NetworkingConnector_Base.MODE.WS_ONLY:
+			print("FEAGI: Initializing in WebSocket Mode!")
+		FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM:
+			print("FEAGI: Initializing in WebSocket and Post Message hybrid mode!")
+	
+	# If we are using networking, now would be a good time to initialize the endpoint information
+	if network_mode != FEAGI_NetworkingConnector_Base.MODE.PM_ONLY: # we dont care about this in post message mode
 		# If endpoint isnt defined, attempt to load it from disk. If still not defined -> create one with localhost settings
 		# NOTE: Regardless of what endpoint settings are in the object at this point, they can still be overwritten by URL parameters!
 		if !endpoint_config:
@@ -65,13 +77,21 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 				endpoint_config = FEAGI_Resource_Endpoint.new()
 			else:
 				endpoint_config = load(FEAGI_PLUGIN_CONFIG.get_endpoint_path())
-			if !endpoint_config:
-				push_warning("FEAGI: Endpoint file found but was unable to be read! Defaulting to localhost settings for initial endpoint!")
-				endpoint_config = FEAGI_Resource_Endpoint.new()
-	
-	if is_in_post_message_mode:
-		push_warning("FEAGI: Loaded in PostMessage Mode! This means that we expect to use the browserside FakeFeagi. All Sensors will be disabled!")
-	else:
+				if !endpoint_config:
+					push_warning("FEAGI: Endpoint file found but was unable to be read! Defaulting to localhost settings for initial endpoint!")
+					endpoint_config = FEAGI_Resource_Endpoint.new()
+		
+		var is_endpoint_valid: bool = await endpoint_config.automatically_update_internals(self)
+		if !is_endpoint_valid:
+			push_error("FEAGI: Unable to connect to FEAGI endpoint! Halting integration!")
+			return
+		var is_FEAGI_alive: bool = await FEAGIHTTP.ping_if_FEAGI_alive(endpoint_config.get_full_FEAGI_API_URL(), self)
+		if !is_endpoint_valid:
+			push_error("FEAGI: Unable to connect to FEAGI! Is your FEAGI running? Halting integration!")
+			return
+
+
+	if network_mode != FEAGI_NetworkingConnector_Base.MODE.PM_ONLY: # No sensor support in post manager, so don't bother loading it in that case
 		# Load in sensor FEAGI Device objects
 		for incoming_FEAGI_sensor in mapping_config.sensors.values():
 			if incoming_FEAGI_sensor is not FEAGI_IOConnector_Sensor_Base:
@@ -85,7 +105,6 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 				continue
 			_FEAGI_sensors[(incoming_FEAGI_sensor as FEAGI_IOConnector_Sensor_Base).device_friendly_name] = incoming_FEAGI_sensor
 	
-	#NOTE: We always load motors, whether we are in post message mode or not
 	# Load in motor FEAGI Device objects
 	for outgoing_FEAGI_motor in mapping_config.motors.values():
 		if outgoing_FEAGI_motor is not FEAGI_IOConnector_Motor_Base:
@@ -103,6 +122,21 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	_FEAGI_IOConnector_manager = FEAGI_RunTime_IOConnectorManager.new(_FEAGI_sensors, _FEAGI_motors)
 	if mapping_config.debugger_enabled:
 		_FEAGI_IOConnector_manager.setup_debugger()
+	
+	var network_interface: FEAGI_NetworkingConnector_Base
+	match(network_mode):
+		FEAGI_NetworkingConnector_Base.MODE.PM_ONLY:
+			network_interface = FEAGI_NetworkingConnector_PM.new()
+			await (network_interface as FEAGI_NetworkingConnector_PM).setup_post_message()
+		FEAGI_NetworkingConnector_Base.MODE.WS_ONLY:
+			network_interface = FEAGI_NetworkingConnector_WS.new()
+			await (network_interface as FEAGI_NetworkingConnector_WS).setup_websocket(endpoint_config.get_full_connector_ws_URL())
+		FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM:
+			network_interface = FEAGI_NetworkingConnector_PM_and_WS.new()
+			await (network_interface as FEAGI_NetworkingConnector_PM_and_WS).setup_post_message_and_websocket(endpoint_config.get_full_connector_ws_URL())
+	
+	
+	
 	if is_in_post_message_mode:
 		var connection_succesful: bool = _FEAGI_IOConnector_manager.setup_FEAGI_fake(self)
 		if !connection_succesful:

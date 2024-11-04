@@ -7,6 +7,7 @@ signal _socket_state_changed(new_state: WebSocketPeer.State)
 var _socket: WebSocketPeer
 var _socket_state: WebSocketPeer.State = WebSocketPeer.State.STATE_CLOSED
 
+
 ## ASYNC Initialize Websocket. Returns true if successful
 func setup_websocket(full_connector_WS_address: StringName) -> bool:
 	_socket = WebSocketPeer.new()

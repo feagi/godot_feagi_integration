@@ -20,80 +20,21 @@ func _init(reference_to_FEAGI_sensors: Dictionary, reference_to_FEAGI_motors: Di
 	_FEAGI_motors_reference_arr.assign(_FEAGI_motors_reference.values())
 
 
-## Initializes the debugger with all FEAGI Devices!
-func setup_debugger() -> void:
-	if !OS.is_debug_build():
-		push_warning("FEAGI: This is a non-debug build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
-		_debug_interface = null
-		return
-	if FEAGI_JS.is_web_build():
-		push_warning("FEAGI: This is a web build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
-		_debug_interface = null
-		return
-	_debug_interface = FEAGI_RunTime_DebugInterface.new()
-	for sensor: FEAGI_IOConnector_Sensor_Base in _FEAGI_sensors_reference_arr:
-		_debug_interface.alert_debugger_about_sensor_creation(sensor)
-	for motor: FEAGI_IOConnector_Motor_Base in _FEAGI_motors_reference_arr:
-		_debug_interface.alert_debugger_about_motor_creation(motor)
-
-## An ASYNC function that initiates the API and websocket conneciton to FEAGI and the connector, but nothing else. Returns true if succesful
-func setup_FEAGI_networking(endpoint: FEAGI_Resource_Endpoint, parent_node: Node) -> bool:
+func setup_external_interface(initialized_connector: FEAGI_NetworkingConnector_Base, parent_node: Node, is_debugger_enabled: bool) -> bool:
 	_FEAGI_interface = FEAGI_RunTime_FEAGIInterface.new()
-	_FEAGI_interface.interface_closed.connect(_on_interface_close)
-	_FEAGI_interface.name = "FEAGI Networking WS"
+	_FEAGI_interface.name = "FEAGI Interface"
 	parent_node.add_child(_FEAGI_interface)
 	
-	if FEAGI_JS.is_web_build() and endpoint.contains_all_URL_parameters_needed_for_URL_parsing():
-		push_warning("FEAGI: Please note that any Web URL parameters from the endpoint file are ignored as we loaded them directly from URL Parameters instead")
-		endpoint.update_internal_vars_from_URL_parameters()
-	else:
-		if endpoint.contains_magic_link():
-			if !await endpoint.update_internal_vars_from_magic_link(parent_node):
-				# failed get endpoints from magic link
-				push_error("FEAGI: Failed to get endpoint information from supplied magic link!")
-				return false
-			print("FEAGI: Updated endpoint information from supplied magic link!")
-			# We updated the endpoints from magic link!
-			
-	print("FEAGI: Network prep complete! Using %s for FEAGI endpoint and %s for WS endpoint!" % [endpoint.get_full_FEAGI_API_URL(), endpoint.get_full_connector_ws_URL()])
-	# check HTTP connection
-	var is_FEAGI_available: bool = await _FEAGI_interface.ping_feagi_available(endpoint.get_full_FEAGI_API_URL())
-	if not is_FEAGI_available:
-		push_error("FEAGI: Unable to connect to FEAGI API at %s!" % endpoint.get_full_FEAGI_API_URL())
-		_FEAGI_interface = null
-		return false
-	print("FEAGI: Confirmed FEAGI HTTP connection at %s!" % endpoint.get_full_FEAGI_API_URL())
-	
-	# establish WS connection, but do not send data
-	var connected_to_ws: bool = await _FEAGI_interface.setup_websocket(endpoint.get_full_connector_ws_URL())
-	if not connected_to_ws:
-		push_error("FEAGI: Unable to connect to connector websocket at %s!" % endpoint.get_full_connector_ws_URL())
-		_FEAGI_interface = null
-		return false
-	print("FEAGI: Connected to connector websocket at %s!" % endpoint.get_full_connector_ws_URL())
-	# setup cache device references
-	_FEAGI_interface.set_cached_device_dicts(_FEAGI_sensors_reference, _FEAGI_motors_reference)
-	
-	# connect motor signals
-	if _debug_interface:
+	if is_debugger_enabled:
+		_setup_debugger()
 		_FEAGI_interface.interface_recieved_motor_data.connect(_debug_interface.alert_debugger_about_motor_update)
+	
+	if !_FEAGI_interface.define_interface(initialized_connector):
+		return false # Interface isn't valid
+	
+	_FEAGI_interface.set_cached_device_dicts(_FEAGI_sensors_reference, _FEAGI_motors_reference)
 	return true
 
-## Sets up a connection to a "Fake FEAGI" running locally in browser. Only useful for demos due to extremely limited functions
-func setup_FEAGI_fake(parent_node: Node) -> bool:
-	if !FEAGI_JS.is_web_build():
-		return false # Not possible on nonweb builds
-	_FEAGI_interface = FEAGI_RunTime_FEAGIInterface.new()
-	_FEAGI_interface.interface_closed.connect(_on_interface_close)
-	_FEAGI_interface.name = "FEAGI Networking PM"
-	parent_node.add_child(_FEAGI_interface)
-	
-	# setup cache device references
-	_FEAGI_interface.set_cached_device_dicts(_FEAGI_sensors_reference, _FEAGI_motors_reference)
-	
-	#NOTE We cannot register debug interface because this was exported
-	
-	return _FEAGI_interface.setup_postmessage()
 
 func send_configurator_and_enable(initial_configurator_json: StringName) -> void:
 	# check network active
@@ -114,7 +55,8 @@ func send_configurator_and_enable(initial_configurator_json: StringName) -> void
 	# send param over socket
 	_FEAGI_interface.send_final_configurator_JSON(initial_configurator_json)
 	print("FEAGI: Sent the Configurator JSON!")
-	
+
+
 func on_sensor_tick() -> void:
 	# Update all sensor values
 	for sensor_IO in _FEAGI_sensors_reference_arr:
@@ -125,5 +67,18 @@ func on_sensor_tick() -> void:
 	if _FEAGI_interface:
 		_FEAGI_interface.on_sensor_tick()
 
-func _on_interface_close() -> void:
-	_FEAGI_interface = null
+## Initializes the debugger with all FEAGI Devices!
+func _setup_debugger() -> void:
+	if !OS.is_debug_build():
+		push_warning("FEAGI: This is a non-debug build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
+		_debug_interface = null
+		return
+	if FEAGI_JS.is_web_build():
+		push_warning("FEAGI: This is a web build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
+		_debug_interface = null
+		return
+	_debug_interface = FEAGI_RunTime_DebugInterface.new()
+	for sensor: FEAGI_IOConnector_Sensor_Base in _FEAGI_sensors_reference_arr:
+		_debug_interface.alert_debugger_about_sensor_creation(sensor)
+	for motor: FEAGI_IOConnector_Motor_Base in _FEAGI_motors_reference_arr:
+		_debug_interface.alert_debugger_about_motor_creation(motor)

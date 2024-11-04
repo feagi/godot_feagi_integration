@@ -18,6 +18,7 @@ var _cached_FEAGI_motors: Array[FEAGI_IOConnector_Motor_Base]
 var _FEAGI_sending_dict_structure: Dictionary ## Cached dict
 var _FEAGI_receiving_dict_structure: Dictionary ## Cached dict
 
+
 func _enter_tree() -> void:
 	name = "FEAGI Interface"
 
@@ -36,19 +37,6 @@ func define_interface(intialized_connector: FEAGI_NetworkingConnector_Base) -> b
 	
 	_connection_active = true
 	return true
-
-## ASYNC function that returns true if feagis healthcheck returns at the given address
-func ping_feagi_available(full_feagi_address: StringName) -> bool:
-	var health_check_add: StringName = full_feagi_address + "/v1/system/health_check"
-	var worker: FEAGIHTTP = FEAGIHTTP.new()
-	worker.name = "health_check"
-	add_child(worker)
-	worker.send_GET_request(full_feagi_address, "/v1/system/health_check")
-	var response: Array = await worker.FEAGI_call_complete
-	if len(response) != 2:
-		return false
-	return response[0] != 0
-
 
 ## Send the dicts used to define the device listings
 func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
