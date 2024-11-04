@@ -7,7 +7,7 @@ const HEADER: PackedStringArray = ["Content-Type: application/json"]
 
 ## ASYNC, Returns true if FEAGI at the given address is alive or not
 static func ping_if_FEAGI_alive(full_feagi_address: StringName, parent_node: Node) -> bool:
-	full_feagi_address = full_feagi_address + "/v1/system/health_check"
+	full_feagi_address = full_feagi_address
 	var worker: FEAGIHTTP = FEAGIHTTP.new()
 	worker.name = "health_check"
 	parent_node.add_child(worker)
