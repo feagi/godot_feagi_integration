@@ -11,6 +11,7 @@ func setup_post_message() -> bool:
 	if !browser_window:
 		return false
 	browser_window.addEventListener("message", _callback)
+	_connection_active = true
 	return true
 	
 func run_process(_delta: float) -> void:
