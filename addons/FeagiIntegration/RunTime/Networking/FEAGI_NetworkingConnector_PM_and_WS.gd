@@ -16,10 +16,11 @@ func setup_post_message_and_websocket(full_connector_WS_address: StringName) -> 
 		_PM = null
 		_WS = null
 		return false
-	_PM.recieved_bytes.connect(func(data: PackedByteArray): recieved_bytes.emit(data))
+	_PM.recieved_bytes.connect(func(data: PackedByteArray): recieved_bytes.emit(data)) # proxy data
 	_WS.recieved_bytes.connect(func(data: PackedByteArray): recieved_bytes.emit(data))
 	_PM.connection_closed.connect(func(): connection_closed.emit()) # lol
 	_WS.connection_closed.connect(func(): connection_closed.emit())
+	_connection_active = true
 	return true
 	
 func run_process(_delta: float) -> void:

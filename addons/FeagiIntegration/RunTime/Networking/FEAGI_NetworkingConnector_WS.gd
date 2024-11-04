@@ -37,7 +37,6 @@ func run_process(_delta: float) -> void:
 				recieved_bytes.emit(_socket.get_packet())
 		WebSocketPeer.State.STATE_CLOSED:
 			push_error("FEAGI: WS Socket to connector closed!")
-			_connection_active = false
 			_socket = null
 			connection_closed.emit()
 
