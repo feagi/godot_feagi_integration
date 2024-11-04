@@ -20,6 +20,9 @@ func run_process(_delta: float) -> void:
 func send_data(_data: PackedByteArray) -> void:
 	pass # as of now PM cannot be used for this
 
+func send_configurator_JSON(_final_JSON: StringName) -> void:
+	pass # PM doesnt do configurator JSONs
+
 func _on_recieve_message(incoming_JS_data) -> void:
 	var js_data = incoming_JS_data[0] # data is encapsulated in an array, within a [JavaScriptObject]
 	var js_string: String =  js_data["data"]

@@ -30,3 +30,7 @@ func run_process(_delta: float) -> void:
 func send_data(data_uncompressed: PackedByteArray) -> void:
 	if _WS:
 		_WS.send_data(data_uncompressed)
+
+func send_configurator_JSON(final_JSON: StringName) -> void:
+	if _WS:
+		_WS.send_configurator_JSON(final_JSON)

@@ -44,3 +44,6 @@ func send_data(data_uncompressed: PackedByteArray) -> void:
 	if not _socket:
 		return
 	_socket.send(data_uncompressed.compress(FileAccess.COMPRESSION_DEFLATE))
+
+func send_configurator_JSON(final_JSON: StringName) -> void:
+	send_data(final_JSON.to_ascii_buffer())

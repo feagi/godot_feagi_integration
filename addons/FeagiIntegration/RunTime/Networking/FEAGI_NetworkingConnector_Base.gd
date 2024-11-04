@@ -2,7 +2,7 @@ extends RefCounted
 class_name FEAGI_NetworkingConnector_Base
 # Base interface for all networking operations
 
-enum MODE {WS_ONLY, PM_ONLY, WS_AND_PM}
+enum MODE {NONE, WS_ONLY, PM_ONLY, WS_AND_PM}
 
 signal connection_closed()
 signal recieved_bytes(bytes: PackedByteArray)
@@ -18,8 +18,11 @@ func _init() -> void:
 func run_process(_delta: float) -> void:
 	assert(false, "Do not use the base class directly!")
 
-func send_data(data_uncompressed: PackedByteArray) -> void:
+func send_data(_data_uncompressed: PackedByteArray) -> void:
 	assert(false, "Do not use the base class directly!")
  
+func send_configurator_JSON(_final_JSON: StringName) -> void:
+	assert(false, "Do not use the base class directly!")
+
 func _on_connection_close() -> void:
 	_connection_active = false
