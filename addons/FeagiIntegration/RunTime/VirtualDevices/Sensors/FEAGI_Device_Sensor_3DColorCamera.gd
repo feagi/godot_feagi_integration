@@ -14,10 +14,10 @@ func _ready() -> void:
 	if autoregister_on_start:
 		if not FEAGI.is_ready_for_device_registration():
 			await FEAGI.ready_for_registration_agent_registration
-		register_color_camera(camera_sensor_name)
+		register_color_camera()
 
 ## Initializes the agent var and preps it for registration
-func register_color_camera(FEAGI_camera_name: StringName, viewport_resolution: Vector2i = capture_resolution) -> void:
+func register_color_camera(FEAGI_camera_name: StringName = camera_sensor_name, viewport_resolution: Vector2i = capture_resolution) -> void:
 	current = false
 	# May John Carmack forgive me for what I am about to do
 	if not _viewport:
