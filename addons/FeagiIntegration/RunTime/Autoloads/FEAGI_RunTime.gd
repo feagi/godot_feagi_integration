@@ -56,7 +56,7 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 	# Determine the network mode we are in
 	var network_mode: FEAGI_NetworkingConnector_Base.MODE = FEAGI_NetworkingConnector_Base.MODE.WS_ONLY
 	var result = FEAGI_JS.attempt_get_parameter_from_URL("postmessage")
-	if !result: # if result is null, we know we must be in websocket mode
+	if result: # if result is null, we know we must be in websocket mode
 		match result:
 			"pm":
 				network_mode = FEAGI_NetworkingConnector_Base.MODE.PM_ONLY
