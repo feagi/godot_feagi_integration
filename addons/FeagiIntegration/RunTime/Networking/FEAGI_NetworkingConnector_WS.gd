@@ -10,6 +10,7 @@ var _socket_state: WebSocketPeer.State = WebSocketPeer.State.STATE_CLOSED
 
 ## ASYNC Initialize Websocket. Returns true if successful
 func setup_websocket(full_connector_WS_address: StringName) -> bool:
+	print("FEAGI: Setting up WS connection to %s" % full_connector_WS_address)
 	_socket = WebSocketPeer.new()
 	_socket_state = WebSocketPeer.State.STATE_CLOSED
 	_socket.connect_to_url(full_connector_WS_address)

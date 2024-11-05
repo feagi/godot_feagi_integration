@@ -22,18 +22,20 @@ var _FEAGI_receiving_dict_structure: Dictionary ## Cached dict
 func _enter_tree() -> void:
 	name = "FEAGI Interface"
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if _network_connector:
-		_network_connector.run_process(_delta)
+		_network_connector.run_process(delta)
 
-## Initialization of network backend to connect it to all required signals
-func define_interface(intialized_connector: FEAGI_NetworkingConnector_Base) -> bool:
-	if !intialized_connector.connection_active: # reject interfaces that aren't active
+## Pass in connector and initialization call to activate it
+func define_interface(connector: FEAGI_NetworkingConnector_Base, init_call: Callable) -> bool:
+	_network_connector = connector
+	await init_call.call()
+	
+	if !connector.connection_active: # reject interfaces that aren't active
 		_connection_active = false
 		return false
 	
-	_network_connector = intialized_connector
-	intialized_connector.recieved_bytes.connect(_on_motor_receive)
+	connector.recieved_bytes.connect(_on_motor_receive)
 	
 	_connection_active = true
 	return true

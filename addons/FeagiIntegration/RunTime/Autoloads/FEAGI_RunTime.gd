@@ -128,27 +128,31 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 			push_error("FEAGI: Motor %s is already defined! Ensure there are no motor devices with repeating names! Skipping" % (outgoing_FEAGI_motor as FEAGI_IOConnector_Motor_Base).device_friendly_name)
 			continue
 		_FEAGI_motors[(outgoing_FEAGI_motor as FEAGI_IOConnector_Motor_Base).device_friendly_name] = outgoing_FEAGI_motor
-
+	print("FEAGI: Finished loading saved device data!")
+	
 	# Load appropriate network connector interface
 	var network_interface: FEAGI_NetworkingConnector_Base
+	var activation_call: Callable
 	match(network_mode):
 		FEAGI_NetworkingConnector_Base.MODE.PM_ONLY:
 			network_interface = FEAGI_NetworkingConnector_PM.new()
-			await (network_interface as FEAGI_NetworkingConnector_PM).setup_post_message()
+			activation_call = (network_interface as FEAGI_NetworkingConnector_PM).setup_post_message
 		FEAGI_NetworkingConnector_Base.MODE.WS_ONLY:
 			network_interface = FEAGI_NetworkingConnector_WS.new()
-			await (network_interface as FEAGI_NetworkingConnector_WS).setup_websocket(endpoint_config.get_full_connector_ws_URL())
+			activation_call = (network_interface as FEAGI_NetworkingConnector_WS).setup_websocket.bind(endpoint_config.get_full_connector_ws_URL())
 		FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM:
 			network_interface = FEAGI_NetworkingConnector_PM_and_WS.new()
-			await (network_interface as FEAGI_NetworkingConnector_PM_and_WS).setup_post_message_and_websocket(endpoint_config.get_full_connector_ws_URL())
+			activation_call =  (network_interface as FEAGI_NetworkingConnector_PM_and_WS).setup_post_message_and_websocket.bind(endpoint_config.get_full_connector_ws_URL())
 	
 	# Activate FEAGI Device manager, including the Debugger (if enabled) and the FEAGI Network Interface (if enabled)
 	_FEAGI_IOConnector_manager = FEAGI_RunTime_IOConnectorManager.new(_FEAGI_sensors, _FEAGI_motors)
-	_FEAGI_IOConnector_manager.setup_external_interface(network_interface, self, mapping_config.debugger_enabled)
+	await _FEAGI_IOConnector_manager.setup_external_interface(network_interface, activation_call, self, mapping_config.debugger_enabled)
+	print("FEAGI: Finished Initializing networking layer!")
 	
 	if network_mode != FEAGI_NetworkingConnector_Base.MODE.PM_ONLY:
 		# we need to send the configurator data
 		_FEAGI_IOConnector_manager.send_configurator_and_enable(mapping_config.configuration_JSON)
+		print("FEAGI: Sent Configurator JSON!")
 	
 	
 	# Activate Registration Agent Manager to act as an endpoint for Registration Agents to register themselves to

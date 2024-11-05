@@ -20,7 +20,7 @@ func _init(reference_to_FEAGI_sensors: Dictionary, reference_to_FEAGI_motors: Di
 	_FEAGI_motors_reference_arr.assign(_FEAGI_motors_reference.values())
 
 
-func setup_external_interface(initialized_connector: FEAGI_NetworkingConnector_Base, parent_node: Node, is_debugger_enabled: bool) -> bool:
+func setup_external_interface(connector_to_init: FEAGI_NetworkingConnector_Base, init_call: Callable, parent_node: Node, is_debugger_enabled: bool) -> bool:
 	_FEAGI_interface = FEAGI_RunTime_FEAGIInterface.new()
 	_FEAGI_interface.name = "FEAGI Interface"
 	parent_node.add_child(_FEAGI_interface)
@@ -29,7 +29,7 @@ func setup_external_interface(initialized_connector: FEAGI_NetworkingConnector_B
 		_setup_debugger()
 		_FEAGI_interface.interface_recieved_motor_data.connect(_debug_interface.alert_debugger_about_motor_update)
 	
-	if !_FEAGI_interface.define_interface(initialized_connector):
+	if !await _FEAGI_interface.define_interface(connector_to_init, init_call):
 		return false # Interface isn't valid
 	
 	_FEAGI_interface.set_cached_device_dicts(_FEAGI_sensors_reference, _FEAGI_motors_reference)
@@ -41,9 +41,6 @@ func send_configurator_and_enable(initial_configurator_json: StringName) -> void
 	if !_FEAGI_interface:
 		return
 	if !_FEAGI_interface.connection_active:
-		return
-	if _FEAGI_interface.mode == _FEAGI_interface.MODE.POSTMESSAGE:
-		push_warning("FEAGI: No need to send configurator in PostMessage mode!")
 		return
 	
 	# check URl params, update configurator
