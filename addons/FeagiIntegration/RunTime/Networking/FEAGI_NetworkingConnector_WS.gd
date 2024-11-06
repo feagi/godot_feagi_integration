@@ -36,7 +36,9 @@ func run_process(_delta: float) -> void:
 	match(_socket_state):
 		WebSocketPeer.State.STATE_OPEN:
 			while _socket.get_available_packet_count():
-				recieved_bytes.emit(_socket.get_packet())
+				var bytes: PackedByteArray = _socket.get_packet() #DEBUG
+				print("WS RECIEVE: ", bytes.get_string_from_utf8()) #DEBUG
+				recieved_bytes.emit(bytes) #DEBUG
 		WebSocketPeer.State.STATE_CLOSED:
 			push_error("FEAGI: WS Socket to connector closed!")
 			_socket = null
@@ -45,6 +47,7 @@ func run_process(_delta: float) -> void:
 func send_data(data_uncompressed: PackedByteArray) -> void:
 	if not _socket:
 		return
+	print("WS SEND: ", data_uncompressed.get_string_from_utf8()) #DEBUG
 	_socket.send(data_uncompressed.compress(FileAccess.COMPRESSION_DEFLATE))
 
 func send_configurator_JSON(final_JSON: StringName) -> void:
