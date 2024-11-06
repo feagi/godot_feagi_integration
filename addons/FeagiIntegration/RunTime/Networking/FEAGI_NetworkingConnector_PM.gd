@@ -28,5 +28,4 @@ func send_configurator_JSON(_final_JSON: StringName) -> void:
 func _on_recieve_message(incoming_JS_data) -> void:
 	var js_data = incoming_JS_data[0] # data is encapsulated in an array, within a [JavaScriptObject]
 	var js_string: String =  js_data["data"]
-	print("PM RECIEVE: ", js_string.to_ascii_buffer()) #DEBUG
 	recieved_bytes.emit(js_string.to_ascii_buffer())
