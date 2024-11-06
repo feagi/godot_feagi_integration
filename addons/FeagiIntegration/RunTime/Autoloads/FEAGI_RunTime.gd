@@ -64,10 +64,10 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 				print("FEAGI: As per Post Message Mode Mode, no network features will be enabled! Sensors will be disabled!")
 			"pm_ws_px":
 				network_mode = FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM
-				print("FEAGI: Initializing in WebSocket Mode! (URL parameter override detected)")
+				print("FEAGI: Initializing in WebSocket and Post Message hybrid mode!")
 			"ws_px_controls":
 				network_mode =  FEAGI_NetworkingConnector_Base.MODE.WS_ONLY
-				print("FEAGI: Initializing in WebSocket and Post Message hybrid mode!")
+				print("FEAGI: Initializing in WebSocket Mode! (URL parameter override detected)")
 			_:
 				push_error("FEAGI: Unknown network mode passed in URL parameter: %s. Halting Integration!" % str(result))
 				return
