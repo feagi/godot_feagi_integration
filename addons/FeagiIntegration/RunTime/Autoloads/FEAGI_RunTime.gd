@@ -60,24 +60,21 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 		match result:
 			"pm":
 				network_mode = FEAGI_NetworkingConnector_Base.MODE.PM_ONLY
+				print("FEAGI: Initializing in Post Message Mode!")
+				print("FEAGI: As per Post Message Mode Mode, no network features will be enabled! Sensors will be disabled!")
 			"pm_ws_px":
 				network_mode = FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM
+				print("FEAGI: Initializing in WebSocket Mode! (URL parameter override detected)")
 			"ws_px_controls":
 				network_mode =  FEAGI_NetworkingConnector_Base.MODE.WS_ONLY
+				print("FEAGI: Initializing in WebSocket and Post Message hybrid mode!")
 			_:
 				push_error("FEAGI: Unknown network mode passed in URL parameter: %s. Halting Integration!" % str(result))
 				return
-		
-		
-	match(network_mode):
-		FEAGI_NetworkingConnector_Base.MODE.PM_ONLY:
-			print("FEAGI: Initializing in Post Message Mode!")
-			print("FEAGI: As per Post Message Mode Mode, no network features will be enabled! Sensors will be disabled!")
-		FEAGI_NetworkingConnector_Base.MODE.WS_ONLY:
-			print("FEAGI: Initializing in WebSocket Mode!")
-		FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM:
-			print("FEAGI: Initializing in WebSocket and Post Message hybrid mode!")
-	
+	else:
+		print("FEAGI: Initializing in WebSocket Mode!") # default
+
+
 	# If we are using networking, now would be a good time to initialize the endpoint information
 	if network_mode != FEAGI_NetworkingConnector_Base.MODE.PM_ONLY: # we dont care about this in post message mode
 		# If endpoint isnt defined, attempt to load it from disk. If still not defined -> create one with localhost settings
@@ -142,7 +139,11 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 			activation_call = (network_interface as FEAGI_NetworkingConnector_WS).setup_websocket.bind(endpoint_config.get_full_connector_ws_URL())
 		FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM:
 			network_interface = FEAGI_NetworkingConnector_PM_and_WS.new()
-			activation_call =  (network_interface as FEAGI_NetworkingConnector_PM_and_WS).setup_post_message_and_websocket.bind(endpoint_config.get_full_connector_ws_URL())
+			print("DEBUG network interface: ", network_interface)
+			activation_call = (network_interface as FEAGI_NetworkingConnector_PM_and_WS).setup_post_message_and_websocket
+			print("DEBUG call 1: ", activation_call)
+			activation_call.bind(endpoint_config.get_full_connector_ws_URL())
+			print("DEBUG call 2: ", activation_call)
 	
 	# Activate FEAGI Device manager, including the Debugger (if enabled) and the FEAGI Network Interface (if enabled)
 	_FEAGI_IOConnector_manager = FEAGI_RunTime_IOConnectorManager.new(_FEAGI_sensors, _FEAGI_motors)

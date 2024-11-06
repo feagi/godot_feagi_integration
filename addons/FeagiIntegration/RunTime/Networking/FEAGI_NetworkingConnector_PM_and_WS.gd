@@ -7,6 +7,7 @@ var _WS: FEAGI_NetworkingConnector_WS = null
 
 ## Attempts to first setup post message then websocket. If either fails this whole connector has failed
 func setup_post_message_and_websocket(full_connector_WS_address: StringName) -> bool:
+	print("DEBUG: generating pm and ws object START")
 	_PM = FEAGI_NetworkingConnector_PM.new()
 	if !_PM.setup_post_message():
 		_PM = null
