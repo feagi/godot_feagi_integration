@@ -29,7 +29,6 @@ func setup_external_interface(connector_to_init: FEAGI_NetworkingConnector_Base,
 		if _setup_debugger():
 			_FEAGI_interface.interface_recieved_motor_data.connect(_debug_interface.alert_debugger_about_motor_update)
 	
-	print("pass call 1", init_call)
 	if !await _FEAGI_interface.define_interface(connector_to_init, init_call):
 		return false # Interface isn't valid
 	
