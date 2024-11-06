@@ -26,9 +26,10 @@ func setup_external_interface(connector_to_init: FEAGI_NetworkingConnector_Base,
 	parent_node.add_child(_FEAGI_interface)
 	
 	if is_debugger_enabled:
-		_setup_debugger()
-		_FEAGI_interface.interface_recieved_motor_data.connect(_debug_interface.alert_debugger_about_motor_update)
+		if _setup_debugger():
+			_FEAGI_interface.interface_recieved_motor_data.connect(_debug_interface.alert_debugger_about_motor_update)
 	
+	print("pass call 1", init_call)
 	if !await _FEAGI_interface.define_interface(connector_to_init, init_call):
 		return false # Interface isn't valid
 	
@@ -64,18 +65,19 @@ func on_sensor_tick() -> void:
 	if _FEAGI_interface:
 		_FEAGI_interface.on_sensor_tick()
 
-## Initializes the debugger with all FEAGI Devices!
-func _setup_debugger() -> void:
+## Initializes the debugger with all FEAGI Devices! Returns true if succesful
+func _setup_debugger() -> bool:
 	if !OS.is_debug_build():
 		push_warning("FEAGI: This is a non-debug build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
 		_debug_interface = null
-		return
+		return false
 	if FEAGI_JS.is_web_build():
 		push_warning("FEAGI: This is a web build, yet debugging is enabled as per config. Ignoring config and not enabling the debugger...")
 		_debug_interface = null
-		return
+		return false
 	_debug_interface = FEAGI_RunTime_DebugInterface.new()
 	for sensor: FEAGI_IOConnector_Sensor_Base in _FEAGI_sensors_reference_arr:
 		_debug_interface.alert_debugger_about_sensor_creation(sensor)
 	for motor: FEAGI_IOConnector_Motor_Base in _FEAGI_motors_reference_arr:
 		_debug_interface.alert_debugger_about_motor_creation(motor)
+	return true

@@ -29,7 +29,9 @@ func _process(delta: float) -> void:
 ## Pass in connector and initialization call to activate it
 func define_interface(connector: FEAGI_NetworkingConnector_Base, init_call: Callable) -> bool:
 	_network_connector = connector
+	print("DEBUG about to call")
 	await init_call.call()
+	print("DEBUG called")
 	
 	if !connector.connection_active: # reject interfaces that aren't active
 		_connection_active = false
