@@ -10,10 +10,12 @@ func setup_post_message_and_websocket(full_connector_WS_address: StringName) -> 
 	print("DEBUG: generating pm and ws object START")
 	_PM = FEAGI_NetworkingConnector_PM.new()
 	if !_PM.setup_post_message():
+		push_error("FEAGI: Hybrid interface failed to init PostMessage!")
 		_PM = null
 		return false
 	_WS = FEAGI_NetworkingConnector_WS.new()
 	if !(await _WS.setup_websocket(full_connector_WS_address)):
+		push_error("FEAGI: Hybrid interface failed to init WebSocket!")
 		_PM = null
 		_WS = null
 		return false

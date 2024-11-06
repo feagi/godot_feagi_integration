@@ -141,7 +141,7 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 		FEAGI_NetworkingConnector_Base.MODE.WS_AND_PM:
 			network_interface = FEAGI_NetworkingConnector_PM_and_WS.new()
 			activation_call = (network_interface as FEAGI_NetworkingConnector_PM_and_WS).setup_post_message_and_websocket
-			activation_call.bind(endpoint_config.get_full_connector_ws_URL())
+			activation_call = activation_call.bind(endpoint_config.get_full_connector_ws_URL())
 	
 	# Activate FEAGI Device manager, including the Debugger (if enabled) and the FEAGI Network Interface (if enabled)
 	_FEAGI_IOConnector_manager = FEAGI_RunTime_IOConnectorManager.new(_FEAGI_sensors, _FEAGI_motors)

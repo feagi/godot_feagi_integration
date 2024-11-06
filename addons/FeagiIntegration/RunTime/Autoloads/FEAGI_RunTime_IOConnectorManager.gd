@@ -30,6 +30,7 @@ func setup_external_interface(connector_to_init: FEAGI_NetworkingConnector_Base,
 			_FEAGI_interface.interface_recieved_motor_data.connect(_debug_interface.alert_debugger_about_motor_update)
 	
 	if !await _FEAGI_interface.define_interface(connector_to_init, init_call):
+		push_error("FEAGI: Unable to define interface!")
 		return false # Interface isn't valid
 	
 	_FEAGI_interface.set_cached_device_dicts(_FEAGI_sensors_reference, _FEAGI_motors_reference)

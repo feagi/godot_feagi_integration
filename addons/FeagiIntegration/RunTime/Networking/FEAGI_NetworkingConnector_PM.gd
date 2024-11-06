@@ -6,9 +6,11 @@ var _callback: JavaScriptObject = JavaScriptBridge.create_callback(_on_recieve_m
 
 func setup_post_message() -> bool:
 	if !FEAGI_JS.is_web_build():
+		push_error("FEAGI: Unable to setup postmessage connector on none web export!")
 		return false
 	var browser_window: JavaScriptObject = JavaScriptBridge.get_interface("window")
 	if !browser_window:
+		push_error("FEAGI: Unable to grab window!")
 		return false
 	browser_window.addEventListener("message", _callback)
 	_connection_active = true
