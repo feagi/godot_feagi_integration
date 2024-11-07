@@ -2,22 +2,15 @@ extends Node
 class_name FEAGI_RunTime_FEAGIInterface
 ## Handles the actual data transfer with FEAGI and the Godot Games Connector
 
-enum MODE {NONE, POSTMESSAGE, WEBSOCKET}
-
 signal interface_closed()
 signal interface_recieved_motor_data()
 
 var connection_active: bool:
 	get: return _connection_active
 
-var mode: MODE:
-	get: return _mode
-
 var _connection_active: bool  = false
-var _mode: MODE = MODE.NONE
 
-var _WS: FEAGI_Networking_WS = null
-var _PM: FEAGI_RunTime_FakeFEAGIInterface = null
+var _network_connector: FEAGI_NetworkingConnector_Base = null
 
 var _cached_FEAGI_sensors: Array[FEAGI_IOConnector_Sensor_Base]
 var _cached_FEAGI_motors: Array[FEAGI_IOConnector_Motor_Base]
@@ -25,59 +18,29 @@ var _cached_FEAGI_motors: Array[FEAGI_IOConnector_Motor_Base]
 var _FEAGI_sending_dict_structure: Dictionary ## Cached dict
 var _FEAGI_receiving_dict_structure: Dictionary ## Cached dict
 
+
 func _enter_tree() -> void:
 	name = "FEAGI Interface"
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	if _network_connector:
+		_network_connector.run_process(delta)
+
+## Pass in connector and initialization call to activate it
+func define_interface(connector: FEAGI_NetworkingConnector_Base, init_call: Callable) -> bool:
+	_network_connector = connector
+	await init_call.call()
 	
-	if !_WS:
-		return
-	_WS.process_WS()
-
-## ASYNC Initialize Websocket
-func setup_websocket(full_connector_WS_address: StringName) -> bool:
-	_WS = FEAGI_Networking_WS.new()
-	var result: bool = await _WS.setup_websocket(full_connector_WS_address)
-	if result:
-		if !_WS.recieved_bytes.is_connected(_on_motor_receive):
-			_WS.recieved_bytes.connect(_on_motor_receive)
-		set_process(true)
-		_connection_active = true
-		_mode = MODE.WEBSOCKET
-		return true
-	set_process(false)
-	_WS = null
-	connection_active = false
-	_mode = MODE.NONE
-	return false
-
-## Setup PostMessage interface
-func setup_postmessage() -> bool:
-	if !FEAGI_JS.is_web_build(): # prevent from calling if not web build
-		_PM = null
-		connection_active = false
-		_mode = MODE.NONE
+	
+	if !connector.connection_active: # reject interfaces that aren't active
+		push_error("FEAGI: Connector Failed to activate!")
+		_connection_active = false
 		return false
-	_PM = FEAGI_RunTime_FakeFEAGIInterface.new()
-	if !_PM.recieved_bytes.is_connected(_on_motor_receive):
-		_PM.recieved_bytes.connect(_on_motor_receive)
-	connection_active = true
-	_mode = MODE.POSTMESSAGE
+	
+	connector.recieved_bytes.connect(_on_motor_receive)
+	
+	_connection_active = true
 	return true
-
-## ASYNC function that returns true if feagis healthcheck returns at the given address
-func ping_feagi_available(full_feagi_address: StringName) -> bool:
-	var health_check_add: StringName = full_feagi_address + "/v1/system/health_check"
-	var worker: FEAGIHTTP = FEAGIHTTP.new()
-	worker.name = "health_check"
-	add_child(worker)
-	worker.send_GET_request(full_feagi_address, "/v1/system/health_check")
-	var response: Array = await worker.FEAGI_call_complete
-	if len(response) != 2:
-		return false
-	return response[0] != 0
-
-
 
 ## Send the dicts used to define the device listings
 func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
@@ -100,16 +63,14 @@ func set_cached_device_dicts(sensors: Dictionary, motors: Dictionary) -> void:
 
 ## ASYNC initialize connector with the configurator json
 func send_final_configurator_JSON(configurator_JSON: StringName) -> void:
-	if _mode != MODE.WEBSOCKET:
-		push_error("FEAGI: Unable to send ")
-		return
-	_WS.send_over_socket(configurator_JSON.to_ascii_buffer())
-	await get_tree().create_timer(0.2).timeout # await connector to process. Yes this is CANCER
+	if _network_connector:
+		_network_connector.send_configurator_JSON(configurator_JSON)
+		await get_tree().create_timer(0.2).timeout # await connector to process. Yes this is CANCER
 
 ## Called when we need to send sensory data to FEAGI
 func on_sensor_tick() -> void:
-	if _mode == MODE.NONE:
-		push_error("FEAGI: Cannot send data without an open interfac!")
+	if !_network_connector:
+		push_error("FEAGI: Cannot send data without an open interface!")
 		return
 
 	#for sensor in _cached_FEAGI_sensors: NOTE: This comment of code directly translates bytes to string. THis was an attempt to translate what we were doing to the current standard but didnt work. Still keeping this here as a template. for now we will use a worse performing implementation that works with the current JSON nonsense we have
@@ -126,13 +87,7 @@ func on_sensor_tick() -> void:
 			_FEAGI_sending_dict_structure[sensor.get_device_type()][str(sensor.device_ID)] = [temp.x, temp.y, temp.z]
 		# RIP frames
 	
-	if _mode == MODE.WEBSOCKET:
-		_WS.send_over_socket(str(_FEAGI_sending_dict_structure).to_ascii_buffer())
-		return
-	if _mode == MODE.POSTMESSAGE:
-		push_error("FEAGI: Sending data over PostMessage is not supported!")
-		# TODO support sending data!
-		return
+	_network_connector.send_data(str(_FEAGI_sending_dict_structure).to_ascii_buffer())
 
 func _on_motor_receive(raw_data: PackedByteArray) -> void:
 	## NOTE For now we are doing the HACK method with json. Yes this will be updated in a future date
