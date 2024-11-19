@@ -16,7 +16,7 @@ func is_using_automatic_input_key_emulation() -> bool:
 
 func retrieve_zero_value_byte_array() -> PackedByteArray:
 	var arr: PackedByteArray = PackedByteArray()
-	arr.resize(40)
+	arr.resize(48)
 	return arr
 
 ## Parse the data as a float and execute the function on it
