@@ -13,7 +13,7 @@ func _ready() -> void:
 		if not FEAGI.is_ready_for_device_registration():
 			register_IRDistanceBeam()
 			await FEAGI.ready_for_registration_agent_registration
-		_registration_agent.register_with_FEAGI(_get_distance, )
+		register_IRDistanceBeam()
 
 func register_IRDistanceBeam(FEAGI_sensor_name: StringName = proximity_sensor_name) -> void:
 	_registration_agent = FEAGI_RegistrationAgent_Sensory.new()
