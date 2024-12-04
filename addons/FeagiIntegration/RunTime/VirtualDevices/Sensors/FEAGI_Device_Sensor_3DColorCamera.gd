@@ -13,6 +13,7 @@ var _cloned_camera: Camera3D
 func _ready() -> void:
 	if autoregister_on_start:
 		if not FEAGI.is_ready_for_device_registration():
+			register_color_camera()
 			await FEAGI.ready_for_registration_agent_registration
 		register_color_camera()
 

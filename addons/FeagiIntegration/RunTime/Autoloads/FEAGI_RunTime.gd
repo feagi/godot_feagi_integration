@@ -69,7 +69,7 @@ func initialize_FEAGI_runtime(mapping_config: FEAGI_Genome_Mapping = null, endpo
 				network_mode =  FEAGI_NetworkingConnector_Base.MODE.WS_ONLY
 				print("FEAGI: Initializing in WebSocket Mode! (URL parameter override detected)")
 			_:
-				push_error("FEAGI: Unknown network mode passed in URL parameter: %s. Halting Integration!" % str(result))
+				push_error("FEAGI: Unknown network mode passed in URL parameter 'mode'. Halting Integration!")
 				return
 	else:
 		print("FEAGI: Initializing in WebSocket Mode!") # default
