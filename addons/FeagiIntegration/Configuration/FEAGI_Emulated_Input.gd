@@ -33,7 +33,6 @@ func press_action(strength: float) -> void:
 	if !_timer:
 		return
 	if strength < action_release_FEAGI_threshold and action_release_FEAGI_threshold != 0:
-		_release()
 		return
 	if strength > action_press_FEAGI_threshold:
 		_timer.wait_time = action_hold_seconds
@@ -41,9 +40,7 @@ func press_action(strength: float) -> void:
 		if not Input.is_action_pressed(godot_action_name):
 			Input.action_press(godot_action_name)
 	
-		
-		
-	
+
 func _release() -> void:
 	_timer.stop()
 	Input.action_release(godot_action_name)
