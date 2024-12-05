@@ -1,3 +1,4 @@
+@tool
 extends Resource
 class_name FEAGI_EmuInput_Abstract
 ## Root Abstract class for all classes that store how and action emulating godot inputs, be they through Godot Input Events, or emulating physical actions
