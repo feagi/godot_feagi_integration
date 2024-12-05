@@ -2,7 +2,25 @@
 extends FEAGI_IOConnector_Base
 class_name FEAGI_IOConnector_Motor_Base
 
+enum INPUT_EMULATOR_DATA_TYPE{
+	FLOAT_0_TO_1, # 0 to 1
+	FLOAT_M1_TO_1, # -1 to 1,
+	VEC2 # Vector2(0,0) to Vector2(1,1)
+}
+
+@export var InputEmulators: Array[FEAGI_EmuInput_Abstract] = [] ## A sequence of Input Emulators (or nulls) that are ordered to match certain usecases. This is set by the editor
+
 var _function_to_interact_with_godot_with: Callable = Callable() ## Function that will be called with the single expected argument type that this motor type outputs. This callable will interact with FEAGI
+
+## Get ordered list of names of possible inputs to emulate. Each child class has these hard coded
+static func get_InputEmulator_names() -> Array[StringName]:
+	assert(false, "Do not use 'FEAGI_IOConnector_Motor_Base' Directly!")
+	return []
+
+## Get ordered list of data types of possible inputs to emulate. Each child class has these hard coded
+static func get_InputEmulator_data_types() -> Array[INPUT_EMULATOR_DATA_TYPE]:
+	assert(false, "Do not use 'FEAGI_IOConnector_Motor_Base' Directly!")
+	return []
 
 ## Updates the cache with the latest data from FEAGI
 func update_cache_with_latest_FEAGI_data(new_data: PackedByteArray) -> void:

@@ -3,10 +3,19 @@ extends FEAGI_IOConnector_Motor_Base
 class_name FEAGI_IOConnector_Motor_MotionControl
 ## Motion Control FEAGI Device. Can signal for movement in various directions
 ## NOTE: _function_to_interact_with_godot_with with in this class is expected to accept a [FEAGI_Data_MotionControl]
-
 const TYPE_NAME = "motion_control"
 
 @export var automatically_emulate_keys: Dictionary = {} ## A dictionary that if defined, is key'd by the string key name of the direction from FEAGI, and the value is the [FEAGI_Emulated_Input] for that even
+
+static func get_InputEmulator_names() -> Array[StringName]:
+	return [&"Translate Upward", &"Translate Downward", &"Translate Leftward", &"Translate Rightward", &"Yaw Left", &"Yaw Right", 
+	&"Roll Left", &"Roll Right", &"Pitch Foward", &"Pitch Backward", &"Translate Forward", &"Translate Backward",
+	]
+
+static func get_InputEmulator_data_types() -> Array[INPUT_EMULATOR_DATA_TYPE]:
+	return [INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1,
+	INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1,
+	]
 
 func get_device_type() -> StringName:
 	return TYPE_NAME

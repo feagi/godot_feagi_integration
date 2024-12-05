@@ -8,6 +8,12 @@ class_name FEAGI_IOConnector_Motor_Motor
 
 const TYPE_NAME = "motor"
 
+static func get_InputEmulator_names() -> Array[StringName]:
+	return [&"Forward", &"Backward"]
+
+static func get_InputEmulator_data_types() -> Array[INPUT_EMULATOR_DATA_TYPE]:
+	return [INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1]
+
 func get_device_type() -> StringName:
 	return TYPE_NAME
 
