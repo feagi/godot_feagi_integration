@@ -1,0 +1,144 @@
+[gd_scene load_steps=2 format=3 uid="uid://cb22ijds17kmj"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/EmuInputsConfiguration/Editor_FEAGI_UI_Panel_EmuInputConfiguration.gd" id="1_8dupm"]
+
+[node name="EditorFeagiUiPanelEmuInputConfiguration" type="VBoxContainer"]
+script = ExtResource("1_8dupm")
+
+[node name="GodotInputName" type="Label" parent="."]
+layout_mode = 2
+text = "Name"
+horizontal_alignment = 1
+
+[node name="GodotInputType" type="Label" parent="."]
+layout_mode = 2
+text = "Type
+"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+alignment = 1
+
+[node name="start" type="Button" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+text = "Not binded. Click to bind"
+
+[node name="emuselect" type="ScrollContainer" parent="VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/emuselect"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GodotInputEvent" type="Button" parent="VBoxContainer/emuselect/VBoxContainer"]
+layout_mode = 2
+text = "Emulate Godot Input Event"
+
+[node name="Keyboard" type="Button" parent="VBoxContainer/emuselect/VBoxContainer"]
+layout_mode = 2
+text = "Emulate Keyboard"
+
+[node name="MouseClick" type="Button" parent="VBoxContainer/emuselect/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Emulate Mouse Click"
+
+[node name="InputEventConfig" type="VBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/InputEventConfig"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/InputEventConfig/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Which Godot Input Event should this press (as defined by your Godot project settings)"
+mouse_filter = 0
+text = "Input Event: "
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/InputEventConfig/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+fit_to_longest_item = false
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/InputEventConfig"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/InputEventConfig/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Instead of using the actual numerical value from FEAGI, press fully when the value from FEAGI surpases the given value and release fully when it is below"
+mouse_filter = 0
+text = "Use thresholding:"
+
+[node name="enablethresholding" type="CheckButton" parent="VBoxContainer/InputEventConfig/HBoxContainer2"]
+layout_mode = 2
+button_pressed = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/InputEventConfig"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/InputEventConfig/HBoxContainer3"]
+layout_mode = 2
+tooltip_text = "Above this value, the input event will be pressed, below it will be released"
+mouse_filter = 0
+text = "Threshold Cutoff: "
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/InputEventConfig/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 0.5
+alignment = 1
+
+[node name="Keyboard" type="VBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Keyboard"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Keyboard/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "What Keyboard key should be pressed?"
+mouse_filter = 0
+text = "Keyboard Key: "
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/Keyboard/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+fit_to_longest_item = false
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/Keyboard"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Keyboard/HBoxContainer3"]
+layout_mode = 2
+tooltip_text = "Above this value, the key will be pressed, below it will be released"
+mouse_filter = 0
+text = "Threshold Cutoff: "
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer/Keyboard/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 0.5
+alignment = 1
+
+[node name="Reset" type="Button" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Reset"
+
+[connection signal="pressed" from="VBoxContainer/start" to="." method="_step_2_ask_emuInput_type"]
+[connection signal="toggled" from="VBoxContainer/InputEventConfig/HBoxContainer2/enablethresholding" to="VBoxContainer/InputEventConfig/HBoxContainer3/SpinBox" method="set_editable"]
+[connection signal="pressed" from="VBoxContainer/Reset" to="." method="_step_1_set_to_unconfigured"]
