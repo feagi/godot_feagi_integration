@@ -3,4 +3,5 @@
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/EmuInputConfigurations/Editor_FEAGI_UI_Panel_EmuInputConfigurations.gd" id="1_vj53h"]
 
 [node name="Editor_FEAGI_UI_Panel_EmuInputConfigurations" type="VBoxContainer"]
+size_flags_horizontal = 3
 script = ExtResource("1_vj53h")

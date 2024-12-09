@@ -1,3 +1,4 @@
+@tool
 extends VBoxContainer
 class_name Editor_FEAGI_UI_Panel_EmuInputConfigurations
 

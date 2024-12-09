@@ -35,10 +35,10 @@ var _device_friendly_name: StringName
 
 var _device_type: StringName = ""
 
-func setup(device_type_name: StringName, device_index: int, initial_name: StringName, is_device_disabled: bool, specific_device_UI: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base, 
-configurator_JSON_template_for_this_device: Dictionary, specific_device_handler: FEAGI_IOConnector_Base = null, configurator_JSON_values: Dictionary = {}) -> void:
+func setup(device: FEAGI_IOConnector_Base, configurator_JSON_template_for_this_device: Dictionary, configurator_JSON_values: Dictionary = {}) -> Error:
 	# NOTE: The default value import is part of this function cause it is easier to mix that with the TemplateJSon Generator
 	# configurator_JSON_template_for_this_device refers to the dictionary  that is the value corresponding to {"input/output" : {"device_name" : (this dict)}}
+
 	_type_header = $MarginContainer/VBoxContainer/titlebar/type
 	_device_name_line = $MarginContainer/VBoxContainer/name/name
 	_is_disabled_box = $MarginContainer/VBoxContainer/disabled/disabled
@@ -47,18 +47,25 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 	_FEAGI_IOConnector_settings_holder = $MarginContainer/VBoxContainer/FEAGISettings/PanelContainer/MarginContainer/Internals
 	_FEAGI_settings = $MarginContainer/VBoxContainer/FEAGISettings
 	
-	_device_settings.replace_by(specific_device_UI)
-	_device_settings = specific_device_UI
-	_device_type = device_type_name
-	set_device_name(initial_name)
-	_is_disabled_box.button_pressed = is_device_disabled
-	_device_index = device_index
+	var device_specific_UI: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base = device.get_panel_device_specific_UI()
+	if !device_specific_UI:
+		push_error("FEAGI Configurator: Unable to retrieve device specific UI for device %s!" % device.get_device_type())
+		return Error.ERR_INVALID_PARAMETER
 	
+	var old_device_settings_ref: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base = _device_settings
+	_device_settings.replace_by(device_specific_UI)
+	old_device_settings_ref.queue_free()
+	_device_settings = device_specific_UI
+	
+	# NOTE: Assume values given in the device object are sensible
+	_device_type = device.get_device_type()
+	set_device_name(device.device_friendly_name)
+	is_disabled = device.is_disabled
+	_device_index = device.device_ID
 	set_title_label_index(_device_index)
-	_device_settings.setup()
-	if specific_device_handler:
-		_device_settings.import_IOHandler(specific_device_handler)
 	
+	_device_settings.setup(device)
+
 	var parameters_JSON_for_this_device: Array[Dictionary]
 	parameters_JSON_for_this_device.assign(configurator_JSON_template_for_this_device["parameters"])
 	_FEAGI_IOConnector_settings_holder.setup(parameters_JSON_for_this_device, configurator_JSON_values)
@@ -81,6 +88,7 @@ configurator_JSON_template_for_this_device: Dictionary, specific_device_handler:
 		_FEAGI_index_spin.value = configurator_JSON_values["feagi_index"]
 	elif len(configurator_JSON_values) != 0:
 		push_warning("FEAGI: Device is missing the 'feagi_index value', is this corrupt?")
+	return Error.OK
 
 func set_title_label_index(index: int) -> void:
 	_device_index = index
@@ -106,7 +114,7 @@ func export_as_FEAGI_IOHandler() -> FEAGI_IOConnector_Base:
 	return _device_settings.export_IOHandler(_device_friendly_name, _FEAGI_index_spin.value, _device_index, is_disabled) # TODO what is going onm with device index / device ID?
 
 
-## When the name lineedit loses focus, check if the text in it cheanged. If it did, send a signal to confirm if the name should be changed or not
+## When the name lineedit loses focus, check if the text in it changed. If it did, send a signal to confirm if the name should be changed or not
 func _check_name_change() -> void:
 	if _device_name_line.text != _device_friendly_name:
 		confirm_name_change.emit(_device_name_line.text, self)

@@ -20,6 +20,12 @@ func get_device_type() -> StringName:
 	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
 	return ""
 
+## Returns the UI panel element for device configuration
+func get_panel_device_specific_UI() -> Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base:
+	# override me in all child device classses to easily get the device specific UI for the panel
+	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
+	return null
+
 ## Most devices will just need this to define their creation to the debugger
 func get_debug_interface_device_creation_array() -> Array:
 	return [get_device_type(), device_friendly_name]
@@ -33,7 +39,6 @@ func get_cached_data_as_byte_array() -> PackedByteArray:
 func retrieve_zero_value_byte_array() -> PackedByteArray:
 	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
 	return PackedByteArray()
-
 
 ## A bunch of functions for parsing standard types back, and forth
 #region parsers

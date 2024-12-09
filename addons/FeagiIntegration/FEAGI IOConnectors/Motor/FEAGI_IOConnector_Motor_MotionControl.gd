@@ -5,13 +5,9 @@ class_name FEAGI_IOConnector_Motor_MotionControl
 ## NOTE: _function_to_interact_with_godot_with with in this class is expected to accept a [FEAGI_Data_MotionControl]
 const TYPE_NAME = "motion_control"
 
-@export var automatically_emulate_keys: Dictionary = {} ## A dictionary that if defined, is key'd by the string key name of the direction from FEAGI, and the value is the [FEAGI_Emulated_Input] for that even
-
 func get_device_type() -> StringName:
 	return TYPE_NAME
 
-func is_using_automatic_input_key_emulation() -> bool:
-	return len(automatically_emulate_keys) != 0
 
 func retrieve_zero_value_byte_array() -> PackedByteArray:
 	var arr: PackedByteArray = PackedByteArray()
