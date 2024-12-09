@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dn8l5c7vlh488"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/EmuInputConfigurations/Editor_FEAGI_UI_Panel_EmuInputConfigurations.gd" id="1_vj53h"]
+
+[node name="Editor_FEAGI_UI_Panel_EmuInputConfigurations" type="VBoxContainer"]
+script = ExtResource("1_vj53h")

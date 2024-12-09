@@ -8,12 +8,6 @@ class_name FEAGI_IOConnector_Motor_Motor
 
 const TYPE_NAME = "motor"
 
-static func get_InputEmulator_names() -> Array[StringName]:
-	return [&"Forward", &"Backward"]
-
-static func get_InputEmulator_data_types() -> Array[INPUT_EMULATOR_DATA_TYPE]:
-	return [INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1]
-
 func get_device_type() -> StringName:
 	return TYPE_NAME
 
@@ -24,6 +18,12 @@ func retrieve_zero_value_byte_array() -> PackedByteArray:
 	var arr: PackedByteArray = PackedByteArray()
 	arr.resize(4)
 	return arr
+
+func get_InputEmulator_names() -> Array[StringName]:
+	return [&"Forward", &"Backward"]
+
+func get_InputEmulator_data_types() -> Array[INPUT_EMULATOR_DATA_TYPE]:
+	return [INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1]
 
 ## Parse the data as a float and execute the function on it
 func _parse_FEAGI_raw_data(raw_FEAGI_data: PackedByteArray) -> void:

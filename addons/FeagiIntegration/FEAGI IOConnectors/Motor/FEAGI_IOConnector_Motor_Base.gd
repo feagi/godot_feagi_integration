@@ -12,16 +12,6 @@ enum INPUT_EMULATOR_DATA_TYPE{
 
 var _function_to_interact_with_godot_with: Callable = Callable() ## Function that will be called with the single expected argument type that this motor type outputs. This callable will interact with FEAGI
 
-## Get ordered list of names of possible inputs to emulate. Each child class has these hard coded
-static func get_InputEmulator_names() -> Array[StringName]:
-	assert(false, "Do not use 'FEAGI_IOConnector_Motor_Base' Directly!")
-	return []
-
-## Get ordered list of data types of possible inputs to emulate. Each child class has these hard coded
-static func get_InputEmulator_data_types() -> Array[INPUT_EMULATOR_DATA_TYPE]:
-	assert(false, "Do not use 'FEAGI_IOConnector_Motor_Base' Directly!")
-	return []
-
 ## Updates the cache with the latest data from FEAGI
 func update_cache_with_latest_FEAGI_data(new_data: PackedByteArray) -> void:
 	_cached_bytes = new_data
@@ -43,6 +33,16 @@ func deregister_registration_agent_motor() -> void:
 		return
 	_function_to_interact_with_godot_with = Callable()
 	_is_registered_to_registration_agent = false
+
+## Get ordered list of names of possible inputs to emulate. Each child class has these hard coded Length of this must == Length get_InputEmulator_data_types
+func get_InputEmulator_names() -> Array[StringName]:
+	assert(false, "Do not use 'FEAGI_IOConnector_Motor_Base' Directly!")
+	return []
+
+## Get ordered list of data types of possible inputs to emulate. Each child class has these hard coded.
+func get_InputEmulator_data_types() -> Array[INPUT_EMULATOR_DATA_TYPE]:
+	assert(false, "Do not use 'FEAGI_IOConnector_Motor_Base' Directly!")
+	return []
 
 ## If callable is valid, upon recvieving the byte data from feagi, parse the data into the expected form and execute the callable on it
 func _parse_FEAGI_raw_data(raw_FEAGI_data: PackedByteArray) -> void:
