@@ -3,6 +3,8 @@ extends Resource
 class_name FEAGI_IOConnector_Base
 ## Base class for all FEAGI Devices. A FEAGI Device is a definition / endpoint / representation for a device found on FEAGI itself.
 
+
+
 @export var device_friendly_name: StringName ## What the device is named in FEAGI
 @export var FEAGI_index: int
 @export var device_ID: int
@@ -13,6 +15,17 @@ var is_registered_to_registration_agent: bool:  ## Is this FEAGI device currentl
 
 var _is_registered_to_registration_agent: bool = false
 var _cached_bytes: PackedByteArray = [] ## The last state of the device as bytes. Either read from game in the case of a sensor or the last thing retrieved from FEAGI in the case of a motor
+
+## Attempts to spawn a new object of a given type by the device type string
+static func create_new_IOConnector_by_device_type(device_type: StringName) -> FEAGI_IOConnector_Base:
+	# check sensors first
+	if ClassDB.class_exists("FEAGI_IOConnector_Sensor_" + device_type):
+		return ClassDB.instantiate("FEAGI_IOConnector_Sensor_" + device_type)
+	# check motors
+	if ClassDB.class_exists("FEAGI_IOConnector_Motor_" + device_type):
+		return ClassDB.instantiate("FEAGI_IOConnector_Motor_" + device_type)
+	push_error("FEAGI: No device of type %s has a class defined!")
+	return null
 
 ## Returns the device name type as FEAGI configurator json expects
 func get_device_type() -> StringName:

@@ -4,6 +4,13 @@ class_name Editor_FEAGI_UI_Panel_EmuInputConfigurations
 
 const EMUINPUT_CONFIGURATOR_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Resources/Prefabs/EmuInputsConfiguration/Editor_FEAGI_UI_Panel_EmuInputConfiguration.tscn")
 
+
+
+var _device_UI_holder: VBoxContainer
+var _input_node: RichTextLabel
+var _collabsible: FEAGI_UI_Prefab_Collapsible
+
+
 ## Creates all EmuInput controls for given motor (including prefilling them if values are given)
 func setup_for_motor(motor: FEAGI_IOConnector_Motor_Base) -> Error:
 	if motor == null:
