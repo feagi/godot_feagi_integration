@@ -19,6 +19,10 @@ func _init() -> void:
 func get_device_type() -> StringName:
 	return TYPE_NAME
 
+## OVERRIDDEN since we have a special UI for camera
+func get_panel_device_specific_UI() -> Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base:
+	return load("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/SpecialDevices/FEAGI_UI_Panel_SpecificSensoryDevice_Camera.tscn").instantiate()
+
 ## OVERRIDDEN - cameras need to report their resolution such that the packed data array can be properly applied
 func get_debug_interface_device_creation_array() -> Array:
 	return [get_device_type(), device_friendly_name, resolution.x, resolution.y]

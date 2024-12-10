@@ -94,7 +94,7 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 
-[node name="DeviceSettings_TOBEREPLACED" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="DeviceSpecificSettings_TOBEREPLACED" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("5_1cjuf")
 

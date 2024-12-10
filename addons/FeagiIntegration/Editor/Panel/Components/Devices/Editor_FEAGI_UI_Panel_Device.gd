@@ -27,7 +27,7 @@ var _type_header: Label
 var _device_name_line: LineEdit
 var _is_disabled_box: CheckBox
 var _FEAGI_index_spin: SpinBox
-var _device_settings: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base  # This node gets replaced on start as per setup()
+var _device_settings: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base  # this node may get replaced in unique cases
 var _FEAGI_settings: FEAGI_UI_Prefab_Collapsible
 var _FEAGI_IOConnector_settings_holder: Editor_FEAGI_UI_Panel_Device_ParameterManager
 var _device_index: int
@@ -64,7 +64,8 @@ func setup(device: FEAGI_IOConnector_Base, configurator_JSON_template_for_this_d
 	_device_index = device.device_ID
 	set_title_label_index(_device_index)
 	
-	_device_settings.setup(device)
+	var can_use_emulated_inputs: bool = ClassDB.is_parent_class("FEAGI_IOConnector_Motor_Base", device.get_global_name()) # right now, we assume all motors can use emulated inputs
+	_device_settings.setup(device, can_use_emulated_inputs)
 
 	var parameters_JSON_for_this_device: Array[Dictionary]
 	parameters_JSON_for_this_device.assign(configurator_JSON_template_for_this_device["parameters"])

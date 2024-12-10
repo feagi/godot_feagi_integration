@@ -31,11 +31,10 @@ func get_device_type() -> StringName:
 	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
 	return ""
 
-## Returns the UI panel element for device configuration
+## Returns the UI panel element for device configuration (setup not called yet on it)
 func get_panel_device_specific_UI() -> Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base:
-	# override me in all child device classses to easily get the device specific UI for the panel
-	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
-	return null
+	# override me in all child device classses that have a unique setup instead
+	return load("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base.tscn").instantiate()
 
 ## Most devices will just need this to define their creation to the debugger
 func get_debug_interface_device_creation_array() -> Array:
