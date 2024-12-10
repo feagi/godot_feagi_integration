@@ -2,7 +2,7 @@
 extends VBoxContainer
 class_name Editor_FEAGI_UI_Panel_EmuInputConfigurations
 
-const EMUINPUT_CONFIGURATOR_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Resources/Prefabs/EmuInputsConfiguration/Editor_FEAGI_UI_Panel_EmuInputConfiguration.tscn")
+const EMUINPUT_CONFIGURATOR_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/EmuInputConfigurations/EmuInputsConfiguration/Editor_FEAGI_UI_Panel_EmuInputConfiguration.tscn")
 
 var is_emuInput_enabled: bool:
 	get:

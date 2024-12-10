@@ -3,7 +3,7 @@ extends VBoxContainer
 class_name Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base
 ## Some devices have specific settings in their UIs, this script acts as the base class for the non-specific cases, and is the parent class for any customizations to this behavior
 
-const EMUINPUT_HOLDER_UI_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Resources/Prefabs/EmuInputConfigurations/Editor_FEAGI_UI_Panel_EmuInputConfigurations.tscn")
+const EMUINPUT_HOLDER_UI_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/EmuInputConfigurations/Editor_FEAGI_UI_Panel_EmuInputConfigurations.tscn")
 
 var _emuInput_holder: Editor_FEAGI_UI_Panel_EmuInputConfigurations = null # only exists if EmuInput was set during setup
 
