@@ -13,7 +13,9 @@ layout_mode = 2
 [node name="Label" type="Label" parent="keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Emulate Godot Input Events"
+tooltip_text = "Enable to configure setting up automated input emulation from FEAGI without having to code a manual integration"
+mouse_filter = 1
+text = "Emulate Input"
 
 [node name="emulate" type="CheckBox" parent="keyboard"]
 layout_mode = 2
@@ -33,5 +35,8 @@ show_text = &"Show Input Configuration"
 
 [node name="Show" parent="CollapsiblePrefab" index="0"]
 text = "Show Input Configuration"
+
+[connection signal="toggled" from="keyboard/emulate" to="input_note" method="set_visible"]
+[connection signal="toggled" from="keyboard/emulate" to="CollapsiblePrefab" method="set_visible"]
 
 [editable path="CollapsiblePrefab"]
