@@ -16,14 +16,17 @@ var _cached_bytes: PackedByteArray = [] ## The last state of the device as bytes
 
 ## Attempts to spawn a new object of a given type by the device type string
 static func create_new_IOConnector_by_device_type(device_type: StringName) -> FEAGI_IOConnector_Base:
+	device_type = device_type.to_pascal_case()
 	# check sensors first
-	if ClassDB.class_exists("FEAGI_IOConnector_Sensor_" + device_type):
-		return ClassDB.instantiate("FEAGI_IOConnector_Sensor_" + device_type)
-	# check motors
-	if ClassDB.class_exists("FEAGI_IOConnector_Motor_" + device_type):
-		return ClassDB.instantiate("FEAGI_IOConnector_Motor_" + device_type)
-	push_error("FEAGI: No device of type %s has a class defined!")
+	var sensors_path: StringName = &"res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_"
+	if FileAccess.file_exists(sensors_path + device_type + ".gd"):
+		return load(sensors_path + device_type + ".gd").new()
+	var motors_path: StringName = &"res://addons/FeagiIntegration/FEAGI IOConnectors/Motor/FEAGI_IOConnector_Motor_"
+	if FileAccess.file_exists(motors_path + device_type + ".gd"):
+		return load(motors_path + device_type + ".gd").new()
+	push_error("FEAGI: No device of type %s has a class defined!" % device_type)
 	return null
+
 
 ## Returns the device name type as FEAGI configurator json expects
 func get_device_type() -> StringName:

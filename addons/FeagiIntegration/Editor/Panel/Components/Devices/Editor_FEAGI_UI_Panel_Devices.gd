@@ -41,12 +41,12 @@ func _add_device_button_pressed() -> void:
 	var spawn_index: int = _dropdown.get_selected_id()
 	if spawn_index == -1:
 		return
-	var spawn_name: StringName
+	var new_device_type: StringName
 	if _is_sensory:
-		spawn_name = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_SENSORS[spawn_index]
+		new_device_type = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_SENSORS[spawn_index]
 	else:
-		spawn_name = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_MOTORS[spawn_index]
+		new_device_type = FEAGI_PLUGIN_CONFIG.GODOT_SUPPORTED_MOTORS[spawn_index]
 
-	_device_list.spawn_device_new(spawn_name, _whole_IO_template[spawn_name])
+	_device_list.spawn_new_device_UI(new_device_type, _whole_IO_template[new_device_type])
 	
 	

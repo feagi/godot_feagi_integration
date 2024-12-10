@@ -3,7 +3,7 @@ extends ScrollContainer
 class_name Editor_FEAGI_UI_Panel_DeviceList
 ## Handles spawning the devices
 
-const DEVICE_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Editor_FEAGI_UI_Panel_Device.tscn")
+const DEVICE_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Editor_FEAGI_UI_Panel_Device.tscn")
 
 var _device_holder: VBoxContainer
 var _is_sensory: bool
@@ -39,8 +39,9 @@ func spawn_existing_device_UI(device: FEAGI_IOConnector_Base, configurator_templ
 	device_UI.setup(device, configurator_template, configurator_loaded_settings)
 	return device_UI
 
-
+## Spawns a new fresh device
 func spawn_new_device_UI(device_type: String, configurator_template: Dictionary) -> Editor_FEAGI_UI_Panel_Device:
+	print(device_type)
 	var new_device: FEAGI_IOConnector_Base = FEAGI_IOConnector_Base.create_new_IOConnector_by_device_type(device_type)
 	if !new_device:
 		push_error("FEAGI Configurator: Unable to generate device UI for unknown device type %s!" % device_type)
