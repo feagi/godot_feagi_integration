@@ -17,11 +17,11 @@ func setup(motor_output_name: StringName, motor_output_datatype: FEAGI_IOConnect
 	_data_type = motor_output_datatype
 	match(motor_output_datatype):
 		FEAGI_IOConnector_Motor_Base.INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1:
-			$GodotInputType.text - "0 to 1"
+			$GodotInputType.text = "0 to 1"
 		FEAGI_IOConnector_Motor_Base.INPUT_EMULATOR_DATA_TYPE.FLOAT_M1_TO_1:
-			$GodotInputType.text - "-1 to 1"
+			$GodotInputType.text = "-1 to 1"
 		FEAGI_IOConnector_Motor_Base.INPUT_EMULATOR_DATA_TYPE.VEC2:
-			$GodotInputType.text - "<-1, -1> to <1, 1>"
+			$GodotInputType.text = "<-1, -1> to <1, 1>"
 	_1button = $VBoxContainer/start
 	_2scroll = $VBoxContainer/emuselect
 	_2scroll_godotInputEvent = $VBoxContainer/emuselect/VBoxContainer/GodotInputEvent

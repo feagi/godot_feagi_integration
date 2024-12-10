@@ -41,7 +41,6 @@ func spawn_existing_device_UI(device: FEAGI_IOConnector_Base, configurator_templ
 
 ## Spawns a new fresh device
 func spawn_new_device_UI(device_type: String, configurator_template: Dictionary) -> Editor_FEAGI_UI_Panel_Device:
-	print(device_type)
 	var new_device: FEAGI_IOConnector_Base = FEAGI_IOConnector_Base.create_new_IOConnector_by_device_type(device_type)
 	if !new_device:
 		push_error("FEAGI Configurator: Unable to generate device UI for unknown device type %s!" % device_type)

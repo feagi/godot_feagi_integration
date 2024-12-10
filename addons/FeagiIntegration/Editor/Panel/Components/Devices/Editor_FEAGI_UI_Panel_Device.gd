@@ -43,7 +43,7 @@ func setup(device: FEAGI_IOConnector_Base, configurator_JSON_template_for_this_d
 	_device_name_line = $MarginContainer/VBoxContainer/name/name
 	_is_disabled_box = $MarginContainer/VBoxContainer/disabled/disabled
 	_FEAGI_index_spin = $MarginContainer/VBoxContainer/feagi_index/index
-	_device_settings = $MarginContainer/VBoxContainer/DeviceSettings_TOBEREPLACED # This is a placeholder about to be replaced
+	_device_settings = $MarginContainer/VBoxContainer/DeviceSpecificSettings_TOBEREPLACED # This is a placeholder about to be replaced
 	_FEAGI_IOConnector_settings_holder = $MarginContainer/VBoxContainer/FEAGISettings/PanelContainer/MarginContainer/Internals
 	_FEAGI_settings = $MarginContainer/VBoxContainer/FEAGISettings
 	
@@ -64,7 +64,7 @@ func setup(device: FEAGI_IOConnector_Base, configurator_JSON_template_for_this_d
 	_device_index = device.device_ID
 	set_title_label_index(_device_index)
 	
-	var can_use_emulated_inputs: bool = ClassDB.is_parent_class("FEAGI_IOConnector_Motor_Base", device.get_global_name()) # right now, we assume all motors can use emulated inputs
+	var can_use_emulated_inputs: bool = (device as FEAGI_IOConnector_Motor_Base) != null # assume all motors can have emuInputs
 	_device_settings.setup(device, can_use_emulated_inputs)
 
 	var parameters_JSON_for_this_device: Array[Dictionary]

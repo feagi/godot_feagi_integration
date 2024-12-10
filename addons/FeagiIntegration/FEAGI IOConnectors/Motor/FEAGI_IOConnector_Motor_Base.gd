@@ -44,16 +44,6 @@ func get_InputEmulator_data_types() -> Array[INPUT_EMULATOR_DATA_TYPE]:
 	assert(false, "Do not use 'FEAGI_IOConnector_Motor_Base' Directly!")
 	return []
 
-## Returns the UI panel element for device configuration
-func get_panel_device_specific_UI() -> Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base:
-	# override me in all child device classses to easily get the device specific UI for the panel
-	var string_type: String = get_device_type()
-	var path: String = "res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Motor/FEAGI_UI_Panel_SpecificMotorDevice_%s.tscn" % (string_type[0].to_upper() + string_type.substr(1))
-	if !FileAccess.file_exists(path):
-		push_error("FEAGI: Cannot spawn unknown motor device type %s!" % string_type)
-		return null
-	return load(path).instantiate()
-
 ## If callable is valid, upon recvieving the byte data from feagi, parse the data into the expected form and execute the callable on it
 func _parse_FEAGI_raw_data(raw_FEAGI_data: PackedByteArray) -> void:
 	assert(false, "Do not use 'FEAGI_IOConnector_Motor_Base' Directly!")
