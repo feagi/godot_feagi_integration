@@ -3,8 +3,6 @@ extends Resource
 class_name FEAGI_IOConnector_Base
 ## Base class for all FEAGI Devices. A FEAGI Device is a definition / endpoint / representation for a device found on FEAGI itself.
 
-
-
 @export var device_friendly_name: StringName ## What the device is named in FEAGI
 @export var FEAGI_index: int
 @export var device_ID: int

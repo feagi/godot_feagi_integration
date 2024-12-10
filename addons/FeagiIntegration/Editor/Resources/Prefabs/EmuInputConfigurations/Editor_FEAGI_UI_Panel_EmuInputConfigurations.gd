@@ -4,11 +4,19 @@ class_name Editor_FEAGI_UI_Panel_EmuInputConfigurations
 
 const EMUINPUT_CONFIGURATOR_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Resources/Prefabs/EmuInputsConfiguration/Editor_FEAGI_UI_Panel_EmuInputConfiguration.tscn")
 
+var is_emuInput_enabled: bool:
+	get:
+		if !_enable_checkbox:
+			return false
+		return _enable_checkbox.button_pressed
+
+var _enable_checkbox: CheckBox
 var _device_UI_holder: VBoxContainer
 
 ## Creates all EmuInput controls for given motor (including prefilling them if values are given)
 func setup_for_motor(motor: FEAGI_IOConnector_Motor_Base) -> Error:
 	
+	_enable_checkbox = $keyboard/emulate
 	_device_UI_holder = $CollapsiblePrefab/PanelContainer/MarginContainer/Internals
 	if motor == null:
 		push_error("FEAGI Configurator: Unable to initialize EmuInput configuration panels for a null motor reference!")
