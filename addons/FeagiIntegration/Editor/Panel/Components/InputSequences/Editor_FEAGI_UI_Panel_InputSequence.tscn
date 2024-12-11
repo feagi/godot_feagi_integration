@@ -3,4 +3,36 @@
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/Editor_FEAGI_UI_Panel_InputSequence.gd" id="1_rwfkh"]
 
 [node name="Editor_FEAGI_UI_Panel_InputSequence" type="VBoxContainer"]
+offset_right = 77.0
+offset_bottom = 62.0
+size_flags_horizontal = 3
 script = ExtResource("1_rwfkh")
+
+[node name="SequenceName" type="Label" parent="."]
+layout_mode = 2
+text = "Name"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="StepsHolder" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Append" type="Button" parent="."]
+layout_mode = 2
+text = "Add Step...."
+
+[node name="Delete" type="Button" parent="."]
+layout_mode = 2
+text = "Delete Sequence"
+
+[connection signal="pressed" from="Append" to="." method="_append_step"]
+[connection signal="pressed" from="Delete" to="." method="queue_free"]

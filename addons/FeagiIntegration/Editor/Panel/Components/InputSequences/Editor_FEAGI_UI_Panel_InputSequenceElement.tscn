@@ -38,10 +38,19 @@ text = "Delay"
 layout_mode = 2
 text = "Input"
 
-[node name="AddBefore" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="options" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="AddBefore" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/options"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Add Input Before
 "
+
+[node name="Delete" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/options"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Delete Step"
 
 [node name="Step2_Delay" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -88,3 +97,8 @@ max_value = 60.0
 step = 0.1
 value = 0.1
 alignment = 1
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Step1_type/Delay" to="." method="_step2_choose_delay"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Step1_type/Input" to="." method="_step2_choose_input"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/options/AddBefore" to="." method="_add_step_before_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/options/Delete" to="." method="queue_free"]
