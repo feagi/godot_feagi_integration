@@ -51,7 +51,7 @@ func export_emu_input() -> FEAGI_EmuInput_Abstract:
 	if _3keyboard.visible:
 		var output: FEAGI_EmuInput_KeyboardPress = FEAGI_EmuInput_KeyboardPress.new()
 		var dropdown: OptionButton = $VBoxContainer/Keyboard/HBoxContainer/OptionButton
-		output.key_to_press = dropdown.selected
+		output.key_to_press = dropdown.get_item_id(dropdown.selected)
 		output.bang_bang_threshold = $VBoxContainer/Keyboard/HBoxContainer3/SpinBox.value
 		return output
 	
@@ -117,13 +117,16 @@ func _step_3_configure_keyboard(preset_keyboard_event: FEAGI_EmuInput_KeyboardPr
 	# We have a none key already with an int value of 0 (both for possible keys and Key)
 	for possible in FEAGI_EmuInput_KeyboardPress.SUPPORTED_KEY.keys():
 		dropdown.add_item(possible, int(FEAGI_EmuInput_KeyboardPress.SUPPORTED_KEY[possible])) # the dropdown key value will be the key int index
+		print("a", int(FEAGI_EmuInput_KeyboardPress.SUPPORTED_KEY[possible]))
 	dropdown.selected = 0 # the None key
 	
 	if !preset_keyboard_event:
 		return
 	
+	print(preset_keyboard_event.key_to_press)
 	if  preset_keyboard_event.key_to_press in FEAGI_EmuInput_KeyboardPress.SUPPORTED_KEY.values():
-		dropdown.select(preset_keyboard_event.key_to_press)
+		var index_to_select: int = dropdown.get_item_index(preset_keyboard_event.key_to_press)
+		dropdown.select(index_to_select)
 	else:
 		push_error("FEAGI Configurator: Unsupported key defined for keyboard input! Defaulting to None!")
 	$VBoxContainer/Keyboard/HBoxContainer3/SpinBox.value = preset_keyboard_event.bang_bang_threshold

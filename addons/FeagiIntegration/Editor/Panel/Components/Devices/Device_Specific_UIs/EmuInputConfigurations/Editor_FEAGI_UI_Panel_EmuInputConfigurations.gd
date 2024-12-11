@@ -38,10 +38,8 @@ func setup_for_motor(motor: FEAGI_IOConnector_Motor_Base) -> Error:
 	for i in len(names):
 		var emuInput_configurator: Editor_FEAGI_UI_Panel_EmuInputConfiguration = EMUINPUT_CONFIGURATOR_PREFAB.instantiate()
 		if motor.InputEmulators.is_empty():
-			print("a", i)
 			emuInput_configurator.setup(names[i], types[i])
 		else:
-			print("b", i)
 			emuInput_configurator.setup(names[i], types[i], motor.InputEmulators[i])
 		_device_UI_holder.add_child(emuInput_configurator)
 	return Error.OK

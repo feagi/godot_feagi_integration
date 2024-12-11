@@ -7,12 +7,12 @@
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="4_gxjdj"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Camera.gd" id="5_g5slr"]
 
-[sub_resource type="Resource" id="Resource_buggk"]
+[sub_resource type="Resource" id="Resource_nxpdj"]
 script = ExtResource("2_vfn4y")
 bang_bang_threshold = 0.5
-key_to_press = 12
+key_to_press = 4194305
 
-[sub_resource type="Resource" id="Resource_yqeqb"]
+[sub_resource type="Resource" id="Resource_1ns0n"]
 script = ExtResource("3_bg2w4")
 use_bang_bang_instead_of_actual_value = true
 bang_bang_threshold = 0.5
@@ -20,7 +20,7 @@ godot_input_event_name = &"ui_text_backspace"
 
 [sub_resource type="Resource" id="Resource_o81bp"]
 script = ExtResource("3_n4bt2")
-InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_buggk"), SubResource("Resource_yqeqb"), null, null, null, null, null, null, null, null, null, null])
+InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_nxpdj"), SubResource("Resource_1ns0n"), null, null, null, null, null, null, null, null, null, null])
 device_friendly_name = &"1"
 FEAGI_index = 2
 device_ID = 0
