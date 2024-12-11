@@ -1,5 +1,5 @@
 @tool
-extends VBoxContainer
+extends MarginContainer
 class_name Editor_FEAGI_UI_Panel_InputSequence
 
 const SEQUENCE_ELEMENT_PREFAB: PackedScene = preload("res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/Editor_FEAGI_UI_Panel_InputSequenceElement.tscn")
@@ -14,8 +14,8 @@ var _sequence_name_UI: Label
 var _steps_holder: VBoxContainer
 
 func setup(given_sequence_name: StringName, sequence: FEAGI_EmuPredefinedInputSequence = null) -> void:
-	_sequence_name_UI = $SequenceName
-	_steps_holder = $MarginContainer/PanelContainer/StepsHolder
+	_sequence_name_UI = $PanelContainer/VBoxContainer/SequenceName
+	_steps_holder = $PanelContainer/VBoxContainer/MarginContainer/PanelContainer/StepsHolder
 	
 	_sequence_name_UI.text = given_sequence_name
 	

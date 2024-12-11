@@ -1,3 +1,4 @@
+@tool
 extends VBoxContainer
 class_name Editor_FEAGI_UI_Panel_InputSequences
 
@@ -22,6 +23,11 @@ func _add_sequence(given_sequence_name: StringName, sequence: FEAGI_EmuPredefine
 
 func _add_sequence_button_pressed() -> Error:
 	var desired_name: StringName = _sequence_name_input.text
+	
+	if desired_name.is_empty():
+		push_error("FEAGI Configurator: Sequence name cannot be empty!")
+		return Error.ERR_DOES_NOT_EXIST
+	
 	for child in _sequences_holder.get_children():
 		var sequence_UI: Editor_FEAGI_UI_Panel_InputSequence = child as Editor_FEAGI_UI_Panel_InputSequence
 		if sequence_UI.sequence_name == desired_name:

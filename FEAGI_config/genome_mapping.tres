@@ -1,38 +1,19 @@
-[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=12 format=3 uid="uid://ccmso5lsiqxgy"]
+[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=9 format=3 uid="uid://ccmso5lsiqxgy"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_Abstract.gd" id="1_vb7ep"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_GodotInputEvent.gd" id="3_bg2w4"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_KeyboardPress.gd" id="2_wylsp"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Motor/FEAGI_IOConnector_Motor_MotionControl.gd" id="3_n4bt2"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="4_gxjdj"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Camera.gd" id="5_g5slr"]
 
-[sub_resource type="Resource" id="Resource_ypy2y"]
-script = ExtResource("3_bg2w4")
-use_bang_bang_instead_of_actual_value = true
+[sub_resource type="Resource" id="Resource_g61ds"]
+script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
-godot_input_event_name = &"move_up"
-
-[sub_resource type="Resource" id="Resource_xh6m6"]
-script = ExtResource("3_bg2w4")
-use_bang_bang_instead_of_actual_value = true
-bang_bang_threshold = 0.5
-godot_input_event_name = &"move_down"
-
-[sub_resource type="Resource" id="Resource_nihy7"]
-script = ExtResource("3_bg2w4")
-use_bang_bang_instead_of_actual_value = true
-bang_bang_threshold = 0.5
-godot_input_event_name = &"move_left"
-
-[sub_resource type="Resource" id="Resource_2wrom"]
-script = ExtResource("3_bg2w4")
-use_bang_bang_instead_of_actual_value = true
-bang_bang_threshold = 0.5
-godot_input_event_name = &"move_right"
+key_to_press = 0
 
 [sub_resource type="Resource" id="Resource_o81bp"]
 script = ExtResource("3_n4bt2")
-InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_ypy2y"), SubResource("Resource_xh6m6"), SubResource("Resource_nihy7"), SubResource("Resource_2wrom"), null, null, null, null, null, null, null, null])
+InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_g61ds"), null, null, null, null, null, null, null, null, null, null, null])
 device_friendly_name = &"1"
 FEAGI_index = 2
 device_ID = 0
@@ -42,7 +23,7 @@ is_disabled = true
 script = ExtResource("5_g5slr")
 resolution = Vector2i(64, 64)
 is_flipped_x = false
-automatically_create_screengrabber = true
+automatically_create_screengrabber = false
 device_friendly_name = &"dddd"
 FEAGI_index = 0
 device_ID = 0
@@ -60,3 +41,4 @@ sensors = {
 motors = {
 "motion_control_1": SubResource("Resource_o81bp")
 }
+predfined_input_sequences = {}
