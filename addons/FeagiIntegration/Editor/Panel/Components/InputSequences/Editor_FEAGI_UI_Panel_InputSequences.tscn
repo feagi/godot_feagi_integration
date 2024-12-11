@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://062ekyxre4fw"]
+
+[node name="Editor_FEAGI_UI_Panel_InputSequences" type="VBoxContainer"]
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Input Sequences"
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add Sequence: "
+
+[node name="title" type="LineEdit" parent="HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+placeholder_text = "Sequence Name"
+alignment = 1
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "+"
+
+[node name="sequences" type="VBoxContainer" parent="."]
+layout_mode = 2

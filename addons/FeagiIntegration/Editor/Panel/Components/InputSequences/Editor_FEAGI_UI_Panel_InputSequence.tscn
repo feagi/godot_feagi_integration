@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://blb2cjn3348de"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/Editor_FEAGI_UI_Panel_InputSequence.gd" id="1_rwfkh"]
+
+[node name="Editor_FEAGI_UI_Panel_InputSequence" type="VBoxContainer"]
+script = ExtResource("1_rwfkh")

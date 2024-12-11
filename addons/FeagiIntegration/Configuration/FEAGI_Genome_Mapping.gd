@@ -9,6 +9,7 @@ class_name FEAGI_Genome_Mapping
 
 @export var sensors: Dictionary = {} ## A dictionary of [FEAGI_IOConnector_Sensor_Base]s key'd by their device type name + "_" + device name
 @export var motors: Dictionary = {} ## A dictionary of [FEAGI_IOConnector_Motor_Base]s key'd by their device type name + "_" + device name
+@export var predfined_input_sequences: Dictionary = {} ## Key'd by the string name of the sequence, and the value being the [FEAGI_EmuPredefinedInputSequence] associated
 
 func save_config() -> void:
 	FEAGI_PLUGIN_CONFIG.confirm_config_directory()
