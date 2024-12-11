@@ -15,6 +15,9 @@ func retrieve_zero_value_byte_array() -> PackedByteArray:
 	arr.resize(4)
 	return arr
 
+func retrieve_cached_value() -> float:
+	return _parse_bytes_as_float(_cached_bytes)
+
 func get_InputEmulator_names() -> Array[StringName]:
 	return [&"Forward", &"Backward"]
 

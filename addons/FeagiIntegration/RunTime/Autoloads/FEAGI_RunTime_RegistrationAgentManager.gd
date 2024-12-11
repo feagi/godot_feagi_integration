@@ -53,4 +53,15 @@ func get_possible_motor_feagi_names() -> PackedStringArray:
 	for motor in _FEAGI_motors_reference.values():
 		output.append(motor.device_friendly_name)
 	return PackedStringArray(output)
-	
+
+func get_FEAGI_motor_by_name(motor_name: StringName) -> FEAGI_IOConnector_Motor_Base:
+	if motor_name not in _FEAGI_motors_reference:
+		push_error("FEAGI: Unable to find a FEAGI motor of device name %s!" % motor_name)
+		return null
+	return _FEAGI_motors_reference[motor_name]
+
+func get_FEAGI_sensor_by_name(sensor_name: StringName) -> FEAGI_IOConnector_Sensor_Base:
+	if sensor_name not in _FEAGI_sensors_reference:
+		push_error("FEAGI: Unable to find a FEAGI sensor of device name %s!" % sensor_name)
+		return null
+	return _FEAGI_sensors_reference[sensor_name]

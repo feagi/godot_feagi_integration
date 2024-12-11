@@ -28,7 +28,6 @@ func is_ready_for_device_registration() -> bool:
 	return _registration_allowed
 
 
-
 # General overview of startup
 # Read / verify configs, stop if not enabled
 # Load in sensor / motor FEAGI Device objects

@@ -14,6 +14,9 @@ func retrieve_zero_value_byte_array() -> PackedByteArray:
 	arr.resize(48)
 	return arr
 
+func retrieve_cached_value() -> FEAGI_Data_MotionControl:
+	return FEAGI_Data_MotionControl.create_from_bytes(_cached_bytes)
+
 func get_InputEmulator_names() -> Array[StringName]:
 	return [&"Translate Upward", &"Translate Downward", &"Translate Leftward", &"Translate Rightward", &"Yaw Left", &"Yaw Right", 
 	&"Roll Left", &"Roll Right", &"Pitch Foward", &"Pitch Backward", &"Translate Forward", &"Translate Backward",

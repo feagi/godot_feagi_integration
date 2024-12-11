@@ -50,6 +50,7 @@ enum SUPPORTED_KEY {
 
 var _key_to_press: Key = KEY_NONE
 
+## Call this during setup if you intend to use during runtime to emulate Keyboard presses. Ensure the data acquisition method returns a float 0 - 1
 func runtime_setup(method_to_get_FEAGI_data: Callable) -> Error:
 	var notOK: Error = super(method_to_get_FEAGI_data)
 	if notOK:
@@ -61,8 +62,7 @@ func runtime_setup(method_to_get_FEAGI_data: Callable) -> Error:
 	_key_to_press = key_to_press
 	return Error.OK
 
-## Called every frame for input processing
-func process_input(_frame_delta: float) -> void:
+func process_input() -> void:
 	if _key_to_press == KEY_NONE:
 		return
 	var motor_value: float = _method_to_get_FEAGI_data.call()
