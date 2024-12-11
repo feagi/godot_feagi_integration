@@ -30,8 +30,7 @@ func export_additional_JSON_configurator_data() -> Dictionary:
 ## Add any additional information to the IOHandlers here. This method may be overridden!
 func export_additional_IOHandler_data(device: FEAGI_IOConnector_Base) -> FEAGI_IOConnector_Base:
 	if _emuInput_holder:
-		if _emuInput_holder.is_emuInput_enabled:
-			(device as FEAGI_IOConnector_Motor_Base).InputEmulators = _emuInput_holder.export_emuinputs_for_motor()
+		(device as FEAGI_IOConnector_Motor_Base).InputEmulators = _emuInput_holder.export_emuinputs_for_motor()
 	return device
 
 ## Some specific devices may have additional UI needed to configure per device. Those devices can have logic for such behavior here in child classes

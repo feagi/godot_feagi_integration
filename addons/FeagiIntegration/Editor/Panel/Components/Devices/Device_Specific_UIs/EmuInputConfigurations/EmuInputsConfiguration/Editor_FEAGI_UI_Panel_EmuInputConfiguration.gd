@@ -117,13 +117,11 @@ func _step_3_configure_keyboard(preset_keyboard_event: FEAGI_EmuInput_KeyboardPr
 	# We have a none key already with an int value of 0 (both for possible keys and Key)
 	for possible in FEAGI_EmuInput_KeyboardPress.SUPPORTED_KEY.keys():
 		dropdown.add_item(possible, int(FEAGI_EmuInput_KeyboardPress.SUPPORTED_KEY[possible])) # the dropdown key value will be the key int index
-		print("a", int(FEAGI_EmuInput_KeyboardPress.SUPPORTED_KEY[possible]))
 	dropdown.selected = 0 # the None key
 	
 	if !preset_keyboard_event:
 		return
 	
-	print(preset_keyboard_event.key_to_press)
 	if  preset_keyboard_event.key_to_press in FEAGI_EmuInput_KeyboardPress.SUPPORTED_KEY.values():
 		var index_to_select: int = dropdown.get_item_index(preset_keyboard_event.key_to_press)
 		dropdown.select(index_to_select)

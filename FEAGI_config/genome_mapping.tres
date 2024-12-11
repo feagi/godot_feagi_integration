@@ -1,26 +1,13 @@
-[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=11 format=3 uid="uid://ccmso5lsiqxgy"]
+[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=7 format=3 uid="uid://ccmso5lsiqxgy"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_Abstract.gd" id="1_vb7ep"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_KeyboardPress.gd" id="2_vfn4y"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_GodotInputEvent.gd" id="3_bg2w4"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Motor/FEAGI_IOConnector_Motor_MotionControl.gd" id="3_n4bt2"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="4_gxjdj"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Camera.gd" id="5_g5slr"]
 
-[sub_resource type="Resource" id="Resource_nxpdj"]
-script = ExtResource("2_vfn4y")
-bang_bang_threshold = 0.5
-key_to_press = 4194305
-
-[sub_resource type="Resource" id="Resource_1ns0n"]
-script = ExtResource("3_bg2w4")
-use_bang_bang_instead_of_actual_value = true
-bang_bang_threshold = 0.5
-godot_input_event_name = &"ui_text_backspace"
-
 [sub_resource type="Resource" id="Resource_o81bp"]
 script = ExtResource("3_n4bt2")
-InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_nxpdj"), SubResource("Resource_1ns0n"), null, null, null, null, null, null, null, null, null, null])
+InputEmulators = Array[ExtResource("1_vb7ep")]([])
 device_friendly_name = &"1"
 FEAGI_index = 2
 device_ID = 0
