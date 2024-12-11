@@ -33,11 +33,15 @@ func setup_for_motor(motor: FEAGI_IOConnector_Motor_Base) -> Error:
 		push_error("FEAGI Configurator: Unable to initialize EmuInput configuration panels as motor reference has InputEmulator definitions but the incorrect amount!")
 		return Error.ERR_INVALID_DATA
 	
+	_enable_checkbox.button_pressed = len(motor.InputEmulators) != 0
+	
 	for i in len(names):
 		var emuInput_configurator: Editor_FEAGI_UI_Panel_EmuInputConfiguration = EMUINPUT_CONFIGURATOR_PREFAB.instantiate()
 		if motor.InputEmulators.is_empty():
+			print("a", i)
 			emuInput_configurator.setup(names[i], types[i])
 		else:
+			print("b", i)
 			emuInput_configurator.setup(names[i], types[i], motor.InputEmulators[i])
 		_device_UI_holder.add_child(emuInput_configurator)
 	return Error.OK
@@ -45,10 +49,13 @@ func setup_for_motor(motor: FEAGI_IOConnector_Motor_Base) -> Error:
 ## Export the correct number of EmuInput objects for the given motor
 func export_emuinputs_for_motor() -> Array[FEAGI_EmuInput_Abstract]:
 	var output: Array[FEAGI_EmuInput_Abstract] = []
+	if !_enable_checkbox.button_pressed:
+		# EmuInput not enabled, send an empty array back to represent this
+		return output
 	for child in _device_UI_holder.get_children():
 		if child is not Editor_FEAGI_UI_Panel_EmuInputConfiguration:
 			#wtf
-			push_error("FEAGI Configurator: EmuInputConfiguration failed to init child correctly!")
+			push_error("FEAGI Configurator: EmuInputConfiguration failed to init child correctly! THere may be problems with the emuInput!")
 			output.append(null)
 		else:
 			output.append((child as Editor_FEAGI_UI_Panel_EmuInputConfiguration).export_emu_input())

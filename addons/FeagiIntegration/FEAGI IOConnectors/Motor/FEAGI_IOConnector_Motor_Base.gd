@@ -8,7 +8,7 @@ enum INPUT_EMULATOR_DATA_TYPE{
 	VEC2 # Vector2(0,0) to Vector2(1,1)
 }
 
-@export var InputEmulators: Array[FEAGI_EmuInput_Abstract] = [] ## A sequence of Input Emulators (or nulls) that are ordered to match certain usecases. This is set by the editor
+@export var InputEmulators: Array[FEAGI_EmuInput_Abstract] = [] ## A sequence of Input Emulators (or nulls) that are ordered to match certain usecases. This is set by the editor. If empty no emuInput is configured
 
 var _function_to_interact_with_godot_with: Callable = Callable() ## Function that will be called with the single expected argument type that this motor type outputs. This callable will interact with FEAGI
 

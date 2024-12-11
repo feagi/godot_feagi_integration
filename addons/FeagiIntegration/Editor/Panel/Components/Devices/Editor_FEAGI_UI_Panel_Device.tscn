@@ -93,6 +93,7 @@ size_flags_horizontal = 3
 [node name="index" type="SpinBox" parent="MarginContainer/VBoxContainer/feagi_index"]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
+rounded = true
 
 [node name="DeviceSpecificSettings_TOBEREPLACED" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

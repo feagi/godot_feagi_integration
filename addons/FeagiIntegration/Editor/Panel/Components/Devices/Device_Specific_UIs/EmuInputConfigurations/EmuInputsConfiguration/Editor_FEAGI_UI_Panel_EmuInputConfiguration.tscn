@@ -22,7 +22,6 @@ layout_mode = 2
 alignment = 1
 
 [node name="start" type="Button" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 text = "Not binded. Click to bind"
@@ -31,9 +30,9 @@ text = "Not binded. Click to bind"
 visible = false
 custom_minimum_size = Vector2(256, 128)
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/emuselect"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -140,5 +139,7 @@ layout_mode = 2
 text = "Reset"
 
 [connection signal="pressed" from="VBoxContainer/start" to="." method="_step_2_ask_emuInput_type"]
+[connection signal="pressed" from="VBoxContainer/emuselect/VBoxContainer/GodotInputEvent" to="." method="_step_3_configure_godotInputEvent"]
+[connection signal="pressed" from="VBoxContainer/emuselect/VBoxContainer/Keyboard" to="." method="_step_3_configure_keyboard"]
 [connection signal="toggled" from="VBoxContainer/InputEventConfig/HBoxContainer2/enablethresholding" to="VBoxContainer/InputEventConfig/HBoxContainer3/SpinBox" method="set_editable"]
 [connection signal="pressed" from="VBoxContainer/Reset" to="." method="_step_1_set_to_unconfigured"]

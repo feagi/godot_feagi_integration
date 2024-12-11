@@ -35,6 +35,8 @@ func setup(motor_output_name: StringName, motor_output_datatype: FEAGI_IOConnect
 		return
 	if preinit_emuInput is FEAGI_EmuInput_GodotInputEvent:
 		_step_3_configure_godotInputEvent(preinit_emuInput)
+	if preinit_emuInput is FEAGI_EmuInput_KeyboardPress:
+		_step_3_configure_keyboard(preinit_emuInput)
 
 ## Exports an emu input object. Will either export a specific child of [FEAGI_EmuInput_Abstract] or null if none is selected (or if something is wrong)
 func export_emu_input() -> FEAGI_EmuInput_Abstract:

@@ -34,12 +34,6 @@ func export_additional_IOHandler_data(device: FEAGI_IOConnector_Base) -> FEAGI_I
 			(device as FEAGI_IOConnector_Motor_Base).InputEmulators = _emuInput_holder.export_emuinputs_for_motor()
 	return device
 
-
-## Called by the parent [FEAGI_UI_Panel_Device] node when it needs to build the device settings to export a save file
-func export_IOHandler(device_name: StringName, FEAGI_index: int, device_ID: int, is_disabled: bool) -> FEAGI_IOConnector_Base:
-	assert(false, "Do not use Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base Directly!")
-	return null
-
 ## Some specific devices may have additional UI needed to configure per device. Those devices can have logic for such behavior here in child classes
 func _setup_additional_configuration(device_config: FEAGI_IOConnector_Base) -> void:
 	pass
