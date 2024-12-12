@@ -48,5 +48,30 @@ text = "Add Step...."
 layout_mode = 2
 text = "Delete Sequence"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Start Automatically: "
+
+[node name="startAutomatically" type="CheckBox" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="startautosettings" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/startautosettings"]
+layout_mode = 2
+text = "Delay (seconds)"
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/startautosettings"]
+layout_mode = 2
+min_value = 3.0
+max_value = 120.0
+value = 3.0
+alignment = 1
+
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Append" to="." method="_append_step"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Delete" to="." method="queue_free"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/HBoxContainer/startAutomatically" to="PanelContainer/VBoxContainer/startautosettings" method="set_visible"]

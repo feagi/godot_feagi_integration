@@ -4,6 +4,7 @@ class_name FEAGI_EmuPredefinedInputSequence
 ## Defines a sequence of emuInputs / wait times
 
 @export var sequence: Array[FEAGI_EmuPredefinedInput] = []
+@export var start_automatically_after_delay_of_seconds: int = -1 ## If defined as a number greater than 0, will automatically initiate on game start
 
 func clear_saved_sequence() -> void:
 	sequence = []
@@ -51,3 +52,6 @@ func add_delay(delay_seconds: float, at_index: int = -1) -> Error:
 		return Error.OK
 	
 	return sequence.insert(at_index, predefined)
+
+func is_autostarting() -> bool:
+	return start_automatically_after_delay_of_seconds > 0
