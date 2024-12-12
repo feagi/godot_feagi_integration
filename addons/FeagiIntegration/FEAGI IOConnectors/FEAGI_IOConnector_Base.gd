@@ -27,6 +27,10 @@ static func create_new_IOConnector_by_device_type(device_type: StringName) -> FE
 	push_error("FEAGI: No device of type %s has a class defined!" % device_type)
 	return null
 
+## Runs on object init, we prepopulate the _cached_bytes so its never empty
+func _init() -> void:
+	_cached_bytes = retrieve_zero_value_byte_array()
+
 
 ## Returns the device name type as FEAGI configurator json expects
 func get_device_type() -> StringName:
