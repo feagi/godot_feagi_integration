@@ -21,21 +21,6 @@ FEAGI_index = 2
 device_ID = 0
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_prkxu"]
-script = ExtResource("2_wylsp")
-bang_bang_threshold = 0.5
-key_to_press = 65
-
-[sub_resource type="Resource" id="Resource_u70co"]
-script = ExtResource("5_26vvg")
-emu_input = SubResource("Resource_prkxu")
-seconds_to_hold = 0.1
-
-[sub_resource type="Resource" id="Resource_8gc7g"]
-script = ExtResource("4_5qq1l")
-sequence = Array[ExtResource("5_26vvg")]([SubResource("Resource_u70co")])
-start_automatically_after_delay_of_seconds = 3
-
 [sub_resource type="Resource" id="Resource_g27m2"]
 script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
@@ -50,6 +35,21 @@ seconds_to_hold = 0.1
 script = ExtResource("4_5qq1l")
 sequence = Array[ExtResource("5_26vvg")]([SubResource("Resource_ainv5")])
 start_automatically_after_delay_of_seconds = -1
+
+[sub_resource type="Resource" id="Resource_prkxu"]
+script = ExtResource("2_wylsp")
+bang_bang_threshold = 0.5
+key_to_press = 65
+
+[sub_resource type="Resource" id="Resource_u70co"]
+script = ExtResource("5_26vvg")
+emu_input = SubResource("Resource_prkxu")
+seconds_to_hold = 0.1
+
+[sub_resource type="Resource" id="Resource_8gc7g"]
+script = ExtResource("4_5qq1l")
+sequence = Array[ExtResource("5_26vvg")]([SubResource("Resource_u70co")])
+start_automatically_after_delay_of_seconds = 3
 
 [sub_resource type="Resource" id="Resource_mov3k"]
 script = ExtResource("5_g5slr")

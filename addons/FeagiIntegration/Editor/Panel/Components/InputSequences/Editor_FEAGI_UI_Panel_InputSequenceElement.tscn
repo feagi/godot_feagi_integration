@@ -10,9 +10,9 @@ offset_bottom = 16.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
+theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_bottom = 8
 script = ExtResource("1_h6jvu")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

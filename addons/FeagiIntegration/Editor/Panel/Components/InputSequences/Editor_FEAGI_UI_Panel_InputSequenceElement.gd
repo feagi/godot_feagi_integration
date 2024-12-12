@@ -23,6 +23,8 @@ func setup(predefined_input: FEAGI_EmuPredefinedInput = null) -> void:
 	_delay_length_UI = $PanelContainer/MarginContainer/VBoxContainer/Step2_Delay/HBoxContainer/SpinBox
 	_input_hold_length_UI = $PanelContainer/MarginContainer/VBoxContainer/Step2_Input/HBoxContainer/SpinBox
 	
+	_emu_input_config.hide_feagi_threshold_UI()
+	
 	if !predefined_input:
 		_step1_choose_mode()
 		return

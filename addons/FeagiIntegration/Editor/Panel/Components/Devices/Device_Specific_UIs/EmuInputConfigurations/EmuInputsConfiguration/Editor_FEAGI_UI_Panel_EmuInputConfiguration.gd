@@ -56,7 +56,12 @@ func export_emu_input() -> FEAGI_EmuInput_Abstract:
 		return output
 	
 	return null
-	
+
+## Used in the case of sequences, when we dont care to set FEAGI thresholding since we ourselves are supplying the information, so no need to show those options
+func hide_feagi_threshold_UI() -> void:
+	$VBoxContainer/InputEventConfig/HBoxContainer2.visible = false
+	$VBoxContainer/InputEventConfig/HBoxContainer3.visible = false
+	$VBoxContainer/Keyboard/HBoxContainer3.visible = false
 
 func _step_1_set_to_unconfigured() -> void:
 	_1button.visible = true

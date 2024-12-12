@@ -41,7 +41,8 @@ func _add_sequence_button_pressed() -> Error:
 	for child in _sequences_holder.get_children():
 		var sequence_UI: Editor_FEAGI_UI_Panel_InputSequence = child as Editor_FEAGI_UI_Panel_InputSequence
 		if sequence_UI.sequence_name == desired_name:
-			push_error("FEAGI Configurator: Sequence with name %s already exists!")
+			push_error("FEAGI Configurator: Sequence with name %s already exists!" % desired_name)
 			return Error.ERR_ALREADY_EXISTS
 	_add_sequence(desired_name)
+	_sequence_name_input.text = ""
 	return Error.OK

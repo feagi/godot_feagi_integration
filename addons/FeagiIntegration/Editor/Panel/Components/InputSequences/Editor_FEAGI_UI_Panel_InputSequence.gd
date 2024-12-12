@@ -44,7 +44,10 @@ func export() -> FEAGI_EmuPredefinedInputSequence:
 			continue
 		var step: FEAGI_EmuPredefinedInput = (child as Editor_FEAGI_UI_Panel_InputSequenceElement).export()
 		if step:
-			output.add_emu_input(step.emu_input, step.seconds_to_hold)
+			if step.emu_input:
+				output.add_emu_input(step.emu_input, step.seconds_to_hold) # emulated input step
+			else:
+				output.add_delay(step.seconds_to_hold) # delay step
 	if len(output.sequence) == 0:
 		# no steps defined / valud, return null
 		return null
