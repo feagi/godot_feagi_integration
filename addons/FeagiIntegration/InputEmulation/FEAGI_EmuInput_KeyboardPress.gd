@@ -43,6 +43,11 @@ enum SUPPORTED_KEY {
 	X = Key.KEY_X,
 	Y = Key.KEY_Y,
 	Z = Key.KEY_Z,
+	ARROW_LEFT = Key.KEY_LEFT,
+	ARROW_RIGHT = Key.KEY_RIGHT,
+	ARROW_UP = Key.KEY_UP,
+	ARROW_DOWN = Key.KEY_DOWN
+	
 }
 
 @export var bang_bang_threshold: float = 0.5 ## A float from 0-1.0 that if the motor value is above, would be considfered a pres
