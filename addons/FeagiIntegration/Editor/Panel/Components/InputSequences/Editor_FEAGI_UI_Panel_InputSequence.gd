@@ -33,6 +33,7 @@ func setup(given_sequence_name: StringName, sequence: FEAGI_EmuPredefinedInputSe
 		if sequence.is_autostarting():
 			_start_delay_UI.value = sequence.start_automatically_after_delay_of_seconds
 
+
 ## Returns a [FEAGI_EmuPredefinedInputSequence] pertaining to what was configred in the UI. Returns null if the sequence is not valid
 func export() -> FEAGI_EmuPredefinedInputSequence:
 	var output: FEAGI_EmuPredefinedInputSequence = FEAGI_EmuPredefinedInputSequence.new()

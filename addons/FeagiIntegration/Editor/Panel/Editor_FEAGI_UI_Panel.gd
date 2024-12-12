@@ -55,6 +55,8 @@ func _export_config() -> void:
 	mapping.configuration_JSON = JSON.stringify(JSON_dict)
 	mapping.sensors = sensory
 	mapping.motors = motor
+
+	mapping.predfined_input_sequences = _section_sequences.export()
 	
 	endpoint.save_config()
 	mapping.save_config()

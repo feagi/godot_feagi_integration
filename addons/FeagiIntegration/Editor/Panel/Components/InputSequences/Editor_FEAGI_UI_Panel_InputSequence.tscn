@@ -59,6 +59,7 @@ text = "Start Automatically: "
 layout_mode = 2
 
 [node name="startautosettings" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer/startautosettings"]
