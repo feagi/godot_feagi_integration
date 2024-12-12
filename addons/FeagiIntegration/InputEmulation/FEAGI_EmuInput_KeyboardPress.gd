@@ -54,6 +54,7 @@ enum SUPPORTED_KEY {
 @export var key_to_press: Key = KEY_NONE ## What key should be targetted? NOTE: after calling runtime_setup this value is ignored!
 
 var _key_to_press: Key = KEY_NONE
+var _was_pressed: bool = false
 
 ## Call this during setup if you intend to use during runtime to emulate Keyboard presses. Ensure the data acquisition method returns a float 0 - 1
 func runtime_setup(method_to_get_FEAGI_data: Callable) -> Error:
@@ -70,11 +71,16 @@ func runtime_setup(method_to_get_FEAGI_data: Callable) -> Error:
 func process_input() -> void:
 	if _key_to_press == KEY_NONE:
 		return
+	
 	var motor_value: float = _method_to_get_FEAGI_data.call()
+	if _was_pressed == (motor_value > bang_bang_threshold):
+		return
+	_was_pressed = !_was_pressed
+	
 	var input_event: InputEventKey = InputEventKey.new()
 	input_event.keycode = _key_to_press
 	input_event.key_label = _key_to_press
 	input_event.physical_keycode = _key_to_press
-	input_event.pressed = motor_value > bang_bang_threshold
+	input_event.pressed = _was_pressed
 	#TODO echo?
 	Input.parse_input_event(input_event)
