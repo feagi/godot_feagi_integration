@@ -28,6 +28,10 @@ func deinitialize() -> void:
 	_is_ready = false
 	_method_to_get_FEAGI_data = Callable()
 
+## Get the type expected to be returned for the given FEAGI data method. Some children may override this method if they expect something else
+func get_expected_FEAGI_data_method_return_type() -> FEAGI_IOConnector_Motor_Base.INPUT_EMULATOR_DATA_TYPE:
+	return FEAGI_IOConnector_Motor_Base.INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1
+
 ## [Overridden in child classes] to be called every motor frame for input processing
 func process_input() -> void:
 	pass

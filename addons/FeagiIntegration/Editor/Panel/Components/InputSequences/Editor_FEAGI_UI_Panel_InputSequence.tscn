@@ -39,6 +39,7 @@ theme_override_styles/panel = ExtResource("2_vxjfw")
 
 [node name="StepsHolder" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="Append" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2

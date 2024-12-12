@@ -41,7 +41,7 @@ func add_delay(delay_seconds: float, at_index: int = -1) -> Error:
 		return Error.ERR_INVALID_PARAMETER
 	
 	var predefined: FEAGI_EmuPredefinedInput = FEAGI_EmuPredefinedInput.new()
-	predefined.seconds_to_pause = delay_seconds
+	predefined.seconds_to_hold = delay_seconds
 	
 	if at_index < -1:
 		push_error("FEAGI: Unable to add delay to index %d! Ignoring!" % at_index)
