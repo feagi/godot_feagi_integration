@@ -7,24 +7,24 @@ This guide serves as an example for adding the plugin to your godot game, using 
 ## Steps
 
 - Have your project open in Godot
-![1](/Tutorials/Basics/01_initial_project.png)
+![1](Tutorials/Basics/01_initial_project.png)
 
 - From the asset lib, install the plugin
-![2](/Tutorials/Basics/02_download_plugin.PNG)
+![2](Tutorials/Basics/02_download_plugin.PNG)
 
 - Enable the plugin in the project settings, and reload the editor
 
 - Open the Configurator window
-![3](/Tutorials/Basics/03_open_configurator.png)
+![3](Tutorials/Basics/03_open_configurator.png)
 
 - Set up the agent settings such that we capture 30 Hz, and set your FEAGI connection settings here (defaults to localhost)
-![4](/Tutorials/Basics/04_agent_settings.PNG)
+![4](Tutorials/Basics/04_agent_settings.PNG)
 
 - The Sensory settings allow FEAGI to "See" your game. In this example, lets set up a camera device, and have it automatically configure itself to record your whole screen
-![5](/Tutorials/Basics/05_sensory.PNG)
+![5](Tutorials/Basics/05_sensory.PNG)
 
 - The Motor settings allow FEAGI to control your game. In this example, we will make use of the motion_control output, and have it configured to emulate Godot Input Events. Be sure to match the direction you want with the appropriate input action, as seen below!
-![6](/Tutorials/Basics/06_motor.PNG)
+![6](Tutorials/Basics/06_motor.PNG)
 
 - Save the configuration at the bottom, and run them game!
 
