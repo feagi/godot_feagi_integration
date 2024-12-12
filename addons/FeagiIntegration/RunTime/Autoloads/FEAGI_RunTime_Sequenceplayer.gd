@@ -59,6 +59,8 @@ func play() -> void:
 			_emu_input.process_input() # ensure release is pressed
 			_emu_input = null # block process
 			step.emu_input.deinitialize()
+			await get_tree().create_timer(_sequence.delay_between_steps).timeout
+			
 	
 	_is_playing = false
 	done_playing.emit(_sequence_name)

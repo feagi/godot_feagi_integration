@@ -5,6 +5,7 @@ class_name FEAGI_EmuPredefinedInputSequence
 
 @export var sequence: Array[FEAGI_EmuPredefinedInput] = []
 @export var start_automatically_after_delay_of_seconds: int = -1 ## If defined as a number greater than 0, will automatically initiate on game start
+@export var delay_between_steps: float = 0.1 ## The number of seconds to wait between steps, since spamming all inputs at once likely wont end well
 
 func clear_saved_sequence() -> void:
 	sequence = []

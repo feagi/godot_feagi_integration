@@ -15,6 +15,7 @@ var _steps_holder: VBoxContainer
 var _start_automatically_UI: CheckBox
 var _start_delay_segment_UI: HBoxContainer
 var _start_delay_UI: SpinBox
+var _delay_between_steps_UI: SpinBox
 
 func setup(given_sequence_name: StringName, sequence: FEAGI_EmuPredefinedInputSequence = null) -> void:
 	_sequence_name_UI = $PanelContainer/VBoxContainer/SequenceName
@@ -22,6 +23,7 @@ func setup(given_sequence_name: StringName, sequence: FEAGI_EmuPredefinedInputSe
 	_start_automatically_UI = $PanelContainer/VBoxContainer/HBoxContainer/startAutomatically
 	_start_delay_segment_UI = $PanelContainer/VBoxContainer/startautosettings
 	_start_delay_UI = $PanelContainer/VBoxContainer/startautosettings/SpinBox
+	_delay_between_steps_UI = $PanelContainer/VBoxContainer/delaybtwm/SpinBox
 	
 	_sequence_name_UI.text = given_sequence_name
 	
@@ -32,6 +34,7 @@ func setup(given_sequence_name: StringName, sequence: FEAGI_EmuPredefinedInputSe
 		_start_delay_segment_UI.visible = sequence.is_autostarting()
 		if sequence.is_autostarting():
 			_start_delay_UI.value = sequence.start_automatically_after_delay_of_seconds
+		_delay_between_steps_UI.value = sequence.delay_between_steps
 
 
 ## Returns a [FEAGI_EmuPredefinedInputSequence] pertaining to what was configred in the UI. Returns null if the sequence is not valid
@@ -53,6 +56,8 @@ func export() -> FEAGI_EmuPredefinedInputSequence:
 		return null
 	if _start_automatically_UI.button_pressed:
 		output.start_automatically_after_delay_of_seconds = int(_start_delay_UI.value)
+	output.delay_between_steps = _delay_between_steps_UI.value
+	
 	return output
 		
 
