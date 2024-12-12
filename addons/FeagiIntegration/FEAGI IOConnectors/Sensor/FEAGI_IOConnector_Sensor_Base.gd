@@ -28,13 +28,12 @@ func deregister_registration_agent_sensor() -> void:
 	_function_to_grab_from_godot_with = Callable()
 	_is_registered_to_registration_agent = false
 
-## Returns the UI panel element for device configuration
+## Returns the UI panel element for device configuration, or null if nothing unique is found for it
 func get_panel_device_specific_UI() -> Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base:
 	# override me in all child device classses to easily get the device specific UI for the panel
 	var string_type: String = get_device_type()
 	var path: String = "res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Sensory/FEAGI_UI_Panel_SpecificSensoryDevice_%s.tscn" % (string_type[0].to_upper() + string_type.substr(1))
 	if !FileAccess.file_exists(path):
-		push_error("FEAGI: Cannot spawn unknown sensor device type %s!" % string_type)
 		return null
 	return load(path).instantiate()
 

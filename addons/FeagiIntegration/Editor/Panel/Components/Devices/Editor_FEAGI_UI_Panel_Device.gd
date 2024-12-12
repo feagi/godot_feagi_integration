@@ -48,7 +48,7 @@ var _type_header: Label
 var _device_name_line: LineEdit
 var _is_disabled_box: CheckBox
 var _FEAGI_index_spin: SpinBox
-var _device_settings: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base  # this node may get replaced in unique cases
+var _special_device_settings: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base  # this node is replaced in unique cases, or delete in nonunique cases
 var _FEAGI_settings: FEAGI_UI_Prefab_Collapsible
 var _FEAGI_IOConnector_settings_holder: Editor_FEAGI_UI_Panel_Device_ParameterManager
 
@@ -63,27 +63,27 @@ func setup(device: FEAGI_IOConnector_Base, configurator_JSON_template_for_this_d
 	_device_name_line = $MarginContainer/VBoxContainer/name/name
 	_is_disabled_box = $MarginContainer/VBoxContainer/disabled/disabled
 	_FEAGI_index_spin = $MarginContainer/VBoxContainer/feagi_index/index
-	_device_settings = $MarginContainer/VBoxContainer/DeviceSpecificSettings_TOBEREPLACED # This is a placeholder about to be replaced
+	_special_device_settings = $MarginContainer/VBoxContainer/DeviceSpecificSettings_TOBEREPLACED # This is a placeholder about to be replaced
 	_FEAGI_IOConnector_settings_holder = $MarginContainer/VBoxContainer/FEAGISettings/PanelContainer/MarginContainer/Internals
 	_FEAGI_settings = $MarginContainer/VBoxContainer/FEAGISettings
 	
 	var device_specific_UI: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base = device.get_panel_device_specific_UI()
 	if !device_specific_UI:
-		push_error("FEAGI Configurator: Unable to retrieve device specific UI for device %s!" % device.get_device_type())
-		return Error.ERR_INVALID_PARAMETER
+		## No device specific UI, just delete it
+		_special_device_settings.queue_free()
+	else:
+		var old_device_settings_ref: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base = _special_device_settings
+		_special_device_settings.replace_by(device_specific_UI)
+		old_device_settings_ref.queue_free()
+		_special_device_settings = device_specific_UI
 	
-	var old_device_settings_ref: Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base = _device_settings
-	_device_settings.replace_by(device_specific_UI)
-	old_device_settings_ref.queue_free()
-	_device_settings = device_specific_UI
-	
+		var can_use_emulated_inputs: bool = (device as FEAGI_IOConnector_Motor_Base) != null # assume all motors can have emuInputs
+		_special_device_settings.setup(device, can_use_emulated_inputs)
+		
 	# NOTE: Assume values given in the device object are sensible
 	set_device_name(device.device_friendly_name)
 	is_disabled = device.is_disabled
 	set_title_label_index(device.device_ID)
-	
-	var can_use_emulated_inputs: bool = (device as FEAGI_IOConnector_Motor_Base) != null # assume all motors can have emuInputs
-	_device_settings.setup(device, can_use_emulated_inputs)
 
 	var parameters_JSON_for_this_device: Array[Dictionary]
 	parameters_JSON_for_this_device.assign(configurator_JSON_template_for_this_device["parameters"])
@@ -122,7 +122,8 @@ func export_as_FEAGI_config_JSON_device_object() -> Dictionary:
 		"disabled": is_disabled,
 		"feagi_index": feagi_index
 	}
-	inside.merge(_device_settings.export_additional_JSON_configurator_data())
+	if _special_device_settings != null:
+		inside.merge(_special_device_settings.export_additional_JSON_configurator_data())
 	inside.merge(_FEAGI_IOConnector_settings_holder.export_as_dict())
 	return {str(device_index): inside }
 	
@@ -131,7 +132,8 @@ func export_as_FEAGI_IOHandler() -> FEAGI_IOConnector_Base:
 	_device.device_friendly_name = _device_name_line.text
 	_device.is_disabled = _is_disabled_box.button_pressed
 	_device.FEAGI_index = int(_FEAGI_index_spin.value)
-	_device = _device_settings.export_additional_IOHandler_data(_device)
+	if _special_device_settings != null:
+		_device = _special_device_settings.export_additional_IOHandler_data(_device)
 	return _device
 
 
