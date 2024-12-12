@@ -31,14 +31,17 @@ func process_input() -> void:
 	if _godot_input_event_name == NO_ACTION:
 		return
 	var motor_value: float = _method_to_get_FEAGI_data.call()
-	var input_event: InputEventAction = InputEventAction.new()
-	input_event.action = _godot_input_event_name
+	var is_pressed: bool
 	if use_bang_bang_instead_of_actual_value:
-		motor_value = float(motor_value > bang_bang_threshold)
-		input_event.strength = motor_value
-		input_event.pressed = bool(motor_value)
+		is_pressed = motor_value > bang_bang_threshold
+		motor_value = float(is_pressed)
 	else:
-		input_event.strength = motor_value
-		input_event.pressed = !is_equal_approx(motor_value, 0.0)
-		
-	Input.parse_input_event(input_event)
+		is_pressed = !is_equal_approx(motor_value, 0.0)
+	
+	if is_pressed:
+		if not Input.is_action_pressed(_godot_input_event_name):
+			Input.action_press(_godot_input_event_name, motor_value)
+		return
+	else:
+		if Input.is_action_pressed(_godot_input_event_name):
+			Input.action_release(_godot_input_event_name)

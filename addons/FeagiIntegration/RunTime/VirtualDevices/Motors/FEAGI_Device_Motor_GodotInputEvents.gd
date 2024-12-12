@@ -6,6 +6,13 @@ class_name FEAGI_IOConnector_GodotInputEvents
 
 var _cached_data: Variant ## Since FEAGI motor data and Godot input data are in different time domains, we need to cache it
 var _registration_agent: FEAGI_RegistrationAgent_Motor
+var _input_emulators: Array[FEAGI_EmuInput_Abstract]
+
+func _process(delta: float) -> void:
+	if _registration_agent:
+		for input_emulator in _input_emulators:
+			if input_emulator:
+				input_emulator.process_input()
 
 ## Attempts to register a motors emulated inputs. If alternate emulated inputs is empty, attempts to set it using any saved on disk emulated input configuration made during plugin configuration
 func register_motor_to_emulated_inputs(motor_name: StringName, alternate_emulated_inputs: Array[FEAGI_EmuInput_Abstract] = []) -> Error:
@@ -31,6 +38,9 @@ func register_motor_to_emulated_inputs(motor_name: StringName, alternate_emulate
 	else:
 		push_error("FEAGI:Unknown motor type of motor %s!" % motor_name)
 		return Error.ERR_INVALID_DATA
+	
+	_cached_data = FEAGI_motor.retrieve_cached_value() # RISKY
+	_input_emulators = alternate_emulated_inputs
 
 	_registration_agent = FEAGI_RegistrationAgent_Motor.new()
 	_registration_agent.register_with_FEAGI(_cache_motor_data, FEAGI_motor.get_device_type(), motor_name)

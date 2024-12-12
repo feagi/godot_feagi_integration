@@ -6,18 +6,18 @@
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="4_gxjdj"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Camera.gd" id="5_g5slr"]
 
-[sub_resource type="Resource" id="Resource_o87lt"]
+[sub_resource type="Resource" id="Resource_ty4da"]
 script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
-key_to_press = 0
+key_to_press = 87
 
 [sub_resource type="Resource" id="Resource_o81bp"]
 script = ExtResource("3_n4bt2")
-InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_o87lt"), null, null, null, null, null, null, null, null, null, null, null])
+InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_ty4da"), null, null, null, null, null, null, null, null, null, null, null])
 device_friendly_name = &"1"
 FEAGI_index = 2
 device_ID = 0
-is_disabled = true
+is_disabled = false
 
 [sub_resource type="Resource" id="Resource_mov3k"]
 script = ExtResource("5_g5slr")
@@ -32,9 +32,9 @@ is_disabled = false
 [resource]
 script = ExtResource("4_gxjdj")
 FEAGI_enabled = true
-debugger_enabled = true
+debugger_enabled = false
 delay_seconds_between_frames = 0.0333333
-configuration_JSON = &"{\"capabilities\":{\"input\":{\"camera\":{\"0\":{\"camera_resolution\":[64,64],\"custom_name\":\"dddd\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"3\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}}},\"output\":{\"motion_control\":{\"0\":{\"custom_name\":\"1\",\"disabled\":true,\"feagi_index\":2}}}}}"
+configuration_JSON = &"{\"capabilities\":{\"input\":{\"camera\":{\"0\":{\"camera_resolution\":[64,64],\"custom_name\":\"dddd\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"3\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}}},\"output\":{\"motion_control\":{\"0\":{\"custom_name\":\"1\",\"disabled\":false,\"feagi_index\":2}}}}}"
 sensors = {
 "camera_dddd": SubResource("Resource_mov3k")
 }
