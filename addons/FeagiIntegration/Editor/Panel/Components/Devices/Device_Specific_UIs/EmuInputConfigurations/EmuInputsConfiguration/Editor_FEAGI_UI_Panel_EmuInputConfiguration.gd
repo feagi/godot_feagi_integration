@@ -8,8 +8,10 @@ var _1button: Button
 var _2scroll: ScrollContainer
 var _2scroll_godotInputEvent: Button
 var _2scroll_keyboard: Button
+var _2scroll_mouseClick: Button
 var _3godotInputEvent: BoxContainer
 var _3keyboard: BoxContainer
+var _3mouseClick: BoxContainer
 var _reset: Button
 
 func setup(motor_output_name: StringName, motor_output_datatype: FEAGI_IOConnector_Motor_Base.INPUT_EMULATOR_DATA_TYPE, preinit_emuInput: FEAGI_EmuInput_Abstract = null) -> void:
@@ -26,8 +28,10 @@ func setup(motor_output_name: StringName, motor_output_datatype: FEAGI_IOConnect
 	_2scroll = $PanelContainer/HBoxContainer/VBoxContainer/emuselect
 	_2scroll_godotInputEvent = $PanelContainer/HBoxContainer/VBoxContainer/emuselect/VBoxContainer/GodotInputEvent
 	_2scroll_keyboard = $PanelContainer/HBoxContainer/VBoxContainer/emuselect/VBoxContainer/Keyboard
+	_2scroll_mouseClick = $PanelContainer/HBoxContainer/VBoxContainer/emuselect/VBoxContainer/MouseClick
 	_3godotInputEvent = $PanelContainer/HBoxContainer/VBoxContainer/InputEventConfig
 	_3keyboard = $PanelContainer/HBoxContainer/VBoxContainer/Keyboard
+	_3mouseClick = $PanelContainer/HBoxContainer/VBoxContainer/MouseClick
 	_reset = $PanelContainer/HBoxContainer/VBoxContainer/Reset
 	
 	if !preinit_emuInput:
@@ -55,6 +59,14 @@ func export_emu_input() -> FEAGI_EmuInput_Abstract:
 		output.bang_bang_threshold = $PanelContainer/HBoxContainer/VBoxContainer/Keyboard/HBoxContainer3/SpinBox.value
 		return output
 	
+	if _3mouseClick.visible:
+		var output: FEAGI_EmuInput_MouseClick = FEAGI_EmuInput_MouseClick.new()
+		var dropdown: OptionButton = $PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer/OptionButton
+		output.mouse_button_to_click = dropdown.get_item_id(dropdown.selected)
+		output.bang_bang_threshold = $PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer3/SpinBox.value
+		output.is_double_click = $PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer2/CheckButton.button_pressed
+		return output
+	
 	return null
 
 ## Used in the case of sequences, when we dont care to set FEAGI thresholding since we ourselves are supplying the information, so no need to show those options
@@ -68,6 +80,7 @@ func _step_1_set_to_unconfigured() -> void:
 	_2scroll.visible = false
 	_3godotInputEvent.visible = false
 	_3keyboard.visible = false
+	_3mouseClick.visible = false
 	_reset.visible = false
 
 
@@ -76,6 +89,7 @@ func _step_2_ask_emuInput_type() -> void:
 	_2scroll.visible = true
 	_3godotInputEvent.visible = false
 	_3keyboard.visible = false
+	_3mouseClick.visible = false
 	_reset.visible = false
 	# NOTE make sure you disable irrelevant buttons here depending on _data_type
 
@@ -86,6 +100,7 @@ func _step_3_configure_godotInputEvent(preset_godot_event: FEAGI_EmuInput_GodotI
 	_2scroll.visible = false
 	_3godotInputEvent.visible = true
 	_3keyboard.visible = false
+	_3mouseClick.visible = false
 	_reset.visible = true
 	
 	var dropdown: OptionButton = $PanelContainer/HBoxContainer/VBoxContainer/InputEventConfig/HBoxContainer/OptionButton
@@ -115,6 +130,7 @@ func _step_3_configure_keyboard(preset_keyboard_event: FEAGI_EmuInput_KeyboardPr
 	_2scroll.visible = false
 	_3godotInputEvent.visible = false
 	_3keyboard.visible = true
+	_3mouseClick.visible = false
 	_reset.visible = true
 	
 	var dropdown: OptionButton = $PanelContainer/HBoxContainer/VBoxContainer/Keyboard/HBoxContainer/OptionButton
@@ -133,3 +149,29 @@ func _step_3_configure_keyboard(preset_keyboard_event: FEAGI_EmuInput_KeyboardPr
 	else:
 		push_error("FEAGI Configurator: Unsupported key defined for keyboard input! Defaulting to None!")
 	$PanelContainer/HBoxContainer/VBoxContainer/Keyboard/HBoxContainer3/SpinBox.value = preset_keyboard_event.bang_bang_threshold
+
+func _step_3_configure_mouseClick(preset_mouseClick_event: FEAGI_EmuInput_MouseClick = null) -> void:
+	_1button.visible = false
+	_2scroll.visible = false
+	_3godotInputEvent.visible = false
+	_3keyboard.visible = false
+	_3mouseClick.visible = true
+	_reset.visible = true
+	
+	var dropdown: OptionButton = $PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer/OptionButton
+	dropdown.clear()
+	
+	for possible in FEAGI_EmuInput_MouseClick.SUPPORTED_KEY.keys():
+		dropdown.add_item(possible, int(FEAGI_EmuInput_MouseClick.SUPPORTED_KEY[possible])) # the dropdown click value will be the key int index
+	dropdown.selected = 0 # the None mouse button
+	
+	if !preset_mouseClick_event:
+		return
+	
+	if  preset_mouseClick_event.mouse_button_to_click in FEAGI_EmuInput_MouseClick.SUPPORTED_KEY.values():
+		var index_to_select: int = dropdown.get_item_index(preset_mouseClick_event.mouse_button_to_click)
+		dropdown.select(index_to_select)
+	else:
+		push_error("FEAGI Configurator: Unsupported mouse button defined for mouse button input! Defaulting to None!")
+	$PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer3/SpinBox.value = preset_mouseClick_event.bang_bang_threshold
+	$PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer2/CheckButton.set_pressed_no_signal(preset_mouseClick_event.is_double_click)

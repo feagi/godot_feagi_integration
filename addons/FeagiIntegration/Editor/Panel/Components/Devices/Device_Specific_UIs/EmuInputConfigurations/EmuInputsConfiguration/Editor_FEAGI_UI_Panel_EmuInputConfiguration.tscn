@@ -64,7 +64,6 @@ layout_mode = 2
 text = "Emulate Keyboard"
 
 [node name="MouseClick" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/emuselect/VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "Emulate Mouse Click"
 
@@ -152,6 +151,56 @@ step = 0.05
 value = 0.5
 alignment = 1
 
+[node name="MouseClick" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseClick"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "What Keyboard key should be pressed?"
+mouse_filter = 0
+text = "Mouse Button: "
+
+[node name="OptionButton" type="OptionButton" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+fit_to_longest_item = false
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseClick"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "What Keyboard key should be pressed?"
+mouse_filter = 0
+text = "Is Double Click?"
+
+[node name="CheckButton" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer2"]
+layout_mode = 2
+icon_alignment = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseClick"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer3"]
+layout_mode = 2
+tooltip_text = "Above this value, the key will be pressed, below it will be released"
+mouse_filter = 0
+text = "Threshold Cutoff: "
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseClick/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 0.5
+alignment = 1
+
 [node name="Reset" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
@@ -160,5 +209,6 @@ text = "Reset"
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/start" to="." method="_step_2_ask_emuInput_type"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/emuselect/VBoxContainer/GodotInputEvent" to="." method="_step_3_configure_godotInputEvent"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/emuselect/VBoxContainer/Keyboard" to="." method="_step_3_configure_keyboard"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/emuselect/VBoxContainer/MouseClick" to="." method="_step_3_configure_mouseClick"]
 [connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer/InputEventConfig/HBoxContainer2/enablethresholding" to="PanelContainer/HBoxContainer/VBoxContainer/InputEventConfig/HBoxContainer3/SpinBox" method="set_editable"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/Reset" to="." method="_step_1_set_to_unconfigured"]

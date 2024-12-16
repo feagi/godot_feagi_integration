@@ -1,80 +1,68 @@
-[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=28 format=3 uid="uid://ccmso5lsiqxgy"]
+[gd_resource type="Resource" script_class="FEAGI_Genome_Mapping" load_steps=26 format=3 uid="uid://ccmso5lsiqxgy"]
 
-[ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_Abstract.gd" id="1_vb7ep"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_Abstract.gd" id="1_audss"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_MouseClick.gd" id="2_l5ol6"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuInput_KeyboardPress.gd" id="2_wylsp"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Motor/FEAGI_IOConnector_Motor_MotionControl.gd" id="3_n4bt2"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Motor/FEAGI_IOConnector_Motor_Motor.gd" id="4_4xypa"]
+[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Motor/FEAGI_IOConnector_Motor_Misc.gd" id="3_en7e7"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuPredefinedInputSequence.gd" id="4_5qq1l"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Configuration/FEAGI_Genome_Mapping.gd" id="4_gxjdj"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/InputEmulation/FEAGI_EmuPredefinedInput.gd" id="5_26vvg"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Camera.gd" id="5_g5slr"]
-[ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Motor/FEAGI_IOConnector_Motor_Misc.gd" id="5_o16h5"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Gyro.gd" id="10_d6a4r"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Proximity.gd" id="11_myquq"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Accelerometer.gd" id="12_8ag4g"]
 
-[sub_resource type="Resource" id="Resource_ac0ca"]
-script = ExtResource("5_o16h5")
-InputEmulators = Array[ExtResource("1_vb7ep")]([])
+[sub_resource type="Resource" id="Resource_nmx3j"]
+script = ExtResource("2_l5ol6")
+bang_bang_threshold = 0.5
+is_double_click = true
+mouse_button_to_click = 1
+
+[sub_resource type="Resource" id="Resource_y7tyq"]
+script = ExtResource("3_en7e7")
+InputEmulators = Array[ExtResource("1_audss")]([SubResource("Resource_nmx3j")])
 device_friendly_name = &"misc 0"
 FEAGI_index = 0
 device_ID = 0
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_ywrph"]
-script = ExtResource("2_wylsp")
-bang_bang_threshold = 0.5
-key_to_press = 87
-
-[sub_resource type="Resource" id="Resource_o81bp"]
-script = ExtResource("3_n4bt2")
-InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_ywrph"), null, null, null, null, null, null, null, null, null, null, null])
-device_friendly_name = &"1"
-FEAGI_index = 2
-device_ID = 0
-is_disabled = false
-
-[sub_resource type="Resource" id="Resource_4caue"]
-script = ExtResource("4_4xypa")
-InputEmulators = Array[ExtResource("1_vb7ep")]([])
-device_friendly_name = &"motor 0"
-FEAGI_index = 0
-device_ID = 0
-is_disabled = false
-
-[sub_resource type="Resource" id="Resource_06b42"]
+[sub_resource type="Resource" id="Resource_bviep"]
 script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
 key_to_press = 32
 
-[sub_resource type="Resource" id="Resource_5di8f"]
+[sub_resource type="Resource" id="Resource_64wyi"]
 script = ExtResource("5_26vvg")
-emu_input = SubResource("Resource_06b42")
+emu_input = SubResource("Resource_bviep")
 seconds_to_hold = 0.1
 
-[sub_resource type="Resource" id="Resource_0dsvg"]
+[sub_resource type="Resource" id="Resource_ylsja"]
+script = ExtResource("5_26vvg")
+seconds_to_hold = 0.1
+
+[sub_resource type="Resource" id="Resource_ipjst"]
 script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
 key_to_press = 87
 
-[sub_resource type="Resource" id="Resource_ssdsu"]
+[sub_resource type="Resource" id="Resource_2y3tt"]
 script = ExtResource("5_26vvg")
-emu_input = SubResource("Resource_0dsvg")
+emu_input = SubResource("Resource_ipjst")
 seconds_to_hold = 0.5
 
-[sub_resource type="Resource" id="Resource_f8av2"]
+[sub_resource type="Resource" id="Resource_45b8o"]
 script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
 key_to_press = 65
 
-[sub_resource type="Resource" id="Resource_18tpl"]
+[sub_resource type="Resource" id="Resource_ff227"]
 script = ExtResource("5_26vvg")
-emu_input = SubResource("Resource_f8av2")
+emu_input = SubResource("Resource_45b8o")
 seconds_to_hold = 0.5
 
-[sub_resource type="Resource" id="Resource_n5p3a"]
+[sub_resource type="Resource" id="Resource_gxgt5"]
 script = ExtResource("4_5qq1l")
-sequence = Array[ExtResource("5_26vvg")]([SubResource("Resource_5di8f"), SubResource("Resource_ssdsu"), SubResource("Resource_18tpl")])
+sequence = Array[ExtResource("5_26vvg")]([SubResource("Resource_64wyi"), SubResource("Resource_ylsja"), SubResource("Resource_2y3tt"), SubResource("Resource_ff227")])
 start_automatically_after_delay_of_seconds = 3
 delay_between_steps = 0.1
 
@@ -88,9 +76,9 @@ is_disabled = false
 [sub_resource type="Resource" id="Resource_mov3k"]
 script = ExtResource("5_g5slr")
 resolution = Vector2i(64, 64)
-is_flipped_x = false
+is_flipped_x = true
 automatically_create_screengrabber = true
-device_friendly_name = &"dddd"
+device_friendly_name = &"aaads"
 FEAGI_index = 0
 device_ID = 0
 is_disabled = false
@@ -114,18 +102,16 @@ script = ExtResource("4_gxjdj")
 FEAGI_enabled = true
 debugger_enabled = false
 delay_seconds_between_frames = 0.0333333
-configuration_JSON = &"{\"capabilities\":{\"input\":{\"accelerometer\":{\"0\":{\"custom_name\":\"accelerometer 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"camera\":{\"0\":{\"camera_resolution\":[64,64],\"custom_name\":\"dddd\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"3\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}},\"gyro\":{\"0\":{\"custom_name\":\"gyro 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"proximity\":{\"0\":{\"custom_name\":\"proximity 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":0,\"min_value\":0}}},\"output\":{\"misc\":{\"0\":{\"custom_name\":\"misc 0\",\"disabled\":false,\"feagi_index\":0}},\"motion_control\":{\"0\":{\"custom_name\":\"1\",\"disabled\":false,\"feagi_index\":2}},\"motor\":{\"0\":{\"custom_name\":\"motor 0\",\"disabled\":false,\"feagi_index\":0,\"max_power\":0,\"rolling_window_len\":0}}}}}"
+configuration_JSON = &"{\"capabilities\":{\"input\":{\"accelerometer\":{\"0\":{\"custom_name\":\"accelerometer 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"camera\":{\"0\":{\"camera_resolution\":[64,64],\"custom_name\":\"aaads\",\"disabled\":false,\"eccentricity_control\":{\"X offset percentage\":1,\"Y offset percentage\":1},\"feagi_index\":0,\"index\":\"3\",\"mirror\":false,\"modulation_control\":{\"X offset percentage\":99,\"Y offset percentage\":99},\"threshold_default\":50}},\"gyro\":{\"0\":{\"custom_name\":\"gyro 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":[0,0,0],\"min_value\":[0,0,0]}},\"proximity\":{\"0\":{\"custom_name\":\"proximity 0\",\"disabled\":false,\"feagi_index\":0,\"max_value\":0,\"min_value\":0}}},\"output\":{\"misc\":{\"0\":{\"custom_name\":\"misc 0\",\"disabled\":false,\"feagi_index\":0}}}}}"
 sensors = {
 "accelerometer_accelerometer 0": SubResource("Resource_rxdt3"),
-"camera_dddd": SubResource("Resource_mov3k"),
+"camera_aaads": SubResource("Resource_mov3k"),
 "gyro_gyro 0": SubResource("Resource_cd0g6"),
 "proximity_proximity 0": SubResource("Resource_l2les")
 }
 motors = {
-"misc_misc 0": SubResource("Resource_ac0ca"),
-"motion_control_1": SubResource("Resource_o81bp"),
-"motor_motor 0": SubResource("Resource_4caue")
+"misc_misc 0": SubResource("Resource_y7tyq")
 }
 predfined_input_sequences = {
-"menu": SubResource("Resource_n5p3a")
+"menu": SubResource("Resource_gxgt5")
 }
