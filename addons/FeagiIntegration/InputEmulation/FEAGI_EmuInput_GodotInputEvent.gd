@@ -27,6 +27,7 @@ func runtime_setup(method_to_get_FEAGI_data: Callable) -> Error:
 	_godot_input_event_name = godot_input_event_name
 	return Error.OK
 
+
 func process_input() -> void:
 	if _godot_input_event_name == NO_ACTION:
 		return
