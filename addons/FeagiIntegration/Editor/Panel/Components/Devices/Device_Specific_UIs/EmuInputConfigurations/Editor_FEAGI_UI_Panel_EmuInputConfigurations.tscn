@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dn8l5c7vlh488"]
+[gd_scene load_steps=4 format=3 uid="uid://dn8l5c7vlh488"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/EmuInputConfigurations/Editor_FEAGI_UI_Panel_EmuInputConfigurations.gd" id="1_vj53h"]
 [ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/Collapsible/FEAGI_UI_Prefab_Collapsible.tscn" id="2_j6iqs"]
+[ext_resource type="StyleBox" uid="uid://c4nxnb7jy4hec" path="res://addons/FeagiIntegration/Editor/Resources/Backgrounds/Background_3.tres" id="3_ube36"]
 
 [node name="Editor_FEAGI_UI_Panel_EmuInputConfigurations" type="VBoxContainer"]
 size_flags_horizontal = 3
@@ -35,6 +36,12 @@ show_text = &"Show Input Configuration"
 
 [node name="Show" parent="CollapsiblePrefab" index="0"]
 text = "Show Input Configuration"
+
+[node name="PanelContainer" parent="CollapsiblePrefab" index="2"]
+theme_override_styles/panel = ExtResource("3_ube36")
+
+[node name="Internals" parent="CollapsiblePrefab/PanelContainer/MarginContainer" index="0"]
+theme_override_constants/separation = 8
 
 [connection signal="toggled" from="keyboard/emulate" to="input_note" method="set_visible"]
 [connection signal="toggled" from="keyboard/emulate" to="CollapsiblePrefab" method="set_visible"]

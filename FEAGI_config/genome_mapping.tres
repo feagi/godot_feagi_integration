@@ -13,14 +13,22 @@
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Proximity.gd" id="11_myquq"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_Accelerometer.gd" id="12_8ag4g"]
 
-[sub_resource type="Resource" id="Resource_qnkbo"]
+[sub_resource type="Resource" id="Resource_ac0ca"]
+script = ExtResource("5_o16h5")
+InputEmulators = Array[ExtResource("1_vb7ep")]([])
+device_friendly_name = &"misc 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
+
+[sub_resource type="Resource" id="Resource_ywrph"]
 script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
 key_to_press = 87
 
 [sub_resource type="Resource" id="Resource_o81bp"]
 script = ExtResource("3_n4bt2")
-InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_qnkbo"), null, null, null, null, null, null, null, null, null, null, null])
+InputEmulators = Array[ExtResource("1_vb7ep")]([SubResource("Resource_ywrph"), null, null, null, null, null, null, null, null, null, null, null])
 device_friendly_name = &"1"
 FEAGI_index = 2
 device_ID = 0
@@ -34,55 +42,54 @@ FEAGI_index = 0
 device_ID = 0
 is_disabled = false
 
-[sub_resource type="Resource" id="Resource_ac0ca"]
-script = ExtResource("5_o16h5")
-InputEmulators = Array[ExtResource("1_vb7ep")]([])
-device_friendly_name = &"misc 0"
-FEAGI_index = 0
-device_ID = 0
-is_disabled = false
-
-[sub_resource type="Resource" id="Resource_n8jtk"]
+[sub_resource type="Resource" id="Resource_06b42"]
 script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
 key_to_press = 32
 
-[sub_resource type="Resource" id="Resource_b2c7v"]
+[sub_resource type="Resource" id="Resource_5di8f"]
 script = ExtResource("5_26vvg")
-emu_input = SubResource("Resource_n8jtk")
+emu_input = SubResource("Resource_06b42")
 seconds_to_hold = 0.1
 
-[sub_resource type="Resource" id="Resource_x60yd"]
+[sub_resource type="Resource" id="Resource_0dsvg"]
 script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
 key_to_press = 87
 
-[sub_resource type="Resource" id="Resource_jvkyf"]
+[sub_resource type="Resource" id="Resource_ssdsu"]
 script = ExtResource("5_26vvg")
-emu_input = SubResource("Resource_x60yd")
+emu_input = SubResource("Resource_0dsvg")
 seconds_to_hold = 0.5
 
-[sub_resource type="Resource" id="Resource_wsdo2"]
+[sub_resource type="Resource" id="Resource_f8av2"]
 script = ExtResource("2_wylsp")
 bang_bang_threshold = 0.5
 key_to_press = 65
 
-[sub_resource type="Resource" id="Resource_q8eec"]
+[sub_resource type="Resource" id="Resource_18tpl"]
 script = ExtResource("5_26vvg")
-emu_input = SubResource("Resource_wsdo2")
+emu_input = SubResource("Resource_f8av2")
 seconds_to_hold = 0.5
 
-[sub_resource type="Resource" id="Resource_osgl1"]
+[sub_resource type="Resource" id="Resource_n5p3a"]
 script = ExtResource("4_5qq1l")
-sequence = Array[ExtResource("5_26vvg")]([SubResource("Resource_b2c7v"), SubResource("Resource_jvkyf"), SubResource("Resource_q8eec")])
+sequence = Array[ExtResource("5_26vvg")]([SubResource("Resource_5di8f"), SubResource("Resource_ssdsu"), SubResource("Resource_18tpl")])
 start_automatically_after_delay_of_seconds = 3
 delay_between_steps = 0.1
+
+[sub_resource type="Resource" id="Resource_rxdt3"]
+script = ExtResource("12_8ag4g")
+device_friendly_name = &"accelerometer 0"
+FEAGI_index = 0
+device_ID = 0
+is_disabled = false
 
 [sub_resource type="Resource" id="Resource_mov3k"]
 script = ExtResource("5_g5slr")
 resolution = Vector2i(64, 64)
 is_flipped_x = false
-automatically_create_screengrabber = false
+automatically_create_screengrabber = true
 device_friendly_name = &"dddd"
 FEAGI_index = 0
 device_ID = 0
@@ -98,13 +105,6 @@ is_disabled = false
 [sub_resource type="Resource" id="Resource_l2les"]
 script = ExtResource("11_myquq")
 device_friendly_name = &"proximity 0"
-FEAGI_index = 0
-device_ID = 0
-is_disabled = false
-
-[sub_resource type="Resource" id="Resource_rxdt3"]
-script = ExtResource("12_8ag4g")
-device_friendly_name = &"accelerometer 0"
 FEAGI_index = 0
 device_ID = 0
 is_disabled = false
@@ -127,5 +127,5 @@ motors = {
 "motor_motor 0": SubResource("Resource_4caue")
 }
 predfined_input_sequences = {
-"menu": SubResource("Resource_osgl1")
+"menu": SubResource("Resource_n5p3a")
 }

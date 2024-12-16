@@ -1,14 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://ced3kblj58cjk"]
+[gd_scene load_steps=7 format=3 uid="uid://ced3kblj58cjk"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Editor_FEAGI_UI_Panel_Device.gd" id="1_nsfw8"]
+[ext_resource type="StyleBox" uid="uid://bal8cf46cm6h6" path="res://addons/FeagiIntegration/Editor/Resources/Backgrounds/Background_2.tres" id="1_xsmfq"]
 [ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/Collapsible/FEAGI_UI_Prefab_Collapsible.tscn" id="4_bw68p"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base.gd" id="5_1cjuf"]
+[ext_resource type="StyleBox" uid="uid://c4nxnb7jy4hec" path="res://addons/FeagiIntegration/Editor/Resources/Backgrounds/Background_3.tres" id="5_1fegf"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/ConfiguratorTemplateGenerator/Editor_FEAGI_UI_Panel_Device_ParameterManager.gd" id="7_jnq6p"]
 
 [node name="FEAGI_UI_Panel_Device" type="PanelContainer"]
 offset_right = 123.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("1_xsmfq")
 script = ExtResource("1_nsfw8")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -102,6 +105,9 @@ text = "Show FEAGI Settings"
 
 [node name="Hide" parent="MarginContainer/VBoxContainer/FEAGISettings" index="1"]
 text = "Hide FEAGI Settings"
+
+[node name="PanelContainer" parent="MarginContainer/VBoxContainer/FEAGISettings" index="2"]
+theme_override_styles/panel = ExtResource("5_1fegf")
 
 [node name="Internals" parent="MarginContainer/VBoxContainer/FEAGISettings/PanelContainer/MarginContainer" index="0"]
 script = ExtResource("7_jnq6p")
