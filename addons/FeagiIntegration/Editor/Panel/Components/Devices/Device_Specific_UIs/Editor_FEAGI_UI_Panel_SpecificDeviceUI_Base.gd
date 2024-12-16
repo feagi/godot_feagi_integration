@@ -19,6 +19,7 @@ func setup(device_config: FEAGI_IOConnector_Base, generate_motor_emuInput_UI: bo
 				return error
 		else:
 			push_warning("FEAGI Configurator: Unable to generate emuInput for non-motor IOConnector!")
+	_setup_additional_configuration(device_config)
 	return Error.OK
 
 

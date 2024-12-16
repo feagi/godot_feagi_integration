@@ -16,6 +16,7 @@ func setup(device_config: FEAGI_IOConnector_Base, generate_motor_emuInput_UI: bo
 	_flipped = $flipped/flipped
 	_screengrab = $screengrabber/screengrab
 	_screengrab_note = $screengrabnote
+	super(device_config, false)
 	return Error.OK
 
 
