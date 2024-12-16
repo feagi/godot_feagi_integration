@@ -20,7 +20,18 @@ func runtime_setup(method_to_get_FEAGI_data: Callable) -> Error:
 	_is_ready = true
 	return Error.OK
 
+## In the case we wish to dynamically disable input emulation, call this to clear any initialization we used for input emulation
+func deinitialize() -> void:
+	if _is_ready:
+		push_warning("FEAGI: No need to deinitialize Emulated Input as its not initialized!")
+		return
+	_is_ready = false
+	_method_to_get_FEAGI_data = Callable()
 
-## [Overridden in child classes] to be called every process frame for input processing
-func process_input(_frame_delta: float) -> void:
+## Get the type expected to be returned for the given FEAGI data method. Some children may override this method if they expect something else
+func get_expected_FEAGI_data_method_return_type() -> FEAGI_IOConnector_Motor_Base.INPUT_EMULATOR_DATA_TYPE:
+	return FEAGI_IOConnector_Motor_Base.INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1
+
+## [Overridden in child classes] to be called every motor frame for input processing
+func process_input() -> void:
 	pass

@@ -14,11 +14,34 @@ var is_registered_to_registration_agent: bool:  ## Is this FEAGI device currentl
 var _is_registered_to_registration_agent: bool = false
 var _cached_bytes: PackedByteArray = [] ## The last state of the device as bytes. Either read from game in the case of a sensor or the last thing retrieved from FEAGI in the case of a motor
 
+## Attempts to spawn a new object of a given type by the device type string
+static func create_new_IOConnector_by_device_type(device_type: StringName) -> FEAGI_IOConnector_Base:
+	device_type = device_type.to_pascal_case()
+	# check sensors first
+	var sensors_path: StringName = &"res://addons/FeagiIntegration/FEAGI IOConnectors/Sensor/FEAGI_IOConnector_Sensor_"
+	if FileAccess.file_exists(sensors_path + device_type + ".gd"):
+		return load(sensors_path + device_type + ".gd").new()
+	var motors_path: StringName = &"res://addons/FeagiIntegration/FEAGI IOConnectors/Motor/FEAGI_IOConnector_Motor_"
+	if FileAccess.file_exists(motors_path + device_type + ".gd"):
+		return load(motors_path + device_type + ".gd").new()
+	push_error("FEAGI: No device of type %s has a class defined!" % device_type)
+	return null
+
+## Runs on object init, we prepopulate the _cached_bytes so its never empty
+func _init() -> void:
+	_cached_bytes = retrieve_zero_value_byte_array()
+
+
 ## Returns the device name type as FEAGI configurator json expects
 func get_device_type() -> StringName:
 	# override me in all child device classses to easily get the FEAGI string name of the class
 	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
 	return ""
+
+## Returns the UI panel element for device configuration (setup not called yet on it)
+func get_panel_device_specific_UI() -> Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base:
+	# override me in all child device classses that have a unique setup instead
+	return load("res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base.tscn").instantiate()
 
 ## Most devices will just need this to define their creation to the debugger
 func get_debug_interface_device_creation_array() -> Array:
@@ -33,7 +56,6 @@ func get_cached_data_as_byte_array() -> PackedByteArray:
 func retrieve_zero_value_byte_array() -> PackedByteArray:
 	assert(false, "Do not use 'FEAGI_IOConnector_Base' Directly!")
 	return PackedByteArray()
-
 
 ## A bunch of functions for parsing standard types back, and forth
 #region parsers

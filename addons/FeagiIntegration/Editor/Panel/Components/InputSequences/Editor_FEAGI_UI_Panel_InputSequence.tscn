@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://blb2cjn3348de"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/Editor_FEAGI_UI_Panel_InputSequence.gd" id="1_rwfkh"]
+[ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_vxjfw"]
+
+[node name="Editor_FEAGI_UI_Panel_InputSequence" type="MarginContainer"]
+offset_top = 109.0
+offset_right = 137.0
+offset_bottom = 117.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+script = ExtResource("1_rwfkh")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_vxjfw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SequenceName" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Name"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_vxjfw")
+
+[node name="StepsHolder" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Append" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Add Step...."
+
+[node name="Delete" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Delete Sequence"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Start Automatically: "
+
+[node name="startAutomatically" type="CheckBox" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="startautosettings" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/startautosettings"]
+layout_mode = 2
+text = "Delay (seconds)"
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/startautosettings"]
+layout_mode = 2
+min_value = 3.0
+max_value = 120.0
+value = 3.0
+alignment = 1
+
+[node name="delaybtwm" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/delaybtwm"]
+layout_mode = 2
+text = "Delay Between Steps: "
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/delaybtwm"]
+layout_mode = 2
+min_value = 0.01
+max_value = 60.0
+step = 0.01
+value = 0.1
+alignment = 1
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Append" to="." method="_append_step"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Delete" to="." method="queue_free"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/HBoxContainer/startAutomatically" to="PanelContainer/VBoxContainer/startautosettings" method="set_visible"]

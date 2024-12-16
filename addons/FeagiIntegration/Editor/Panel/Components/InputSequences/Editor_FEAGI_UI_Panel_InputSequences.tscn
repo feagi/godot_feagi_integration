@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://062ekyxre4fw"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/Editor_FEAGI_UI_Panel_InputSequences.gd" id="1_g7wn1"]
+[ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_msmvj"]
+
+[node name="Editor_FEAGI_UI_Panel_InputSequences" type="VBoxContainer"]
+script = ExtResource("1_g7wn1")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Input Sequences"
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add Sequence: "
+
+[node name="title" type="LineEdit" parent="HBoxContainer"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+placeholder_text = "Sequence Name"
+alignment = 1
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "+"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_msmvj")
+
+[node name="sequences" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_add_sequence_button_pressed"]

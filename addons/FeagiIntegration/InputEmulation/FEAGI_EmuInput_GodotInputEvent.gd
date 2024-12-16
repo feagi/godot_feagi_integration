@@ -11,6 +11,7 @@ const NO_ACTION: StringName = "NONE!"
 
 var _godot_input_event_name: StringName = NO_ACTION
 
+## Call this during setup if you intend to use during runtime to emulate Inputs. Ensure the data acquisition method returns a float 0 - 1
 func runtime_setup(method_to_get_FEAGI_data: Callable) -> Error:
 	var notOK: Error = super(method_to_get_FEAGI_data)
 	if notOK:
@@ -26,19 +27,22 @@ func runtime_setup(method_to_get_FEAGI_data: Callable) -> Error:
 	_godot_input_event_name = godot_input_event_name
 	return Error.OK
 
-## Called every frame for input processing
-func process_input(_frame_delta: float) -> void:
+
+func process_input() -> void:
 	if _godot_input_event_name == NO_ACTION:
 		return
 	var motor_value: float = _method_to_get_FEAGI_data.call()
-	var input_event: InputEventAction = InputEventAction.new()
-	input_event.action = _godot_input_event_name
+	var is_pressed: bool
 	if use_bang_bang_instead_of_actual_value:
-		motor_value = float(motor_value > bang_bang_threshold)
-		input_event.strength = motor_value
-		input_event.pressed = bool(motor_value)
+		is_pressed = motor_value > bang_bang_threshold
+		motor_value = float(is_pressed)
 	else:
-		input_event.strength = motor_value
-		input_event.pressed = !is_equal_approx(motor_value, 0.0)
-		
-	Input.parse_input_event(input_event)
+		is_pressed = !is_equal_approx(motor_value, 0.0)
+	
+	if is_pressed:
+		if not Input.is_action_pressed(_godot_input_event_name):
+			Input.action_press(_godot_input_event_name, motor_value)
+		return
+	else:
+		if Input.is_action_pressed(_godot_input_event_name):
+			Input.action_release(_godot_input_event_name)

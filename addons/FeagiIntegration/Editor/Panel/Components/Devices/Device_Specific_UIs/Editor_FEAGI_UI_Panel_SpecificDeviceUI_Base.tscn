@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://u5653f0ecnwh"]
+
+[ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/Editor_FEAGI_UI_Panel_SpecificDeviceUI_Base.gd" id="1_p6a7f"]
+
+[node name="EditorFeagiUiPanelSpecificDeviceUiBase" type="VBoxContainer"]
+script = ExtResource("1_p6a7f")

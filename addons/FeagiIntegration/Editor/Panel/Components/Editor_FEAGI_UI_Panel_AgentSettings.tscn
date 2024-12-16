@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b041xhhnpjs5e"]
+[gd_scene load_steps=4 format=3 uid="uid://b041xhhnpjs5e"]
 
 [ext_resource type="PackedScene" uid="uid://cx1eqnkmlnor2" path="res://addons/FeagiIntegration/Editor/Resources/Prefabs/Collapsible/FEAGI_UI_Prefab_Collapsible.tscn" id="1_evhmk"]
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Editor_FEAGI_UI_Panel_AgentSettings.gd" id="1_xrx83"]
+[ext_resource type="StyleBox" uid="uid://bal8cf46cm6h6" path="res://addons/FeagiIntegration/Editor/Resources/Backgrounds/Background_2.tres" id="3_c6ej8"]
 
 [node name="FEAGIPanelAgentSettings" type="VBoxContainer"]
 theme_override_constants/separation = 8
@@ -66,6 +67,9 @@ text = "Show Manual Endpoint Configuration"
 
 [node name="Hide" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="1"]
 text = "Hide Manual Endpoint Configuration"
+
+[node name="PanelContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings" index="2"]
+theme_override_styles/panel = ExtResource("3_c6ej8")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="FEAGINetworkSettings/Manual_Connection_Settings/PanelContainer/MarginContainer/Internals" index="0"]
 layout_mode = 2

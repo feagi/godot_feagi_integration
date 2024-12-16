@@ -5,6 +5,7 @@ class_name Editor_FEAGI_UI_Panel
 var _section_agent: Editor_FEAGI_UI_Panel_AgentSettings
 var _section_sensory: Editor_FEAGI_UI_Panel_Devices
 var _section_motor: Editor_FEAGI_UI_Panel_Devices
+var _section_sequences: Editor_FEAGI_UI_Panel_InputSequences
 var _import_button: Button
 var _json_base_template: Dictionary
 
@@ -12,12 +13,14 @@ func setup() -> void:
 	_section_agent = $ScrollContainer/Options/TabContainer/FEAGI/PanelContainer/FEAGIPanelFEAGIAgentSettings
 	_section_sensory = $ScrollContainer/Options/TabContainer/Sensory/PanelContainer/FeagiUiPanelDevices
 	_section_motor = $ScrollContainer/Options/TabContainer/Motor/PanelContainer/FeagiUiPanelDevices
+	_section_sequences = $"ScrollContainer/Options/TabContainer/Input Sequences/PanelContainer/Editor_FEAGI_UI_Panel_InputSequences"
 	_import_button = $ScrollContainer/Options/HBoxContainer/import
 	
 	_section_agent.initialize_references()
 	_json_base_template= JSON.parse_string(FileAccess.get_file_as_string(FEAGI_PLUGIN_CONFIG.TEMPLATE_DIR))
 	_section_sensory.setup(true, _json_base_template["input"])
 	_section_motor.setup(false, _json_base_template["output"])
+	_section_sequences.setup({})
 	
 	_import_button.disabled = !(FEAGI_PLUGIN_CONFIG.does_mapping_file_exist() or FEAGI_PLUGIN_CONFIG.does_endpoint_file_exist())
 	
@@ -52,6 +55,8 @@ func _export_config() -> void:
 	mapping.configuration_JSON = JSON.stringify(JSON_dict)
 	mapping.sensors = sensory
 	mapping.motors = motor
+
+	mapping.predfined_input_sequences = _section_sequences.export()
 	
 	endpoint.save_config()
 	mapping.save_config()
@@ -85,6 +90,8 @@ func _import_config() -> void:
 		motors.assign(loading_mapping.motors.values())
 		_section_sensory.load_sort_and_spawn_devices(sensors, _json_base_template["input"], json_dict["capabilities"]["input"])
 		_section_motor.load_sort_and_spawn_devices(motors, _json_base_template["output"], json_dict["capabilities"]["output"])
+		
+		_section_sequences.setup(loading_mapping.predfined_input_sequences)
 	else:
 		push_warning("FEAGI: No Mapping file found. Not loading those parameters!")
 	

@@ -1,11 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://d3foc611qn31"]
+[gd_scene load_steps=3 format=3 uid="uid://d3foc611qn31"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Debugger/Editor_FEAGI_Debug_Panel_ViewBase.gd" id="1_f1ni6"]
 [ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_7jyqp"]
-[ext_resource type="Texture2D" uid="uid://h2k7ik6modgy" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_S.png" id="3_mmk7f"]
-[ext_resource type="Texture2D" uid="uid://ixr3tkdityna" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_C.png" id="4_glw52"]
-[ext_resource type="Texture2D" uid="uid://cnaefg6bkphfa" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_H.png" id="5_h6f6x"]
-
 
 [node name="FeagiDebuggerViewBase" type="VBoxContainer"]
 offset_right = 200.0
@@ -37,14 +33,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "TEXT"
 
-[node name="Collapse" type="TextureButton" parent="Title/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Collapse" type="Button" parent="Title/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-texture_normal = ExtResource("3_mmk7f")
-texture_pressed = ExtResource("4_glw52")
-texture_hover = ExtResource("5_h6f6x")
-ignore_texture_size = true
-stretch_mode = 4
+text = ">"
 
 [node name="holder" type="MarginContainer" parent="Title/MarginContainer/VBoxContainer"]
 visible = false

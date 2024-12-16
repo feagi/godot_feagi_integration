@@ -3,7 +3,7 @@ extends VBoxContainer
 class_name Editor_FEAGI_Debug_Panel_ViewBase
 
 var _title: Label
-var _collapse_button: TextureButton
+var _collapse_button: Button
 var _holder: Control ## Holds the data we may be showing or not
 var _is_collapsed: bool = true
 
@@ -28,13 +28,9 @@ func is_collapsed() -> bool:
 
 func set_collapsed(collapse: bool) -> void:
 	if collapse:
-		_collapse_button.texture_normal = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_S.png")
-		_collapse_button.texture_hover = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_H.png")
-		_collapse_button.texture_pressed = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Right_C.png")
+		_collapse_button.text = ">"
 	else:
-		_collapse_button.texture_normal = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Down_S.png")
-		_collapse_button.texture_hover = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Down_H.png")
-		_collapse_button.texture_pressed = load("res://addons/FeagiIntegration/Editor/Resources/Icons/Triangle_Down_C.png")
+		_collapse_button.text = "^"
 	_is_collapsed = collapse
 	_holder.visible = !collapse
 

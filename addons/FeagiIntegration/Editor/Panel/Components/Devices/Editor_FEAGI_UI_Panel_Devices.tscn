@@ -1,11 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cyclx8mgddas0"]
+[gd_scene load_steps=3 format=3 uid="uid://cyclx8mgddas0"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Editor_FEAGI_UI_Panel_Devices.gd" id="1_scft0"]
 [ext_resource type="PackedScene" uid="uid://dog1wmggnvm2v" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Editor_FEAGI_UI_Panel_DeviceList.tscn" id="2_e36v6"]
-[ext_resource type="Texture2D" uid="uid://dgennx4cn6wjl" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Plus_S.png" id="2_l7mk3"]
-[ext_resource type="Texture2D" uid="uid://ciwiir0g6afgs" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Plus_C.png" id="3_ih02i"]
-[ext_resource type="Texture2D" uid="uid://c3sbppnbf8e84" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Plus_H.png" id="4_wuyog"]
-[ext_resource type="Texture2D" uid="uid://cfc4rvpdr0u3w" path="res://addons/FeagiIntegration/Editor/Resources/Icons/Plus_D.png" id="5_qlmmi"]
 
 [node name="FeagiUiPanelDevices" type="VBoxContainer"]
 offset_right = 89.0
@@ -25,15 +21,10 @@ text = "Add Device Type"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="add" type="TextureButton" parent="Header"]
+[node name="add" type="Button" parent="Header"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-texture_normal = ExtResource("2_l7mk3")
-texture_pressed = ExtResource("3_ih02i")
-texture_hover = ExtResource("4_wuyog")
-texture_disabled = ExtResource("5_qlmmi")
-ignore_texture_size = true
-stretch_mode = 0
+text = "+"
 
 [node name="gap" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 8)
