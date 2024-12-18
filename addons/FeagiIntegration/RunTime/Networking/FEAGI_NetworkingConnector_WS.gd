@@ -12,6 +12,8 @@ var _socket_state: WebSocketPeer.State = WebSocketPeer.State.STATE_CLOSED
 func setup_websocket(full_connector_WS_address: StringName) -> bool:
 	print("FEAGI: Setting up WS connection to %s" % full_connector_WS_address)
 	_socket = WebSocketPeer.new()
+	_socket.inbound_buffer_size = 999999999 # TODO WARNING this is terrible and we need to remove this ASAP
+	_socket.outbound_buffer_size = 999999999 # TODO WARNING this is terrible and we need to remove this ASAP
 	_socket_state = WebSocketPeer.State.STATE_CLOSED
 	_socket.connect_to_url(full_connector_WS_address)
 	_socket_state = WebSocketPeer.State.STATE_CONNECTING
