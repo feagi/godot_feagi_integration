@@ -238,7 +238,6 @@ text = "Mirror Y Axis?"
 
 [node name="CheckButton" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/MouseMovement/HBoxContainer2"]
 layout_mode = 2
-button_pressed = true
 icon_alignment = 2
 
 [node name="Reset" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer"]
