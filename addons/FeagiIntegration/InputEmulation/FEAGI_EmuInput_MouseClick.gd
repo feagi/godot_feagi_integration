@@ -38,7 +38,7 @@ func runtime_setup(method_to_get_FEAGI_data: Callable) -> Error:
 		return Error.OK
 	_button_to_click = mouse_button_to_click
 	_is_double_click = is_double_click
-	_root_viewport = Engine.get_main_loop().get_tree().get_root_viewport() # May Linus Torvalds forgive me
+	_root_viewport = Engine.get_main_loop().root # May Linus Torvalds forgive me
 	return Error.OK
 
 func process_input() -> void:
