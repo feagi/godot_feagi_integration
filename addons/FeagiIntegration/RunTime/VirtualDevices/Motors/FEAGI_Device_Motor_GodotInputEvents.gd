@@ -74,6 +74,10 @@ func _setup_motion_control_emulated_inputs(input_emulators: Array[FEAGI_EmuInput
 		input_emulators[10].runtime_setup(func(): return _cached_data.move_forward)
 	if input_emulators[11]: # Translate Backward
 		input_emulators[11].runtime_setup(func(): return _cached_data.move_backward)
+	if input_emulators[12]: # First Person Camera Rotation
+		input_emulators[12].runtime_setup(func(): return _cached_data.get_first_person_rotation_delta())
+	if input_emulators[13]: # Top Down 2D Movement
+		input_emulators[13].runtime_setup(func(): return _cached_data.get_2D_movement_delta())
 
 func _setup_misc_emulated_inputs(input_emulators: Array[FEAGI_EmuInput_Abstract]) -> void:
 	if input_emulators[0]:

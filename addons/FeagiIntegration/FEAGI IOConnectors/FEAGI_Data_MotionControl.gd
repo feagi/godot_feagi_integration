@@ -107,4 +107,12 @@ func get_roll() -> float:
 
 func get_pitch() -> float:
 	return pitch_forward - pitch_backward
+
+## Returns a delta vector2 if changes in rotation pitch (up down) and yaw (left right), like the camera in an FPS game
+func get_first_person_rotation_delta() -> Vector2:
+	return Vector2(pitch_forward - pitch_backward, yaw_right - yaw_left)
+	
+## Returns a delta vector2 representing up down / left right movement, like for a top down 2D game
+func get_2D_movement_delta() -> Vector2:
+	return Vector2(move_up - move_down, move_right - move_left)
 	
