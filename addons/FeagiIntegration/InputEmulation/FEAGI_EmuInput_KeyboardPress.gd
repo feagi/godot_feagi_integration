@@ -1,7 +1,7 @@
 @tool
 extends FEAGI_EmuInput_Abstract
 class_name FEAGI_EmuInput_KeyboardPress
-## Emulates a Keyboard press from a FEAGI motor action (from a float)
+## Emulates a Keyboard press from a FEAGI motor action (from a 0 - 1 float)
 
 ## Due to limitations with global scope, use this enum to represent all keys that are supported. Primarily used for UI purposes, use [Key] for internal use where possible
 enum SUPPORTED_KEY {
@@ -50,7 +50,7 @@ enum SUPPORTED_KEY {
 	
 }
 
-@export var bang_bang_threshold: float = 0.5 ## A float from 0-1.0 that if the motor value is above, would be considfered a pres
+@export var bang_bang_threshold: float = 0.5 ## A float from 0-1.0 that if the motor value is above, would be considered a press
 @export var key_to_press: Key = KEY_NONE ## What key should be targetted? NOTE: after calling runtime_setup this value is ignored!
 
 var _key_to_press: Key = KEY_NONE

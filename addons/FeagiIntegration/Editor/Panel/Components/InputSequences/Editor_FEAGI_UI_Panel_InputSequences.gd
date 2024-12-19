@@ -11,6 +11,9 @@ func setup(sequence_string_names_and_sequences: Dictionary) -> void:
 	_sequence_name_input = $HBoxContainer/title
 	_sequences_holder = $MarginContainer/PanelContainer/sequences
 	
+	for child in _sequences_holder.get_children():
+		child.queue_free()
+		
 	for sequence_name in sequence_string_names_and_sequences:
 		_add_sequence(sequence_name, sequence_string_names_and_sequences[sequence_name])
 

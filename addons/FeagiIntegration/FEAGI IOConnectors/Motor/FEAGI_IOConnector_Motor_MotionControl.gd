@@ -20,11 +20,13 @@ func retrieve_cached_value() -> FEAGI_Data_MotionControl:
 func get_InputEmulator_names() -> Array[StringName]:
 	return [&"Translate Upward", &"Translate Downward", &"Translate Leftward", &"Translate Rightward", &"Yaw Left", &"Yaw Right", 
 	&"Roll Left", &"Roll Right", &"Pitch Foward", &"Pitch Backward", &"Translate Forward", &"Translate Backward",
+	&"First Person Camera Rotation", &"Top Down 2D Movement"
 	]
 
 func get_InputEmulator_data_types() -> Array[INPUT_EMULATOR_DATA_TYPE]:
 	return [INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1,
 	INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1, INPUT_EMULATOR_DATA_TYPE.FLOAT_0_TO_1,
+	INPUT_EMULATOR_DATA_TYPE.VEC2, INPUT_EMULATOR_DATA_TYPE.VEC2
 	]
 
 ## Parse the data as a float and execute the function on it
