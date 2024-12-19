@@ -43,6 +43,8 @@ func setup(motor_output_name: StringName, motor_output_datatype: FEAGI_IOConnect
 	var all_properties: Array[Dictionary] = get_property_list()
 	for property in all_properties:
 		if get(property["name"]) is Control:
+			if !str(property["name"]).begins_with("_"):
+				continue
 			_all_controls.append(get(property["name"]))
 	
 	if !preinit_emuInput:
