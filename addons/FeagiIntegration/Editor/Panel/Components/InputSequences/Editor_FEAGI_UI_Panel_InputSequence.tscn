@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/Editor_FEAGI_UI_Panel_InputSequence.gd" id="1_rwfkh"]
 [ext_resource type="StyleBox" uid="uid://ck87b33e8h4nn" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/background_InputSequence.tres" id="2_5jcmc"]
-[ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_vxjfw"]
+[ext_resource type="StyleBox" uid="uid://bbbob6frallw2" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/stepsBackground_inputSequence.tres" id="3_aqq8a"]
 
 [node name="Editor_FEAGI_UI_Panel_InputSequence" type="MarginContainer"]
 offset_top = 109.0
@@ -27,7 +27,6 @@ layout_mode = 2
 bbcode_enabled = true
 text = "[center][b]Name[/b][/center]"
 fit_content = true
-scroll_active = false
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -38,11 +37,16 @@ theme_override_constants/margin_bottom = 4
 
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("2_vxjfw")
+theme_override_styles/panel = ExtResource("3_aqq8a")
 
 [node name="StepsHolder" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
+
+[node name="NoSteps" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/PanelContainer/StepsHolder"]
+layout_mode = 2
+text = "No Steps Defined!"
+horizontal_alignment = 1
 
 [node name="Append" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2

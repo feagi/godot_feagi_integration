@@ -12,6 +12,7 @@ var sequence_name: StringName:
 
 var _sequence_name_UI: RichTextLabel
 var _steps_holder: VBoxContainer
+var _no_steps_notice: Label
 var _start_automatically_UI: CheckBox
 var _start_delay_segment_UI: HBoxContainer
 var _start_delay_UI: SpinBox
@@ -20,6 +21,7 @@ var _delay_between_steps_UI: SpinBox
 func setup(given_sequence_name: StringName, sequence: FEAGI_EmuPredefinedInputSequence = null) -> void:
 	_sequence_name_UI = $PanelContainer/VBoxContainer/SequenceName
 	_steps_holder = $PanelContainer/VBoxContainer/MarginContainer/PanelContainer/StepsHolder
+	_no_steps_notice = $PanelContainer/VBoxContainer/MarginContainer/PanelContainer/StepsHolder/NoSteps
 	_start_automatically_UI = $PanelContainer/VBoxContainer/HBoxContainer/startAutomatically
 	_start_delay_segment_UI = $PanelContainer/VBoxContainer/startautosettings
 	_start_delay_UI = $PanelContainer/VBoxContainer/startautosettings/SpinBox
@@ -46,7 +48,6 @@ func export() -> FEAGI_EmuPredefinedInputSequence:
 	for child in _steps_holder.get_children():
 		if child is not Editor_FEAGI_UI_Panel_InputSequenceElement:
 			#shouldnt be possible
-			push_error("FEAGI Configurator: Invalid Input Sequence Element!")
 			continue
 		var step: FEAGI_EmuPredefinedInput = (child as Editor_FEAGI_UI_Panel_InputSequenceElement).export()
 		if step:
@@ -65,10 +66,12 @@ func export() -> FEAGI_EmuPredefinedInputSequence:
 		
 
 func _append_step(step: FEAGI_EmuPredefinedInput = null) -> Editor_FEAGI_UI_Panel_InputSequenceElement:
+	_no_steps_notice.visible = false
 	var appending: Editor_FEAGI_UI_Panel_InputSequenceElement = SEQUENCE_ELEMENT_PREFAB.instantiate()
 	appending.setup(step)
 	_steps_holder.add_child(appending)
 	appending.request_add_sequence_element_to_index.connect(_request_adding_new_step_at_index)
+	appending.tree_exited.connect(_update_no_step_visible_label)
 	return appending
 
 func _request_adding_new_step_at_index(index: int) -> void:
@@ -77,3 +80,6 @@ func _request_adding_new_step_at_index(index: int) -> void:
 		return
 	var new_step: Editor_FEAGI_UI_Panel_InputSequenceElement = _append_step()
 	_steps_holder.move_child(new_step, index)
+
+func _update_no_step_visible_label() -> void:
+	_no_steps_notice.visible = len(_steps_holder.get_children()) == 1
