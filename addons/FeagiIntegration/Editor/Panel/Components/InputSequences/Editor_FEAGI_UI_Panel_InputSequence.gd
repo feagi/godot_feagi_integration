@@ -10,7 +10,7 @@ var sequence_name: StringName:
 			return _sequence_name_UI.text
 		return "NOT SETUP"
 
-var _sequence_name_UI: Label
+var _sequence_name_UI: RichTextLabel
 var _steps_holder: VBoxContainer
 var _start_automatically_UI: CheckBox
 var _start_delay_segment_UI: HBoxContainer
@@ -25,7 +25,10 @@ func setup(given_sequence_name: StringName, sequence: FEAGI_EmuPredefinedInputSe
 	_start_delay_UI = $PanelContainer/VBoxContainer/startautosettings/SpinBox
 	_delay_between_steps_UI = $PanelContainer/VBoxContainer/delaybtwm/SpinBox
 	
-	_sequence_name_UI.text = given_sequence_name
+	var regex = RegEx.new()
+	regex.compile("\\[.*?\\]")
+	var remove_embedded_bb_code = regex.sub(given_sequence_name, "", true) # prevent user from embedding resouces in text
+	_sequence_name_UI.text = "[font_size=20][center][b][u]%s[/u][/b][/center][/font_size]" % remove_embedded_bb_code
 	
 	if sequence:
 		for step in sequence.sequence:

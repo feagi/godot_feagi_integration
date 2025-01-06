@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://blb2cjn3348de"]
+[gd_scene load_steps=4 format=3 uid="uid://blb2cjn3348de"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/Editor_FEAGI_UI_Panel_InputSequence.gd" id="1_rwfkh"]
+[ext_resource type="StyleBox" uid="uid://ck87b33e8h4nn" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/background_InputSequence.tres" id="2_5jcmc"]
 [ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_vxjfw"]
 
 [node name="Editor_FEAGI_UI_Panel_InputSequence" type="MarginContainer"]
@@ -15,16 +16,18 @@ script = ExtResource("1_rwfkh")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("2_vxjfw")
+theme_override_styles/panel = ExtResource("2_5jcmc")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SequenceName" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="SequenceName" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Name"
-horizontal_alignment = 1
+bbcode_enabled = true
+text = "[center][b]Name[/b][/center]"
+fit_content = true
+scroll_active = false
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
