@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bottp5kkuetoa"]
 
 [ext_resource type="Script" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/Editor_FEAGI_UI_Panel_InputSequenceElement.gd" id="1_h6jvu"]
-[ext_resource type="StyleBox" uid="uid://bthgy7ldplift" path="res://addons/FeagiIntegration/Editor/Resources/StyleBox_Dark.tres" id="2_bf24i"]
 [ext_resource type="PackedScene" uid="uid://cb22ijds17kmj" path="res://addons/FeagiIntegration/Editor/Panel/Components/Devices/Device_Specific_UIs/EmuInputConfigurations/EmuInputsConfiguration/Editor_FEAGI_UI_Panel_EmuInputConfiguration.tscn" id="2_neb35"]
+[ext_resource type="StyleBox" uid="uid://d26xmm7exsh54" path="res://addons/FeagiIntegration/Editor/Panel/Components/InputSequences/stepBackground_InputSequence.tres" id="2_yxfdv"]
 
 [node name="EditorFeagiUiPanelInputSequenceElement" type="MarginContainer"]
 offset_right = 52.0
@@ -17,7 +17,7 @@ script = ExtResource("1_h6jvu")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("2_bf24i")
+theme_override_styles/panel = ExtResource("2_yxfdv")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
