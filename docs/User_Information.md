@@ -3,7 +3,7 @@
 
 This plugin for Godot allows an instance of FEAGI, either from our cloud platform at [NeuroRobotics Studio](https://neurorobotics.studio) or from a local instance, to play your game or act as an agent.
 
-Please see general installation procedure [here](../README.md).
+Please see general installation procedure [here](../docs/README.md).
 
 ### Config Files
 
