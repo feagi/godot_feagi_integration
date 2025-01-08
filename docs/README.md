@@ -27,4 +27,4 @@ Open the FEAGI configuration Panel in the Project tab -> Tools -> Open FEAGI Con
 - Sensory: For configuring all the sensors within your game (lets FEAGI "see" your game)
 - Motor: For configuring all the motors within your game (lets FEAGI interact with your game)
 
-To see a general first time guide, see [here](../User_Information.md).
+To see a general first time guide, see [here](../docs/User_Information.md).
