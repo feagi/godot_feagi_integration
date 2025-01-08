@@ -22,11 +22,9 @@ If you wish to download the plugin manually (or wish to test a non-stable build)
 To enable the plugin, please go to your project settings and ensure that the FEAGI Integration plugin is enabled!
 You may see some import errors if you imported the files quickly. Reloading the project or waiting a moment can be enough to fix the issue
 
-## Setup
-
 Open the FEAGI configuration Panel in the Project tab -> Tools -> Open FEAGI Configurator. Here you will see several tabs:
 - FEAGI: For configuring the connection details to your FEAGI instance, which defaults to localhost. 
 - Sensory: For configuring all the sensors within your game (lets FEAGI "see" your game)
 - Motor: For configuring all the motors within your game (lets FEAGI interact with your game)
 
-To see a general first time guide, see [here](https://github.com/feagi/godot_feagi_integration/blob/main/docs/Tutorial_Basic.md).
+To see a general first time guide, see [here](../User_Information.md).
